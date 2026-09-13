@@ -14,11 +14,17 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: dados-eleitorais-main
+  cancel-in-progress: false
+
 jobs:
   update:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -35,16 +41,29 @@ jobs:
           for k,v in vals.items():
               if k not in ('lula','flavio-bolsonaro'):
                   assert 0 <= v <= 15, (k,v)
+          assert d.get('schemaVersion', 1) >= 2
           print('Validação OK', vals)
           PY
       - name: Publicar nova leitura se houver mudança
         run: |
+          set -euo pipefail
           git config user.name "eleicoes-bot"
           git config user.email "actions@users.noreply.github.com"
+
+          # Guarda os JSONs validados, reaplica-os sobre o main mais recente e
+          # só então cria o commit. Assim commits de código feitos durante a
+          # coleta não provocam rejeição non-fast-forward.
+          cp data/latest.json /tmp/latest.json
+          cp data/history.json /tmp/history.json
+          git fetch origin main
+          git reset --hard origin/main
+          cp /tmp/latest.json data/latest.json
+          cp /tmp/history.json data/history.json
+
           git add data/latest.json data/history.json
           if git diff --cached --quiet; then
             echo "Sem mudança"
           else
             git commit -m "data: atualiza leitura eleitoral validada"
-            git push
+            git push origin HEAD:main
           fi
