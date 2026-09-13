@@ -4,11 +4,23 @@
     "probabilities": {
       "lula": 57.59,
       "flavio-bolsonaro": 40.72,
-      "renan-santos": 0.90,
-      "augusto-cury": 0.30,
+      "renan-santos": 0.9,
+      "augusto-cury": 0.3,
       "ronaldo-caiado": 0.19,
       "pablo-marcal": 0.15,
       "romeu-zema": 0.14
+    }
+  },
+  {
+    "generatedAt": "2026-09-13T21:53:16.089313Z",
+    "probabilities": {
+      "lula": 54.91,
+      "flavio-bolsonaro": 40.46,
+      "renan-santos": 3.87,
+      "augusto-cury": 0.34,
+      "ronaldo-caiado": 0.17,
+      "romeu-zema": 0.14,
+      "pablo-marcal": 0.11
     }
   }
 ]

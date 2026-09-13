@@ -1,24 +1,113 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-13T21:55:00Z",
+  "generatedAt": "2026-09-13T21:53:16.089313Z",
   "electionDate": "2026-10-04",
   "daysToElection": 21,
   "confidence": "média",
-  "methodology": {"pollModelWeight": 0.60, "marketWeight": 0.40, "activeSources": 4},
+  "methodology": {
+    "pollModelWeight": 0.6,
+    "marketWeight": 0.4,
+    "activeSources": 3
+  },
   "sources": [
-    {"id":"uol","label":"UOL Eleições","type":"agregador de pesquisas","status":"ok","updatedAt":"2026-09-12T12:00:00Z","url":"https://noticias.uol.com.br/eleicoes/agregador-de-pesquisas-eleitorais/"},
-    {"id":"electiolab","label":"ElectioLab","type":"agregador de pesquisas","status":"ok","updatedAt":"2026-09-11T12:00:00Z","url":"https://electiolab.com/pesquisas-presidenciais-2026"},
-    {"id":"bbc","label":"BBC / PollingData","type":"agregador de pesquisas","status":"ok","updatedAt":"2026-09-11T12:00:00Z","url":"https://news.files.bbci.co.uk/include/vjamericas/1561-poll-tracker-brazil-2026/range-chart/portuguese/app/embed"},
-    {"id":"polymarket","label":"Polymarket","type":"mercado de previsão","status":"ok","updatedAt":"2026-09-13T12:00:00Z","url":"https://polymarket.com/event/brazil-presidential-election"}
+    {
+      "id": "electiolab",
+      "label": "ElectioLab",
+      "type": "agregador de pesquisas",
+      "status": "ok",
+      "updatedAt": "2026-09-13T21:53:16.089313Z",
+      "url": "https://electiolab.com/pesquisas-presidenciais-2026"
+    },
+    {
+      "id": "bbc",
+      "label": "BBC / PollingData",
+      "type": "agregador de pesquisas",
+      "status": "ok",
+      "updatedAt": "2026-09-13T21:53:16.089313Z",
+      "url": "https://news.files.bbci.co.uk/include/vjamericas/1561-poll-tracker-brazil-2026/range-chart/portuguese/app/embed"
+    },
+    {
+      "id": "uol",
+      "label": "UOL Eleições",
+      "type": "agregador de pesquisas",
+      "status": "fallback",
+      "updatedAt": null,
+      "url": "https://noticias.uol.com.br/eleicoes/agregador-de-pesquisas-eleitorais/",
+      "error": "403 Client Error: Forbidden for url: https://noticias.uol.com.br/eleicoes/agregador-de-pesquisas-eleitorais/"
+    },
+    {
+      "id": "polymarket",
+      "label": "Polymarket",
+      "type": "mercado de previsão",
+      "status": "ok",
+      "updatedAt": "2026-09-13T21:53:16.089313Z",
+      "url": "https://polymarket.com/event/brazil-presidential-election"
+    }
   ],
   "candidates": [
-    {"id":"lula","name":"Lula","pollingSupport":38.8,"marketProbability":44.55,"winProbability":57.59,"change":0.0,"trend":"estável"},
-    {"id":"flavio-bolsonaro","name":"Flávio Bolsonaro","pollingSupport":34.5,"marketProbability":53.47,"winProbability":40.72,"change":0.0,"trend":"estável"},
-    {"id":"renan-santos","name":"Renan Santos","pollingSupport":3.8,"marketProbability":1.98,"winProbability":0.90,"change":0.0,"trend":"estável"},
-    {"id":"augusto-cury","name":"Augusto Cury","pollingSupport":6.6,"marketProbability":null,"winProbability":0.30,"change":0.0,"trend":"estável"},
-    {"id":"ronaldo-caiado","name":"Ronaldo Caiado","pollingSupport":3.7,"marketProbability":null,"winProbability":0.19,"change":0.0,"trend":"estável"},
-    {"id":"pablo-marcal","name":"Pablo Marçal","pollingSupport":2.3,"marketProbability":null,"winProbability":0.15,"change":0.0,"trend":"estável"},
-    {"id":"romeu-zema","name":"Romeu Zema","pollingSupport":1.8,"marketProbability":null,"winProbability":0.14,"change":0.0,"trend":"estável"}
+    {
+      "id": "lula",
+      "name": "Lula",
+      "pollingSupport": 38.5,
+      "marketProbability": 46.11,
+      "winProbability": 54.91,
+      "change": -2.68,
+      "trend": "caindo"
+    },
+    {
+      "id": "flavio-bolsonaro",
+      "name": "Flávio Bolsonaro",
+      "pollingSupport": 34.9,
+      "marketProbability": 51.21,
+      "winProbability": 40.46,
+      "change": -0.26,
+      "trend": "caindo"
+    },
+    {
+      "id": "renan-santos",
+      "name": "Renan Santos",
+      "pollingSupport": 23.8,
+      "marketProbability": 1.88,
+      "winProbability": 3.87,
+      "change": 2.97,
+      "trend": "subindo"
+    },
+    {
+      "id": "augusto-cury",
+      "name": "Augusto Cury",
+      "pollingSupport": 6.05,
+      "marketProbability": 0.45,
+      "winProbability": 0.34,
+      "change": 0.04,
+      "trend": "estável"
+    },
+    {
+      "id": "ronaldo-caiado",
+      "name": "Ronaldo Caiado",
+      "pollingSupport": 3.9,
+      "marketProbability": 0.15,
+      "winProbability": 0.17,
+      "change": -0.02,
+      "trend": "estável"
+    },
+    {
+      "id": "romeu-zema",
+      "name": "Romeu Zema",
+      "pollingSupport": 1.75,
+      "marketProbability": 0.15,
+      "winProbability": 0.14,
+      "change": -0.0,
+      "trend": "estável"
+    },
+    {
+      "id": "pablo-marcal",
+      "name": "Pablo Marçal",
+      "pollingSupport": 2.6,
+      "marketProbability": 0.05,
+      "winProbability": 0.11,
+      "change": -0.04,
+      "trend": "estável"
+    }
   ],
-  "note":"Estimativa experimental produzida por combinação matemática de fontes públicas. Não é pesquisa eleitoral, previsão oficial, recomendação de voto ou aconselhamento de aposta."
+  "note": "Estimativa experimental produzida por combinação matemática de fontes públicas. Não é pesquisa eleitoral, previsão oficial, recomendação de voto ou aconselhamento de aposta."
 }
