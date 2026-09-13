@@ -31,7 +31,9 @@ data class Snapshot(
 
 data class HistoryPoint(
     val generatedAt: String,
-    val probabilities: Map<String, Double>
+    val probabilities: Map<String, Double>,
+    val pollingSupport: Map<String, Double> = emptyMap(),
+    val marketProbabilities: Map<String, Double> = emptyMap()
 )
 
 data class DashboardData(
