@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.font.FontWeight
@@ -27,6 +28,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.time.Instant
+import java.time.LocalDate
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import kotlin.math.abs
@@ -68,19 +70,20 @@ fun TermometroApp() {
                     .fillMaxSize()
                     .windowInsetsPadding(WindowInsets.safeDrawing)
             ) {
-                Dashboard()
+                DashboardHost()
             }
         }
     }
 }
 
 @Composable
-private fun Dashboard() {
+private fun DashboardHost() {
     val repo = remember { ElectionRepository() }
     val scope = rememberCoroutineScope()
     var data by remember { mutableStateOf<DashboardData?>(null) }
     var loading by remember { mutableStateOf(true) }
     var error by remember { mutableStateOf<String?>(null) }
+    var selectedTab by remember { mutableIntStateOf(0) }
 
     fun refresh() {
         loading = true
@@ -95,26 +98,274 @@ private fun Dashboard() {
 
     LaunchedEffect(Unit) { refresh() }
 
+    Column(Modifier.fillMaxSize()) {
+        Box(Modifier.weight(1f).fillMaxWidth()) {
+            if (selectedTab == 0) {
+                HomeDashboard(data, loading, error, onRefresh = { refresh() })
+            } else {
+                ForecastScreen(data, loading)
+            }
+        }
+        NavigationBar(containerColor = Color.White) {
+            NavigationBarItem(
+                selected = selectedTab == 0,
+                onClick = { selectedTab = 0 },
+                icon = { Text("⌂", fontSize = 22.sp, fontWeight = FontWeight.Bold) },
+                label = { Text("Início") }
+            )
+            NavigationBarItem(
+                selected = selectedTab == 1,
+                onClick = { selectedTab = 1 },
+                icon = { Text("↗", fontSize = 21.sp, fontWeight = FontWeight.Bold) },
+                label = { Text("Previsão") }
+            )
+        }
+    }
+}
+
+@Composable
+private fun HomeDashboard(data: DashboardData?, loading: Boolean, error: String?, onRefresh: () -> Unit) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(start = 18.dp, end = 18.dp, top = 22.dp, bottom = 32.dp),
         verticalArrangement = Arrangement.spacedBy(14.dp)
     ) {
         item { Header() }
-        item { StatusCard(data?.snapshot, loading, error, onRefresh = { refresh() }) }
+        item { StatusCard(data?.snapshot, loading, error, onRefresh) }
         if (data != null) {
             item { SectionTitle("Probabilidade estimada de vitória", "Combinação dos sinais disponíveis") }
-            items(data!!.snapshot.candidates.take(7), key = { it.id }) { candidate ->
-                CandidateCard(candidate, data!!.snapshot.candidates.first().winProbability)
+            items(data.snapshot.candidates.take(7), key = { it.id }) { candidate ->
+                CandidateCard(candidate, data.snapshot.candidates.first().winProbability)
             }
             item { SectionTitle("Evolução das leituras", "Histórico público gerado pelo modelo") }
-            item { HistoryChart(data!!.history, data!!.snapshot.candidates.take(3)) }
-            item { VariationCard(data!!.snapshot.candidates.take(5)) }
+            item { HistoryChart(data.history, data.snapshot.candidates.take(3)) }
+            item { VariationCard(data.snapshot.candidates.take(5)) }
             item { SectionTitle("Fontes monitoradas", "Atualização automática e tolerante a falhas") }
-            items(data!!.snapshot.sources, key = { it.id }) { SourceCard(it) }
-            item { MethodologyCard(data!!.snapshot) }
+            items(data.snapshot.sources, key = { it.id }) { SourceCard(it) }
+            item { MethodologyCard(data.snapshot) }
         } else if (loading) {
             item { LoadingBlock() }
+        }
+    }
+}
+
+@Composable
+private fun ForecastScreen(data: DashboardData?, loading: Boolean) {
+    var periodDays by remember { mutableIntStateOf(15) }
+    val analysis = remember(data, periodDays) { data?.let { ForecastEngine.analyze(it, periodDays) } }
+
+    LazyColumn(
+        modifier = Modifier.fillMaxSize(),
+        contentPadding = PaddingValues(start = 18.dp, end = 18.dp, top = 22.dp, bottom = 32.dp),
+        verticalArrangement = Arrangement.spacedBy(14.dp)
+    ) {
+        item {
+            Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                Text("PREVISÃO E COMPARAÇÃO", color = BrazilGreen, fontWeight = FontWeight.Bold, fontSize = 13.sp)
+                Text("Curva de\ntendência", fontSize = 36.sp, lineHeight = 38.sp, fontWeight = FontWeight.ExtraBold, color = TextDark)
+                Text("Compare os últimos dias e veja uma projeção matemática da tendência até a eleição.", color = Muted, lineHeight = 21.sp)
+            }
+        }
+        item {
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                listOf(5, 15, 30).forEach { days ->
+                    FilterChip(
+                        selected = periodDays == days,
+                        onClick = { periodDays = days },
+                        label = { Text("$days dias") },
+                        modifier = Modifier.weight(1f)
+                    )
+                }
+            }
+        }
+
+        if (analysis != null && data != null) {
+            item { ForecastStatusCard(analysis, data.snapshot) }
+            item { SectionTitle("Curva observada + projeção", "Linha contínua: histórico · tracejada: tendência futura") }
+            item { ForecastChart(analysis, data.snapshot.candidates.take(3)) }
+            item { SectionTitle("Probabilidade futura", "Comparação entre o valor atual e a projeção para a eleição") }
+            items(analysis.candidates, key = { it.id }) { projection ->
+                ProjectionCard(projection, data.snapshot.electionDate)
+            }
+            item { SectionTitle("Comparação dos sinais atuais", "Pesquisa, mercado e resultado combinado do modelo") }
+            items(data.snapshot.candidates.take(5), key = { "signal-${it.id}" }) { candidate ->
+                SignalComparisonCard(candidate)
+            }
+            item { ForecastMethodCard(analysis) }
+        } else if (loading) {
+            item { LoadingBlock() }
+        }
+    }
+}
+
+@Composable
+private fun ForecastStatusCard(analysis: ForecastAnalysis, snapshot: Snapshot) {
+    Card(shape = RoundedCornerShape(24.dp), colors = CardDefaults.cardColors(containerColor = BrazilBlue)) {
+        Column(Modifier.padding(18.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            Text("JANELA SELECIONADA", color = Color(0xFFBFD3EF), fontSize = 12.sp, fontWeight = FontWeight.Bold)
+            Text("${analysis.periodDays} dias", color = Color.White, fontWeight = FontWeight.ExtraBold, fontSize = 24.sp)
+            Text(
+                "Histórico efetivamente disponível: ${analysis.availableSpanDays.one()} dias · Confiança da tendência: ${analysis.confidence}",
+                color = Color.White.copy(alpha = .88f),
+                lineHeight = 19.sp
+            )
+            Text("Projeção até ${formatElectionDate(snapshot.electionDate)}", color = Color.White, fontWeight = FontWeight.SemiBold)
+        }
+    }
+}
+
+@Composable
+private fun ForecastChart(analysis: ForecastAnalysis, candidates: List<Candidate>) {
+    val combined = analysis.actual + analysis.projected
+    Card(shape = RoundedCornerShape(22.dp), colors = CardDefaults.cardColors(containerColor = Color.White)) {
+        Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+            if (analysis.actual.size < 2) {
+                Text("Ainda há pouco histórico para formar uma curva. O aplicativo continuará acumulando leituras reais automaticamente.", color = Muted)
+            }
+            Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                candidates.forEach { candidate ->
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Box(Modifier.size(8.dp).background(candidateColor(candidate.id), CircleShape))
+                        Spacer(Modifier.width(4.dp))
+                        Text(candidate.name, fontSize = 11.sp, color = Muted)
+                    }
+                }
+            }
+            if (combined.isNotEmpty()) {
+                Canvas(Modifier.fillMaxWidth().height(230.dp)) {
+                    val allValues = combined.flatMap { point -> candidates.mapNotNull { point.probabilities[it.id] } }
+                    val rawMin = allValues.minOrNull() ?: 0.0
+                    val rawMax = allValues.maxOrNull() ?: 100.0
+                    val minY = (rawMin - 4.0).coerceAtLeast(0.0)
+                    val maxY = (rawMax + 4.0).coerceAtMost(100.0).coerceAtLeast(minY + 10.0)
+                    val startMs = combined.minOf { it.instant.toEpochMilli() }
+                    val endMs = combined.maxOf { it.instant.toEpochMilli() }
+                    val spanMs = (endMs - startMs).coerceAtLeast(1L)
+
+                    fun xOf(point: ForecastCurvePoint): Float =
+                        (size.width * (point.instant.toEpochMilli() - startMs).toDouble() / spanMs).toFloat()
+                    fun yOf(value: Double): Float =
+                        size.height - (((value - minY) / (maxY - minY)) * size.height).toFloat()
+
+                    for (g in 0..4) {
+                        val y = size.height * g / 4f
+                        drawLine(Color(0xFFE7ECE8), Offset(0f, y), Offset(size.width, y), strokeWidth = 1f)
+                    }
+
+                    candidates.forEach { candidate ->
+                        val actualPath = Path()
+                        analysis.actual.forEachIndexed { index, point ->
+                            val value = point.probabilities[candidate.id] ?: return@forEachIndexed
+                            val x = xOf(point)
+                            val y = yOf(value)
+                            if (actualPath.isEmpty) actualPath.moveTo(x, y) else actualPath.lineTo(x, y)
+                        }
+                        if (!actualPath.isEmpty) {
+                            drawPath(actualPath, candidateColor(candidate.id), style = Stroke(width = 5f, cap = StrokeCap.Round))
+                        }
+
+                        if (analysis.projected.isNotEmpty()) {
+                            val forecastPath = Path()
+                            val current = analysis.actual.lastOrNull()
+                            current?.probabilities?.get(candidate.id)?.let { value ->
+                                forecastPath.moveTo(xOf(current), yOf(value))
+                            }
+                            analysis.projected.forEach { point ->
+                                point.probabilities[candidate.id]?.let { value -> forecastPath.lineTo(xOf(point), yOf(value)) }
+                            }
+                            if (!forecastPath.isEmpty) {
+                                drawPath(
+                                    forecastPath,
+                                    candidateColor(candidate.id),
+                                    style = Stroke(
+                                        width = 4f,
+                                        cap = StrokeCap.Round,
+                                        pathEffect = PathEffect.dashPathEffect(floatArrayOf(14f, 10f))
+                                    )
+                                )
+                            }
+                        }
+                    }
+                }
+                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                    Text(formatDay(combined.first().instant), color = Muted, fontSize = 11.sp)
+                    Text("hoje", color = Muted, fontSize = 11.sp)
+                    Text(formatDay(combined.last().instant), color = Muted, fontSize = 11.sp)
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun ProjectionCard(projection: CandidateProjection, electionDate: String) {
+    val deltaColor = when {
+        projection.delta > .05 -> Positive
+        projection.delta < -.05 -> Negative
+        else -> Muted
+    }
+    Card(shape = RoundedCornerShape(20.dp), colors = CardDefaults.cardColors(containerColor = Color.White)) {
+        Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Box(Modifier.size(12.dp).background(candidateColor(projection.id), CircleShape))
+                    Spacer(Modifier.width(9.dp))
+                    Text(projection.name, fontWeight = FontWeight.Bold, fontSize = 17.sp)
+                }
+                Text(deltaText(projection.delta), color = deltaColor, fontWeight = FontWeight.Bold)
+            }
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                Column {
+                    Text("Agora", color = Muted, fontSize = 12.sp)
+                    Text("${projection.current.one()}%", fontSize = 24.sp, fontWeight = FontWeight.ExtraBold, color = BrazilBlue)
+                }
+                Column(horizontalAlignment = Alignment.End) {
+                    Text(formatElectionDate(electionDate), color = Muted, fontSize = 12.sp)
+                    Text("${projection.projectedElection.one()}%", fontSize = 24.sp, fontWeight = FontWeight.ExtraBold, color = TextDark)
+                }
+            }
+            Text("Inclinação recente: ${signed(projection.slopePerDay)} p.p./dia", color = Muted, fontSize = 12.sp)
+        }
+    }
+}
+
+@Composable
+private fun SignalComparisonCard(candidate: Candidate) {
+    Card(shape = RoundedCornerShape(18.dp), colors = CardDefaults.cardColors(containerColor = Color.White)) {
+        Column(Modifier.padding(15.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Box(Modifier.size(9.dp).background(candidateColor(candidate.id), CircleShape))
+                Spacer(Modifier.width(8.dp))
+                Text(candidate.name, fontWeight = FontWeight.Bold)
+            }
+            SignalRow("Apoio nas pesquisas", "${candidate.pollingSupport.one()}%")
+            SignalRow("Mercado de previsão", candidate.marketProbability?.let { "${it.one()}%" } ?: "indisponível")
+            SignalRow("Modelo combinado", "${candidate.winProbability.one()}%", emphasize = true)
+        }
+    }
+}
+
+@Composable
+private fun SignalRow(label: String, value: String, emphasize: Boolean = false) {
+    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+        Text(label, color = if (emphasize) TextDark else Muted, fontSize = 13.sp, fontWeight = if (emphasize) FontWeight.SemiBold else FontWeight.Normal)
+        Text(value, color = if (emphasize) BrazilBlue else TextDark, fontWeight = if (emphasize) FontWeight.ExtraBold else FontWeight.SemiBold)
+    }
+}
+
+@Composable
+private fun ForecastMethodCard(analysis: ForecastAnalysis) {
+    Card(shape = RoundedCornerShape(22.dp), colors = CardDefaults.cardColors(containerColor = Color(0xFFFFF8E7))) {
+        Column(Modifier.padding(17.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            Text("Como a previsão é calculada", fontWeight = FontWeight.ExtraBold, fontSize = 18.sp)
+            Text(
+                "A curva usa somente leituras realmente registradas dentro da janela escolhida. As leituras são resumidas em blocos de 6 horas, a tendência recente recebe um pouco mais de peso e a extrapolação é amortecida para evitar que uma inclinação curta cresça indefinidamente.",
+                color = TextDark,
+                lineHeight = 20.sp
+            )
+            Text("Confiança da curva: ${analysis.confidence}", color = BrazilBlue, fontWeight = FontWeight.Bold)
+            HorizontalDivider(color = Color(0xFFE8DDBD))
+            Text("A linha tracejada é uma projeção matemática experimental, não uma pesquisa, resultado oficial ou certeza sobre o futuro. Com pouco histórico disponível, a projeção tende a ficar conservadora.", color = Muted, fontSize = 12.sp, lineHeight = 17.sp)
         }
     }
 }
@@ -307,6 +558,7 @@ private fun candidateColor(id: String): Color = when (id) {
 }
 
 private fun Double.one() = String.format(java.util.Locale("pt", "BR"), "%.1f", this)
+private fun signed(value: Double): String = if (value > 0) "+${value.one()}" else value.one()
 private fun deltaText(value: Double): String = when {
     abs(value) < .05 -> "sem variação"
     value > 0 -> "+${value.one()} p.p."
@@ -315,4 +567,9 @@ private fun deltaText(value: Double): String = when {
 private fun formatDate(raw: String): String = runCatching {
     val instant = Instant.parse(raw)
     DateTimeFormatter.ofPattern("dd/MM · HH:mm").withZone(ZoneId.of("America/Sao_Paulo")).format(instant)
+}.getOrElse { raw }
+private fun formatDay(instant: Instant): String =
+    DateTimeFormatter.ofPattern("dd/MM").withZone(ZoneId.of("America/Sao_Paulo")).format(instant)
+private fun formatElectionDate(raw: String): String = runCatching {
+    LocalDate.parse(raw).format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
 }.getOrElse { raw }
