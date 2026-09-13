@@ -10,7 +10,7 @@ from __future__ import annotations
 import json
 import math
 import re
-from datetime import datetime, timezone, date
+from datetime import datetime, timezone, date, timedelta
 from pathlib import Path
 from typing import Dict, List, Tuple
 
@@ -21,7 +21,7 @@ ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "data"
 DATA.mkdir(exist_ok=True)
 ELECTION_DATE = date(2026, 10, 4)
-UA = {"User-Agent": "Eleicoes2026Termometro/0.1 (+github.com/emanoelb5-lgtm/Elei-es)"}
+UA = {"User-Agent": "Eleicoes2026Termometro/0.2 (+github.com/emanoelb5-lgtm/Elei-es)"}
 
 ALIASES = {
     "lula": ["lula", "luiz inácio lula da silva", "luiz inacio lula da silva"],
@@ -221,7 +221,7 @@ def main() -> None:
     source_count = sum(1 for s in statuses if s["status"] == "ok")
     confidence = "média" if source_count >= 3 else "baixa"
     snapshot = {
-        "schemaVersion": 1,
+        "schemaVersion": 2,
         "generatedAt": now.isoformat().replace("+00:00", "Z"),
         "electionDate": ELECTION_DATE.isoformat(),
         "daysToElection": days,
@@ -233,9 +233,26 @@ def main() -> None:
     }
     (DATA / "latest.json").write_text(json.dumps(snapshot, ensure_ascii=False, indent=2) + "\n", "utf-8")
 
-    point = {"generatedAt": snapshot["generatedAt"], "probabilities": {c["id"]: c["winProbability"] for c in candidates}}
+    point = {
+        "generatedAt": snapshot["generatedAt"],
+        "probabilities": {c["id"]: c["winProbability"] for c in candidates},
+        "pollingSupport": {c["id"]: c["pollingSupport"] for c in candidates},
+        "marketProbabilities": {c["id"]: c["marketProbability"] for c in candidates if c["marketProbability"] is not None},
+    }
     history.append(point)
-    history = history[-240:]
+
+    # Mantém uma janela real suficiente para os filtros de 5, 15 e 30 dias.
+    # O teto protege o arquivo caso a frequência de execução seja alterada.
+    cutoff = now - timedelta(days=35)
+    retained = []
+    for entry in history:
+        try:
+            stamp = datetime.fromisoformat(entry["generatedAt"].replace("Z", "+00:00"))
+            if stamp >= cutoff:
+                retained.append(entry)
+        except Exception:
+            continue
+    history = retained[-5000:]
     hist_path.write_text(json.dumps(history, ensure_ascii=False, indent=2) + "\n", "utf-8")
 
 
