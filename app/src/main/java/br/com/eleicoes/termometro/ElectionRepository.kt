@@ -73,9 +73,18 @@ class ElectionRepository {
     private fun parseHistory(array: JSONArray): List<HistoryPoint> =
         List(array.length()) { i ->
             val item = array.getJSONObject(i)
-            val probs = mutableMapOf<String, Double>()
-            val obj = item.getJSONObject("probabilities")
-            obj.keys().forEach { key -> probs[key] = obj.optDouble(key, 0.0) }
-            HistoryPoint(item.getString("generatedAt"), probs)
+            HistoryPoint(
+                generatedAt = item.getString("generatedAt"),
+                probabilities = readDoubleMap(item.optJSONObject("probabilities")),
+                pollingSupport = readDoubleMap(item.optJSONObject("pollingSupport")),
+                marketProbabilities = readDoubleMap(item.optJSONObject("marketProbabilities"))
+            )
         }
+
+    private fun readDoubleMap(obj: JSONObject?): Map<String, Double> {
+        if (obj == null) return emptyMap()
+        val result = mutableMapOf<String, Double>()
+        obj.keys().forEach { key -> result[key] = obj.optDouble(key, 0.0) }
+        return result
+    }
 }
