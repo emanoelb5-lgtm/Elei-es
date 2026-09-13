@@ -22,22 +22,53 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.9'
-      - name: Compilar APK instalável
+
+      - name: Compilar APK release sem chave efêmera
         run: gradle --no-daemon :app:assembleRelease
-      - name: Preparar arquivo
+
+      - name: Assinar com identidade de desenvolvimento estável
+        shell: bash
         run: |
-          mkdir -p dist
-          cp app/build/outputs/apk/release/app-release.apk dist/Termometro-Eleicoes-2026-v0.1.1.apk
+          set -euo pipefail
+          mkdir -p signing dist
+
+          # Chave pública de TESTE do AOSP, fixada em uma tag imutável.
+          # É intencionalmente usada somente para builds de desenvolvimento
+          # distribuídos por APK. Não é uma chave de produção/Google Play.
+          curl -fsSL 'https://android.googlesource.com/platform/build/+/refs/tags/android-11.0.0_r29/target/product/security/testkey.pk8?format=TEXT' | base64 --decode > signing/testkey.pk8
+          curl -fsSL 'https://android.googlesource.com/platform/build/+/refs/tags/android-11.0.0_r29/target/product/security/testkey.x509.pem?format=TEXT' | base64 --decode > signing/testkey.x509.pem
+
+          APK_INPUT="$(find app/build/outputs/apk/release -type f -name '*.apk' | head -n 1)"
+          if [ -z "$APK_INPUT" ]; then
+            echo 'APK release não encontrado.' >&2
+            exit 1
+          fi
+
+          BUILD_TOOLS="$(find "$ANDROID_HOME/build-tools" -mindepth 1 -maxdepth 1 -type d | sort -V | tail -n 1)"
+          "$BUILD_TOOLS/zipalign" -f 4 "$APK_INPUT" dist/Termometro-Eleicoes-2026-v0.2.0-aligned.apk
+          "$BUILD_TOOLS/apksigner" sign \
+            --key signing/testkey.pk8 \
+            --cert signing/testkey.x509.pem \
+            --v1-signing-enabled true \
+            --v2-signing-enabled true \
+            --v3-signing-enabled true \
+            --out dist/Termometro-Eleicoes-2026-v0.2.0.apk \
+            dist/Termometro-Eleicoes-2026-v0.2.0-aligned.apk
+          rm dist/Termometro-Eleicoes-2026-v0.2.0-aligned.apk
+          "$BUILD_TOOLS/apksigner" verify --verbose --print-certs dist/Termometro-Eleicoes-2026-v0.2.0.apk
+
       - uses: actions/upload-artifact@v4
         with:
-          name: Termometro-Eleicoes-2026-v0.1.1
-          path: dist/*.apk
-      - name: Publicar/atualizar Release v0.1.1
+          name: Termometro-Eleicoes-2026-v0.2.0
+          path: dist/Termometro-Eleicoes-2026-v0.2.0.apk
+
+      - name: Publicar/atualizar Release v0.2.0
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          if gh release view v0.1.1 >/dev/null 2>&1; then
-            gh release upload v0.1.1 dist/*.apk --clobber
+          NOTES='Nova aba Previsão e Comparação com janelas de 5, 15 e 30 dias, curva histórica, projeção amortecida até a eleição e comparação entre pesquisas, mercado e modelo. A Home mantém o fundamento anterior. A partir desta versão os APKs de desenvolvimento usam uma assinatura estável, permitindo atualização por cima das próximas versões. Como v0.1.1 usava chave efêmera, a migração para v0.2.0 exige uma única reinstalação.'
+          if gh release view v0.2.0 >/dev/null 2>&1; then
+            gh release upload v0.2.0 dist/Termometro-Eleicoes-2026-v0.2.0.apk --clobber
           else
-            gh release create v0.1.1 dist/*.apk --target "${GITHUB_SHA}" --title "Termômetro Eleições 2026 v0.1.1" --notes "Correção visual: ícone adaptativo do aplicativo e Safe Zone completa para barra de status, recortes de tela e navegação."
+            gh release create v0.2.0 dist/Termometro-Eleicoes-2026-v0.2.0.apk --target "${GITHUB_SHA}" --title "Termômetro Eleições 2026 v0.2.0" --notes "$NOTES"
           fi
