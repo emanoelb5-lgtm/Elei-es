@@ -51,7 +51,7 @@
       "pollingSupport": 38.5,
       "marketProbability": 46.11,
       "winProbability": 56.84,
-      "change": -6.92,
+      "change": -0.75,
       "trend": "caindo"
     },
     {
@@ -60,7 +60,7 @@
       "pollingSupport": 34.9,
       "marketProbability": 51.21,
       "winProbability": 41.52,
-      "change": 6.74,
+      "change": 0.8,
       "trend": "subindo"
     },
     {
@@ -69,7 +69,7 @@
       "pollingSupport": 3.3,
       "marketProbability": 1.88,
       "winProbability": 0.86,
-      "change": 0.03,
+      "change": -0.04,
       "trend": "estável"
     },
     {
@@ -78,8 +78,8 @@
       "pollingSupport": 6.05,
       "marketProbability": 0.45,
       "winProbability": 0.35,
-      "change": 0.06,
-      "trend": "subindo"
+      "change": 0.05,
+      "trend": "estável"
     },
     {
       "id": "ronaldo-caiado",
@@ -87,7 +87,7 @@
       "pollingSupport": 3.9,
       "marketProbability": 0.15,
       "winProbability": 0.18,
-      "change": 0.04,
+      "change": -0.01,
       "trend": "estável"
     },
     {
@@ -96,7 +96,7 @@
       "pollingSupport": 1.75,
       "marketProbability": 0.15,
       "winProbability": 0.14,
-      "change": 0.02,
+      "change": 0.0,
       "trend": "estável"
     },
     {
@@ -105,7 +105,7 @@
       "pollingSupport": 2.6,
       "marketProbability": 0.05,
       "winProbability": 0.11,
-      "change": 0.03,
+      "change": -0.04,
       "trend": "estável"
     }
   ],
