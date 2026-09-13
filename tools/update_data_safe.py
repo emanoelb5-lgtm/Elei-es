@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""Camada de validação e parsing seguro para os coletores eleitorais."""
+"""Camada de validação e parsing seguro para os coletores eleitorais.
+
+Também serve como ponto estável de execução do histórico v2 usado pelas curvas
+reais de 5, 15 e 30 dias do aplicativo.
+"""
 import re
 import sys
 from pathlib import Path
