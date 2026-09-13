@@ -1,0 +1,43 @@
+name: Build e publicar APK
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - 'data/**'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.9'
+      - name: Compilar APK instalável
+        run: gradle --no-daemon :app:assembleRelease
+      - name: Preparar arquivo
+        run: |
+          mkdir -p dist
+          cp app/build/outputs/apk/release/app-release.apk dist/Termometro-Eleicoes-2026-v0.1.0.apk
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Termometro-Eleicoes-2026-v0.1.0
+          path: dist/*.apk
+      - name: Publicar/atualizar Release v0.1.0
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh release view v0.1.0 >/dev/null 2>&1; then
+            gh release upload v0.1.0 dist/*.apk --clobber
+          else
+            gh release create v0.1.0 dist/*.apk --target "${GITHUB_SHA}" --title "Termômetro Eleições 2026 v0.1.0" --notes "Primeira versão Android. Atualização automática de sinais públicos, comparação histórica e probabilidade experimental de vitória. Não é pesquisa eleitoral nem previsão oficial."
+          fi
