@@ -52,5 +52,35 @@
       "romeu-zema": 0.15,
       "pablo-marcal": 0.05
     }
+  },
+  {
+    "generatedAt": "2026-09-13T23:46:26.964300Z",
+    "probabilities": {
+      "lula": 57.21,
+      "flavio-bolsonaro": 41.15,
+      "renan-santos": 0.86,
+      "augusto-cury": 0.35,
+      "ronaldo-caiado": 0.18,
+      "romeu-zema": 0.14,
+      "pablo-marcal": 0.11
+    },
+    "pollingSupport": {
+      "lula": 38.5,
+      "flavio-bolsonaro": 34.9,
+      "renan-santos": 3.3,
+      "augusto-cury": 6.05,
+      "ronaldo-caiado": 3.9,
+      "romeu-zema": 1.75,
+      "pablo-marcal": 2.6
+    },
+    "marketProbabilities": {
+      "lula": 47.03,
+      "flavio-bolsonaro": 50.3,
+      "renan-santos": 1.88,
+      "augusto-cury": 0.45,
+      "ronaldo-caiado": 0.15,
+      "romeu-zema": 0.15,
+      "pablo-marcal": 0.05
+    }
   }
 ]
