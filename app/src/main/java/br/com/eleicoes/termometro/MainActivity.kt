@@ -62,7 +62,15 @@ fun TermometroApp() {
             titleLarge = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold)
         )
     ) {
-        Surface(Modifier.fillMaxSize(), color = SoftBg) { Dashboard() }
+        Surface(Modifier.fillMaxSize(), color = SoftBg) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .windowInsetsPadding(WindowInsets.safeDrawing)
+            ) {
+                Dashboard()
+            }
+        }
     }
 }
 
@@ -93,9 +101,7 @@ private fun Dashboard() {
         verticalArrangement = Arrangement.spacedBy(14.dp)
     ) {
         item { Header() }
-        item {
-            StatusCard(data?.snapshot, loading, error, onRefresh = { refresh() })
-        }
+        item { StatusCard(data?.snapshot, loading, error, onRefresh = { refresh() }) }
         if (data != null) {
             item { SectionTitle("Probabilidade estimada de vitória", "Combinação dos sinais disponíveis") }
             items(data!!.snapshot.candidates.take(7), key = { it.id }) { candidate ->
@@ -273,7 +279,7 @@ private fun MethodologyCard(snapshot: Snapshot) {
             Text("Como ler este número", fontWeight = FontWeight.ExtraBold, fontSize = 18.sp)
             Text("O modelo transforma a média de intenção de voto em um sinal probabilístico e combina esse sinal com preços de mercados de previsão. Fontes indisponíveis são retiradas do cálculo, e o resultado é renormalizado.", color = TextDark, lineHeight = 20.sp)
             Text("Confiança: ${snapshot.confidence}", color = BrazilBlue, fontWeight = FontWeight.Bold)
-            Divider(color = Color(0xFFE8DDBD))
+            HorizontalDivider(color = Color(0xFFE8DDBD))
             Text(snapshot.note, color = Muted, fontSize = 12.sp, lineHeight = 17.sp)
         }
     }

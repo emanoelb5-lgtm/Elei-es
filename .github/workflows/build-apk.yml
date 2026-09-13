@@ -27,17 +27,17 @@ jobs:
       - name: Preparar arquivo
         run: |
           mkdir -p dist
-          cp app/build/outputs/apk/release/app-release.apk dist/Termometro-Eleicoes-2026-v0.1.0.apk
+          cp app/build/outputs/apk/release/app-release.apk dist/Termometro-Eleicoes-2026-v0.1.1.apk
       - uses: actions/upload-artifact@v4
         with:
-          name: Termometro-Eleicoes-2026-v0.1.0
+          name: Termometro-Eleicoes-2026-v0.1.1
           path: dist/*.apk
-      - name: Publicar/atualizar Release v0.1.0
+      - name: Publicar/atualizar Release v0.1.1
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          if gh release view v0.1.0 >/dev/null 2>&1; then
-            gh release upload v0.1.0 dist/*.apk --clobber
+          if gh release view v0.1.1 >/dev/null 2>&1; then
+            gh release upload v0.1.1 dist/*.apk --clobber
           else
-            gh release create v0.1.0 dist/*.apk --target "${GITHUB_SHA}" --title "Termômetro Eleições 2026 v0.1.0" --notes "Primeira versão Android. Atualização automática de sinais públicos, comparação histórica e probabilidade experimental de vitória. Não é pesquisa eleitoral nem previsão oficial."
+            gh release create v0.1.1 dist/*.apk --target "${GITHUB_SHA}" --title "Termômetro Eleições 2026 v0.1.1" --notes "Correção visual: ícone adaptativo do aplicativo e Safe Zone completa para barra de status, recortes de tela e navegação."
           fi
