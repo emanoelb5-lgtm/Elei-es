@@ -8,6 +8,7 @@ on:
     branches: [main]
     paths:
       - 'scripts/**'
+      - 'tools/**'
       - 'requirements.txt'
 
 permissions:
@@ -22,7 +23,20 @@ jobs:
         with:
           python-version: '3.12'
       - run: pip install -r requirements.txt
-      - run: python scripts/update_data.py
+      - run: python tools/update_data_safe.py
+      - name: Validar saída
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('data/latest.json'))
+          vals={c['id']:c['pollingSupport'] for c in d['candidates']}
+          assert 20 <= vals.get('lula',0) <= 60
+          assert 20 <= vals.get('flavio-bolsonaro',0) <= 60
+          for k,v in vals.items():
+              if k not in ('lula','flavio-bolsonaro'):
+                  assert 0 <= v <= 15, (k,v)
+          print('Validação OK', vals)
+          PY
       - name: Publicar nova leitura se houver mudança
         run: |
           git config user.name "eleicoes-bot"
@@ -31,6 +45,6 @@ jobs:
           if git diff --cached --quiet; then
             echo "Sem mudança"
           else
-            git commit -m "data: atualiza leitura eleitoral"
+            git commit -m "data: atualiza leitura eleitoral validada"
             git push
           fi
