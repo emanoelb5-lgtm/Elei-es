@@ -12,16 +12,16 @@ android {
         applicationId = "br.com.eleicoes.termometro"
         minSdk = 26
         targetSdk = 35
-        versionCode = 3
-        versionName = "0.2.0"
+        versionCode = 4
+        versionName = "0.2.1"
     }
 
     buildTypes {
         release {
             isMinifyEnabled = false
-            // O APK release é assinado no workflow com uma identidade de
-            // desenvolvimento estável e reproduzível. Não usar a debug key
-            // efêmera do runner, pois ela muda e impede atualização in-place.
+            // O APK release é assinado no workflow com a mesma identidade de
+            // desenvolvimento estável introduzida na v0.2.0, permitindo
+            // atualização in-place a partir dela.
             signingConfig = null
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
