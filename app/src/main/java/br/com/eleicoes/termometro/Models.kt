@@ -33,7 +33,10 @@ data class HistoryPoint(
     val generatedAt: String,
     val probabilities: Map<String, Double>,
     val pollingSupport: Map<String, Double> = emptyMap(),
-    val marketProbabilities: Map<String, Double> = emptyMap()
+    val marketProbabilities: Map<String, Double> = emptyMap(),
+    val origin: String = "live",
+    val pollCount: Int = 0,
+    val sourceNote: String? = null
 )
 
 data class DashboardData(
