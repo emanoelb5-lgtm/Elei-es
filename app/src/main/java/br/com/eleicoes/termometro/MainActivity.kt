@@ -83,25 +83,34 @@ private fun DashboardHost() {
     var data by remember { mutableStateOf<DashboardData?>(null) }
     var loading by remember { mutableStateOf(true) }
     var error by remember { mutableStateOf<String?>(null) }
+    var refreshNotice by remember { mutableStateOf<String?>(null) }
     var selectedTab by remember { mutableIntStateOf(0) }
 
-    fun refresh() {
+    fun refresh(userInitiated: Boolean = false) {
         loading = true
         error = null
+        if (userInitiated) refreshNotice = null
+        val before = data
         scope.launch {
             runCatching { withContext(Dispatchers.IO) { repo.load() } }
-                .onSuccess { data = it }
-                .onFailure { error = "Não foi possível atualizar agora. Verifique a conexão e tente novamente." }
+                .onSuccess { fresh ->
+                    if (userInitiated) refreshNotice = refreshFeedback(before, fresh)
+                    data = fresh
+                }
+                .onFailure {
+                    error = "Não foi possível atualizar agora. Verifique a conexão e tente novamente."
+                    if (userInitiated) refreshNotice = "A consulta não foi concluída. A leitura anterior foi mantida."
+                }
             loading = false
         }
     }
 
-    LaunchedEffect(Unit) { refresh() }
+    LaunchedEffect(Unit) { refresh(false) }
 
     Column(Modifier.fillMaxSize()) {
         Box(Modifier.weight(1f).fillMaxWidth()) {
             if (selectedTab == 0) {
-                HomeDashboard(data, loading, error, onRefresh = { refresh() })
+                HomeDashboard(data, loading, error, refreshNotice, onRefresh = { refresh(true) })
             } else {
                 ForecastScreen(data, loading)
             }
@@ -124,14 +133,20 @@ private fun DashboardHost() {
 }
 
 @Composable
-private fun HomeDashboard(data: DashboardData?, loading: Boolean, error: String?, onRefresh: () -> Unit) {
+private fun HomeDashboard(
+    data: DashboardData?,
+    loading: Boolean,
+    error: String?,
+    refreshNotice: String?,
+    onRefresh: () -> Unit
+) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(start = 18.dp, end = 18.dp, top = 22.dp, bottom = 32.dp),
         verticalArrangement = Arrangement.spacedBy(14.dp)
     ) {
         item { Header() }
-        item { StatusCard(data?.snapshot, loading, error, onRefresh) }
+        item { StatusCard(data?.snapshot, loading, error, refreshNotice, onRefresh) }
         if (data != null) {
             item { SectionTitle("Probabilidade estimada de vitória", "Combinação dos sinais disponíveis") }
             items(data.snapshot.candidates.take(7), key = { it.id }) { candidate ->
@@ -163,7 +178,7 @@ private fun ForecastScreen(data: DashboardData?, loading: Boolean) {
             Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
                 Text("PREVISÃO E COMPARAÇÃO", color = BrazilGreen, fontWeight = FontWeight.Bold, fontSize = 13.sp)
                 Text("Curva de\ntendência", fontSize = 36.sp, lineHeight = 38.sp, fontWeight = FontWeight.ExtraBold, color = TextDark)
-                Text("Compare os últimos dias e veja uma projeção matemática da tendência até a eleição.", color = Muted, lineHeight = 21.sp)
+                Text("Compare os últimos dias, inclusive o histórico anterior ao app, e veja uma projeção matemática da tendência até a eleição.", color = Muted, lineHeight = 21.sp)
             }
         }
         item {
@@ -205,10 +220,18 @@ private fun ForecastStatusCard(analysis: ForecastAnalysis, snapshot: Snapshot) {
             Text("JANELA SELECIONADA", color = Color(0xFFBFD3EF), fontSize = 12.sp, fontWeight = FontWeight.Bold)
             Text("${analysis.periodDays} dias", color = Color.White, fontWeight = FontWeight.ExtraBold, fontSize = 24.sp)
             Text(
-                "Histórico efetivamente disponível: ${analysis.availableSpanDays.one()} dias · Confiança da tendência: ${analysis.confidence}",
+                "Histórico disponível: ${analysis.availableSpanDays.one()} dias · Confiança da tendência: ${analysis.confidence}",
                 color = Color.White.copy(alpha = .88f),
                 lineHeight = 19.sp
             )
+            if (analysis.historicalPoints > 0) {
+                Text(
+                    "${analysis.historicalPoints} pontos retroativos + ${analysis.livePoints} leituras do Termômetro nesta janela",
+                    color = Color(0xFFCDE9DA),
+                    fontSize = 13.sp,
+                    fontWeight = FontWeight.SemiBold
+                )
+            }
             Text("Projeção até ${formatElectionDate(snapshot.electionDate)}", color = Color.White, fontWeight = FontWeight.SemiBold)
         }
     }
@@ -221,6 +244,9 @@ private fun ForecastChart(analysis: ForecastAnalysis, candidates: List<Candidate
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
             if (analysis.actual.size < 2) {
                 Text("Ainda há pouco histórico para formar uma curva. O aplicativo continuará acumulando leituras reais automaticamente.", color = Muted)
+            }
+            if (analysis.historicalPoints > 0) {
+                Text("A curva inclui histórico reconstruído a partir de pesquisas datadas e, quando disponível, preços históricos do mercado de previsão.", color = Muted, fontSize = 12.sp, lineHeight = 17.sp)
             }
             Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                 candidates.forEach { candidate ->
@@ -359,13 +385,13 @@ private fun ForecastMethodCard(analysis: ForecastAnalysis) {
         Column(Modifier.padding(17.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
             Text("Como a previsão é calculada", fontWeight = FontWeight.ExtraBold, fontSize = 18.sp)
             Text(
-                "A curva usa somente leituras realmente registradas dentro da janela escolhida. As leituras são resumidas em blocos de 6 horas, a tendência recente recebe um pouco mais de peso e a extrapolação é amortecida para evitar que uma inclinação curta cresça indefinidamente.",
+                "A curva combina as leituras ao vivo do Termômetro com uma série retroativa reconstruída a partir de pesquisas individuais datadas da BBC/PollingData e, quando existe cotação para a data, do histórico público do Polymarket. A tendência recente recebe um pouco mais de peso e a extrapolação é amortecida para evitar que uma inclinação curta cresça indefinidamente.",
                 color = TextDark,
                 lineHeight = 20.sp
             )
             Text("Confiança da curva: ${analysis.confidence}", color = BrazilBlue, fontWeight = FontWeight.Bold)
             HorizontalDivider(color = Color(0xFFE8DDBD))
-            Text("A linha tracejada é uma projeção matemática experimental, não uma pesquisa, resultado oficial ou certeza sobre o futuro. Com pouco histórico disponível, a projeção tende a ficar conservadora.", color = Muted, fontSize = 12.sp, lineHeight = 17.sp)
+            Text("Os pontos retroativos são estimativas reconstruídas a partir de dados públicos passados e são identificados separadamente das leituras ao vivo. A linha tracejada continua sendo uma projeção matemática experimental, não uma pesquisa, resultado oficial ou certeza sobre o futuro.", color = Muted, fontSize = 12.sp, lineHeight = 17.sp)
         }
     }
 }
@@ -384,7 +410,13 @@ private fun Header() {
 }
 
 @Composable
-private fun StatusCard(snapshot: Snapshot?, loading: Boolean, error: String?, onRefresh: () -> Unit) {
+private fun StatusCard(
+    snapshot: Snapshot?,
+    loading: Boolean,
+    error: String?,
+    refreshNotice: String?,
+    onRefresh: () -> Unit
+) {
     Card(shape = RoundedCornerShape(24.dp), colors = CardDefaults.cardColors(containerColor = BrazilBlue)) {
         Column(Modifier.padding(18.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
@@ -401,6 +433,21 @@ private fun StatusCard(snapshot: Snapshot?, loading: Boolean, error: String?, on
             Button(onClick = onRefresh, enabled = !loading, modifier = Modifier.fillMaxWidth(), colors = ButtonDefaults.buttonColors(containerColor = Color.White, contentColor = BrazilBlue)) {
                 AnimatedContent(loading, label = "refresh") { isLoading ->
                     Text(if (isLoading) "Atualizando leitura…" else "Atualizar leitura", fontWeight = FontWeight.Bold)
+                }
+            }
+            if (refreshNotice != null) {
+                Surface(
+                    color = Color.White.copy(alpha = .12f),
+                    shape = RoundedCornerShape(14.dp),
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text(
+                        refreshNotice,
+                        modifier = Modifier.padding(horizontal = 13.dp, vertical = 11.dp),
+                        color = Color.White,
+                        fontSize = 13.sp,
+                        lineHeight = 18.sp
+                    )
                 }
             }
             if (error != null) Text(error, color = Color(0xFFFFD6D1), fontSize = 13.sp)
@@ -545,6 +592,33 @@ private fun LoadingBlock() {
             Text("Carregando o retrato eleitoral mais recente…", color = Muted)
         }
     }
+}
+
+private fun refreshFeedback(before: DashboardData?, after: DashboardData): String {
+    if (before == null) return "Leitura carregada em ${formatDate(after.snapshot.generatedAt)}."
+    val changed = meaningfulChange(before.snapshot, after.snapshot)
+    return when {
+        changed -> "Nova variação encontrada. Percentuais atualizados em ${formatDate(after.snapshot.generatedAt)}."
+        before.snapshot.generatedAt != after.snapshot.generatedAt ->
+            "Fontes verificadas em ${formatDate(after.snapshot.generatedAt)}. Não houve variação nos percentuais."
+        else -> "Nenhum dado novo publicado desde ${formatDate(after.snapshot.generatedAt)}."
+    }
+}
+
+private fun meaningfulChange(before: Snapshot, after: Snapshot): Boolean {
+    val old = before.candidates.associateBy { it.id }
+    return after.candidates.any { current ->
+        val previous = old[current.id] ?: return@any true
+        abs(previous.winProbability - current.winProbability) >= 0.01 ||
+            abs(previous.pollingSupport - current.pollingSupport) >= 0.01 ||
+            nullableChanged(previous.marketProbability, current.marketProbability)
+    }
+}
+
+private fun nullableChanged(a: Double?, b: Double?): Boolean = when {
+    a == null && b == null -> false
+    a == null || b == null -> true
+    else -> abs(a - b) >= 0.01
 }
 
 private fun candidateColor(id: String): Color = when (id) {
