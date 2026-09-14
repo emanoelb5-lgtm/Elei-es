@@ -8,7 +8,8 @@ import kotlin.math.sqrt
 data class ForecastCurvePoint(
     val instant: Instant,
     val probabilities: Map<String, Double>,
-    val projected: Boolean
+    val projected: Boolean,
+    val historicalReconstruction: Boolean = false
 )
 
 data class CandidateProjection(
@@ -26,7 +27,9 @@ data class ForecastAnalysis(
     val actual: List<ForecastCurvePoint>,
     val projected: List<ForecastCurvePoint>,
     val candidates: List<CandidateProjection>,
-    val confidence: String
+    val confidence: String,
+    val historicalPoints: Int,
+    val livePoints: Int
 )
 
 object ForecastEngine {
@@ -36,16 +39,22 @@ object ForecastEngine {
             runCatching { Instant.parse(point.generatedAt) }.getOrNull()?.let { it to point }
         }.sortedBy { it.first }
 
-        val latest = parsed.lastOrNull()?.first ?: snapshotInstant
+        val latest = maxOf(parsed.lastOrNull()?.first ?: snapshotInstant, snapshotInstant)
         val cutoff = latest.minus(Duration.ofDays(periodDays.toLong()))
-        val filtered = parsed.filter { !it.first.isBefore(cutoff) }
+        val filtered = parsed.filter { !it.first.isBefore(cutoff) && !it.first.isAfter(snapshotInstant.plus(Duration.ofMinutes(5))) }
 
         // Um ponto a cada 6 horas evita que dezenas de leituras idênticas de 15 min
-        // deem peso exagerado à regressão, sem perder a forma da curva.
+        // deem peso exagerado à regressão. O histórico retroativo usa no máximo um
+        // ponto por dia, então permanece integralmente representado.
         val buckets = linkedMapOf<Long, Pair<Instant, HistoryPoint>>()
         filtered.forEach { pair -> buckets[pair.first.epochSecond / 21_600L] = pair }
         var actual = buckets.values.map { (instant, point) ->
-            ForecastCurvePoint(instant, point.probabilities, projected = false)
+            ForecastCurvePoint(
+                instant = instant,
+                probabilities = point.probabilities,
+                projected = false,
+                historicalReconstruction = point.origin == "historical-reconstruction"
+            )
         }
 
         val currentMap = data.snapshot.candidates.associate { it.id to it.winProbability }
@@ -90,13 +99,24 @@ object ForecastEngine {
             )
         }
 
+        val historicalPoints = actual.count { it.historicalReconstruction }
+        val livePoints = actual.size - historicalPoints
         val confidence = when {
             span >= 20.0 && actual.size >= 20 -> "média"
             span >= 5.0 && actual.size >= 8 -> "baixa a média"
             else -> "baixa"
         }
 
-        return ForecastAnalysis(periodDays, span, actual, projected, summaries, confidence)
+        return ForecastAnalysis(
+            periodDays = periodDays,
+            availableSpanDays = span,
+            actual = actual,
+            projected = projected,
+            candidates = summaries,
+            confidence = confidence,
+            historicalPoints = historicalPoints,
+            livePoints = livePoints
+        )
     }
 
     private fun regressionSlope(points: List<ForecastCurvePoint>, candidateId: String): Double {
