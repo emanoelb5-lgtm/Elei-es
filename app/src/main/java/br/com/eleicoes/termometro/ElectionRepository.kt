@@ -21,7 +21,8 @@ class ElectionRepository {
             connectTimeout = 12_000
             readTimeout = 12_000
             setRequestProperty("Accept", "application/json")
-            setRequestProperty("Cache-Control", "no-cache")
+            setRequestProperty("Cache-Control", "no-cache, no-store, max-age=0")
+            setRequestProperty("Pragma", "no-cache")
         }
         try {
             if (connection.responseCode !in 200..299) error("HTTP ${connection.responseCode}")
@@ -77,9 +78,12 @@ class ElectionRepository {
                 generatedAt = item.getString("generatedAt"),
                 probabilities = readDoubleMap(item.optJSONObject("probabilities")),
                 pollingSupport = readDoubleMap(item.optJSONObject("pollingSupport")),
-                marketProbabilities = readDoubleMap(item.optJSONObject("marketProbabilities"))
+                marketProbabilities = readDoubleMap(item.optJSONObject("marketProbabilities")),
+                origin = item.optString("origin", "live"),
+                pollCount = item.optInt("pollCount", 0),
+                sourceNote = item.optString("sourceNote").takeIf { it.isNotBlank() }
             )
-        }
+        }.sortedBy { it.generatedAt }
 
     private fun readDoubleMap(obj: JSONObject?): Map<String, Double> {
         if (obj == null) return emptyMap()
