@@ -10,6 +10,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 import update_data  # noqa: E402
+import backfill_history  # noqa: E402
 
 # Evita aliases excessivamente curtos, que podem coincidir com texto editorial.
 update_data.ALIASES["renan-santos"] = ["renan santos", "renan missao", "renan missão"]
@@ -99,3 +100,5 @@ update_data.source_bbc_pollingdata = source_bbc_first_round
 
 if __name__ == "__main__":
     update_data.main()
+    count = backfill_history.enrich_history()
+    print(f"Histórico retroativo disponível para previsão: {count} pontos")
