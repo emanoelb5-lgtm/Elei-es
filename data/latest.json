@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-09-16T17:24:18.114967Z",
+  "generatedAt": "2026-09-16T20:17:10.359989Z",
   "electionDate": "2026-10-04",
   "daysToElection": 18,
   "confidence": "média",
@@ -15,7 +15,7 @@
       "label": "ElectioLab",
       "type": "agregador de pesquisas",
       "status": "ok",
-      "updatedAt": "2026-09-16T17:24:18.114967Z",
+      "updatedAt": "2026-09-16T20:17:10.359989Z",
       "url": "https://electiolab.com/pesquisas-presidenciais-2026"
     },
     {
@@ -23,7 +23,7 @@
       "label": "BBC / PollingData",
       "type": "agregador de pesquisas",
       "status": "ok",
-      "updatedAt": "2026-09-16T17:24:18.114967Z",
+      "updatedAt": "2026-09-16T20:17:10.359989Z",
       "url": "https://news.files.bbci.co.uk/include/vjamericas/1561-poll-tracker-brazil-2026/range-chart/portuguese/app/embed"
     },
     {
@@ -40,7 +40,7 @@
       "label": "Polymarket",
       "type": "mercado de previsão",
       "status": "ok",
-      "updatedAt": "2026-09-16T17:24:18.114967Z",
+      "updatedAt": "2026-09-16T20:17:10.359989Z",
       "url": "https://polymarket.com/event/brazil-presidential-election"
     }
   ],
@@ -49,28 +49,28 @@
       "id": "lula",
       "name": "Lula",
       "pollingSupport": 38.5,
-      "marketProbability": 44.41,
-      "winProbability": 57.12,
-      "change": 0.18,
-      "trend": "subindo"
+      "marketProbability": 44.15,
+      "winProbability": 57.02,
+      "change": -0.1,
+      "trend": "caindo"
     },
     {
       "id": "flavio-bolsonaro",
       "name": "Flávio Bolsonaro",
       "pollingSupport": 34.9,
-      "marketProbability": 53.64,
-      "winProbability": 41.76,
-      "change": -0.12,
-      "trend": "caindo"
+      "marketProbability": 53.82,
+      "winProbability": 41.83,
+      "change": 0.07,
+      "trend": "subindo"
     },
     {
       "id": "renan-santos",
       "name": "Renan Santos",
       "pollingSupport": 3.8,
-      "marketProbability": 1.35,
-      "winProbability": 0.61,
-      "change": -0.07,
-      "trend": "caindo"
+      "marketProbability": 1.44,
+      "winProbability": 0.64,
+      "change": 0.03,
+      "trend": "estável"
     },
     {
       "id": "augusto-cury",
@@ -78,7 +78,7 @@
       "pollingSupport": 6.55,
       "marketProbability": 0.25,
       "winProbability": 0.21,
-      "change": 0.0,
+      "change": -0.0,
       "trend": "estável"
     },
     {
