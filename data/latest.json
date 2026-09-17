@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-09-17T11:54:40.263910Z",
+  "generatedAt": "2026-09-17T15:52:15.697355Z",
   "electionDate": "2026-10-04",
   "daysToElection": 17,
   "confidence": "média",
@@ -15,7 +15,7 @@
       "label": "ElectioLab",
       "type": "agregador de pesquisas",
       "status": "ok",
-      "updatedAt": "2026-09-17T11:54:40.263910Z",
+      "updatedAt": "2026-09-17T15:52:15.697355Z",
       "url": "https://electiolab.com/pesquisas-presidenciais-2026"
     },
     {
@@ -23,7 +23,7 @@
       "label": "BBC / PollingData",
       "type": "agregador de pesquisas",
       "status": "ok",
-      "updatedAt": "2026-09-17T11:54:40.263910Z",
+      "updatedAt": "2026-09-17T15:52:15.697355Z",
       "url": "https://news.files.bbci.co.uk/include/vjamericas/1561-poll-tracker-brazil-2026/range-chart/portuguese/app/embed"
     },
     {
@@ -40,7 +40,7 @@
       "label": "Polymarket",
       "type": "mercado de previsão",
       "status": "ok",
-      "updatedAt": "2026-09-17T11:54:40.263910Z",
+      "updatedAt": "2026-09-17T15:52:15.697355Z",
       "url": "https://polymarket.com/event/brazil-presidential-election"
     }
   ],
@@ -48,45 +48,36 @@
     {
       "id": "lula",
       "name": "Lula",
-      "pollingSupport": 38.5,
-      "marketProbability": 44.41,
-      "winProbability": 57.47,
-      "change": 0.08,
+      "pollingSupport": 38.6,
+      "marketProbability": 44.15,
+      "winProbability": 57.99,
+      "change": 0.52,
       "trend": "subindo"
     },
     {
       "id": "flavio-bolsonaro",
       "name": "Flávio Bolsonaro",
-      "pollingSupport": 34.9,
-      "marketProbability": 53.94,
-      "winProbability": 41.6,
-      "change": 0.02,
-      "trend": "estável"
+      "pollingSupport": 34.75,
+      "marketProbability": 54.27,
+      "winProbability": 41.1,
+      "change": -0.5,
+      "trend": "caindo"
     },
     {
       "id": "renan-santos",
       "name": "Renan Santos",
-      "pollingSupport": 3.8,
-      "marketProbability": 1.25,
-      "winProbability": 0.55,
+      "pollingSupport": 3.7,
+      "marketProbability": 1.19,
+      "winProbability": 0.53,
       "change": -0.02,
       "trend": "estável"
     },
     {
       "id": "augusto-cury",
       "name": "Augusto Cury",
-      "pollingSupport": 6.55,
+      "pollingSupport": 6.7,
       "marketProbability": 0.15,
       "winProbability": 0.15,
-      "change": -0.04,
-      "trend": "estável"
-    },
-    {
-      "id": "romeu-zema",
-      "name": "Romeu Zema",
-      "pollingSupport": 1.25,
-      "marketProbability": 0.15,
-      "winProbability": 0.09,
       "change": 0.0,
       "trend": "estável"
     },
@@ -94,9 +85,9 @@
       "id": "ronaldo-caiado",
       "name": "Ronaldo Caiado",
       "pollingSupport": 3.9,
-      "marketProbability": 0.05,
-      "winProbability": 0.08,
-      "change": -0.03,
+      "marketProbability": 0.15,
+      "winProbability": 0.11,
+      "change": 0.03,
       "trend": "estável"
     },
     {
@@ -106,6 +97,15 @@
       "marketProbability": 0.05,
       "winProbability": 0.06,
       "change": -0.0,
+      "trend": "estável"
+    },
+    {
+      "id": "romeu-zema",
+      "name": "Romeu Zema",
+      "pollingSupport": 1.2,
+      "marketProbability": 0.05,
+      "winProbability": 0.05,
+      "change": -0.04,
       "trend": "estável"
     }
   ],
