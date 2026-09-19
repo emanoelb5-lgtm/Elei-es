@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-09-19T20:59:57.459730Z",
+  "generatedAt": "2026-09-19T22:44:30.216895Z",
   "electionDate": "2026-10-04",
   "daysToElection": 15,
   "confidence": "média",
@@ -15,7 +15,7 @@
       "label": "ElectioLab",
       "type": "agregador de pesquisas",
       "status": "ok",
-      "updatedAt": "2026-09-19T20:59:57.459730Z",
+      "updatedAt": "2026-09-19T22:44:30.216895Z",
       "url": "https://electiolab.com/pesquisas-presidenciais-2026"
     },
     {
@@ -23,7 +23,7 @@
       "label": "BBC / PollingData",
       "type": "agregador de pesquisas",
       "status": "ok",
-      "updatedAt": "2026-09-19T20:59:57.459730Z",
+      "updatedAt": "2026-09-19T22:44:30.216895Z",
       "url": "https://news.files.bbci.co.uk/include/vjamericas/1561-poll-tracker-brazil-2026/range-chart/portuguese/app/embed"
     },
     {
@@ -40,7 +40,7 @@
       "label": "Polymarket",
       "type": "mercado de previsão",
       "status": "ok",
-      "updatedAt": "2026-09-19T20:59:57.459730Z",
+      "updatedAt": "2026-09-19T22:44:30.216895Z",
       "url": "https://polymarket.com/event/brazil-presidential-election"
     }
   ],
@@ -49,27 +49,27 @@
       "id": "lula",
       "name": "Lula",
       "pollingSupport": 38.6,
-      "marketProbability": 41.12,
-      "winProbability": 56.62,
-      "change": -0.03,
+      "marketProbability": 41.14,
+      "winProbability": 56.63,
+      "change": 0.01,
       "trend": "estável"
     },
     {
       "id": "flavio-bolsonaro",
       "name": "Flávio Bolsonaro",
       "pollingSupport": 35.1,
-      "marketProbability": 57.61,
-      "winProbability": 42.71,
-      "change": -0.05,
+      "marketProbability": 57.64,
+      "winProbability": 42.72,
+      "change": 0.01,
       "trend": "estável"
     },
     {
       "id": "renan-santos",
       "name": "Renan Santos",
       "pollingSupport": 3.2,
-      "marketProbability": 0.86,
-      "winProbability": 0.37,
-      "change": 0.04,
+      "marketProbability": 0.81,
+      "winProbability": 0.35,
+      "change": -0.02,
       "trend": "estável"
     },
     {
@@ -78,7 +78,7 @@
       "pollingSupport": 6.6,
       "marketProbability": 0.15,
       "winProbability": 0.12,
-      "change": 0.04,
+      "change": -0.0,
       "trend": "estável"
     },
     {
