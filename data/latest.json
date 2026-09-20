@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-09-20T19:26:12.768521Z",
+  "generatedAt": "2026-09-20T21:43:17.322720Z",
   "electionDate": "2026-10-04",
   "daysToElection": 14,
   "confidence": "média",
@@ -15,7 +15,7 @@
       "label": "ElectioLab",
       "type": "agregador de pesquisas",
       "status": "ok",
-      "updatedAt": "2026-09-20T19:26:12.768521Z",
+      "updatedAt": "2026-09-20T21:43:17.322720Z",
       "url": "https://electiolab.com/pesquisas-presidenciais-2026"
     },
     {
@@ -23,7 +23,7 @@
       "label": "BBC / PollingData",
       "type": "agregador de pesquisas",
       "status": "ok",
-      "updatedAt": "2026-09-20T19:26:12.768521Z",
+      "updatedAt": "2026-09-20T21:43:17.322720Z",
       "url": "https://news.files.bbci.co.uk/include/vjamericas/1561-poll-tracker-brazil-2026/range-chart/portuguese/app/embed"
     },
     {
@@ -40,7 +40,7 @@
       "label": "Polymarket",
       "type": "mercado de previsão",
       "status": "ok",
-      "updatedAt": "2026-09-20T19:26:12.768521Z",
+      "updatedAt": "2026-09-20T21:43:17.322720Z",
       "url": "https://polymarket.com/event/brazil-presidential-election"
     }
   ],
@@ -49,27 +49,27 @@
       "id": "lula",
       "name": "Lula",
       "pollingSupport": 38.5,
-      "marketProbability": 41.29,
-      "winProbability": 55.95,
-      "change": -1.1,
-      "trend": "caindo"
+      "marketProbability": 41.25,
+      "winProbability": 55.93,
+      "change": -0.02,
+      "trend": "estável"
     },
     {
       "id": "flavio-bolsonaro",
       "name": "Flávio Bolsonaro",
       "pollingSupport": 35.4,
-      "marketProbability": 57.46,
-      "winProbability": 43.43,
-      "change": 1.12,
-      "trend": "subindo"
+      "marketProbability": 57.5,
+      "winProbability": 43.45,
+      "change": 0.02,
+      "trend": "estável"
     },
     {
       "id": "renan-santos",
       "name": "Renan Santos",
       "pollingSupport": 3.2,
-      "marketProbability": 0.85,
+      "marketProbability": 0.84,
       "winProbability": 0.36,
-      "change": -0.02,
+      "change": 0.0,
       "trend": "estável"
     },
     {
