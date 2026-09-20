@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-09-20T09:46:38.936550Z",
+  "generatedAt": "2026-09-20T13:48:48.009798Z",
   "electionDate": "2026-10-04",
   "daysToElection": 14,
   "confidence": "média",
@@ -15,7 +15,7 @@
       "label": "ElectioLab",
       "type": "agregador de pesquisas",
       "status": "ok",
-      "updatedAt": "2026-09-20T09:46:38.936550Z",
+      "updatedAt": "2026-09-20T13:48:48.009798Z",
       "url": "https://electiolab.com/pesquisas-presidenciais-2026"
     },
     {
@@ -23,7 +23,7 @@
       "label": "BBC / PollingData",
       "type": "agregador de pesquisas",
       "status": "ok",
-      "updatedAt": "2026-09-20T09:46:38.936550Z",
+      "updatedAt": "2026-09-20T13:48:48.009798Z",
       "url": "https://news.files.bbci.co.uk/include/vjamericas/1561-poll-tracker-brazil-2026/range-chart/portuguese/app/embed"
     },
     {
@@ -40,7 +40,7 @@
       "label": "Polymarket",
       "type": "mercado de previsão",
       "status": "ok",
-      "updatedAt": "2026-09-20T09:46:38.936550Z",
+      "updatedAt": "2026-09-20T13:48:48.009798Z",
       "url": "https://polymarket.com/event/brazil-presidential-election"
     }
   ],
@@ -49,19 +49,19 @@
       "id": "lula",
       "name": "Lula",
       "pollingSupport": 38.6,
-      "marketProbability": 41.42,
-      "winProbability": 57.12,
-      "change": -0.04,
+      "marketProbability": 41.29,
+      "winProbability": 57.07,
+      "change": -0.05,
       "trend": "estável"
     },
     {
       "id": "flavio-bolsonaro",
       "name": "Flávio Bolsonaro",
       "pollingSupport": 35.1,
-      "marketProbability": 57.34,
-      "winProbability": 42.25,
-      "change": 0.04,
-      "trend": "estável"
+      "marketProbability": 57.46,
+      "winProbability": 42.3,
+      "change": 0.05,
+      "trend": "subindo"
     },
     {
       "id": "renan-santos",
