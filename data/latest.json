@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-09-21T14:03:28.948509Z",
+  "generatedAt": "2026-09-21T19:23:40.142535Z",
   "electionDate": "2026-10-04",
   "daysToElection": 13,
   "confidence": "média",
@@ -15,7 +15,7 @@
       "label": "ElectioLab",
       "type": "agregador de pesquisas",
       "status": "ok",
-      "updatedAt": "2026-09-21T14:03:28.948509Z",
+      "updatedAt": "2026-09-21T19:23:40.142535Z",
       "url": "https://electiolab.com/pesquisas-presidenciais-2026"
     },
     {
@@ -23,7 +23,7 @@
       "label": "BBC / PollingData",
       "type": "agregador de pesquisas",
       "status": "ok",
-      "updatedAt": "2026-09-21T14:03:28.948509Z",
+      "updatedAt": "2026-09-21T19:23:40.142535Z",
       "url": "https://news.files.bbci.co.uk/include/vjamericas/1561-poll-tracker-brazil-2026/range-chart/portuguese/app/embed"
     },
     {
@@ -40,7 +40,7 @@
       "label": "Polymarket",
       "type": "mercado de previsão",
       "status": "ok",
-      "updatedAt": "2026-09-21T14:03:28.948509Z",
+      "updatedAt": "2026-09-21T19:23:40.142535Z",
       "url": "https://polymarket.com/event/brazil-presidential-election"
     }
   ],
@@ -49,18 +49,18 @@
       "id": "lula",
       "name": "Lula",
       "pollingSupport": 38.5,
-      "marketProbability": 39.13,
-      "winProbability": 55.45,
-      "change": -0.51,
+      "marketProbability": 38.27,
+      "winProbability": 55.11,
+      "change": -0.34,
       "trend": "caindo"
     },
     {
       "id": "flavio-bolsonaro",
       "name": "Flávio Bolsonaro",
       "pollingSupport": 35.4,
-      "marketProbability": 59.63,
-      "winProbability": 43.96,
-      "change": 0.43,
+      "marketProbability": 60.49,
+      "winProbability": 44.3,
+      "change": 0.34,
       "trend": "subindo"
     },
     {
@@ -69,8 +69,8 @@
       "pollingSupport": 3.2,
       "marketProbability": 0.94,
       "winProbability": 0.39,
-      "change": 0.07,
-      "trend": "subindo"
+      "change": 0.0,
+      "trend": "estável"
     },
     {
       "id": "romeu-zema",
