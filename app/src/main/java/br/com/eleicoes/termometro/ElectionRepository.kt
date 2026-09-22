@@ -37,6 +37,8 @@ class ElectionRepository {
         val quality = QualityInfo(
             pollCount = q.optInt("pollCount", 0),
             instituteCount = q.optInt("instituteCount", 0),
+            methodCount = q.optInt("methodCount", 0),
+            registrationCount = q.optInt("registrationCount", 0),
             verifiedTseCount = q.optInt("verifiedTseCount", 0),
             averageAgeDays = q.optDouble("averageAgeDays", 0.0),
             effectivePolls = q.optDouble("effectivePolls", 0.0),
