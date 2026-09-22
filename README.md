@@ -2,7 +2,7 @@
 
 Aplicativo Android público e experimental para acompanhar **pesquisas presidenciais de 2026**, sua evolução no tempo, incerteza e diferenças entre fontes.
 
-## O que a v0.6.0 faz
+## O que a v0.6.1 faz
 
 - trabalha com **pesquisas individuais** como unidade principal, em vez de somar agregadores;
 - deduplica levantamentos pelo número de registro TSE e, quando necessário, por uma chave de conteúdo;
@@ -76,7 +76,7 @@ Se os testes ou a validação estrutural falharem, os novos dados não são publ
 
 O workflow **Build e publicar APK** compila e assina o APK com a mesma identidade de desenvolvimento estável adotada desde a v0.2.0, permitindo atualização sobre versões posteriores à transição de assinatura.
 
-A release atual é v0.6.0.
+A release atual é v0.6.1.
 
 ## Aviso
 
@@ -146,3 +146,16 @@ O bootstrap mede sensibilidade da estimativa de apoio atual à composição da a
 O schema de data/analytics.json passa a ser v6.
 
 Na validação corrente usada para verificar a v0.6.0, o intervalo analítico anterior cobriu 52,3% das observações retrospectivas. A calibração empírica por faixa atingiu 79,8% de cobertura para q80 e 89,8% para q90. Esses percentuais medem reprodução de pesquisas passadas, não acerto de eleição futura.
+
+## Bootstrap por instituto v0.6.1
+
+A incerteza avançada passa a usar dois processos de reamostragem em paralelo:
+
+- bootstrap por pesquisa: sorteia levantamentos individuais da janela;
+- bootstrap em blocos por instituto: sorteia institutos e mantém juntas as pesquisas pertencentes ao mesmo bloco.
+
+O segundo processo reduz a hipótese de independência entre levantamentos do mesmo instituto. Se o bootstrap por instituto produzir uma faixa mais larga que os demais componentes, ele pode determinar a largura final. O aplicativo mostra qual componente foi determinante, sem alterar os pesos das pesquisas nem excluir fontes.
+
+Nos cenários de segundo turno, o aplicativo também usa intervalo analítico, bootstrap por pesquisa e bootstrap por instituto. O piso empírico calibrado no primeiro turno não é reaproveitado nos confrontos, porque a distribuição de erro pode ser diferente.
+
+O schema de data/analytics.json passa a ser v7. Nenhum componente calcula chance de vitória ou previsão própria de resultado eleitoral.
