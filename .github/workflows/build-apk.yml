@@ -91,7 +91,7 @@ jobs:
           VERSION: ${{ steps.meta.outputs.version }}
         run: |
           set -euo pipefail
-          NOTES='v0.4.2 adiciona laboratório comparativo de fórmulas na aba Diagnóstico. Seis variantes pré-definidas são avaliadas nos backtests de 2018/2022 e na validação corrente de 2026. Nenhuma variante atingiu o critério para substituir o modelo atual, portanto os pesos de produção permanecem inalterados. Backtests históricos rodam em pipeline separado e não alteram automaticamente a leitura eleitoral. Mantém a assinatura estável desde a v0.2.0.'
+          NOTES='v0.5.0 adiciona composição de respostas sem rotular residual como indecisão, análise leave-one-out de sensibilidade, comparação de janelas de 14 e 30 dias e detalhamento transparente dos cenários de segundo turno. A normalização entre dois nomes é exibida apenas como transformação matemática e não como projeção de votos válidos. O modelo principal e seus pesos permanecem inalterados; o laboratório continua sem promoção automática. Mantém assinatura estável desde a v0.2.0.'
           APK="dist/Termometro-Eleicoes-2026-v${VERSION}.apk"
           TAG="v${VERSION}"
           RELEASE_OK=0
