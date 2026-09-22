@@ -209,6 +209,8 @@ data class RollingValidation(
     val errorDifferenceVsSimple: Double?,
     val intervalCoverage: Double?,
     val absoluteErrorQuantiles: Map<String, Double>,
+    val empiricalQ80Coverage: Double?,
+    val empiricalQ90Coverage: Double?,
     val target: String?,
     val note: String?
 )
