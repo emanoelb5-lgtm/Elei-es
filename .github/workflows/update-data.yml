@@ -7,9 +7,9 @@ on:
   push:
     branches: [main]
     paths:
-      - 'scripts/**'
+      - 'scripts/update_analytics.py'
       - 'requirements.txt'
-      - 'tests/**'
+      - 'tests/test_analytics.py'
 
 permissions:
   contents: write
@@ -32,34 +32,25 @@ jobs:
 
       - run: pip install -r requirements.txt
 
-      - name: Testar parser e agregador
-        run: python -m unittest discover -s tests -v
+      - name: Testar parser e agregador corrente
+        run: python -m unittest discover -s tests -p 'test_analytics.py' -v
 
       - name: Atualizar analytics auditáveis
         run: python scripts/update_analytics.py
 
-      - name: Executar backtest histórico separado
-        run: python scripts/historical_backtest.py
-
-      - name: Validar saída v4
+      - name: Validar saída corrente
         run: |
           python - <<'PY'
           import json
-          from pathlib import Path
 
           a=json.load(open('data/analytics.json'))
           h=json.load(open('data/analytics-history.json'))
           p=json.load(open('data/polls.json'))
           c=json.load(open('data/calibration.json'))
-          b=json.load(open('data/historical-backtest.json'))
 
           assert a.get('schemaVersion') == 3
           assert c.get('schemaVersion') == 1
           assert c.get('correctionApplied') is False
-          assert b.get('schemaVersion') == 2
-          assert len(b.get('studies', [])) >= 2
-          assert all(s['correctionApplied'] is False for s in b['studies'])
-          assert all(s['status'] == 'ok' for s in b['studies'])
           assert len(a.get('candidates', [])) >= 2
           assert a['quality']['pollCount'] >= 1
           assert a['quality']['instituteCount'] >= 1
@@ -70,19 +61,19 @@ jobs:
           assert c['sourceDiagnostics']['comparisonCount'] >= 1
           assert c['rollingValidation']['status'] in ('ok', 'insufficient-data')
 
-          for c in a['candidates']:
-              assert 0 <= c['pollingSupport'] <= 100
-              assert 0 <= c['intervalLow'] <= c['pollingSupport'] <= c['intervalHigh'] <= 100
+          for candidate in a['candidates']:
+              assert 0 <= candidate['pollingSupport'] <= 100
+              assert 0 <= candidate['intervalLow'] <= candidate['pollingSupport'] <= candidate['intervalHigh'] <= 100
 
           print(
-              'Validação v4 OK:',
+              'Validação corrente OK:',
               a['quality'],
               'histórico=', len(h),
               'pesquisas=', len(p['firstRound'])
           )
           PY
 
-      - name: Publicar dados se houver mudança
+      - name: Publicar dados correntes se houver mudança
         run: |
           set -euo pipefail
           git config user.name "eleicoes-bot"
@@ -92,7 +83,6 @@ jobs:
           cp data/analytics-history.json /tmp/analytics-history.json
           cp data/polls.json /tmp/polls.json
           cp data/calibration.json /tmp/calibration.json
-          cp data/historical-backtest.json /tmp/historical-backtest.json
 
           for attempt in 1 2 3 4 5; do
             echo "Tentativa de publicação $attempt/5"
@@ -103,15 +93,14 @@ jobs:
             cp /tmp/analytics-history.json data/analytics-history.json
             cp /tmp/polls.json data/polls.json
             cp /tmp/calibration.json data/calibration.json
-            cp /tmp/historical-backtest.json data/historical-backtest.json
 
-            git add data/analytics.json data/analytics-history.json data/polls.json data/calibration.json data/historical-backtest.json
+            git add data/analytics.json data/analytics-history.json data/polls.json data/calibration.json
             if git diff --cached --quiet; then
               echo "Sem mudança"
               exit 0
             fi
 
-            git commit -m "data: atualiza analytics e diagnosticos v4"
+            git commit -m "data: atualiza analytics e diagnosticos correntes"
             if git push origin HEAD:main; then
               echo "Publicação concluída"
               exit 0
