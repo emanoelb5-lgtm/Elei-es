@@ -1,3 +1,4 @@
+# schema v6: advanced uncertainty.
 # schema v5: influence diagnostics.
 # schema v4: composition + sensitivity validation.
 # pipeline corrente separado do backtest histórico.
@@ -18,6 +19,9 @@ from scripts.update_analytics import (
     response_composition,
     sensitivity_analysis,
     influence_analysis,
+    advanced_uncertainty,
+    bootstrap_current_support,
+    percentile,
 )
 
 
@@ -265,6 +269,58 @@ class AnalyticsParserTests(unittest.TestCase):
         result = influence_analysis(polls, date(2026, 9, 22))
         self.assertIsNone(result["atypicalThreshold"])
         self.assertTrue(all(not row["atypicalSignal"] for row in result["polls"]))
+
+
+    def test_percentile_interpolates(self):
+        self.assertAlmostEqual(percentile([1.0, 2.0, 3.0, 4.0], 0.5), 2.5, places=6)
+
+    def test_bootstrap_current_support_is_deterministic(self):
+        polls = [
+            {
+                "date": date(2026, 9, 18 + idx),
+                "institute": chr(ord("A") + idx),
+                "sample": 1800 + idx * 100,
+                "method": "Online",
+                "registration": f"BR-34{idx:03d}/2026",
+                "verifiedTse": False,
+                "values": {"lula": 39.0 + idx, "flavio-bolsonaro": 36.0 - idx * 0.4},
+                "nonCandidate": {},
+            }
+            for idx in range(4)
+        ]
+        a = bootstrap_current_support(polls, date(2026, 9, 22), draws=120)
+        b = bootstrap_current_support(polls, date(2026, 9, 22), draws=120)
+        self.assertEqual(a, b)
+        self.assertEqual(a["status"], "ok")
+        self.assertIn("lula", a["candidates"])
+        self.assertLessEqual(a["candidates"]["lula"]["p10"], a["candidates"]["lula"]["p90"])
+
+    def test_advanced_uncertainty_never_narrower_than_model_interval(self):
+        polls = [
+            {
+                "date": date(2026, 9, 18 + idx),
+                "institute": chr(ord("A") + idx),
+                "sample": 2000,
+                "method": "Presencial",
+                "registration": f"BR-35{idx:03d}/2026",
+                "verifiedTse": False,
+                "values": {"lula": 40.0 + idx, "flavio-bolsonaro": 35.0 - idx * 0.5},
+                "nonCandidate": {},
+            }
+            for idx in range(4)
+        ]
+        agg = aggregate_first_round(polls, date(2026, 9, 22))
+        validation = {"absoluteErrorQuantiles": {"q80": 2.5, "q90": 3.5}}
+        result = advanced_uncertainty(polls, date(2026, 9, 22), agg, validation)
+        self.assertEqual(result["status"], "ok")
+        for cid, row in result["candidates"].items():
+            support = agg["candidates"][cid]["support"]
+            model_half = max(
+                support - agg["candidates"][cid]["low"],
+                agg["candidates"][cid]["high"] - support,
+            )
+            self.assertGreaterEqual(row["advancedHalfWidth"] + 1e-9, model_half)
+            self.assertGreaterEqual(row["advancedHalfWidth"], 2.5)
 
 
 if __name__ == "__main__":
