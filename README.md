@@ -2,7 +2,7 @@
 
 Aplicativo Android público e experimental para acompanhar **pesquisas presidenciais de 2026**, sua evolução no tempo, incerteza e diferenças entre fontes.
 
-## O que a v0.3.0 faz
+## O que a v0.4.0 faz
 
 - trabalha com **pesquisas individuais** como unidade principal, em vez de somar agregadores;
 - deduplica levantamentos pelo número de registro TSE e, quando necessário, por uma chave de conteúdo;
@@ -15,6 +15,10 @@ Aplicativo Android público e experimental para acompanhar **pesquisas presidenc
 - informa quantidade de pesquisas, institutos, métodos de coleta, registros presentes, idade média e número efetivo de pesquisas após ponderação;
 - monitora fontes adicionais de conferência sem dar peso duplo ao mesmo levantamento;
 - dá feedback explícito ao botão **Atualizar leitura** quando há nova leitura, quando os percentuais não mudaram ou quando não existe dado novo.
+- adiciona uma aba **Diagnóstico** com efeito de instituto/método e validação retrospectiva do agregador;
+- calcula diferenças contra pesquisas contemporâneas de outros institutos em janela de ±10 dias;
+- mede erro absoluto médio/mediano e cobertura dos intervalos contra a próxima pesquisa publicada;
+- mantém esses diagnósticos apenas informativos: **nenhuma correção automática por instituto ou método é aplicada à média atual**.
 
 ## Fontes e papéis
 
@@ -38,7 +42,7 @@ UOL Agregador, ElectioLab e páginas públicas do AtlasIntel são monitorados co
 
 Polymarket aparece apenas como **sinal externo separado**. Seus preços não alteram a média das pesquisas.
 
-## Metodologia v0.3
+## Metodologia v0.4
 
 Para cada data de referência:
 
@@ -57,7 +61,8 @@ A ordem de exibição dos candidatos no aplicativo é neutra e não é usada com
 
 - data/analytics.json: leitura atual, qualidade, fontes, intervalos e cenários;
 - data/analytics-history.json: série histórica observada/reconstruída;
-- data/polls.json: pesquisas individuais deduplicadas e seus metadados.
+- data/polls.json: pesquisas individuais deduplicadas e seus metadados;
+- data/calibration.json: diagnóstico de institutos/métodos e validação retrospectiva.
 
 ## Testes e atualização
 
@@ -69,10 +74,18 @@ Se os testes ou a validação estrutural falharem, os novos dados não são publ
 
 O workflow **Build e publicar APK** compila e assina o APK com a mesma identidade de desenvolvimento estável adotada desde a v0.2.0, permitindo atualização sobre versões posteriores à transição de assinatura.
 
-A release atual é v0.3.0.
+A release atual é v0.4.0.
 
 ## Aviso
 
 **Este aplicativo não é uma pesquisa eleitoral, não representa o TSE e não recomenda voto ou aposta.** As médias e faixas apresentadas são cálculos estatísticos sobre levantamentos publicados e estão sujeitas a erro, diferenças metodológicas e atualização das fontes.
 
 Licença do código: MIT.
+
+## Calibração v0.4
+
+O diagnóstico de fonte compara cada levantamento com pesquisas próximas de outros institutos. Para cada instituto e método são calculados desvio absoluto médio, dispersão dos resíduos e diferenças médias por candidato quando existem comparações suficientes.
+
+A validação retrospectiva usa apenas pesquisas anteriores para formar o agregado e então compara essa leitura com a próxima pesquisa publicada. Isso mede estabilidade operacional do agregador e **não mede acerto do resultado da eleição**.
+
+O backtest com eleições anteriores permanece marcado como não aplicado. Nenhum efeito histórico será usado como correção da leitura de 2026 sem uma base histórica reproduzível e validada separadamente.
