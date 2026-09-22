@@ -38,7 +38,7 @@ jobs:
       - name: Atualizar analytics auditáveis
         run: python scripts/update_analytics.py
 
-      - name: Validar saída v3
+      - name: Validar saída v4
         run: |
           python - <<'PY'
           import json
@@ -47,8 +47,11 @@ jobs:
           a=json.load(open('data/analytics.json'))
           h=json.load(open('data/analytics-history.json'))
           p=json.load(open('data/polls.json'))
+          c=json.load(open('data/calibration.json'))
 
           assert a.get('schemaVersion') == 3
+          assert c.get('schemaVersion') == 1
+          assert c.get('correctionApplied') is False
           assert len(a.get('candidates', [])) >= 2
           assert a['quality']['pollCount'] >= 1
           assert a['quality']['instituteCount'] >= 1
@@ -56,13 +59,15 @@ jobs:
           assert a['quality']['registrationCount'] >= 1
           assert len(h) >= 2
           assert len(p.get('firstRound', [])) >= 1
+          assert c['sourceDiagnostics']['comparisonCount'] >= 1
+          assert c['rollingValidation']['status'] in ('ok', 'insufficient-data')
 
           for c in a['candidates']:
               assert 0 <= c['pollingSupport'] <= 100
               assert 0 <= c['intervalLow'] <= c['pollingSupport'] <= c['intervalHigh'] <= 100
 
           print(
-              'Validação v3 OK:',
+              'Validação v4 OK:',
               a['quality'],
               'histórico=', len(h),
               'pesquisas=', len(p['firstRound'])
@@ -78,6 +83,7 @@ jobs:
           cp data/analytics.json /tmp/analytics.json
           cp data/analytics-history.json /tmp/analytics-history.json
           cp data/polls.json /tmp/polls.json
+          cp data/calibration.json /tmp/calibration.json
 
           git fetch origin main
           git reset --hard origin/main
@@ -85,11 +91,12 @@ jobs:
           cp /tmp/analytics.json data/analytics.json
           cp /tmp/analytics-history.json data/analytics-history.json
           cp /tmp/polls.json data/polls.json
+          cp /tmp/calibration.json data/calibration.json
 
-          git add data/analytics.json data/analytics-history.json data/polls.json
+          git add data/analytics.json data/analytics-history.json data/polls.json data/calibration.json
           if git diff --cached --quiet; then
             echo "Sem mudança"
           else
-            git commit -m "data: atualiza agregador de pesquisas v3"
+            git commit -m "data: atualiza analytics e diagnosticos v4"
             git push origin HEAD:main
           fi
