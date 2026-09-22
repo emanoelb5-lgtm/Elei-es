@@ -91,7 +91,7 @@ jobs:
           VERSION: ${{ steps.meta.outputs.version }}
         run: |
           set -euo pipefail
-          NOTES='v0.7.0 adiciona detector de mudança de regime entre pesquisas dos últimos 7 dias e o bloco de 8 a 30 dias. O diagnóstico exige diversidade mínima de institutos, mede intensidade do deslocamento e consistência entre fontes. Uma leitura adaptativa é calculada apenas em sombra e comparada retrospectivamente com o agregado normal; nenhuma adaptação é aplicada automaticamente. Mantém bootstrap por pesquisa e instituto, incerteza avançada e segundo turno sem projeção de resultado futuro. Assinatura estável desde a v0.2.0.'
+          NOTES='v0.7.1 adiciona persistência temporal ao detector de mudança de regime. O contador avança somente quando o conjunto real de pesquisas muda; execuções repetidas sem nova evidência não contam. Um sinal precisa sobreviver a três estados distintos de evidência na mesma direção para ser marcado como persistente. Persistência continua apenas diagnóstica: não altera automaticamente o agregado nem a leitura adaptativa em sombra. Mantém incerteza avançada, bootstrap por pesquisa e instituto e validações retrospectivas. Assinatura estável desde a v0.2.0.'
           APK="dist/Termometro-Eleicoes-2026-v${VERSION}.apk"
           TAG="v${VERSION}"
           RELEASE_OK=0
