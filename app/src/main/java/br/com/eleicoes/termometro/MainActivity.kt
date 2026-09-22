@@ -159,6 +159,7 @@ private fun HomeScreen(
 
         if (data != null) {
             item { QualityCard(data.snapshot.quality) }
+            item { AdvancedUncertaintySummary(data.snapshot.uncertainty) }
             item { SectionTitle("Apoio agregado nas pesquisas", "Pesquisas individuais deduplicadas e ponderadas") }
             items(data.snapshot.candidates, key = { it.id }) { CandidateCard(it) }
             item { ResponseCompositionCard(data.snapshot.responseComposition) }
@@ -421,6 +422,14 @@ private fun DiagnosticsScreen(data: DashboardData?, loading: Boolean) {
         if (data != null) {
             item { CalibrationPolicyCard(data.calibration) }
             item { RollingValidationCard(data.calibration.rollingValidation) }
+
+            item {
+                SectionTitle(
+                    "Incerteza avançada",
+                    "Intervalo analítico, bootstrap e erro empírico observados separadamente"
+                )
+            }
+            item { AdvancedUncertaintyCard(data.snapshot.uncertainty, data.snapshot.candidates) }
 
             item {
                 SectionTitle(
@@ -921,7 +930,7 @@ private fun CandidateCard(candidate: Candidate) {
                     Column {
                         Text(candidate.name, fontWeight = FontWeight.Bold, fontSize = 17.sp)
                         Text(
-                            "Intervalo: ${candidate.intervalLow.one()}% – ${candidate.intervalHigh.one()}%",
+                            "Faixa avançada: ${candidate.intervalLow.one()}% – ${candidate.intervalHigh.one()}%",
                             color = Muted,
                             fontSize = 12.sp
                         )
@@ -982,6 +991,86 @@ private fun HistoryChart(history: List<HistoryPoint>, candidates: List<Candidate
                     }
                 }
             }
+        }
+    }
+}
+
+@Composable
+private fun AdvancedUncertaintySummary(uncertainty: UncertaintyData) {
+    Card(
+        shape = RoundedCornerShape(22.dp),
+        colors = CardDefaults.cardColors(containerColor = Color(0xFFEAF2ED))
+    ) {
+        Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            Text("Incerteza avançada", fontWeight = FontWeight.ExtraBold, fontSize = 17.sp)
+            if (uncertainty.status == "ok") {
+                MetricRow("Reamostragens bootstrap", uncertainty.bootstrapDraws.toString())
+                uncertainty.empiricalErrorQ80?.let {
+                    MetricRow("Erro empírico · percentil 80", "${it.one()} p.p.")
+                }
+                uncertainty.empiricalErrorQ90?.let {
+                    MetricRow("Erro empírico · percentil 90", "${it.one()} p.p.")
+                }
+                Text(
+                    "A faixa exibida nos candidatos usa o componente mais conservador entre o intervalo analítico, o bootstrap e o piso empírico.",
+                    color = Muted,
+                    fontSize = 11.sp,
+                    lineHeight = 16.sp
+                )
+            } else {
+                Text("Ainda não há dados suficientes para a calibração avançada.", color = Muted)
+            }
+        }
+    }
+}
+
+@Composable
+private fun AdvancedUncertaintyCard(uncertainty: UncertaintyData, candidates: List<Candidate>) {
+    Card(
+        shape = RoundedCornerShape(22.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.White)
+    ) {
+        Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            if (uncertainty.status == "ok") {
+                Text(
+                    "${uncertainty.bootstrapDraws} reamostragens · piso empírico ${uncertainty.empiricalErrorQuantileUsed}",
+                    color = BrazilBlue,
+                    fontWeight = FontWeight.Bold
+                )
+                candidates.forEach { candidate ->
+                    uncertainty.candidates[candidate.id]?.let { row ->
+                        Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                            Text(candidate.name, fontWeight = FontWeight.ExtraBold, fontSize = 14.sp)
+                            MetricRow(
+                                "Faixa avançada",
+                                "${row.advancedLow.one()}% – ${row.advancedHigh.one()}%"
+                            )
+                            MetricRow(
+                                "Intervalo analítico original",
+                                "${row.modelLow.one()}% – ${row.modelHigh.one()}%"
+                            )
+                            if (row.bootstrapP10 != null && row.bootstrapP90 != null) {
+                                MetricRow(
+                                    "Bootstrap central 80%",
+                                    "${row.bootstrapP10.one()}% – ${row.bootstrapP90.one()}%"
+                                )
+                            }
+                            row.empiricalErrorQ80?.let {
+                                MetricRow("Piso empírico q80", "±${it.one()} p.p.")
+                            }
+                            HorizontalDivider(color = Color(0xFFE8ECE9))
+                        }
+                    }
+                }
+            } else {
+                Text("Dados insuficientes para compor a faixa avançada.", color = Muted)
+            }
+            Text(
+                uncertainty.note,
+                color = Muted,
+                fontSize = 11.sp,
+                lineHeight = 16.sp
+            )
         }
     }
 }
