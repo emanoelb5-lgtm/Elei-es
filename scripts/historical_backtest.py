@@ -199,6 +199,24 @@ def load_polls(study: dict) -> List[dict]:
                 "values": values,
             })
 
+    if study["year"] == 2018:
+        raw_dates = sorted({p["date"] for p in polls})
+        print(
+            "DEBUG 2018 parsed:",
+            "polls=", len(polls),
+            "min=", raw_dates[0].isoformat() if raw_dates else None,
+            "max=", raw_dates[-1].isoformat() if raw_dates else None,
+            "dates=", [d.isoformat() for d in raw_dates[-20:]],
+        )
+        for p in sorted(polls, key=lambda item: item["date"])[-20:]:
+            print(
+                "DEBUG 2018 poll:",
+                p["date"].isoformat(),
+                p["institute"],
+                p["sample"],
+                p["values"],
+            )
+
     seen = {}
     for poll in polls:
         key = (
