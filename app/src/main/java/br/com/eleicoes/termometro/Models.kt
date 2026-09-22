@@ -111,6 +111,9 @@ data class CandidateUncertainty(
     val bootstrapP50: Double?,
     val bootstrapP90: Double?,
     val empiricalErrorQ80: Double?,
+    val empiricalSupportBand: String,
+    val empiricalSupportBandCount: Int,
+    val empiricalSupportBandUsed: Boolean,
     val advancedLow: Double,
     val advancedHigh: Double,
     val advancedHalfWidth: Double
