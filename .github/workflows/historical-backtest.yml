@@ -1,0 +1,89 @@
+name: Atualizar backtest histórico
+
+on:
+  schedule:
+    - cron: '17 3 * * *'
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/historical_backtest.py'
+      - 'requirements-history.txt'
+      - 'tests/test_historical_backtest.py'
+      - '.github/workflows/historical-backtest.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: backtest-historico-main
+  cancel-in-progress: true
+
+jobs:
+  backtest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Instalar dependências históricas
+        run: |
+          pip install -r requirements.txt
+          pip install -r requirements-history.txt
+
+      - name: Testar parser histórico
+        run: python -m unittest discover -s tests -p 'test_historical_backtest.py' -v
+
+      - name: Executar estudos históricos
+        run: python scripts/historical_backtest.py
+
+      - name: Validar estudos históricos
+        run: |
+          python - <<'PY'
+          import json
+
+          b=json.load(open('data/historical-backtest.json'))
+          assert b.get('schemaVersion') == 2
+          studies=b.get('studies', [])
+          assert len(studies) >= 2
+          assert {s['year'] for s in studies} >= {2018, 2022}
+          assert all(s['correctionApplied'] is False for s in studies)
+          assert all(s['status'] == 'ok' for s in studies)
+          assert all(s['pollCountTotal'] > 0 for s in studies)
+          assert all(any(h['weightedMae'] is not None for h in s['horizons']) for s in studies)
+          print('Backtests históricos OK:', [(s['year'], s['pollCountTotal'], s['averageWeightedMae']) for s in studies])
+          PY
+
+      - name: Publicar backtest histórico
+        run: |
+          set -euo pipefail
+          git config user.name "backtest-bot"
+          git config user.email "actions@users.noreply.github.com"
+          cp data/historical-backtest.json /tmp/historical-backtest.json
+
+          for attempt in 1 2 3 4 5; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/historical-backtest.json data/historical-backtest.json
+            git add data/historical-backtest.json
+
+            if git diff --cached --quiet; then
+              echo "Sem mudança histórica"
+              exit 0
+            fi
+
+            git commit -m "data: atualiza backtests historicos"
+            if git push origin HEAD:main; then
+              echo "Backtest publicado"
+              exit 0
+            fi
+            sleep 2
+          done
+
+          echo "Falha ao publicar backtest após 5 tentativas." >&2
+          exit 1
