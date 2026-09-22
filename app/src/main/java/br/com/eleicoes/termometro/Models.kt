@@ -83,8 +83,50 @@ data class PollRecord(
     val candidates: Map<String, Double>
 )
 
+data class CandidateOffsetDiagnostic(
+    val id: String,
+    val name: String,
+    val comparisons: Int,
+    val meanOffset: Double,
+    val meanAbsoluteDeviation: Double
+)
+
+data class SourceDiagnostic(
+    val label: String,
+    val pollCount: Int,
+    val comparisonCount: Int,
+    val meanOffset: Double,
+    val meanAbsoluteDeviation: Double,
+    val residualSd: Double,
+    val candidateOffsets: List<CandidateOffsetDiagnostic>
+)
+
+data class RollingValidation(
+    val status: String,
+    val caseCount: Int,
+    val comparisonCount: Int,
+    val meanAbsoluteError: Double?,
+    val medianAbsoluteError: Double?,
+    val intervalCoverage: Double?,
+    val target: String?,
+    val note: String?
+)
+
+data class CalibrationData(
+    val generatedAt: String,
+    val correctionApplied: Boolean,
+    val correctionPolicy: String,
+    val peerWindowDays: Int,
+    val instituteDiagnostics: List<SourceDiagnostic>,
+    val methodDiagnostics: List<SourceDiagnostic>,
+    val rollingValidation: RollingValidation,
+    val historicalBacktestStatus: String,
+    val historicalBacktestNote: String
+)
+
 data class DashboardData(
     val snapshot: Snapshot,
     val history: List<HistoryPoint>,
-    val polls: List<PollRecord>
+    val polls: List<PollRecord>,
+    val calibration: CalibrationData
 )
