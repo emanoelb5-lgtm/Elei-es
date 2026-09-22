@@ -126,9 +126,30 @@ data class CalibrationData(
     val historicalBacktestNote: String
 )
 
+data class HistoricalHorizon(
+    val daysBeforeElection: Int,
+    val pollCount: Int,
+    val instituteCount: Int,
+    val weightedMae: Double?,
+    val simpleMae: Double?
+)
+
+data class HistoricalBacktestStudy(
+    val year: Int,
+    val round: String,
+    val status: String,
+    val pollCountTotal: Int,
+    val averageWeightedMae: Double?,
+    val averageSimpleMae: Double?,
+    val correctionApplied: Boolean,
+    val note: String,
+    val horizons: List<HistoricalHorizon>
+)
+
 data class DashboardData(
     val snapshot: Snapshot,
     val history: List<HistoryPoint>,
     val polls: List<PollRecord>,
-    val calibration: CalibrationData
+    val calibration: CalibrationData,
+    val historicalBacktests: List<HistoricalBacktestStudy>
 )
