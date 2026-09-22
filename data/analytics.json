@@ -1,0 +1,147 @@
+{
+  "schemaVersion": 3,
+  "generatedAt": "2026-09-22T17:10:13.145758Z",
+  "electionDate": "2026-10-04",
+  "daysToElection": 12,
+  "quality": {
+    "pollCount": 35,
+    "instituteCount": 35,
+    "verifiedTseCount": 0,
+    "averageAgeDays": 14.6,
+    "effectivePolls": 22.9,
+    "confidence": "moderada"
+  },
+  "sources": [
+    {
+      "id": "pollingdata",
+      "label": "BBC / PollingData",
+      "type": "base de pesquisas individuais",
+      "status": "ok",
+      "updatedAt": "2026-09-22T17:10:15.068951Z",
+      "url": "https://news.files.bbci.co.uk/include/vjamericas/1561-poll-tracker-brazil-2026/table/portuguese/app/amp",
+      "tablesFound": 2
+    },
+    {
+      "id": "tse",
+      "label": "TSE · PesqEle",
+      "type": "cadastro oficial de pesquisas",
+      "status": "fallback",
+      "updatedAt": null,
+      "url": "https://dadosabertos.tse.jus.br/dataset/pesquisas-eleitorais-2026",
+      "error": "403 Client Error: Forbidden for url: https://dadosabertos.tse.jus.br/api/3/action/package_show?id=6ee9ef02-b6da-4dd2-8fee-37afe4d2db6d"
+    },
+    {
+      "id": "polymarket",
+      "label": "Polymarket",
+      "type": "mercado de previsão · sinal externo",
+      "status": "ok",
+      "updatedAt": "2026-09-22T17:10:15.116222Z",
+      "url": "https://polymarket.com/event/brazil-presidential-election"
+    }
+  ],
+  "candidates": [
+    {
+      "id": "augusto-cury",
+      "name": "Augusto Cury",
+      "pollingSupport": 6.24,
+      "intervalLow": 5.35,
+      "intervalHigh": 7.14,
+      "change": 0.0,
+      "trend": "estável",
+      "marketSignal": 0.05
+    },
+    {
+      "id": "flavio-bolsonaro",
+      "name": "Flávio Bolsonaro",
+      "pollingSupport": 36.09,
+      "intervalLow": 34.64,
+      "intervalHigh": 37.53,
+      "change": 0.0,
+      "trend": "estável",
+      "marketSignal": 59.55
+    },
+    {
+      "id": "lula",
+      "name": "Lula",
+      "pollingSupport": 38.98,
+      "intervalLow": 37.99,
+      "intervalHigh": 39.97,
+      "change": 0.0,
+      "trend": "estável",
+      "marketSignal": 40.5
+    },
+    {
+      "id": "pablo-marcal",
+      "name": "Pablo Marçal",
+      "pollingSupport": 1.69,
+      "intervalLow": 1.09,
+      "intervalHigh": 2.29,
+      "change": 0.0,
+      "trend": "estável",
+      "marketSignal": 0.05
+    },
+    {
+      "id": "renan-santos",
+      "name": "Renan Santos",
+      "pollingSupport": 4.16,
+      "intervalLow": 3.14,
+      "intervalHigh": 5.18,
+      "change": 0.0,
+      "trend": "estável",
+      "marketSignal": 0.75
+    },
+    {
+      "id": "romeu-zema",
+      "name": "Romeu Zema",
+      "pollingSupport": 1.19,
+      "intervalLow": 0.59,
+      "intervalHigh": 1.79,
+      "change": 0.0,
+      "trend": "estável",
+      "marketSignal": 0.05
+    },
+    {
+      "id": "ronaldo-caiado",
+      "name": "Ronaldo Caiado",
+      "pollingSupport": 3.37,
+      "intervalLow": 2.77,
+      "intervalHigh": 3.97,
+      "change": 0.0,
+      "trend": "estável",
+      "marketSignal": 0.05
+    }
+  ],
+  "runoffScenarios": [
+    {
+      "id": "flavio-bolsonaro-vs-lula",
+      "label": "Flávio Bolsonaro × Lula",
+      "candidates": [
+        {
+          "id": "flavio-bolsonaro",
+          "name": "Flávio Bolsonaro",
+          "support": 45.13,
+          "intervalLow": 44.04,
+          "intervalHigh": 46.22
+        },
+        {
+          "id": "lula",
+          "name": "Lula",
+          "support": 44.24,
+          "intervalLow": 43.28,
+          "intervalHigh": 45.2
+        }
+      ],
+      "pollCount": 35,
+      "instituteCount": 35
+    }
+  ],
+  "methodology": {
+    "primaryUnit": "pesquisa individual",
+    "windowDays": 30,
+    "deduplication": "registro TSE; fallback por instituto/data/amostra/resultados",
+    "weighting": "decaimento temporal + tamanho amostral + controle de repetição por instituto",
+    "uncertainty": "erro amostral aproximado + heterogeneidade entre pesquisas",
+    "marketUse": "informativo; não entra na média de pesquisas"
+  },
+  "note": "Leitura estatística de pesquisas públicas. Os intervalos expressam incerteza do agregador e não garantem resultado eleitoral."
+}
