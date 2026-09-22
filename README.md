@@ -2,7 +2,7 @@
 
 Aplicativo Android público e experimental para acompanhar **pesquisas presidenciais de 2026**, sua evolução no tempo, incerteza e diferenças entre fontes.
 
-## O que a v0.4.1 faz
+## O que a v0.4.2 faz
 
 - trabalha com **pesquisas individuais** como unidade principal, em vez de somar agregadores;
 - deduplica levantamentos pelo número de registro TSE e, quando necessário, por uma chave de conteúdo;
@@ -62,7 +62,9 @@ A ordem de exibição dos candidatos no aplicativo é neutra e não é usada com
 - data/analytics.json: leitura atual, qualidade, fontes, intervalos e cenários;
 - data/analytics-history.json: série histórica observada/reconstruída;
 - data/polls.json: pesquisas individuais deduplicadas e seus metadados;
-- data/calibration.json: diagnóstico de institutos/métodos e validação retrospectiva.
+- data/calibration.json: diagnóstico de institutos/métodos e validação retrospectiva;
+- data/historical-backtest.json: estudos retrospectivos de ciclos anteriores;
+- data/model-lab.json: comparação técnica de fórmulas do agregador.
 
 ## Testes e atualização
 
@@ -74,7 +76,7 @@ Se os testes ou a validação estrutural falharem, os novos dados não são publ
 
 O workflow **Build e publicar APK** compila e assina o APK com a mesma identidade de desenvolvimento estável adotada desde a v0.2.0, permitindo atualização sobre versões posteriores à transição de assinatura.
 
-A release atual é v0.4.1.
+A release atual é v0.4.2.
 
 ## Aviso
 
@@ -102,3 +104,11 @@ Atualmente há dois estudos separados:
 Os resultados oficiais servem exclusivamente como referência retrospectiva. Os estudos não alteram automaticamente pesos, médias ou candidatos da leitura de 2026.
 
 O arquivo público é data/historical-backtest.json. O workflow histórico roda diariamente e também quando o código, os testes ou as dependências desse backtest mudam.
+
+## Laboratório de modelos v0.4.2
+
+O laboratório compara fórmulas pré-definidas sem alterar automaticamente o modelo em produção. São avaliados o modelo atual, dois ritmos de decaimento temporal, ausência de peso por amostra, ausência de penalização por repetição e média simples.
+
+Uma variante só é sinalizada para revisão quando reduz o erro histórico e o erro da validação corrente por margem mínima pré-definida, sem regressão relevante em nenhum ciclo histórico. Promoção automática permanece desabilitada.
+
+Na primeira execução, nenhuma variante atingiu simultaneamente todos os critérios. Por isso o modelo de produção foi mantido sem mudanças.
