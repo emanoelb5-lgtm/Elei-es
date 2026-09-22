@@ -548,7 +548,7 @@ def build_source_diagnostics(polls: List[dict], peer_window_days: int = 10) -> d
                 by_candidate.setdefault(row["candidateId"], []).append(row)
             for cid in sorted(by_candidate, key=lambda key: NAMES.get(key, key).lower()):
                 cr = by_candidate[cid]
-                if len(cr) < 2:
+                if len(cr) < 3:
                     continue
                 candidate_offsets[cid] = {
                     "name": NAMES.get(cid, cid.replace("-", " ").title()),
@@ -575,13 +575,32 @@ def build_source_diagnostics(polls: List[dict], peer_window_days: int = 10) -> d
     }
 
 
+def simple_equal_average(polls: List[dict], target: date) -> dict:
+    eligible = [
+        p for p in polls
+        if p["date"] <= target and (target - p["date"]).days <= LIVE_WINDOW_DAYS
+    ]
+    ids = sorted(set().union(*(p["values"].keys() for p in eligible))) if eligible else []
+    candidates = {}
+    for cid in ids:
+        values = [float(p["values"][cid]) for p in eligible if cid in p.get("values", {})]
+        if values:
+            candidates[cid] = sum(values) / len(values)
+    return {
+        "candidates": candidates,
+        "pollCount": len(eligible),
+        "instituteCount": len({norm(p.get("institute", "")) for p in eligible}),
+    }
+
+
 def rolling_validation(polls: List[dict], minimum_training_polls: int = 4) -> dict:
     """Valida retrospectivamente o agregado contra a próxima pesquisa publicada.
 
-    O alvo é a própria pesquisa seguinte, não o resultado da eleição. Isso mede
-    estabilidade/erro operacional do agregador, sem produzir previsão eleitoral.
+    O alvo é a própria pesquisa seguinte, não o resultado da eleição. O teste
+    também compara a ponderação atual com uma média simples das mesmas pesquisas.
     """
-    errors = []
+    weighted_errors = []
+    simple_errors = []
     covered = 0
     cases = 0
     ordered = sorted(polls, key=lambda p: (p["date"], norm(p.get("institute", ""))))
@@ -592,46 +611,57 @@ def rolling_validation(polls: List[dict], minimum_training_polls: int = 4) -> di
             continue
         target = heldout["date"] - timedelta(days=1)
         aggregate = aggregate_first_round(training, target)
+        simple = simple_equal_average(training, target)
         if aggregate["pollCount"] < minimum_training_polls or aggregate["instituteCount"] < 2:
             continue
 
         comparable = 0
         for cid, observed in heldout.get("values", {}).items():
             estimate = aggregate["candidates"].get(cid)
-            if estimate is None:
+            simple_estimate = simple["candidates"].get(cid)
+            if estimate is None or simple_estimate is None:
                 continue
-            error = float(observed) - float(estimate["support"])
-            errors.append(abs(error))
+            weighted_error = abs(float(observed) - float(estimate["support"]))
+            simple_error = abs(float(observed) - float(simple_estimate))
+            weighted_errors.append(weighted_error)
+            simple_errors.append(simple_error)
             comparable += 1
             if estimate["low"] <= float(observed) <= estimate["high"]:
                 covered += 1
         if comparable >= 2:
             cases += 1
 
-    if not errors:
+    if not weighted_errors:
         return {
             "status": "insufficient-data",
             "caseCount": 0,
             "comparisonCount": 0,
             "meanAbsoluteError": None,
             "medianAbsoluteError": None,
+            "simpleMeanAbsoluteError": None,
+            "errorDifferenceVsSimple": None,
             "intervalCoverage": None,
         }
 
-    sorted_errors = sorted(errors)
+    sorted_errors = sorted(weighted_errors)
     middle = len(sorted_errors) // 2
     if len(sorted_errors) % 2:
         median = sorted_errors[middle]
     else:
         median = (sorted_errors[middle - 1] + sorted_errors[middle]) / 2.0
 
+    weighted_mae = sum(weighted_errors) / len(weighted_errors)
+    simple_mae = sum(simple_errors) / len(simple_errors)
+
     return {
         "status": "ok",
         "caseCount": cases,
-        "comparisonCount": len(errors),
-        "meanAbsoluteError": round(sum(errors) / len(errors), 2),
+        "comparisonCount": len(weighted_errors),
+        "meanAbsoluteError": round(weighted_mae, 2),
         "medianAbsoluteError": round(median, 2),
-        "intervalCoverage": round(100.0 * covered / len(errors), 1),
+        "simpleMeanAbsoluteError": round(simple_mae, 2),
+        "errorDifferenceVsSimple": round(weighted_mae - simple_mae, 2),
+        "intervalCoverage": round(100.0 * covered / len(weighted_errors), 1),
         "target": "próxima pesquisa publicada",
         "note": "Validação interna do agregador; não mede acerto do resultado eleitoral.",
     }
