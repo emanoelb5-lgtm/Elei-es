@@ -8,6 +8,7 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -18,7 +19,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
-import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.font.FontWeight
@@ -28,7 +28,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.time.Instant
-import java.time.LocalDate
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import kotlin.math.abs
@@ -58,15 +57,11 @@ fun TermometroApp() {
             surface = Color.White,
             onBackground = TextDark,
             onSurface = TextDark
-        ),
-        typography = Typography(
-            headlineLarge = MaterialTheme.typography.headlineLarge.copy(fontWeight = FontWeight.ExtraBold),
-            titleLarge = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold)
         )
     ) {
         Surface(Modifier.fillMaxSize(), color = SoftBg) {
             Box(
-                modifier = Modifier
+                Modifier
                     .fillMaxSize()
                     .windowInsetsPadding(WindowInsets.safeDrawing)
             ) {
@@ -78,28 +73,28 @@ fun TermometroApp() {
 
 @Composable
 private fun DashboardHost() {
-    val repo = remember { ElectionRepository() }
+    val repository = remember { ElectionRepository() }
     val scope = rememberCoroutineScope()
     var data by remember { mutableStateOf<DashboardData?>(null) }
     var loading by remember { mutableStateOf(true) }
     var error by remember { mutableStateOf<String?>(null) }
-    var refreshNotice by remember { mutableStateOf<String?>(null) }
-    var selectedTab by remember { mutableIntStateOf(0) }
+    var notice by remember { mutableStateOf<String?>(null) }
+    var tab by remember { mutableIntStateOf(0) }
 
     fun refresh(userInitiated: Boolean = false) {
         loading = true
         error = null
-        if (userInitiated) refreshNotice = null
+        if (userInitiated) notice = null
         val before = data
         scope.launch {
-            runCatching { withContext(Dispatchers.IO) { repo.load() } }
+            runCatching { withContext(Dispatchers.IO) { repository.load() } }
                 .onSuccess { fresh ->
-                    if (userInitiated) refreshNotice = refreshFeedback(before, fresh)
+                    if (userInitiated) notice = refreshFeedback(before, fresh)
                     data = fresh
                 }
                 .onFailure {
-                    error = "Não foi possível atualizar agora. Verifique a conexão e tente novamente."
-                    if (userInitiated) refreshNotice = "A consulta não foi concluída. A leitura anterior foi mantida."
+                    error = "Não foi possível atualizar agora. A leitura anterior foi mantida."
+                    if (userInitiated) notice = "Falha ao consultar as fontes. Tente novamente mais tarde."
                 }
             loading = false
         }
@@ -109,53 +104,59 @@ private fun DashboardHost() {
 
     Column(Modifier.fillMaxSize()) {
         Box(Modifier.weight(1f).fillMaxWidth()) {
-            if (selectedTab == 0) {
-                HomeDashboard(data, loading, error, refreshNotice, onRefresh = { refresh(true) })
-            } else {
-                ForecastScreen(data, loading)
+            when (tab) {
+                0 -> HomeScreen(data, loading, error, notice) { refresh(true) }
+                else -> TrendScreen(data, loading)
             }
         }
         NavigationBar(containerColor = Color.White) {
             NavigationBarItem(
-                selected = selectedTab == 0,
-                onClick = { selectedTab = 0 },
+                selected = tab == 0,
+                onClick = { tab = 0 },
                 icon = { Text("⌂", fontSize = 22.sp, fontWeight = FontWeight.Bold) },
                 label = { Text("Início") }
             )
             NavigationBarItem(
-                selected = selectedTab == 1,
-                onClick = { selectedTab = 1 },
+                selected = tab == 1,
+                onClick = { tab = 1 },
                 icon = { Text("↗", fontSize = 21.sp, fontWeight = FontWeight.Bold) },
-                label = { Text("Previsão") }
+                label = { Text("Tendência") }
             )
         }
     }
 }
 
 @Composable
-private fun HomeDashboard(
+private fun HomeScreen(
     data: DashboardData?,
     loading: Boolean,
     error: String?,
-    refreshNotice: String?,
+    notice: String?,
     onRefresh: () -> Unit
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
-        contentPadding = PaddingValues(start = 18.dp, end = 18.dp, top = 22.dp, bottom = 32.dp),
+        contentPadding = PaddingValues(18.dp, 22.dp, 18.dp, 34.dp),
         verticalArrangement = Arrangement.spacedBy(14.dp)
     ) {
         item { Header() }
-        item { StatusCard(data?.snapshot, loading, error, refreshNotice, onRefresh) }
+        item { StatusCard(data?.snapshot, loading, error, notice, onRefresh) }
+
         if (data != null) {
-            item { SectionTitle("Probabilidade estimada de vitória", "Combinação dos sinais disponíveis") }
-            items(data.snapshot.candidates.take(7), key = { it.id }) { candidate ->
-                CandidateCard(candidate, data.snapshot.candidates.first().winProbability)
+            item { QualityCard(data.snapshot.quality) }
+            item { SectionTitle("Apoio agregado nas pesquisas", "Pesquisas individuais deduplicadas e ponderadas") }
+            items(data.snapshot.candidates, key = { it.id }) { CandidateCard(it) }
+
+            item { SectionTitle("Evolução observada", "Histórico reconstruído + leituras atuais") }
+            item { HistoryChart(data.history, data.snapshot.candidates.take(5)) }
+            item { VariationCard(data.snapshot.candidates) }
+
+            if (data.snapshot.runoffScenarios.isNotEmpty()) {
+                item { SectionTitle("Cenários de 2º turno", "Cada confronto é agregado separadamente") }
+                items(data.snapshot.runoffScenarios.take(4), key = { it.id }) { RunoffCard(it) }
             }
-            item { SectionTitle("Evolução das leituras", "Histórico público gerado pelo modelo") }
-            item { HistoryChart(data.history, data.snapshot.candidates.take(3)) }
-            item { VariationCard(data.snapshot.candidates.take(5)) }
-            item { SectionTitle("Fontes monitoradas", "Atualização automática e tolerante a falhas") }
+
+            item { SectionTitle("Fontes e validação", "Fontes atuais e estado de cada coleta") }
             items(data.snapshot.sources, key = { it.id }) { SourceCard(it) }
             item { MethodologyCard(data.snapshot) }
         } else if (loading) {
@@ -165,233 +166,65 @@ private fun HomeDashboard(
 }
 
 @Composable
-private fun ForecastScreen(data: DashboardData?, loading: Boolean) {
-    var periodDays by remember { mutableIntStateOf(15) }
-    val analysis = remember(data, periodDays) { data?.let { ForecastEngine.analyze(it, periodDays) } }
+private fun TrendScreen(data: DashboardData?, loading: Boolean) {
+    var period by remember { mutableIntStateOf(30) }
+    val analysis = remember(data, period) { data?.let { TrendEngine.analyze(it, period) } }
 
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
-        contentPadding = PaddingValues(start = 18.dp, end = 18.dp, top = 22.dp, bottom = 32.dp),
+        contentPadding = PaddingValues(18.dp, 22.dp, 18.dp, 34.dp),
         verticalArrangement = Arrangement.spacedBy(14.dp)
     ) {
         item {
             Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                Text("PREVISÃO E COMPARAÇÃO", color = BrazilGreen, fontWeight = FontWeight.Bold, fontSize = 13.sp)
-                Text("Curva de\ntendência", fontSize = 36.sp, lineHeight = 38.sp, fontWeight = FontWeight.ExtraBold, color = TextDark)
-                Text("Compare os últimos dias, inclusive o histórico anterior ao app, e veja uma projeção matemática da tendência até a eleição.", color = Muted, lineHeight = 21.sp)
+                Text("TENDÊNCIA E COMPARAÇÃO", color = BrazilGreen, fontWeight = FontWeight.Bold, fontSize = 13.sp)
+                Text("Movimento das\npesquisas", fontSize = 36.sp, lineHeight = 38.sp, fontWeight = FontWeight.ExtraBold)
+                Text(
+                    "Acompanhe a variação observada nas pesquisas. Esta tela não transforma a curva em previsão própria de resultado eleitoral.",
+                    color = Muted,
+                    lineHeight = 21.sp
+                )
             }
         }
         item {
-            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                listOf(5, 15, 30).forEach { days ->
+            LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                items(listOf(5, 15, 30, 60, 90)) { days ->
                     FilterChip(
-                        selected = periodDays == days,
-                        onClick = { periodDays = days },
-                        label = { Text("$days dias") },
-                        modifier = Modifier.weight(1f)
+                        selected = period == days,
+                        onClick = { period = days },
+                        label = { Text("${days} dias") }
                     )
                 }
             }
         }
 
         if (analysis != null && data != null) {
-            item { ForecastStatusCard(analysis, data.snapshot) }
-            item { SectionTitle("Curva observada + projeção", "Linha contínua: histórico · tracejada: tendência futura") }
-            item { ForecastChart(analysis, data.snapshot.candidates.take(3)) }
-            item { SectionTitle("Probabilidade futura", "Comparação entre o valor atual e a projeção para a eleição") }
-            items(analysis.candidates, key = { it.id }) { projection ->
-                ProjectionCard(projection, data.snapshot.electionDate)
+            item { TrendStatusCard(analysis, data.snapshot.quality) }
+            item { SectionTitle("Curva de apoio", "Linha contínua = apoio agregado observado") }
+            item { TrendChart(analysis, data.snapshot.candidates.take(5)) }
+
+            item { SectionTitle("Mudança na janela", "Variação e inclinação estatística dentro do período escolhido") }
+            items(analysis.candidates, key = { "trend-${it.id}" }) { CandidateTrendCard(it) }
+
+            val marketCandidates = data.snapshot.candidates.filter { it.marketSignal != null }
+            if (marketCandidates.isNotEmpty()) {
+                item {
+                    SectionTitle(
+                        "Mercado de previsão · sinal externo",
+                        "Informação separada; não entra na média das pesquisas"
+                    )
+                }
+                items(marketCandidates, key = { "market-${it.id}" }) { MarketSignalCard(it) }
             }
-            item { SectionTitle("Comparação dos sinais atuais", "Pesquisa, mercado e resultado combinado do modelo") }
-            items(data.snapshot.candidates.take(5), key = { "signal-${it.id}" }) { candidate ->
-                SignalComparisonCard(candidate)
+
+            if (data.snapshot.runoffScenarios.isNotEmpty()) {
+                item { SectionTitle("Comparação de 2º turno", "Resultados agregados por confronto pesquisado") }
+                items(data.snapshot.runoffScenarios, key = { "runoff-${it.id}" }) { RunoffCard(it) }
             }
-            item { ForecastMethodCard(analysis) }
+
+            item { TrendMethodCard(analysis) }
         } else if (loading) {
             item { LoadingBlock() }
-        }
-    }
-}
-
-@Composable
-private fun ForecastStatusCard(analysis: ForecastAnalysis, snapshot: Snapshot) {
-    Card(shape = RoundedCornerShape(24.dp), colors = CardDefaults.cardColors(containerColor = BrazilBlue)) {
-        Column(Modifier.padding(18.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            Text("JANELA SELECIONADA", color = Color(0xFFBFD3EF), fontSize = 12.sp, fontWeight = FontWeight.Bold)
-            Text("${analysis.periodDays} dias", color = Color.White, fontWeight = FontWeight.ExtraBold, fontSize = 24.sp)
-            Text(
-                "Histórico disponível: ${analysis.availableSpanDays.one()} dias · Confiança da tendência: ${analysis.confidence}",
-                color = Color.White.copy(alpha = .88f),
-                lineHeight = 19.sp
-            )
-            if (analysis.historicalPoints > 0) {
-                Text(
-                    "${analysis.historicalPoints} pontos retroativos + ${analysis.livePoints} leituras do Termômetro nesta janela",
-                    color = Color(0xFFCDE9DA),
-                    fontSize = 13.sp,
-                    fontWeight = FontWeight.SemiBold
-                )
-            }
-            Text("Projeção até ${formatElectionDate(snapshot.electionDate)}", color = Color.White, fontWeight = FontWeight.SemiBold)
-        }
-    }
-}
-
-@Composable
-private fun ForecastChart(analysis: ForecastAnalysis, candidates: List<Candidate>) {
-    val combined = analysis.actual + analysis.projected
-    Card(shape = RoundedCornerShape(22.dp), colors = CardDefaults.cardColors(containerColor = Color.White)) {
-        Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
-            if (analysis.actual.size < 2) {
-                Text("Ainda há pouco histórico para formar uma curva. O aplicativo continuará acumulando leituras reais automaticamente.", color = Muted)
-            }
-            if (analysis.historicalPoints > 0) {
-                Text("A curva inclui histórico reconstruído a partir de pesquisas datadas e, quando disponível, preços históricos do mercado de previsão.", color = Muted, fontSize = 12.sp, lineHeight = 17.sp)
-            }
-            Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                candidates.forEach { candidate ->
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Box(Modifier.size(8.dp).background(candidateColor(candidate.id), CircleShape))
-                        Spacer(Modifier.width(4.dp))
-                        Text(candidate.name, fontSize = 11.sp, color = Muted)
-                    }
-                }
-            }
-            if (combined.isNotEmpty()) {
-                Canvas(Modifier.fillMaxWidth().height(230.dp)) {
-                    val allValues = combined.flatMap { point -> candidates.mapNotNull { point.probabilities[it.id] } }
-                    val rawMin = allValues.minOrNull() ?: 0.0
-                    val rawMax = allValues.maxOrNull() ?: 100.0
-                    val minY = (rawMin - 4.0).coerceAtLeast(0.0)
-                    val maxY = (rawMax + 4.0).coerceAtMost(100.0).coerceAtLeast(minY + 10.0)
-                    val startMs = combined.minOf { it.instant.toEpochMilli() }
-                    val endMs = combined.maxOf { it.instant.toEpochMilli() }
-                    val spanMs = (endMs - startMs).coerceAtLeast(1L)
-
-                    fun xOf(point: ForecastCurvePoint): Float =
-                        (size.width * (point.instant.toEpochMilli() - startMs).toDouble() / spanMs).toFloat()
-                    fun yOf(value: Double): Float =
-                        size.height - (((value - minY) / (maxY - minY)) * size.height).toFloat()
-
-                    for (g in 0..4) {
-                        val y = size.height * g / 4f
-                        drawLine(Color(0xFFE7ECE8), Offset(0f, y), Offset(size.width, y), strokeWidth = 1f)
-                    }
-
-                    candidates.forEach { candidate ->
-                        val actualPath = Path()
-                        analysis.actual.forEachIndexed { index, point ->
-                            val value = point.probabilities[candidate.id] ?: return@forEachIndexed
-                            val x = xOf(point)
-                            val y = yOf(value)
-                            if (actualPath.isEmpty) actualPath.moveTo(x, y) else actualPath.lineTo(x, y)
-                        }
-                        if (!actualPath.isEmpty) {
-                            drawPath(actualPath, candidateColor(candidate.id), style = Stroke(width = 5f, cap = StrokeCap.Round))
-                        }
-
-                        if (analysis.projected.isNotEmpty()) {
-                            val forecastPath = Path()
-                            val current = analysis.actual.lastOrNull()
-                            current?.probabilities?.get(candidate.id)?.let { value ->
-                                forecastPath.moveTo(xOf(current), yOf(value))
-                            }
-                            analysis.projected.forEach { point ->
-                                point.probabilities[candidate.id]?.let { value -> forecastPath.lineTo(xOf(point), yOf(value)) }
-                            }
-                            if (!forecastPath.isEmpty) {
-                                drawPath(
-                                    forecastPath,
-                                    candidateColor(candidate.id),
-                                    style = Stroke(
-                                        width = 4f,
-                                        cap = StrokeCap.Round,
-                                        pathEffect = PathEffect.dashPathEffect(floatArrayOf(14f, 10f))
-                                    )
-                                )
-                            }
-                        }
-                    }
-                }
-                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                    Text(formatDay(combined.first().instant), color = Muted, fontSize = 11.sp)
-                    Text("hoje", color = Muted, fontSize = 11.sp)
-                    Text(formatDay(combined.last().instant), color = Muted, fontSize = 11.sp)
-                }
-            }
-        }
-    }
-}
-
-@Composable
-private fun ProjectionCard(projection: CandidateProjection, electionDate: String) {
-    val deltaColor = when {
-        projection.delta > .05 -> Positive
-        projection.delta < -.05 -> Negative
-        else -> Muted
-    }
-    Card(shape = RoundedCornerShape(20.dp), colors = CardDefaults.cardColors(containerColor = Color.White)) {
-        Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
-            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Box(Modifier.size(12.dp).background(candidateColor(projection.id), CircleShape))
-                    Spacer(Modifier.width(9.dp))
-                    Text(projection.name, fontWeight = FontWeight.Bold, fontSize = 17.sp)
-                }
-                Text(deltaText(projection.delta), color = deltaColor, fontWeight = FontWeight.Bold)
-            }
-            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                Column {
-                    Text("Agora", color = Muted, fontSize = 12.sp)
-                    Text("${projection.current.one()}%", fontSize = 24.sp, fontWeight = FontWeight.ExtraBold, color = BrazilBlue)
-                }
-                Column(horizontalAlignment = Alignment.End) {
-                    Text(formatElectionDate(electionDate), color = Muted, fontSize = 12.sp)
-                    Text("${projection.projectedElection.one()}%", fontSize = 24.sp, fontWeight = FontWeight.ExtraBold, color = TextDark)
-                }
-            }
-            Text("Inclinação recente: ${signed(projection.slopePerDay)} p.p./dia", color = Muted, fontSize = 12.sp)
-        }
-    }
-}
-
-@Composable
-private fun SignalComparisonCard(candidate: Candidate) {
-    Card(shape = RoundedCornerShape(18.dp), colors = CardDefaults.cardColors(containerColor = Color.White)) {
-        Column(Modifier.padding(15.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Box(Modifier.size(9.dp).background(candidateColor(candidate.id), CircleShape))
-                Spacer(Modifier.width(8.dp))
-                Text(candidate.name, fontWeight = FontWeight.Bold)
-            }
-            SignalRow("Apoio nas pesquisas", "${candidate.pollingSupport.one()}%")
-            SignalRow("Mercado de previsão", candidate.marketProbability?.let { "${it.one()}%" } ?: "indisponível")
-            SignalRow("Modelo combinado", "${candidate.winProbability.one()}%", emphasize = true)
-        }
-    }
-}
-
-@Composable
-private fun SignalRow(label: String, value: String, emphasize: Boolean = false) {
-    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-        Text(label, color = if (emphasize) TextDark else Muted, fontSize = 13.sp, fontWeight = if (emphasize) FontWeight.SemiBold else FontWeight.Normal)
-        Text(value, color = if (emphasize) BrazilBlue else TextDark, fontWeight = if (emphasize) FontWeight.ExtraBold else FontWeight.SemiBold)
-    }
-}
-
-@Composable
-private fun ForecastMethodCard(analysis: ForecastAnalysis) {
-    Card(shape = RoundedCornerShape(22.dp), colors = CardDefaults.cardColors(containerColor = Color(0xFFFFF8E7))) {
-        Column(Modifier.padding(17.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            Text("Como a previsão é calculada", fontWeight = FontWeight.ExtraBold, fontSize = 18.sp)
-            Text(
-                "A curva combina as leituras ao vivo do Termômetro com uma série retroativa reconstruída a partir de pesquisas individuais datadas da BBC/PollingData e, quando existe cotação para a data, do histórico público do Polymarket. A tendência recente recebe um pouco mais de peso e a extrapolação é amortecida para evitar que uma inclinação curta cresça indefinidamente.",
-                color = TextDark,
-                lineHeight = 20.sp
-            )
-            Text("Confiança da curva: ${analysis.confidence}", color = BrazilBlue, fontWeight = FontWeight.Bold)
-            HorizontalDivider(color = Color(0xFFE8DDBD))
-            Text("Os pontos retroativos são estimativas reconstruídas a partir de dados públicos passados e são identificados separadamente das leituras ao vivo. A linha tracejada continua sendo uma projeção matemática experimental, não uma pesquisa, resultado oficial ou certeza sobre o futuro.", color = Muted, fontSize = 12.sp, lineHeight = 17.sp)
         }
     }
 }
@@ -404,8 +237,12 @@ private fun Header() {
             Spacer(Modifier.width(8.dp))
             Text("BRASIL · ELEIÇÃO 2026", color = BrazilGreen, fontWeight = FontWeight.Bold, fontSize = 13.sp)
         }
-        Text("Termômetro\nPresidencial", fontSize = 38.sp, lineHeight = 40.sp, fontWeight = FontWeight.ExtraBold, color = TextDark)
-        Text("Uma leitura probabilística, transparente e sempre identificada como estimativa — nunca como pesquisa oficial.", color = Muted, lineHeight = 21.sp)
+        Text("Termômetro\nPresidencial", fontSize = 38.sp, lineHeight = 40.sp, fontWeight = FontWeight.ExtraBold)
+        Text(
+            "Agregação transparente de pesquisas públicas, com incerteza, histórico e validação de registros.",
+            color = Muted,
+            lineHeight = 21.sp
+        )
     }
 }
 
@@ -414,80 +251,96 @@ private fun StatusCard(
     snapshot: Snapshot?,
     loading: Boolean,
     error: String?,
-    refreshNotice: String?,
+    notice: String?,
     onRefresh: () -> Unit
 ) {
     Card(shape = RoundedCornerShape(24.dp), colors = CardDefaults.cardColors(containerColor = BrazilBlue)) {
-        Column(Modifier.padding(18.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
-            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+        Column(Modifier.padding(18.dp), verticalArrangement = Arrangement.spacedBy(11.dp)) {
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                 Column {
                     Text("ÚLTIMA LEITURA", color = Color(0xFFBFD3EF), fontSize = 12.sp, fontWeight = FontWeight.Bold)
                     Text(snapshot?.generatedAt?.let(::formatDate) ?: "Buscando dados…", color = Color.White, fontWeight = FontWeight.SemiBold)
                 }
-                if (snapshot != null) {
+                snapshot?.let {
                     Surface(color = Color.White.copy(alpha = .12f), shape = RoundedCornerShape(50)) {
-                        Text("${snapshot.daysToElection} dias", Modifier.padding(horizontal = 12.dp, vertical = 7.dp), color = Color.White, fontWeight = FontWeight.Bold)
+                        Text("${it.daysToElection} dias", Modifier.padding(horizontal = 12.dp, vertical = 7.dp), color = Color.White, fontWeight = FontWeight.Bold)
                     }
                 }
             }
-            Button(onClick = onRefresh, enabled = !loading, modifier = Modifier.fillMaxWidth(), colors = ButtonDefaults.buttonColors(containerColor = Color.White, contentColor = BrazilBlue)) {
-                AnimatedContent(loading, label = "refresh") { isLoading ->
-                    Text(if (isLoading) "Atualizando leitura…" else "Atualizar leitura", fontWeight = FontWeight.Bold)
+            Button(
+                onClick = onRefresh,
+                enabled = !loading,
+                modifier = Modifier.fillMaxWidth(),
+                colors = ButtonDefaults.buttonColors(containerColor = Color.White, contentColor = BrazilBlue)
+            ) {
+                AnimatedContent(loading, label = "refresh") { active ->
+                    Text(if (active) "Verificando fontes…" else "Atualizar leitura", fontWeight = FontWeight.Bold)
                 }
             }
-            if (refreshNotice != null) {
-                Surface(
-                    color = Color.White.copy(alpha = .12f),
-                    shape = RoundedCornerShape(14.dp),
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text(
-                        refreshNotice,
-                        modifier = Modifier.padding(horizontal = 13.dp, vertical = 11.dp),
-                        color = Color.White,
-                        fontSize = 13.sp,
-                        lineHeight = 18.sp
-                    )
-                }
-            }
-            if (error != null) Text(error, color = Color(0xFFFFD6D1), fontSize = 13.sp)
+            notice?.let { Text(it, color = Color(0xFFD8E8FF), fontSize = 13.sp, lineHeight = 18.sp) }
+            error?.let { Text(it, color = Color(0xFFFFD6D1), fontSize = 13.sp) }
         }
     }
 }
 
 @Composable
-private fun SectionTitle(title: String, subtitle: String) {
-    Column(Modifier.padding(top = 6.dp)) {
-        Text(title, fontWeight = FontWeight.ExtraBold, fontSize = 22.sp, color = TextDark)
-        Text(subtitle, color = Muted, fontSize = 13.sp)
+private fun QualityCard(q: QualityInfo) {
+    Card(shape = RoundedCornerShape(22.dp), colors = CardDefaults.cardColors(containerColor = Color.White)) {
+        Column(Modifier.padding(17.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                Text("Qualidade da leitura", fontWeight = FontWeight.ExtraBold, fontSize = 19.sp)
+                Surface(color = Color(0xFFEAF2ED), shape = RoundedCornerShape(50)) {
+                    Text(q.confidence.uppercase(), Modifier.padding(horizontal = 10.dp, vertical = 6.dp), color = BrazilGreen, fontSize = 11.sp, fontWeight = FontWeight.ExtraBold)
+                }
+            }
+            MetricRow("Pesquisas na janela", q.pollCount.toString())
+            MetricRow("Institutos diferentes", q.instituteCount.toString())
+            MetricRow("Registros verificados no TSE", q.verifiedTseCount.toString())
+            MetricRow("Idade média dos levantamentos", "${q.averageAgeDays.one()} dias")
+            MetricRow("Pesquisas efetivas após ponderação", q.effectivePolls.one())
+        }
     }
 }
 
 @Composable
-private fun CandidateCard(candidate: Candidate, leader: Double) {
-    val deltaColor = when { candidate.change > .049 -> Positive; candidate.change < -.049 -> Negative; else -> Muted }
+private fun MetricRow(label: String, value: String) {
+    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+        Text(label, color = Muted, fontSize = 13.sp)
+        Text(value, fontWeight = FontWeight.Bold, color = TextDark)
+    }
+}
+
+@Composable
+private fun CandidateCard(candidate: Candidate) {
+    val deltaColor = when {
+        candidate.change > .09 -> Positive
+        candidate.change < -.09 -> Negative
+        else -> Muted
+    }
     Card(shape = RoundedCornerShape(20.dp), colors = CardDefaults.cardColors(containerColor = Color.White)) {
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
-            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.Top) {
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Surface(shape = CircleShape, color = candidateColor(candidate.id)) {
-                        Box(Modifier.size(44.dp), contentAlignment = Alignment.Center) {
-                            Text(candidate.name.take(1), color = Color.White, fontWeight = FontWeight.ExtraBold)
-                        }
+                    Box(Modifier.size(42.dp).background(candidateColor(candidate.id), CircleShape), contentAlignment = Alignment.Center) {
+                        Text(candidate.name.take(1), color = Color.White, fontWeight = FontWeight.ExtraBold)
                     }
-                    Spacer(Modifier.width(12.dp))
+                    Spacer(Modifier.width(11.dp))
                     Column {
                         Text(candidate.name, fontWeight = FontWeight.Bold, fontSize = 17.sp)
-                        Text("Pesquisas: ${candidate.pollingSupport.one()}%" + (candidate.marketProbability?.let { " · Mercado: ${it.one()}%" } ?: ""), color = Muted, fontSize = 12.sp)
+                        Text(
+                            "Intervalo: ${candidate.intervalLow.one()}% – ${candidate.intervalHigh.one()}%",
+                            color = Muted,
+                            fontSize = 12.sp
+                        )
                     }
                 }
                 Column(horizontalAlignment = Alignment.End) {
-                    Text("${candidate.winProbability.one()}%", fontWeight = FontWeight.ExtraBold, fontSize = 24.sp, color = BrazilBlue)
+                    Text("${candidate.pollingSupport.one()}%", fontSize = 24.sp, fontWeight = FontWeight.ExtraBold, color = BrazilBlue)
                     Text(deltaText(candidate.change), color = deltaColor, fontSize = 12.sp, fontWeight = FontWeight.Bold)
                 }
             }
             LinearProgressIndicator(
-                progress = { (candidate.winProbability / maxOf(leader, 1.0)).toFloat().coerceIn(0f, 1f) },
+                progress = { (candidate.pollingSupport / 100.0).toFloat().coerceIn(0f, 1f) },
                 modifier = Modifier.fillMaxWidth().height(7.dp),
                 color = candidateColor(candidate.id),
                 trackColor = Color(0xFFE8ECE9),
@@ -502,35 +355,37 @@ private fun HistoryChart(history: List<HistoryPoint>, candidates: List<Candidate
     Card(shape = RoundedCornerShape(22.dp), colors = CardDefaults.cardColors(containerColor = Color.White)) {
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
             if (history.size < 2) {
-                Text("O gráfico começará a ganhar linhas após as próximas atualizações automáticas.", color = Muted)
+                Text("Ainda há pouco histórico para desenhar a curva.", color = Muted)
             } else {
-                Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                    candidates.forEach { c ->
+                LazyRow(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                    items(candidates, key = { "legend-${it.id}" }) { c ->
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Box(Modifier.size(8.dp).background(candidateColor(c.id), CircleShape))
-                            Spacer(Modifier.width(5.dp))
+                            Spacer(Modifier.width(4.dp))
                             Text(c.name, fontSize = 11.sp, color = Muted)
                         }
                     }
                 }
-                Canvas(Modifier.fillMaxWidth().height(190.dp)) {
-                    val shown = history.takeLast(40)
-                    val allValues = shown.flatMap { p -> candidates.mapNotNull { c -> p.probabilities[c.id] } }
-                    val minY = (allValues.minOrNull() ?: 0.0).coerceAtMost(10.0)
-                    val maxY = (allValues.maxOrNull() ?: 100.0).coerceAtLeast(60.0)
+                val shown = history.takeLast(120)
+                Canvas(Modifier.fillMaxWidth().height(205.dp)) {
+                    val all = shown.flatMap { p -> candidates.mapNotNull { c -> p.pollingSupport[c.id] } }
+                    val rawMin = all.minOrNull() ?: 0.0
+                    val rawMax = all.maxOrNull() ?: 50.0
+                    val minY = (rawMin - 3.0).coerceAtLeast(0.0)
+                    val maxY = (rawMax + 3.0).coerceAtMost(100.0).coerceAtLeast(minY + 10.0)
                     for (g in 0..4) {
                         val y = size.height * g / 4f
                         drawLine(Color(0xFFE7ECE8), Offset(0f, y), Offset(size.width, y), strokeWidth = 1f)
                     }
-                    candidates.forEach { c ->
+                    candidates.forEach { candidate ->
                         val path = Path()
-                        shown.forEachIndexed { i, point ->
-                            val v = point.probabilities[c.id] ?: return@forEachIndexed
-                            val x = if (shown.size == 1) 0f else size.width * i / (shown.size - 1f)
-                            val y = size.height - (((v - minY) / (maxY - minY).coerceAtLeast(1.0)) * size.height).toFloat()
+                        shown.forEachIndexed { index, point ->
+                            val value = point.pollingSupport[candidate.id] ?: return@forEachIndexed
+                            val x = if (shown.size == 1) 0f else size.width * index / (shown.size - 1f)
+                            val y = size.height - (((value - minY) / (maxY - minY)) * size.height).toFloat()
                             if (path.isEmpty) path.moveTo(x, y) else path.lineTo(x, y)
                         }
-                        drawPath(path, candidateColor(c.id), style = Stroke(width = 5f, cap = StrokeCap.Round))
+                        if (!path.isEmpty) drawPath(path, candidateColor(candidate.id), style = Stroke(width = 4f, cap = StrokeCap.Round))
                     }
                 }
             }
@@ -545,9 +400,132 @@ private fun VariationCard(candidates: List<Candidate>) {
             Text("Variação desde a leitura anterior", fontWeight = FontWeight.Bold, fontSize = 17.sp)
             candidates.forEach { c ->
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                    Text(c.name, color = TextDark)
-                    val color = if (c.change > .049) Positive else if (c.change < -.049) Negative else Muted
+                    Text(c.name)
+                    val color = if (c.change > .09) Positive else if (c.change < -.09) Negative else Muted
                     Text(deltaText(c.change), color = color, fontWeight = FontWeight.Bold)
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun TrendStatusCard(analysis: TrendAnalysis, quality: QualityInfo) {
+    Card(shape = RoundedCornerShape(24.dp), colors = CardDefaults.cardColors(containerColor = BrazilBlue)) {
+        Column(Modifier.padding(18.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            Text("JANELA ANALISADA", color = Color(0xFFBFD3EF), fontSize = 12.sp, fontWeight = FontWeight.Bold)
+            Text("${analysis.periodDays} dias", color = Color.White, fontSize = 25.sp, fontWeight = FontWeight.ExtraBold)
+            Text(
+                "Cobertura disponível: ${analysis.availableSpanDays.one()} dias · Qualidade da tendência: ${analysis.confidence}",
+                color = Color.White.copy(alpha = .9f)
+            )
+            Text(
+                "${analysis.historicalPoints} pontos reconstruídos + ${analysis.livePoints} leituras atuais · ${quality.instituteCount} institutos",
+                color = Color(0xFFCDE9DA),
+                fontSize = 13.sp
+            )
+        }
+    }
+}
+
+@Composable
+private fun TrendChart(analysis: TrendAnalysis, candidates: List<Candidate>) {
+    Card(shape = RoundedCornerShape(22.dp), colors = CardDefaults.cardColors(containerColor = Color.White)) {
+        Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+            if (analysis.points.size < 2) {
+                Text("Ainda não há pontos suficientes nesta janela.", color = Muted)
+            } else {
+                LazyRow(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                    items(candidates, key = { "trend-legend-${it.id}" }) { c ->
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Box(Modifier.size(8.dp).background(candidateColor(c.id), CircleShape))
+                            Spacer(Modifier.width(4.dp))
+                            Text(c.name, fontSize = 11.sp, color = Muted)
+                        }
+                    }
+                }
+                Canvas(Modifier.fillMaxWidth().height(230.dp)) {
+                    val all = analysis.points.flatMap { p -> candidates.mapNotNull { c -> p.support[c.id] } }
+                    val minY = ((all.minOrNull() ?: 0.0) - 3.0).coerceAtLeast(0.0)
+                    val maxY = ((all.maxOrNull() ?: 50.0) + 3.0).coerceAtMost(100.0).coerceAtLeast(minY + 10.0)
+                    val start = analysis.points.first().instant.toEpochMilli()
+                    val end = analysis.points.last().instant.toEpochMilli()
+                    val span = (end - start).coerceAtLeast(1L)
+
+                    fun xOf(point: TrendCurvePoint) = (size.width * (point.instant.toEpochMilli() - start).toDouble() / span).toFloat()
+                    fun yOf(value: Double) = size.height - (((value - minY) / (maxY - minY)) * size.height).toFloat()
+
+                    for (g in 0..4) {
+                        val y = size.height * g / 4f
+                        drawLine(Color(0xFFE7ECE8), Offset(0f, y), Offset(size.width, y), strokeWidth = 1f)
+                    }
+                    candidates.forEach { candidate ->
+                        val path = Path()
+                        analysis.points.forEach { point ->
+                            point.support[candidate.id]?.let { value ->
+                                val x = xOf(point)
+                                val y = yOf(value)
+                                if (path.isEmpty) path.moveTo(x, y) else path.lineTo(x, y)
+                            }
+                        }
+                        if (!path.isEmpty) drawPath(path, candidateColor(candidate.id), style = Stroke(width = 4f, cap = StrokeCap.Round))
+                    }
+                }
+                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                    Text(formatDay(analysis.points.first().instant), color = Muted, fontSize = 11.sp)
+                    Text("observado", color = Muted, fontSize = 11.sp)
+                    Text(formatDay(analysis.points.last().instant), color = Muted, fontSize = 11.sp)
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun CandidateTrendCard(trend: CandidateTrend) {
+    val color = when {
+        trend.changeInWindow > .09 -> Positive
+        trend.changeInWindow < -.09 -> Negative
+        else -> Muted
+    }
+    Card(shape = RoundedCornerShape(18.dp), colors = CardDefaults.cardColors(containerColor = Color.White)) {
+        Column(Modifier.padding(15.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                Text(trend.name, fontWeight = FontWeight.Bold)
+                Text("${trend.current.one()}%", fontWeight = FontWeight.ExtraBold, color = BrazilBlue)
+            }
+            MetricRow("Mudança na janela", deltaText(trend.changeInWindow))
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                Text("Inclinação observada", color = Muted, fontSize = 13.sp)
+                Text("${signed(trend.slopePerDay)} p.p./dia", color = color, fontWeight = FontWeight.Bold)
+            }
+        }
+    }
+}
+
+@Composable
+private fun MarketSignalCard(candidate: Candidate) {
+    Card(shape = RoundedCornerShape(18.dp), colors = CardDefaults.cardColors(containerColor = Color.White)) {
+        Row(Modifier.fillMaxWidth().padding(15.dp), horizontalArrangement = Arrangement.SpaceBetween) {
+            Text(candidate.name, fontWeight = FontWeight.Bold)
+            Text("${candidate.marketSignal?.one()}%", color = BrazilBlue, fontWeight = FontWeight.ExtraBold)
+        }
+    }
+}
+
+@Composable
+private fun RunoffCard(scenario: RunoffScenario) {
+    Card(shape = RoundedCornerShape(20.dp), colors = CardDefaults.cardColors(containerColor = Color.White)) {
+        Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            Text(scenario.label, fontWeight = FontWeight.ExtraBold, fontSize = 17.sp)
+            Text("${scenario.pollCount} pesquisas · ${scenario.instituteCount} institutos", color = Muted, fontSize = 12.sp)
+            scenario.candidates.forEach { c ->
+                Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                        Text(c.name, fontWeight = FontWeight.SemiBold)
+                        Text("${c.support.one()}%", fontWeight = FontWeight.ExtraBold, color = BrazilBlue)
+                    }
+                    Text("${c.intervalLow.one()}% – ${c.intervalHigh.one()}%", color = Muted, fontSize = 12.sp)
                 }
             }
         }
@@ -574,12 +552,37 @@ private fun SourceCard(source: SourceInfo) {
 private fun MethodologyCard(snapshot: Snapshot) {
     Card(shape = RoundedCornerShape(22.dp), colors = CardDefaults.cardColors(containerColor = Color(0xFFFFF8E7))) {
         Column(Modifier.padding(17.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            Text("Como ler este número", fontWeight = FontWeight.ExtraBold, fontSize = 18.sp)
-            Text("O modelo transforma a média de intenção de voto em um sinal probabilístico e combina esse sinal com preços de mercados de previsão. Fontes indisponíveis são retiradas do cálculo, e o resultado é renormalizado.", color = TextDark, lineHeight = 20.sp)
-            Text("Confiança: ${snapshot.confidence}", color = BrazilBlue, fontWeight = FontWeight.Bold)
+            Text("Como a leitura é calculada", fontWeight = FontWeight.ExtraBold, fontSize = 18.sp)
+            Text(
+                "Cada pesquisa individual entra uma única vez. O peso considera recência, tamanho da amostra e repetição do mesmo instituto. O intervalo combina incerteza amostral aproximada e divergência entre levantamentos.",
+                lineHeight = 20.sp
+            )
+            Text("Mercados de previsão aparecem separadamente e não alteram a média das pesquisas.", color = BrazilBlue, fontWeight = FontWeight.Bold)
             HorizontalDivider(color = Color(0xFFE8DDBD))
             Text(snapshot.note, color = Muted, fontSize = 12.sp, lineHeight = 17.sp)
         }
+    }
+}
+
+@Composable
+private fun TrendMethodCard(analysis: TrendAnalysis) {
+    Card(shape = RoundedCornerShape(22.dp), colors = CardDefaults.cardColors(containerColor = Color(0xFFFFF8E7))) {
+        Column(Modifier.padding(17.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            Text("Como ler a tendência", fontWeight = FontWeight.ExtraBold, fontSize = 18.sp)
+            Text(
+                "A inclinação resume o movimento observado dentro de ${analysis.periodDays} dias. Ela descreve a série passada e recente; não é extrapolada como probabilidade de vitória futura.",
+                lineHeight = 20.sp
+            )
+            Text("Qualidade da série: ${analysis.confidence}", color = BrazilBlue, fontWeight = FontWeight.Bold)
+        }
+    }
+}
+
+@Composable
+private fun SectionTitle(title: String, subtitle: String) {
+    Column(Modifier.padding(top = 6.dp)) {
+        Text(title, fontWeight = FontWeight.ExtraBold, fontSize = 22.sp)
+        Text(subtitle, color = Muted, fontSize = 13.sp)
     }
 }
 
@@ -589,36 +592,25 @@ private fun LoadingBlock() {
         Row(Modifier.fillMaxWidth().padding(24.dp), verticalAlignment = Alignment.CenterVertically) {
             CircularProgressIndicator(Modifier.size(28.dp), strokeWidth = 3.dp)
             Spacer(Modifier.width(14.dp))
-            Text("Carregando o retrato eleitoral mais recente…", color = Muted)
+            Text("Carregando pesquisas e histórico…", color = Muted)
         }
     }
 }
 
-private fun refreshFeedback(before: DashboardData?, after: DashboardData): String {
-    if (before == null) return "Leitura carregada em ${formatDate(after.snapshot.generatedAt)}."
-    val changed = meaningfulChange(before.snapshot, after.snapshot)
-    return when {
-        changed -> "Nova variação encontrada. Percentuais atualizados em ${formatDate(after.snapshot.generatedAt)}."
-        before.snapshot.generatedAt != after.snapshot.generatedAt ->
-            "Fontes verificadas em ${formatDate(after.snapshot.generatedAt)}. Não houve variação nos percentuais."
-        else -> "Nenhum dado novo publicado desde ${formatDate(after.snapshot.generatedAt)}."
+private fun refreshFeedback(before: DashboardData?, fresh: DashboardData): String {
+    if (before == null) return "Leitura carregada."
+    if (before.snapshot.generatedAt == fresh.snapshot.generatedAt) {
+        return "Nenhuma nova leitura foi publicada desde ${formatDate(fresh.snapshot.generatedAt)}."
     }
-}
-
-private fun meaningfulChange(before: Snapshot, after: Snapshot): Boolean {
-    val old = before.candidates.associateBy { it.id }
-    return after.candidates.any { current ->
-        val previous = old[current.id] ?: return@any true
-        abs(previous.winProbability - current.winProbability) >= 0.01 ||
-            abs(previous.pollingSupport - current.pollingSupport) >= 0.01 ||
-            nullableChanged(previous.marketProbability, current.marketProbability)
+    val old = before.snapshot.candidates.associateBy { it.id }
+    val changed = fresh.snapshot.candidates.any { candidate ->
+        abs(candidate.pollingSupport - (old[candidate.id]?.pollingSupport ?: candidate.pollingSupport)) >= 0.05
     }
-}
-
-private fun nullableChanged(a: Double?, b: Double?): Boolean = when {
-    a == null && b == null -> false
-    a == null || b == null -> true
-    else -> abs(a - b) >= 0.01
+    return if (changed) {
+        "Nova leitura incorporada. Houve mudança mensurável no apoio agregado."
+    } else {
+        "Fontes verificadas e nova leitura recebida, sem mudança relevante nos percentuais."
+    }
 }
 
 private fun candidateColor(id: String): Color = when (id) {
@@ -628,6 +620,7 @@ private fun candidateColor(id: String): Color = when (id) {
     "renan-santos" -> Color(0xFF2A8B76)
     "ronaldo-caiado" -> Color(0xFFB2761B)
     "romeu-zema" -> Color(0xFF4C6678)
+    "pablo-marcal" -> Color(0xFF7A4D2C)
     else -> Color(0xFF6B7280)
 }
 
@@ -638,12 +631,11 @@ private fun deltaText(value: Double): String = when {
     value > 0 -> "+${value.one()} p.p."
     else -> "${value.one()} p.p."
 }
+
 private fun formatDate(raw: String): String = runCatching {
     val instant = Instant.parse(raw)
     DateTimeFormatter.ofPattern("dd/MM · HH:mm").withZone(ZoneId.of("America/Sao_Paulo")).format(instant)
 }.getOrElse { raw }
+
 private fun formatDay(instant: Instant): String =
     DateTimeFormatter.ofPattern("dd/MM").withZone(ZoneId.of("America/Sao_Paulo")).format(instant)
-private fun formatElectionDate(raw: String): String = runCatching {
-    LocalDate.parse(raw).format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
-}.getOrElse { raw }
