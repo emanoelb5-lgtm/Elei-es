@@ -34,6 +34,11 @@ BBC_TABLE = "https://news.files.bbci.co.uk/include/vjamericas/1561-poll-tracker-
 TSE_PACKAGE_API = "https://dadosabertos.tse.jus.br/api/3/action/package_show?id=6ee9ef02-b6da-4dd2-8fee-37afe4d2db6d"
 TSE_RESOURCE_ID = "769a663e-12c5-489e-a9c8-04633c2d57a3"
 POLY_EVENT = "https://gamma-api.polymarket.com/events/slug/brazil-presidential-election"
+REFERENCE_SOURCES = [
+    ("uol", "UOL · Agregador", "agregador de conferência · sem peso", "https://noticias.uol.com.br/eleicoes/agregador-de-pesquisas-eleitorais/"),
+    ("electiolab", "ElectioLab", "agregador de conferência · sem peso", "https://electiolab.com/pesquisas-presidenciais-2026"),
+    ("atlas", "AtlasIntel · pesquisas", "fonte primária de conferência · sem peso", "https://www.atlasintel.org/polls/exclusive-polls"),
+]
 LIVE_WINDOW_DAYS = 30
 HISTORY_DAYS = 90
 # Alterações neste arquivo disparam a coleta v3 pelo GitHub Actions.
@@ -399,6 +404,40 @@ def aggregate_runoff_table(polls: List[dict], target: date) -> dict | None:
     }
 
 
+def fetch_reference_source(source_id: str, label: str, source_type: str, url: str) -> dict:
+    source = {
+        "id": source_id,
+        "label": label,
+        "type": source_type,
+        "status": "fallback",
+        "updatedAt": None,
+        "url": url,
+    }
+    try:
+        response = requests.get(url, headers=UA, timeout=20)
+        response.raise_for_status()
+        text = BeautifulSoup(response.text, "html.parser").get_text(" ", strip=True)
+        low = norm(text)
+        if not any(norm(alias) in low for alias in ALIASES["lula"]):
+            raise RuntimeError("conteúdo eleitoral esperado não localizado")
+        if not any(norm(alias) in low for alias in ALIASES["flavio-bolsonaro"]):
+            raise RuntimeError("segundo candidato de referência não localizado")
+        source["status"] = "ok"
+        source["updatedAt"] = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+        date_match = re.search(
+            r"(?:atualizad[oa]\s+em|última pesquisa indexada[:\s]+)"
+            r"\s*(\d{1,2}\s+de\s+[a-zç]+\s+de\s+2026|\d{1,2}/\d{1,2}/2026)",
+            text,
+            re.IGNORECASE,
+        )
+        if date_match:
+            source["pageFreshness"] = date_match.group(1)
+        return source
+    except Exception as exc:
+        source["error"] = str(exc)[:180]
+        return source
+
+
 def fetch_polymarket_signal() -> tuple[dict, dict]:
     source = {
         "id": "polymarket",
@@ -508,6 +547,10 @@ def main() -> None:
     first_round = dedupe_polls(first_raw, tse_ids)
     runoff_tables = [dedupe_polls(tbl, tse_ids) for tbl in runoff_raw]
     market_signal, market_source = fetch_polymarket_signal()
+    reference_sources = [
+        fetch_reference_source(source_id, label, source_type, url)
+        for source_id, label, source_type, url in REFERENCE_SOURCES
+    ]
 
     agg = aggregate_first_round(first_round, now.date())
     if not agg["candidates"]:
@@ -560,7 +603,7 @@ def main() -> None:
         "electionDate": ELECTION_DATE.isoformat(),
         "daysToElection": max((ELECTION_DATE - now.date()).days, 0),
         "quality": quality,
-        "sources": [polling_source, tse_source, market_source],
+        "sources": [polling_source, tse_source, *reference_sources, market_source],
         "candidates": candidates,
         "runoffScenarios": runoff,
         "methodology": {
