@@ -56,9 +56,10 @@ jobs:
           assert a.get('schemaVersion') == 3
           assert c.get('schemaVersion') == 1
           assert c.get('correctionApplied') is False
-          assert b.get('schemaVersion') == 1
-          assert len(b.get('studies', [])) >= 1
-          assert b['studies'][0]['correctionApplied'] is False
+          assert b.get('schemaVersion') == 2
+          assert len(b.get('studies', [])) >= 2
+          assert all(s['correctionApplied'] is False for s in b['studies'])
+          assert all(s['status'] == 'ok' for s in b['studies'])
           assert len(a.get('candidates', [])) >= 2
           assert a['quality']['pollCount'] >= 1
           assert a['quality']['instituteCount'] >= 1
