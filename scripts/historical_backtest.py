@@ -150,6 +150,13 @@ def load_2022_polls() -> List[dict]:
                 "method":"histórico não padronizado",
                 "values":values,
             })
+    if not polls:
+        print("DEBUG historical tables:", len(tables))
+        for i, table in enumerate(tables[:30]):
+            cols=flatten_columns(table.copy())
+            print("TABLE", i, "COLS", cols[:20])
+            print("HEAD", table.head(2).astype(str).to_dict(orient="records"))
+
     # dedupe by content
     seen={}
     for p in polls:
