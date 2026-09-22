@@ -127,6 +127,38 @@ class ElectionRepository {
         )
     }
 
+    private fun parseUncertainty(obj: JSONObject?): UncertaintyData {
+        val root = obj ?: JSONObject()
+        val candidatesObj = root.optJSONObject("candidates") ?: JSONObject()
+        val candidates = mutableMapOf<String, CandidateUncertainty>()
+
+        candidatesObj.keys().forEach { id ->
+            val item = candidatesObj.optJSONObject(id) ?: return@forEach
+            candidates[id] = CandidateUncertainty(
+                support = item.optDouble("support", 0.0),
+                modelLow = item.optDouble("modelLow", 0.0),
+                modelHigh = item.optDouble("modelHigh", 0.0),
+                bootstrapP10 = if (item.isNull("bootstrapP10")) null else item.optDouble("bootstrapP10"),
+                bootstrapP50 = if (item.isNull("bootstrapP50")) null else item.optDouble("bootstrapP50"),
+                bootstrapP90 = if (item.isNull("bootstrapP90")) null else item.optDouble("bootstrapP90"),
+                empiricalErrorQ80 = if (item.isNull("empiricalErrorQ80")) null else item.optDouble("empiricalErrorQ80"),
+                advancedLow = item.optDouble("advancedLow", 0.0),
+                advancedHigh = item.optDouble("advancedHigh", 0.0),
+                advancedHalfWidth = item.optDouble("advancedHalfWidth", 0.0)
+            )
+        }
+
+        return UncertaintyData(
+            status = root.optString("status", "insufficient-data"),
+            bootstrapDraws = root.optInt("bootstrapDraws", 0),
+            empiricalErrorQuantileUsed = root.optString("empiricalErrorQuantileUsed"),
+            empiricalErrorQ80 = if (root.isNull("empiricalErrorQ80")) null else root.optDouble("empiricalErrorQ80"),
+            empiricalErrorQ90 = if (root.isNull("empiricalErrorQ90")) null else root.optDouble("empiricalErrorQ90"),
+            candidates = candidates,
+            note = root.optString("note")
+        )
+    }
+
     private fun parseSnapshot(root: JSONObject): Snapshot {
         val q = root.optJSONObject("quality") ?: JSONObject()
         val quality = QualityInfo(
@@ -149,6 +181,8 @@ class ElectionRepository {
                     pollingSupport = item.optDouble("pollingSupport", 0.0),
                     intervalLow = item.optDouble("intervalLow", 0.0),
                     intervalHigh = item.optDouble("intervalHigh", 0.0),
+                    modelIntervalLow = item.optDouble("modelIntervalLow", item.optDouble("intervalLow", 0.0)),
+                    modelIntervalHigh = item.optDouble("modelIntervalHigh", item.optDouble("intervalHigh", 0.0)),
                     marketSignal = if (item.isNull("marketSignal")) null else item.optDouble("marketSignal"),
                     change = item.optDouble("change", 0.0),
                     trend = item.optString("trend", "estável")
@@ -207,6 +241,7 @@ class ElectionRepository {
             responseComposition = parseResponseComposition(root.optJSONObject("responseComposition")),
             sensitivity = parseSensitivity(root.optJSONObject("sensitivity")),
             influence = parseInfluence(root.optJSONObject("influence")),
+            uncertainty = parseUncertainty(root.optJSONObject("uncertainty")),
             note = root.optString("note", "Leitura estatística de pesquisas públicas.")
         )
     }
@@ -291,6 +326,7 @@ class ElectionRepository {
                 simpleMeanAbsoluteError = if (rolling.isNull("simpleMeanAbsoluteError")) null else rolling.optDouble("simpleMeanAbsoluteError"),
                 errorDifferenceVsSimple = if (rolling.isNull("errorDifferenceVsSimple")) null else rolling.optDouble("errorDifferenceVsSimple"),
                 intervalCoverage = if (rolling.isNull("intervalCoverage")) null else rolling.optDouble("intervalCoverage"),
+                absoluteErrorQuantiles = readDoubleMap(rolling.optJSONObject("absoluteErrorQuantiles")),
                 target = rolling.optString("target").takeIf { it.isNotBlank() },
                 note = rolling.optString("note").takeIf { it.isNotBlank() }
             ),
