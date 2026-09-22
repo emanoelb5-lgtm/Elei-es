@@ -4,8 +4,9 @@ data class Candidate(
     val id: String,
     val name: String,
     val pollingSupport: Double,
-    val marketProbability: Double?,
-    val winProbability: Double,
+    val intervalLow: Double,
+    val intervalHigh: Double,
+    val marketSignal: Double?,
     val change: Double,
     val trend: String
 )
@@ -19,24 +20,55 @@ data class SourceInfo(
     val url: String
 )
 
+data class QualityInfo(
+    val pollCount: Int,
+    val instituteCount: Int,
+    val verifiedTseCount: Int,
+    val averageAgeDays: Double,
+    val effectivePolls: Double,
+    val confidence: String
+)
+
+data class RunoffCandidate(
+    val id: String,
+    val name: String,
+    val support: Double,
+    val intervalLow: Double,
+    val intervalHigh: Double
+)
+
+data class RunoffScenario(
+    val id: String,
+    val label: String,
+    val candidates: List<RunoffCandidate>,
+    val pollCount: Int,
+    val instituteCount: Int
+)
+
 data class Snapshot(
     val generatedAt: String,
     val electionDate: String,
     val daysToElection: Int,
-    val confidence: String,
+    val quality: QualityInfo,
     val candidates: List<Candidate>,
     val sources: List<SourceInfo>,
+    val runoffScenarios: List<RunoffScenario>,
     val note: String
+)
+
+data class IntervalBand(
+    val low: Double,
+    val high: Double
 )
 
 data class HistoryPoint(
     val generatedAt: String,
-    val probabilities: Map<String, Double>,
-    val pollingSupport: Map<String, Double> = emptyMap(),
-    val marketProbabilities: Map<String, Double> = emptyMap(),
-    val origin: String = "live",
-    val pollCount: Int = 0,
-    val sourceNote: String? = null
+    val pollingSupport: Map<String, Double>,
+    val intervals: Map<String, IntervalBand>,
+    val pollCount: Int,
+    val instituteCount: Int,
+    val verifiedTseCount: Int,
+    val origin: String = "live"
 )
 
 data class DashboardData(
