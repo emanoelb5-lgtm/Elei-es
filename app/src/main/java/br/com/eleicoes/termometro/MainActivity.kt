@@ -1031,6 +1031,22 @@ private fun RegimeShiftCard(regime: RegimeShiftData, candidates: List<Candidate>
                     fontSize = 11.sp,
                     lineHeight = 16.sp
                 )
+                Text(
+                    "${regime.evidenceStateCount} estado(s) distinto(s) de evidência · " +
+                        if (regime.evidenceChanged) "nova evidência nesta leitura" else "sem nova evidência desde a leitura anterior",
+                    color = Muted,
+                    fontSize = 10.sp,
+                    lineHeight = 15.sp
+                )
+                if (regime.persistentCandidateCount > 0 || regime.buildingCandidateCount > 0) {
+                    Text(
+                        "${regime.persistentCandidateCount} sinal(is) persistente(s) · " +
+                            "${regime.buildingCandidateCount} em formação",
+                        color = BrazilBlue,
+                        fontSize = 11.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
                 candidates.forEach { candidate ->
                     regime.candidates[candidate.id]?.let { row ->
                         Column(verticalArrangement = Arrangement.spacedBy(3.dp)) {
@@ -1053,6 +1069,15 @@ private fun RegimeShiftCard(regime: RegimeShiftData, candidates: List<Candidate>
                             )
                             if (row.level != "stable") {
                                 Text(
+                                    "Persistência: ${regimePersistenceLabel(row.persistenceStatus)} · " +
+                                        "${row.persistenceStreak} evidência(s) distinta(s) na mesma direção",
+                                    color = if (row.persistentSignal) BrazilBlue else Muted,
+                                    fontSize = 10.sp,
+                                    fontWeight = if (row.persistentSignal) FontWeight.Bold else FontWeight.Normal
+                                )
+                            }
+                            if (row.level != "stable") {
+                                Text(
                                     "Leitura adaptativa em sombra: ${row.shadowAdaptiveSupport.one()}% " +
                                         "(peso recente ${(row.shadowRecentWeight * 100.0).one()}%)",
                                     color = BrazilBlue,
@@ -1071,6 +1096,17 @@ private fun RegimeShiftCard(regime: RegimeShiftData, candidates: List<Candidate>
                 )
             }
             Text(regime.note, color = Muted, fontSize = 11.sp, lineHeight = 16.sp)
+            Text(regime.persistenceNote, color = Muted, fontSize = 10.sp, lineHeight = 15.sp)
+            Text(
+                if (regime.persistenceApplied) {
+                    "A persistência está alterando o agregado."
+                } else {
+                    "A persistência é apenas diagnóstica e não altera o agregado."
+                },
+                color = if (regime.persistenceApplied) Color(0xFF9A6700) else BrazilGreen,
+                fontSize = 11.sp,
+                fontWeight = FontWeight.Bold
+            )
             Text(
                 if (regime.adaptiveApplied) {
                     "A leitura adaptativa está aplicada."
@@ -1717,6 +1753,13 @@ private fun regimeLevelLabel(level: String?): String = when (level) {
     "watch" -> "Há deslocamento em observação"
     "stable" -> "Sem mudança de patamar detectada"
     else -> "Diagnóstico não disponível"
+}
+
+private fun regimePersistenceLabel(status: String): String = when (status) {
+    "persistent" -> "persistente"
+    "building" -> "ganhando persistência"
+    "unconfirmed" -> "não confirmado"
+    else -> "sem sinal"
 }
 
 private fun regimeCandidateLevelLabel(level: String): String = when (level) {
