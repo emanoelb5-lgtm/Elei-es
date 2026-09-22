@@ -1120,6 +1120,8 @@ def rolling_validation(polls: List[dict], minimum_training_polls: int = 4) -> di
             "intervalCoverage": None,
             "absoluteErrorQuantiles": {},
             "absoluteErrorQuantilesBySupportBand": {},
+            "empiricalQ80Coverage": None,
+            "empiricalQ90Coverage": None,
         }
 
     sorted_errors = sorted(weighted_errors)
@@ -1149,6 +1151,27 @@ def rolling_validation(polls: List[dict], minimum_training_polls: int = 4) -> di
             "q90": round(percentile(errors, 0.90), 2),
         }
 
+    calibrated80_covered = 0
+    calibrated90_covered = 0
+    calibrated_total = 0
+    for band, errors in errors_by_support_band.items():
+        if not errors:
+            continue
+        info = band_quantiles.get(band, {})
+        threshold80 = (
+            float(info["q80"])
+            if int(info.get("count", 0)) >= 20 and info.get("q80") is not None
+            else float(absolute_error_quantiles["q80"])
+        )
+        threshold90 = (
+            float(info["q90"])
+            if int(info.get("count", 0)) >= 20 and info.get("q90") is not None
+            else float(absolute_error_quantiles["q90"])
+        )
+        calibrated80_covered += sum(1 for error in errors if error <= threshold80 + 1e-9)
+        calibrated90_covered += sum(1 for error in errors if error <= threshold90 + 1e-9)
+        calibrated_total += len(errors)
+
     return {
         "status": "ok",
         "caseCount": cases,
@@ -1160,6 +1183,8 @@ def rolling_validation(polls: List[dict], minimum_training_polls: int = 4) -> di
         "intervalCoverage": round(100.0 * covered / len(weighted_errors), 1),
         "absoluteErrorQuantiles": absolute_error_quantiles,
         "absoluteErrorQuantilesBySupportBand": band_quantiles,
+        "empiricalQ80Coverage": round(100.0 * calibrated80_covered / calibrated_total, 1) if calibrated_total else None,
+        "empiricalQ90Coverage": round(100.0 * calibrated90_covered / calibrated_total, 1) if calibrated_total else None,
         "target": "próxima pesquisa publicada",
         "note": "Validação interna do agregador; não mede acerto do resultado eleitoral.",
     }
