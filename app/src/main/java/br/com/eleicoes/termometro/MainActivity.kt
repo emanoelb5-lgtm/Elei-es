@@ -161,6 +161,7 @@ private fun HomeScreen(
             item { QualityCard(data.snapshot.quality) }
             item { SectionTitle("Apoio agregado nas pesquisas", "Pesquisas individuais deduplicadas e ponderadas") }
             items(data.snapshot.candidates, key = { it.id }) { CandidateCard(it) }
+            item { ResponseCompositionCard(data.snapshot.responseComposition) }
 
             item { SectionTitle("Evolução observada", "Histórico reconstruído + leituras atuais") }
             item { HistoryChart(data.history, data.snapshot.candidates.take(5)) }
@@ -383,6 +384,14 @@ private fun PollRecordCard(poll: PollRecord, candidates: List<Candidate>) {
                     }
                 }
             }
+
+            if (poll.nonCandidate.isNotEmpty()) {
+                HorizontalDivider(color = Color(0xFFE8ECE9))
+                Text("Outras respostas publicadas", color = Muted, fontSize = 12.sp, fontWeight = FontWeight.Bold)
+                poll.nonCandidate.forEach { (key, value) ->
+                    MetricRow(responseLabel(key), "${value.one()}%")
+                }
+            }
         }
     }
 }
@@ -411,6 +420,14 @@ private fun DiagnosticsScreen(data: DashboardData?, loading: Boolean) {
         if (data != null) {
             item { CalibrationPolicyCard(data.calibration) }
             item { RollingValidationCard(data.calibration.rollingValidation) }
+
+            item {
+                SectionTitle(
+                    "Sensibilidade da leitura",
+                    "Quanto o agregado muda sem uma pesquisa ou com janela mais curta"
+                )
+            }
+            item { SensitivityCard(data.snapshot.sensitivity, data.snapshot.candidates) }
 
             item {
                 SectionTitle(
@@ -932,6 +949,76 @@ private fun HistoryChart(history: List<HistoryPoint>, candidates: List<Candidate
 }
 
 @Composable
+private fun ResponseCompositionCard(composition: ResponseComposition) {
+    Card(
+        shape = RoundedCornerShape(22.dp),
+        colors = CardDefaults.cardColors(containerColor = Color(0xFFEFF3F8))
+    ) {
+        Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            Text("Composição das respostas", fontWeight = FontWeight.ExtraBold, fontSize = 17.sp)
+            composition.candidateShare?.let {
+                MetricRow("Soma dos candidatos capturados", "${it.one()}%")
+            }
+            composition.categories.forEach { (key, value) ->
+                MetricRow(responseLabel(key), "${value.one()}%")
+            }
+            composition.residualUnclassified?.let {
+                MetricRow("Residual não classificado", "${it.one()}%")
+            }
+            Text(
+                composition.note,
+                color = Muted,
+                fontSize = 11.sp,
+                lineHeight = 16.sp
+            )
+        }
+    }
+}
+
+@Composable
+private fun SensitivityCard(sensitivity: SensitivityData, candidates: List<Candidate>) {
+    Card(
+        shape = RoundedCornerShape(22.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.White)
+    ) {
+        Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(9.dp)) {
+            Text("Robustez do agregado", fontWeight = FontWeight.ExtraBold, fontSize = 18.sp)
+            if (sensitivity.status == "ok") {
+                Text(
+                    "Estabilidade: ${sensitivity.stability ?: "não classificada"}",
+                    color = BrazilBlue,
+                    fontWeight = FontWeight.Bold
+                )
+                sensitivity.maxLeaveOneOutShift?.let {
+                    MetricRow("Maior mudança ao retirar 1 pesquisa", "${it.one()} p.p.")
+                }
+                HorizontalDivider(color = Color(0xFFE8ECE9))
+                candidates.forEach { candidate ->
+                    sensitivity.candidates[candidate.id]?.let { row ->
+                        Column(verticalArrangement = Arrangement.spacedBy(3.dp)) {
+                            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                                Text(candidate.name, fontWeight = FontWeight.SemiBold, fontSize = 13.sp)
+                                Text("± até ${row.maxLeaveOneOutShift.one()} p.p.", color = Muted, fontSize = 12.sp)
+                            }
+                            Text(
+                                "Sem uma pesquisa: ${row.leaveOneOutLow.one()}% – ${row.leaveOneOutHigh.one()}%" +
+                                    (row.difference14Vs30?.let { " · 14d vs 30d: ${signed(it)} p.p." } ?: ""),
+                                color = Muted,
+                                fontSize = 11.sp,
+                                lineHeight = 16.sp
+                            )
+                        }
+                    }
+                }
+            } else {
+                Text("Ainda não há pesquisas suficientes para este teste.", color = Muted)
+            }
+            Text(sensitivity.note, color = Muted, fontSize = 11.sp, lineHeight = 16.sp)
+        }
+    }
+}
+
+@Composable
 private fun VariationCard(candidates: List<Candidate>) {
     Card(shape = RoundedCornerShape(22.dp), colors = CardDefaults.cardColors(containerColor = Color(0xFFEAF2ED))) {
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(9.dp)) {
@@ -1057,15 +1144,43 @@ private fun RunoffCard(scenario: RunoffScenario) {
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
             Text(scenario.label, fontWeight = FontWeight.ExtraBold, fontSize = 17.sp)
             Text("${scenario.pollCount} pesquisas · ${scenario.instituteCount} institutos", color = Muted, fontSize = 12.sp)
-            scenario.candidates.forEach { c ->
+
+            scenario.candidates.forEach { candidate ->
                 Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                        Text(c.name, fontWeight = FontWeight.SemiBold)
-                        Text("${c.support.one()}%", fontWeight = FontWeight.ExtraBold, color = BrazilBlue)
+                        Text(candidate.name, fontWeight = FontWeight.SemiBold)
+                        Text("${candidate.support.one()}%", fontWeight = FontWeight.ExtraBold, color = BrazilBlue)
                     }
-                    Text("${c.intervalLow.one()}% – ${c.intervalHigh.one()}%", color = Muted, fontSize = 12.sp)
+                    Text(
+                        "${candidate.intervalLow.one()}% – ${candidate.intervalHigh.one()}%",
+                        color = Muted,
+                        fontSize = 12.sp
+                    )
+                    scenario.pairNormalized[candidate.id]?.let { normalized ->
+                        Text(
+                            "Entre os dois nomes exibidos: ${normalized.one()}%",
+                            color = Muted,
+                            fontSize = 11.sp
+                        )
+                    }
                 }
             }
+
+            scenario.responseComposition.residualUnclassified?.let {
+                HorizontalDivider(color = Color(0xFFE8ECE9))
+                MetricRow("Residual não classificado", "${it.one()}%")
+            }
+            if (scenario.responseComposition.categories.isNotEmpty()) {
+                scenario.responseComposition.categories.forEach { (key, value) ->
+                    MetricRow(responseLabel(key), "${value.one()}%")
+                }
+            }
+            Text(
+                scenario.pairNormalizationNote,
+                color = Muted,
+                fontSize = 11.sp,
+                lineHeight = 16.sp
+            )
         }
     }
 }
@@ -1149,6 +1264,16 @@ private fun refreshFeedback(before: DashboardData?, fresh: DashboardData): Strin
     } else {
         "Fontes verificadas e nova leitura recebida, sem mudança relevante nos percentuais."
     }
+}
+
+private fun responseLabel(key: String): String = when (key) {
+    "blankNullUndecided" -> "Brancos/nulos/indecisos (combinados)"
+    "otherCandidates" -> "Outros candidatos"
+    "blank" -> "Brancos"
+    "null" -> "Nulos"
+    "undecided" -> "Indecisos / não sabe"
+    "none" -> "Nenhum"
+    else -> key
 }
 
 private fun candidateColor(id: String): Color = when (id) {
