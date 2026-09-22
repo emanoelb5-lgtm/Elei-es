@@ -146,10 +146,43 @@ data class HistoricalBacktestStudy(
     val horizons: List<HistoricalHorizon>
 )
 
+data class ModelStudyMetric(
+    val year: Int,
+    val comparisonCount: Int,
+    val meanAbsoluteError: Double?
+)
+
+data class ModelVariantDiagnostic(
+    val id: String,
+    val label: String,
+    val decayDays: Double?,
+    val sampleWeight: Boolean,
+    val repeatPenalty: Boolean,
+    val historicalComparisonCount: Int,
+    val historicalMae: Double?,
+    val historicalStudies: List<ModelStudyMetric>,
+    val currentCaseCount: Int,
+    val currentComparisonCount: Int,
+    val currentMae: Double?,
+    val historicalDeltaVsProduction: Double?,
+    val currentDeltaVsProduction: Double?,
+    val promotionCandidate: Boolean
+)
+
+data class ModelLabData(
+    val productionModelId: String,
+    val automaticPromotion: Boolean,
+    val promotionPolicy: String,
+    val promotionCandidates: List<String>,
+    val variants: List<ModelVariantDiagnostic>,
+    val note: String
+)
+
 data class DashboardData(
     val snapshot: Snapshot,
     val history: List<HistoryPoint>,
     val polls: List<PollRecord>,
     val calibration: CalibrationData,
-    val historicalBacktests: List<HistoricalBacktestStudy>
+    val historicalBacktests: List<HistoricalBacktestStudy>,
+    val modelLab: ModelLabData?
 )
