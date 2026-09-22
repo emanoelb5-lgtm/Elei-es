@@ -8,8 +8,10 @@ on:
     branches: [main]
     paths:
       - 'scripts/historical_backtest.py'
+      - 'scripts/model_lab.py'
       - 'requirements-history.txt'
       - 'tests/test_historical_backtest.py'
+      - 'tests/test_model_lab.py'
       - '.github/workflows/historical-backtest.yml'
 
 permissions:
@@ -36,11 +38,16 @@ jobs:
           pip install -r requirements.txt
           pip install -r requirements-history.txt
 
-      - name: Testar parser histórico
-        run: python -m unittest discover -s tests -p 'test_historical_backtest.py' -v
+      - name: Testar backtest e laboratório
+        run: |
+          python -m unittest discover -s tests -p 'test_historical_backtest.py' -v
+          python -m unittest discover -s tests -p 'test_model_lab.py' -v
 
       - name: Executar estudos históricos
         run: python scripts/historical_backtest.py
+
+      - name: Executar laboratório de modelos
+        run: python scripts/model_lab.py
 
       - name: Validar estudos históricos
         run: |
@@ -48,7 +55,12 @@ jobs:
           import json
 
           b=json.load(open('data/historical-backtest.json'))
+          m=json.load(open('data/model-lab.json'))
           assert b.get('schemaVersion') == 2
+          assert m.get('schemaVersion') == 1
+          assert m.get('automaticPromotion') is False
+          assert m.get('productionModelId') == 'current-v04'
+          assert len(m.get('variants', [])) >= 4
           studies=b.get('studies', [])
           assert len(studies) >= 2
           assert {s['year'] for s in studies} >= {2018, 2022}
@@ -65,19 +77,21 @@ jobs:
           git config user.name "backtest-bot"
           git config user.email "actions@users.noreply.github.com"
           cp data/historical-backtest.json /tmp/historical-backtest.json
+          cp data/model-lab.json /tmp/model-lab.json
 
           for attempt in 1 2 3 4 5; do
             git fetch origin main
             git reset --hard origin/main
             cp /tmp/historical-backtest.json data/historical-backtest.json
-            git add data/historical-backtest.json
+            cp /tmp/model-lab.json data/model-lab.json
+            git add data/historical-backtest.json data/model-lab.json
 
             if git diff --cached --quiet; then
               echo "Sem mudança histórica"
               exit 0
             fi
 
-            git commit -m "data: atualiza backtests historicos"
+            git commit -m "data: atualiza backtests e laboratorio de modelos"
             if git push origin HEAD:main; then
               echo "Backtest publicado"
               exit 0
