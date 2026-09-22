@@ -12,6 +12,9 @@ from scripts.update_analytics import (
     aggregate_first_round,
     build_source_diagnostics,
     rolling_validation,
+    non_candidate_for_label,
+    response_composition,
+    sensitivity_analysis,
 )
 
 
@@ -151,6 +154,69 @@ class AnalyticsParserTests(unittest.TestCase):
         self.assertIsNotNone(result["errorDifferenceVsSimple"])
         self.assertGreaterEqual(result["intervalCoverage"], 0.0)
         self.assertLessEqual(result["intervalCoverage"], 100.0)
+
+
+    def test_non_candidate_header_classification(self):
+        self.assertEqual(non_candidate_for_label("Branco"), "blank")
+        self.assertEqual(non_candidate_for_label("Nulos"), "null")
+        self.assertEqual(non_candidate_for_label("Não sabe / não respondeu"), "undecided")
+        self.assertEqual(non_candidate_for_label("Nenhum deles"), "none")
+        self.assertIsNone(non_candidate_for_label("Lula"))
+
+    def test_response_composition_keeps_residual_unclassified(self):
+        polls = [
+            {
+                "date": date(2026, 9, 20),
+                "institute": "A",
+                "sample": 2000,
+                "method": "Presencial",
+                "registration": "BR-30001/2026",
+                "verifiedTse": False,
+                "values": {"lula": 40.0, "flavio-bolsonaro": 35.0},
+                "nonCandidate": {"blank": 5.0, "undecided": 10.0},
+            },
+            {
+                "date": date(2026, 9, 21),
+                "institute": "B",
+                "sample": 2000,
+                "method": "Online",
+                "registration": "BR-30002/2026",
+                "verifiedTse": False,
+                "values": {"lula": 42.0, "flavio-bolsonaro": 34.0},
+                "nonCandidate": {"blank": 4.0, "undecided": 8.0},
+            },
+        ]
+        result = response_composition(polls, date(2026, 9, 22))
+        self.assertTrue(result["available"])
+        self.assertIn("blank", result["categories"])
+        self.assertIn("undecided", result["categories"])
+        self.assertGreater(result["residualUnclassified"], 0.0)
+        self.assertLess(result["candidateShare"], 100.0)
+
+    def test_sensitivity_reports_leave_one_out_range(self):
+        polls = [
+            {
+                "date": date(2026, 9, 18 + idx),
+                "institute": chr(ord("A") + idx),
+                "sample": 2000,
+                "method": "Presencial",
+                "registration": f"BR-31{idx:03d}/2026",
+                "verifiedTse": False,
+                "values": {
+                    "lula": 38.0 + idx,
+                    "flavio-bolsonaro": 36.0 - idx * 0.5,
+                },
+                "nonCandidate": {},
+            }
+            for idx in range(4)
+        ]
+        result = sensitivity_analysis(polls, date(2026, 9, 22))
+        self.assertEqual(result["status"], "ok")
+        self.assertGreaterEqual(result["maxLeaveOneOutShift"], 0.0)
+        self.assertIn("lula", result["candidates"])
+        row = result["candidates"]["lula"]
+        self.assertLessEqual(row["leaveOneOutLow"], row["baseline"] + 5.0)
+        self.assertGreaterEqual(row["leaveOneOutHigh"], row["baseline"] - 5.0)
 
 
 if __name__ == "__main__":
