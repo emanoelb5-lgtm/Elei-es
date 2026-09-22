@@ -1,6 +1,6 @@
 {
   "schemaVersion": 3,
-  "generatedAt": "2026-09-22T17:14:28.626615Z",
+  "generatedAt": "2026-09-22T17:17:47.166696Z",
   "electionDate": "2026-10-04",
   "daysToElection": 12,
   "quality": {
@@ -19,7 +19,7 @@
       "label": "BBC / PollingData",
       "type": "base de pesquisas individuais",
       "status": "ok",
-      "updatedAt": "2026-09-22T17:14:30.933232Z",
+      "updatedAt": "2026-09-22T17:17:49.250987Z",
       "url": "https://news.files.bbci.co.uk/include/vjamericas/1561-poll-tracker-brazil-2026/table/portuguese/app/amp",
       "tablesFound": 2
     },
@@ -33,11 +33,38 @@
       "error": "403 Client Error: Forbidden for url: https://dadosabertos.tse.jus.br/api/3/action/package_show?id=6ee9ef02-b6da-4dd2-8fee-37afe4d2db6d"
     },
     {
+      "id": "uol",
+      "label": "UOL · Agregador",
+      "type": "agregador de conferência · sem peso",
+      "status": "fallback",
+      "updatedAt": null,
+      "url": "https://noticias.uol.com.br/eleicoes/agregador-de-pesquisas-eleitorais/",
+      "error": "403 Client Error: Forbidden for url: https://noticias.uol.com.br/eleicoes/agregador-de-pesquisas-eleitorais/"
+    },
+    {
+      "id": "electiolab",
+      "label": "ElectioLab",
+      "type": "agregador de conferência · sem peso",
+      "status": "ok",
+      "updatedAt": "2026-09-22T17:17:49.889836Z",
+      "url": "https://electiolab.com/pesquisas-presidenciais-2026",
+      "pageFreshness": "21 de setembro de 2026"
+    },
+    {
+      "id": "atlas",
+      "label": "AtlasIntel · pesquisas",
+      "type": "fonte primária de conferência · sem peso",
+      "status": "fallback",
+      "updatedAt": null,
+      "url": "https://www.atlasintel.org/polls/exclusive-polls",
+      "error": "conteúdo eleitoral esperado não localizado"
+    },
+    {
       "id": "polymarket",
       "label": "Polymarket",
       "type": "mercado de previsão · sinal externo",
       "status": "ok",
-      "updatedAt": "2026-09-22T17:14:31.067372Z",
+      "updatedAt": "2026-09-22T17:17:49.335370Z",
       "url": "https://polymarket.com/event/brazil-presidential-election"
     }
   ],
