@@ -149,7 +149,11 @@ data class RegimeCandidateDiagnostic(
     val recentInstituteCount: Int,
     val level: String,
     val shadowAdaptiveSupport: Double,
-    val shadowRecentWeight: Double
+    val shadowRecentWeight: Double,
+    val persistenceStreak: Int,
+    val persistenceStatus: String,
+    val persistentSignal: Boolean,
+    val persistenceDirection: String
 )
 
 data class RegimeShiftData(
@@ -162,6 +166,13 @@ data class RegimeShiftData(
     val previousInstituteCount: Int,
     val candidates: Map<String, RegimeCandidateDiagnostic>,
     val adaptiveApplied: Boolean,
+    val evidenceFingerprint: String,
+    val evidenceChanged: Boolean,
+    val evidenceStateCount: Int,
+    val persistentCandidateCount: Int,
+    val buildingCandidateCount: Int,
+    val persistenceApplied: Boolean,
+    val persistenceNote: String,
     val note: String
 )
 
