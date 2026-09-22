@@ -1,3 +1,4 @@
+# schema v4: composition + sensitivity validation.
 # pipeline corrente separado do backtest histórico.
 # v0.4.1 multi-cycle historical validation.
 # v0.4.1: dispara backtest histórico no pipeline completo.
