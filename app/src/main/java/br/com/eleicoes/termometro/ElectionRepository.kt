@@ -193,6 +193,8 @@ class ElectionRepository {
                 comparisonCount = rolling.optInt("comparisonCount", 0),
                 meanAbsoluteError = if (rolling.isNull("meanAbsoluteError")) null else rolling.optDouble("meanAbsoluteError"),
                 medianAbsoluteError = if (rolling.isNull("medianAbsoluteError")) null else rolling.optDouble("medianAbsoluteError"),
+                simpleMeanAbsoluteError = if (rolling.isNull("simpleMeanAbsoluteError")) null else rolling.optDouble("simpleMeanAbsoluteError"),
+                errorDifferenceVsSimple = if (rolling.isNull("errorDifferenceVsSimple")) null else rolling.optDouble("errorDifferenceVsSimple"),
                 intervalCoverage = if (rolling.isNull("intervalCoverage")) null else rolling.optDouble("intervalCoverage"),
                 target = rolling.optString("target").takeIf { it.isNotBlank() },
                 note = rolling.optString("note").takeIf { it.isNotBlank() }
