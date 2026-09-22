@@ -1,6 +1,6 @@
 {
-  "schemaVersion": 8,
-  "generatedAt": "2026-09-22T22:04:43.623884Z",
+  "schemaVersion": 9,
+  "generatedAt": "2026-09-22T23:08:31.949091Z",
   "electionDate": "2026-10-04",
   "daysToElection": 12,
   "quality": {
@@ -19,7 +19,7 @@
       "label": "BBC / PollingData",
       "type": "base de pesquisas individuais",
       "status": "ok",
-      "updatedAt": "2026-09-22T22:04:47.556664Z",
+      "updatedAt": "2026-09-22T23:08:33.057663Z",
       "url": "https://news.files.bbci.co.uk/include/vjamericas/1561-poll-tracker-brazil-2026/table/portuguese/app/amp",
       "tablesFound": 2
     },
@@ -46,7 +46,7 @@
       "label": "ElectioLab",
       "type": "agregador de conferência · sem peso",
       "status": "ok",
-      "updatedAt": "2026-09-22T22:04:48.206739Z",
+      "updatedAt": "2026-09-22T23:08:34.199555Z",
       "url": "https://electiolab.com/pesquisas-presidenciais-2026",
       "pageFreshness": "21 de setembro de 2026"
     },
@@ -64,7 +64,7 @@
       "label": "Polymarket",
       "type": "mercado de previsão · sinal externo",
       "status": "ok",
-      "updatedAt": "2026-09-22T22:04:47.628557Z",
+      "updatedAt": "2026-09-22T23:08:33.143677Z",
       "url": "https://polymarket.com/event/brazil-presidential-election"
     }
   ],
@@ -91,7 +91,7 @@
       "modelIntervalHigh": 38.06,
       "change": 0.0,
       "trend": "estável",
-      "marketSignal": 58.8
+      "marketSignal": 58.75
     },
     {
       "id": "lula",
@@ -1516,7 +1516,11 @@
         "recentInstituteCount": 8,
         "level": "consistent",
         "shadowAdaptiveSupport": 5.46,
-        "shadowRecentWeight": 0.65
+        "shadowRecentWeight": 0.65,
+        "persistenceStreak": 1,
+        "persistenceStatus": "unconfirmed",
+        "persistentSignal": false,
+        "persistenceDirection": "down"
       },
       "flavio-bolsonaro": {
         "recentSupport": 38.31,
@@ -1528,7 +1532,11 @@
         "recentInstituteCount": 8,
         "level": "consistent",
         "shadowAdaptiveSupport": 37.65,
-        "shadowRecentWeight": 0.65
+        "shadowRecentWeight": 0.65,
+        "persistenceStreak": 1,
+        "persistenceStatus": "unconfirmed",
+        "persistentSignal": false,
+        "persistenceDirection": "up"
       },
       "lula": {
         "recentSupport": 39.51,
@@ -1540,7 +1548,11 @@
         "recentInstituteCount": 8,
         "level": "stable",
         "shadowAdaptiveSupport": 39.23,
-        "shadowRecentWeight": 0.0
+        "shadowRecentWeight": 0.0,
+        "persistenceStreak": 0,
+        "persistenceStatus": "stable",
+        "persistentSignal": false,
+        "persistenceDirection": "up"
       },
       "pablo-marcal": {
         "recentSupport": 1.45,
@@ -1552,7 +1564,11 @@
         "recentInstituteCount": 2,
         "level": "stable",
         "shadowAdaptiveSupport": 1.77,
-        "shadowRecentWeight": 0.0
+        "shadowRecentWeight": 0.0,
+        "persistenceStreak": 0,
+        "persistenceStatus": "stable",
+        "persistentSignal": false,
+        "persistenceDirection": "down"
       },
       "renan-santos": {
         "recentSupport": 4.88,
@@ -1564,7 +1580,11 @@
         "recentInstituteCount": 8,
         "level": "stable",
         "shadowAdaptiveSupport": 4.76,
-        "shadowRecentWeight": 0.0
+        "shadowRecentWeight": 0.0,
+        "persistenceStreak": 0,
+        "persistenceStatus": "stable",
+        "persistentSignal": false,
+        "persistenceDirection": "up"
       },
       "romeu-zema": {
         "recentSupport": 1.11,
@@ -1576,7 +1596,11 @@
         "recentInstituteCount": 8,
         "level": "stable",
         "shadowAdaptiveSupport": 1.19,
-        "shadowRecentWeight": 0.0
+        "shadowRecentWeight": 0.0,
+        "persistenceStreak": 0,
+        "persistenceStatus": "stable",
+        "persistentSignal": false,
+        "persistenceDirection": "down"
       },
       "ronaldo-caiado": {
         "recentSupport": 3.04,
@@ -1588,11 +1612,22 @@
         "recentInstituteCount": 8,
         "level": "stable",
         "shadowAdaptiveSupport": 3.04,
-        "shadowRecentWeight": 0.0
+        "shadowRecentWeight": 0.0,
+        "persistenceStreak": 0,
+        "persistenceStatus": "stable",
+        "persistentSignal": false,
+        "persistenceDirection": "down"
       }
     },
     "adaptiveApplied": false,
-    "note": "Compara o bloco recente com pesquisas de 8 a 30 dias. A leitura adaptativa é calculada apenas em sombra para validação e não substitui o agregado principal."
+    "note": "Compara o bloco recente com pesquisas de 8 a 30 dias. A leitura adaptativa é calculada apenas em sombra para validação e não substitui o agregado principal.",
+    "evidenceFingerprint": "d050fddfa4eea55a0f9f",
+    "evidenceChanged": true,
+    "evidenceStateCount": 1,
+    "persistentCandidateCount": 0,
+    "buildingCandidateCount": 0,
+    "persistenceApplied": false,
+    "persistenceNote": "Persistência conta apenas conjuntos distintos de pesquisas. Execuções repetidas sem nova evidência não avançam o contador. Três estados de evidência consecutivos na mesma direção são necessários para marcar um sinal como persistente."
   },
   "methodology": {
     "primaryUnit": "pesquisa individual",
@@ -1604,7 +1639,7 @@
     "responseComposition": "categorias não candidatas somente quando identificadas pela fonte; residual não classificado não é indecisão",
     "sensitivity": "leave-one-out por pesquisa + comparação de janelas de 14 e 30 dias; informativo, sem ajuste automático",
     "influence": "remoção de uma pesquisa ou de um instituto + desvio robusto entre pares contemporâneos; diagnóstico apenas",
-    "regimeShift": "comparação entre últimos 7 dias e bloco de 8 a 30 dias; leitura adaptativa apenas em sombra, sem aplicação automática"
+    "regimeShift": "comparação entre últimos 7 dias e bloco de 8 a 30 dias + persistência por estados distintos de evidência; leitura adaptativa apenas em sombra, sem aplicação automática"
   },
   "note": "Leitura estatística de pesquisas públicas. Intervalos e testes de sensibilidade expressam incerteza do agregador e não garantem resultado eleitoral."
 }
