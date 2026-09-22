@@ -295,7 +295,11 @@ private fun QualityCard(q: QualityInfo) {
             }
             MetricRow("Pesquisas na janela", q.pollCount.toString())
             MetricRow("Institutos diferentes", q.instituteCount.toString())
-            MetricRow("Registros verificados no TSE", q.verifiedTseCount.toString())
+            MetricRow("Métodos de coleta diferentes", q.methodCount.toString())
+            MetricRow("Pesquisas com nº de registro TSE", q.registrationCount.toString())
+            if (q.verifiedTseCount > 0) {
+                MetricRow("Registros validados diretamente", q.verifiedTseCount.toString())
+            }
             MetricRow("Idade média dos levantamentos", "${q.averageAgeDays.one()} dias")
             MetricRow("Pesquisas efetivas após ponderação", q.effectivePolls.one())
         }
