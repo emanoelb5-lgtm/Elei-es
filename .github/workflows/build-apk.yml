@@ -91,7 +91,7 @@ jobs:
           VERSION: ${{ steps.meta.outputs.version }}
         run: |
           set -euo pipefail
-          NOTES='v0.6.0 introduz incerteza avançada para a estimativa de apoio atual. A faixa exibida combina intervalo analítico, bootstrap determinístico das pesquisas e piso empírico baseado no erro retrospectivo contra a próxima pesquisa publicada. Os componentes são mostrados separadamente para auditoria. Não calcula chance de vitória nem projeta resultado eleitoral futuro. Mantém influência, outliers descritivos, backtests e laboratório sem correções automáticas. Assinatura estável desde a v0.2.0.'
+          NOTES='v0.6.1 acrescenta bootstrap em blocos por instituto à incerteza avançada, preservando também o bootstrap por pesquisa e o intervalo analítico. A faixa principal usa o componente mais conservador; o app informa qual componente determinou sua largura. Cenários de segundo turno também recebem bootstrap individual e por instituto, sem reutilizar o piso empírico calibrado no primeiro turno. Não calcula chance de vitória nem projeta resultado futuro. Mantém assinatura estável desde a v0.2.0.'
           APK="dist/Termometro-Eleicoes-2026-v${VERSION}.apk"
           TAG="v${VERSION}"
           RELEASE_OK=0
