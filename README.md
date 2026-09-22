@@ -2,7 +2,7 @@
 
 Aplicativo Android público e experimental para acompanhar **pesquisas presidenciais de 2026**, sua evolução no tempo, incerteza e diferenças entre fontes.
 
-## O que a v0.4.0 faz
+## O que a v0.4.1 faz
 
 - trabalha com **pesquisas individuais** como unidade principal, em vez de somar agregadores;
 - deduplica levantamentos pelo número de registro TSE e, quando necessário, por uma chave de conteúdo;
@@ -74,7 +74,7 @@ Se os testes ou a validação estrutural falharem, os novos dados não são publ
 
 O workflow **Build e publicar APK** compila e assina o APK com a mesma identidade de desenvolvimento estável adotada desde a v0.2.0, permitindo atualização sobre versões posteriores à transição de assinatura.
 
-A release atual é v0.4.0.
+A release atual é v0.4.1.
 
 ## Aviso
 
@@ -89,3 +89,16 @@ O diagnóstico de fonte compara cada levantamento com pesquisas próximas de out
 A validação retrospectiva usa apenas pesquisas anteriores para formar o agregado e então compara essa leitura com a próxima pesquisa publicada. Isso mede estabilidade operacional do agregador e **não mede acerto do resultado da eleição**.
 
 O backtest com eleições anteriores permanece marcado como não aplicado. Nenhum efeito histórico será usado como correção da leitura de 2026 sem uma base histórica reproduzível e validada separadamente.
+
+## Backtest histórico v0.4.1
+
+Os estudos históricos são executados em pipeline separado da coleta corrente de 2026. A rotina usa as mesmas regras gerais de recência, tamanho amostral e controle de repetição, comparando-as com uma média simples em horizontes de 30, 21, 14, 7, 3 e 1 dia antes da eleição.
+
+Atualmente há dois estudos separados:
+
+- 2018: 38 pesquisas históricas utilizáveis no conjunto comum de candidatos;
+- 2022: 79 pesquisas históricas utilizáveis no conjunto comum de candidatos.
+
+Os resultados oficiais servem exclusivamente como referência retrospectiva. Os estudos não alteram automaticamente pesos, médias ou candidatos da leitura de 2026.
+
+O arquivo público é data/historical-backtest.json. O workflow histórico roda diariamente e também quando o código, os testes ou as dependências desse backtest mudam.
