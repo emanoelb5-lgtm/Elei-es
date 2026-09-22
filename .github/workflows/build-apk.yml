@@ -82,7 +82,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           VERSION: ${{ steps.meta.outputs.version }}
         run: |
-          NOTES='Melhora o retorno do botão Atualizar leitura, informando quando há nova variação, quando as fontes foram verificadas sem mudança ou quando ainda não existe nova leitura. A aba Previsão passa a usar histórico retroativo reconstruído a partir de pesquisas individuais datadas e histórico de mercado quando disponível, sem alterar o fundamento da página inicial. Mantém a mesma assinatura estável introduzida na v0.2.0.'
+          NOTES='v0.3.0 amplia o aplicativo com agregação de pesquisas individuais, deduplicação por registro, ponderação por recência e amostra, intervalos de incerteza, histórico de até 90 dias, tendência observada em 5/15/30/60/90 dias, cenários de segundo turno separados, painel de qualidade e mercado de previsão exibido apenas como sinal externo. Mantém a mesma assinatura estável da v0.2.0.'
           APK="dist/Termometro-Eleicoes-2026-v${VERSION}.apk"
           TAG="v${VERSION}"
           if gh release view "$TAG" >/dev/null 2>&1; then
