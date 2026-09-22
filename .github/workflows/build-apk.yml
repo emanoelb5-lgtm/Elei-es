@@ -85,16 +85,56 @@ jobs:
           name: Termometro-Eleicoes-2026-v${{ steps.meta.outputs.version }}
           path: dist/Termometro-Eleicoes-2026-v${{ steps.meta.outputs.version }}.apk
 
-      - name: Publicar/atualizar Release
+      - name: Publicar Release ou fallback no repositório
         env:
           GH_TOKEN: ${{ github.token }}
           VERSION: ${{ steps.meta.outputs.version }}
         run: |
+          set -euo pipefail
           NOTES='v0.4.0 adiciona diagnóstico de instituto e método, comparação contra pesquisas contemporâneas de outros institutos, validação retrospectiva do agregador contra a próxima pesquisa publicada e uma nova aba Diagnóstico. Nenhuma correção por fonte é aplicada automaticamente à média atual; o backtest eleitoral histórico permanece separado até existir base reproduzível validada. Mantém a assinatura estável introduzida na v0.2.0.'
           APK="dist/Termometro-Eleicoes-2026-v${VERSION}.apk"
           TAG="v${VERSION}"
+          RELEASE_OK=0
+
           if gh release view "$TAG" >/dev/null 2>&1; then
-            gh release upload "$TAG" "$APK" --clobber
+            if gh release upload "$TAG" "$APK" --clobber; then
+              RELEASE_OK=1
+            fi
           else
-            gh release create "$TAG" "$APK" --target "${GITHUB_SHA}" --title "Termômetro Eleições 2026 ${TAG}" --notes "$NOTES"
+            if gh release create "$TAG" "$APK" --target "${GITHUB_SHA}" --title "Termômetro Eleições 2026 ${TAG}" --notes "$NOTES"; then
+              RELEASE_OK=1
+            fi
           fi
+
+          if [ "$RELEASE_OK" -eq 1 ]; then
+            echo "Release publicada com sucesso."
+            exit 0
+          fi
+
+          echo "::warning::API de Releases indisponível para o token do Actions; usando fallback persistente no repositório."
+          cp "$APK" "/tmp/Termometro-Eleicoes-2026-v${VERSION}.apk"
+          git config user.name "build-bot"
+          git config user.email "actions@users.noreply.github.com"
+
+          for attempt in 1 2 3 4 5; do
+            git fetch origin main
+            git reset --hard origin/main
+            mkdir -p downloads
+            cp "/tmp/Termometro-Eleicoes-2026-v${VERSION}.apk" "downloads/Termometro-Eleicoes-2026-v${VERSION}.apk"
+            git add "downloads/Termometro-Eleicoes-2026-v${VERSION}.apk"
+
+            if git diff --cached --quiet; then
+              echo "APK já está publicado em downloads/."
+              exit 0
+            fi
+
+            git commit -m "build: publica APK v${VERSION}"
+            if git push origin HEAD:main; then
+              echo "APK publicado em downloads/."
+              exit 0
+            fi
+            sleep 2
+          done
+
+          echo "Falha ao publicar tanto na Release quanto no fallback." >&2
+          exit 1
