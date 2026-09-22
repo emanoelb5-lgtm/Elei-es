@@ -137,10 +137,12 @@ A faixa principal exibida no primeiro turno passa a combinar três componentes i
 
 1. intervalo analítico do agregador, baseado em erro amostral aproximado e heterogeneidade entre pesquisas;
 2. bootstrap determinístico das pesquisas da janela corrente, com percentis de reamostragem;
-3. piso empírico baseado no percentil 80 do erro absoluto observado na validação retrospectiva contra a próxima pesquisa publicada.
+3. piso empírico baseado no percentil 80 do erro absoluto observado na validação retrospectiva contra a próxima pesquisa publicada. Quando há volume suficiente, esse piso é calibrado separadamente por faixa de apoio (baixo, médio ou alto); caso contrário, usa o quantil global.
 
 O aplicativo preserva os três componentes separadamente para auditoria. A faixa avançada usa o componente mais conservador e nunca fica artificialmente mais estreita que o intervalo analítico anterior.
 
 O bootstrap mede sensibilidade da estimativa de apoio atual à composição da amostra de pesquisas. O piso empírico mede capacidade de reprodução observada em leituras passadas. Nenhum dos dois representa chance de vitória, probabilidade eleitoral ou previsão de resultado futuro.
 
 O schema de data/analytics.json passa a ser v6.
+
+Na validação corrente usada para verificar a v0.6.0, o intervalo analítico anterior cobriu 52,3% das observações retrospectivas. A calibração empírica por faixa atingiu 79,8% de cobertura para q80 e 89,8% para q90. Esses percentuais medem reprodução de pesquisas passadas, não acerto de eleição futura.
