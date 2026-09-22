@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-09-22T17:57:15.778262Z",
+  "generatedAt": "2026-09-22T17:58:24.276368Z",
   "studies": [
     {
       "status": "ok",
@@ -151,7 +151,7 @@
       "electionDate": "2018-10-07",
       "pollSource": "https://en.wikipedia.org/wiki/Opinion_polling_for_the_2018_Brazilian_presidential_election",
       "resultSource": "https://www.tse.jus.br/comunicacao/noticias/2018/Outubro/concluida-totalizacao-de-votos-do-1o-turno-das-eleicoes-2018",
-      "pollCountTotal": 29,
+      "pollCountTotal": 38,
       "resultComparisonBasis": "votos dos candidatos comuns normalizados para 100%",
       "officialResultCommonSet": {
         "bolsonaro": 49.74,
@@ -163,106 +163,126 @@
         {
           "daysBeforeElection": 30,
           "cutoff": "2018-09-07",
-          "pollCount": 0,
-          "instituteCount": 0,
-          "weightedMae": null,
-          "simpleMae": null,
-          "weightedEstimate": {},
-          "simpleEstimate": {}
+          "pollCount": 3,
+          "instituteCount": 3,
+          "weightedMae": 10.75,
+          "simpleMae": 10.76,
+          "weightedEstimate": {
+            "bolsonaro": 46.49,
+            "haddad": 13.39,
+            "gomes": 22.92,
+            "alckmin": 17.2
+          },
+          "simpleEstimate": {
+            "bolsonaro": 46.71,
+            "haddad": 13.16,
+            "gomes": 23.03,
+            "alckmin": 17.11
+          }
         },
         {
           "daysBeforeElection": 21,
           "cutoff": "2018-09-16",
-          "pollCount": 0,
-          "instituteCount": 0,
-          "weightedMae": null,
-          "simpleMae": null,
-          "weightedEstimate": {},
-          "simpleEstimate": {}
+          "pollCount": 12,
+          "instituteCount": 7,
+          "weightedMae": 8.07,
+          "simpleMae": 8.74,
+          "weightedEstimate": {
+            "bolsonaro": 46.2,
+            "haddad": 19.04,
+            "gomes": 20.65,
+            "alckmin": 14.12
+          },
+          "simpleEstimate": {
+            "bolsonaro": 46.63,
+            "haddad": 17.26,
+            "gomes": 21.22,
+            "alckmin": 14.88
+          }
         },
         {
           "daysBeforeElection": 14,
           "cutoff": "2018-09-23",
-          "pollCount": 29,
-          "instituteCount": 12,
-          "weightedMae": 5.98,
-          "simpleMae": 6.03,
+          "pollCount": 19,
+          "instituteCount": 9,
+          "weightedMae": 5.88,
+          "simpleMae": 7.04,
           "weightedEstimate": {
-            "bolsonaro": 43.25,
-            "haddad": 26.17,
-            "gomes": 17.72,
-            "alckmin": 12.86
+            "bolsonaro": 43.74,
+            "haddad": 25.88,
+            "gomes": 18.37,
+            "alckmin": 12.01
           },
           "simpleEstimate": {
-            "bolsonaro": 43.88,
-            "haddad": 25.44,
-            "gomes": 17.72,
-            "alckmin": 12.96
+            "bolsonaro": 45.25,
+            "haddad": 22.05,
+            "gomes": 19.32,
+            "alckmin": 13.38
           }
         },
         {
           "daysBeforeElection": 7,
           "cutoff": "2018-09-30",
-          "pollCount": 29,
-          "instituteCount": 12,
-          "weightedMae": 5.98,
-          "simpleMae": 6.03,
+          "pollCount": 28,
+          "instituteCount": 11,
+          "weightedMae": 4.41,
+          "simpleMae": 5.9,
           "weightedEstimate": {
-            "bolsonaro": 43.25,
-            "haddad": 26.17,
-            "gomes": 17.72,
-            "alckmin": 12.86
+            "bolsonaro": 42.71,
+            "haddad": 29.84,
+            "gomes": 15.72,
+            "alckmin": 11.72
           },
           "simpleEstimate": {
-            "bolsonaro": 43.88,
+            "bolsonaro": 44.14,
             "haddad": 25.44,
-            "gomes": 17.72,
-            "alckmin": 12.96
+            "gomes": 17.62,
+            "alckmin": 12.8
           }
         },
         {
           "daysBeforeElection": 3,
           "cutoff": "2018-10-04",
-          "pollCount": 29,
+          "pollCount": 34,
           "instituteCount": 12,
-          "weightedMae": 5.98,
-          "simpleMae": 6.03,
+          "weightedMae": 3.58,
+          "simpleMae": 4.91,
           "weightedEstimate": {
-            "bolsonaro": 43.25,
-            "haddad": 26.17,
-            "gomes": 17.72,
-            "alckmin": 12.86
+            "bolsonaro": 43.99,
+            "haddad": 30.24,
+            "gomes": 15.52,
+            "alckmin": 10.26
           },
           "simpleEstimate": {
-            "bolsonaro": 43.88,
-            "haddad": 25.44,
-            "gomes": 17.72,
-            "alckmin": 12.96
+            "bolsonaro": 44.3,
+            "haddad": 27.27,
+            "gomes": 16.73,
+            "alckmin": 11.7
           }
         },
         {
           "daysBeforeElection": 1,
           "cutoff": "2018-10-06",
-          "pollCount": 29,
-          "instituteCount": 12,
-          "weightedMae": 5.98,
-          "simpleMae": 6.03,
+          "pollCount": 35,
+          "instituteCount": 13,
+          "weightedMae": 2.8,
+          "simpleMae": 4.49,
           "weightedEstimate": {
-            "bolsonaro": 43.25,
-            "haddad": 26.17,
-            "gomes": 17.72,
-            "alckmin": 12.86
+            "bolsonaro": 46.07,
+            "haddad": 29.71,
+            "gomes": 14.78,
+            "alckmin": 9.45
           },
           "simpleEstimate": {
-            "bolsonaro": 43.88,
-            "haddad": 25.44,
-            "gomes": 17.72,
-            "alckmin": 12.96
+            "bolsonaro": 44.79,
+            "haddad": 27.61,
+            "gomes": 16.34,
+            "alckmin": 11.26
           }
         }
       ],
-      "averageWeightedMae": 5.98,
-      "averageSimpleMae": 6.03,
+      "averageWeightedMae": 5.92,
+      "averageSimpleMae": 6.97,
       "correctionApplied": false,
       "note": "Backtest histórico separado. Não altera pesos, médias ou candidatos de 2026."
     }
