@@ -105,6 +105,42 @@ def parse_registration(cells: Iterable[str]) -> str | None:
     return m.group(0).replace(" ", "").replace("BR-", "BR-")
 
 
+def parse_metadata(text: str) -> dict:
+    """Extrai instituto, amostra e método da célula compacta do PollingData."""
+    cleaned = re.sub(
+        r"^\s*\d{1,2}/\d{1,2}\s*-\s*\d{1,2}/\d{1,2}\s+",
+        "",
+        text or "",
+    ).strip()
+    marker = re.search(
+        r"\s(\d{1,3}(?:\.\d{3})+|\d{3,6})\s+"
+        r"(?=(?:Presencial|Telef[oô]nica|Online|Digital|H[íi]brida|URA|IVR|CATI))",
+        cleaned,
+        re.IGNORECASE,
+    )
+    if marker is None:
+        marker = re.search(r"\s(\d{1,3}(?:\.\d{3})+|\d{3,6})\s+", cleaned)
+
+    if marker is None:
+        return {
+            "institute": "Instituto não identificado",
+            "sample": 2000,
+            "method": "não identificado",
+        }
+
+    institute = cleaned[: marker.start()].strip() or "Instituto não identificado"
+    sample = parse_sample(marker.group(1))
+    tail = cleaned[marker.end():].strip()
+    margin = re.search(r"\s\d{1,2}(?:[\.,]\d{1,2})?\s*p\.?p\.?", tail, re.IGNORECASE)
+    method = (tail[: margin.start()] if margin else tail).strip()
+    method = re.sub(r"\s+\d{1,3}%\s*$", "", method).strip()
+    return {
+        "institute": institute,
+        "sample": sample,
+        "method": method or "não identificado",
+    }
+
+
 def fetch_tse_registry_ids() -> tuple[set[str], dict]:
     source = {
         "id": "tse",
@@ -204,16 +240,15 @@ def fetch_poll_tables() -> tuple[List[dict], List[List[dict]], dict]:
                 registration = parse_registration([cells[registration_index]])
             if registration is None:
                 registration = parse_registration(cells)
-            institute = (
-                cells[institute_index].strip()
-                if institute_index is not None and institute_index < len(cells) and cells[institute_index].strip()
-                else "Instituto não identificado"
-            )
-            sample = parse_sample(cells[sample_index]) if sample_index is not None and sample_index < len(cells) else 2000
+            metadata = parse_metadata(cells[0])
+            institute = metadata["institute"]
+            sample = metadata["sample"]
+            method = metadata["method"]
             polls.append({
                 "date": end_date,
                 "institute": institute,
                 "sample": sample,
+                "method": method,
                 "registration": registration,
                 "values": values,
             })
@@ -240,26 +275,33 @@ def fetch_poll_tables() -> tuple[List[dict], List[List[dict]], dict]:
 
 
 def dedupe_polls(polls: Iterable[dict], tse_ids: set[str]) -> List[dict]:
-    seen = set()
-    out = []
-    for poll in sorted(polls, key=lambda p: p["date"]):
+    """Mantém uma observação por pesquisa registrada e escolhe o cenário mais completo."""
+    chosen: Dict[tuple, dict] = {}
+    for original in polls:
+        poll = dict(original)
         reg = (poll.get("registration") or "").upper()
         if reg:
             key = ("tse", reg)
         else:
             key = (
+                "content",
                 norm(poll.get("institute", "")),
                 poll["date"].isoformat(),
                 poll.get("sample", 0),
                 tuple(sorted((k, round(v, 2)) for k, v in poll["values"].items())),
             )
-        if key in seen:
-            continue
-        seen.add(key)
-        poll = dict(poll)
-        poll["verifiedTse"] = bool(reg and reg in tse_ids)
-        out.append(poll)
-    return out
+
+        current = chosen.get(key)
+        score = (len(poll.get("values", {})), poll.get("sample", 0))
+        current_score = (
+            (len(current.get("values", {})), current.get("sample", 0))
+            if current else (-1, -1)
+        )
+        if current is None or score > current_score:
+            poll["verifiedTse"] = bool(reg and reg in tse_ids)
+            chosen[key] = poll
+
+    return sorted(chosen.values(), key=lambda p: (p["date"], norm(p.get("institute", ""))))
 
 
 def poll_weights(polls: List[dict], target: date) -> List[tuple[dict, float]]:
@@ -407,6 +449,7 @@ def serialize_poll(poll: dict, round_name: str) -> dict:
         "date": poll["date"].isoformat(),
         "institute": poll["institute"],
         "sample": poll["sample"],
+        "method": poll.get("method", "não identificado"),
         "registration": poll.get("registration"),
         "verifiedTse": bool(poll.get("verifiedTse")),
         "round": round_name,
