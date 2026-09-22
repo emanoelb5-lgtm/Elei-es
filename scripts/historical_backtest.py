@@ -4,11 +4,13 @@ from __future__ import annotations
 import json
 import math
 import re
+from io import StringIO
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 from typing import Dict, List
 
 import pandas as pd
+import requests
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "data"
@@ -103,7 +105,13 @@ def sample_n(v) -> int:
     return n if 300 <= n <= 100000 else 2000
 
 def load_2022_polls() -> List[dict]:
-    tables=pd.read_html(WIKI_2022)
+    response=requests.get(
+        WIKI_2022,
+        headers={"User-Agent":"TermometroEleicoes/0.4.1 historical-backtest"},
+        timeout=30,
+    )
+    response.raise_for_status()
+    tables=pd.read_html(StringIO(response.text))
     polls=[]
     for df in tables:
         df=df.copy()
