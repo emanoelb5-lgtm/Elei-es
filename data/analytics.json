@@ -1,6 +1,6 @@
 {
-  "schemaVersion": 4,
-  "generatedAt": "2026-09-22T18:18:15.337131Z",
+  "schemaVersion": 5,
+  "generatedAt": "2026-09-22T18:28:03.024252Z",
   "electionDate": "2026-10-04",
   "daysToElection": 12,
   "quality": {
@@ -19,7 +19,7 @@
       "label": "BBC / PollingData",
       "type": "base de pesquisas individuais",
       "status": "ok",
-      "updatedAt": "2026-09-22T18:18:16.575478Z",
+      "updatedAt": "2026-09-22T18:28:04.013489Z",
       "url": "https://news.files.bbci.co.uk/include/vjamericas/1561-poll-tracker-brazil-2026/table/portuguese/app/amp",
       "tablesFound": 2
     },
@@ -46,7 +46,7 @@
       "label": "ElectioLab",
       "type": "agregador de conferência · sem peso",
       "status": "ok",
-      "updatedAt": "2026-09-22T18:18:16.972385Z",
+      "updatedAt": "2026-09-22T18:28:04.413415Z",
       "url": "https://electiolab.com/pesquisas-presidenciais-2026",
       "pageFreshness": "21 de setembro de 2026"
     },
@@ -64,7 +64,7 @@
       "label": "Polymarket",
       "type": "mercado de previsão · sinal externo",
       "status": "ok",
-      "updatedAt": "2026-09-22T18:18:16.612501Z",
+      "updatedAt": "2026-09-22T18:28:04.047005Z",
       "url": "https://polymarket.com/event/brazil-presidential-election"
     }
   ],
@@ -87,7 +87,7 @@
       "intervalHigh": 38.06,
       "change": 0.0,
       "trend": "estável",
-      "marketSignal": 59.15
+      "marketSignal": 59.05
     },
     {
       "id": "lula",
@@ -250,6 +250,1014 @@
     },
     "note": "Teste de robustez: mede a mudança do agregado ao retirar uma pesquisa por vez e ao comparar janelas de 14 e 30 dias. Não é previsão de resultado."
   },
+  "influence": {
+    "status": "ok",
+    "pollCount": 35,
+    "instituteCount": 15,
+    "peerWindowDays": 10,
+    "atypicalThreshold": 2.53,
+    "polls": [
+      {
+        "date": "2026-08-23",
+        "institute": "GERP",
+        "sample": 2400,
+        "method": "Presencial (Domiciliar)",
+        "registration": "BR-03547/2026",
+        "verifiedTse": false,
+        "maxAbsoluteShift": 0.04,
+        "meanAbsoluteShift": 0.02,
+        "candidateShifts": {
+          "augusto-cury": 0.03,
+          "flavio-bolsonaro": 0.03,
+          "lula": -0.04,
+          "pablo-marcal": -0.03,
+          "renan-santos": -0.02,
+          "romeu-zema": -0.0,
+          "ronaldo-caiado": 0.01
+        },
+        "peerComparisonCount": 7,
+        "meanPeerDeviation": 1.92,
+        "atypicalSignal": false
+      },
+      {
+        "date": "2026-08-23",
+        "institute": "Indexa",
+        "sample": 2000,
+        "method": "Telefonica (CATI)",
+        "registration": "BR-06366/2026",
+        "verifiedTse": false,
+        "maxAbsoluteShift": 0.03,
+        "meanAbsoluteShift": 0.01,
+        "candidateShifts": {
+          "augusto-cury": 0.03,
+          "flavio-bolsonaro": -0.02,
+          "lula": -0.02,
+          "pablo-marcal": -0.0,
+          "renan-santos": -0.02,
+          "romeu-zema": -0.0,
+          "ronaldo-caiado": 0.01
+        },
+        "peerComparisonCount": 7,
+        "meanPeerDeviation": 1.36,
+        "atypicalSignal": false
+      },
+      {
+        "date": "2026-08-23",
+        "institute": "Nexus",
+        "sample": 2000,
+        "method": "Telefonica (CATI)",
+        "registration": "BR-09028/2026",
+        "verifiedTse": false,
+        "maxAbsoluteShift": 0.02,
+        "meanAbsoluteShift": 0.01,
+        "candidateShifts": {
+          "augusto-cury": 0.02,
+          "flavio-bolsonaro": 0.0,
+          "lula": 0.0,
+          "pablo-marcal": -0.01,
+          "renan-santos": -0.01,
+          "romeu-zema": -0.0,
+          "ronaldo-caiado": 0.01
+        },
+        "peerComparisonCount": 7,
+        "meanPeerDeviation": 1.09,
+        "atypicalSignal": false
+      },
+      {
+        "date": "2026-08-26",
+        "institute": "PoderData",
+        "sample": 2400,
+        "method": "Telefonica (IVR)",
+        "registration": "BR-04974/2026",
+        "verifiedTse": false,
+        "maxAbsoluteShift": 0.04,
+        "meanAbsoluteShift": 0.01,
+        "candidateShifts": {
+          "augusto-cury": 0.04,
+          "flavio-bolsonaro": -0.0,
+          "lula": -0.02,
+          "pablo-marcal": -0.01,
+          "renan-santos": -0.02,
+          "romeu-zema": -0.01,
+          "ronaldo-caiado": -0.01
+        },
+        "peerComparisonCount": 7,
+        "meanPeerDeviation": 0.66,
+        "atypicalSignal": false
+      },
+      {
+        "date": "2026-08-27",
+        "institute": "Vox Brasil",
+        "sample": 2100,
+        "method": "Presencial (Domiciliar)",
+        "registration": "BR-05519/2026",
+        "verifiedTse": false,
+        "maxAbsoluteShift": 0.03,
+        "meanAbsoluteShift": 0.02,
+        "candidateShifts": {
+          "augusto-cury": 0.03,
+          "flavio-bolsonaro": 0.02,
+          "lula": 0.02,
+          "pablo-marcal": -0.0,
+          "renan-santos": 0.01,
+          "romeu-zema": -0.02,
+          "ronaldo-caiado": -0.02
+        },
+        "peerComparisonCount": 7,
+        "meanPeerDeviation": 1.6,
+        "atypicalSignal": false
+      },
+      {
+        "date": "2026-08-30",
+        "institute": "AtlasIntel",
+        "sample": 5000,
+        "method": "Online",
+        "registration": "BR-07972/2026",
+        "verifiedTse": false,
+        "maxAbsoluteShift": 0.12,
+        "meanAbsoluteShift": 0.04,
+        "candidateShifts": {
+          "augusto-cury": -0.05,
+          "flavio-bolsonaro": 0.12,
+          "lula": 0.05,
+          "pablo-marcal": -0.01,
+          "renan-santos": -0.02,
+          "romeu-zema": 0.01,
+          "ronaldo-caiado": -0.04
+        },
+        "peerComparisonCount": 7,
+        "meanPeerDeviation": 1.57,
+        "atypicalSignal": false
+      },
+      {
+        "date": "2026-08-30",
+        "institute": "Nexus",
+        "sample": 2000,
+        "method": "Telefonica (CATI)",
+        "registration": "BR-08900/2026",
+        "verifiedTse": false,
+        "maxAbsoluteShift": 0.03,
+        "meanAbsoluteShift": 0.01,
+        "candidateShifts": {
+          "augusto-cury": -0.02,
+          "flavio-bolsonaro": 0.03,
+          "lula": 0.02,
+          "pablo-marcal": -0.01,
+          "renan-santos": -0.01,
+          "romeu-zema": -0.0,
+          "ronaldo-caiado": -0.0
+        },
+        "peerComparisonCount": 7,
+        "meanPeerDeviation": 2.06,
+        "atypicalSignal": false
+      },
+      {
+        "date": "2026-08-31",
+        "institute": "Real Time Big Data",
+        "sample": 2000,
+        "method": "Presencial (Domiciliar)",
+        "registration": "BR-03490/2026",
+        "verifiedTse": false,
+        "maxAbsoluteShift": 0.11,
+        "meanAbsoluteShift": 0.04,
+        "candidateShifts": {
+          "augusto-cury": -0.06,
+          "flavio-bolsonaro": 0.11,
+          "lula": 0.02,
+          "pablo-marcal": -0.04,
+          "renan-santos": -0.02,
+          "romeu-zema": -0.01,
+          "ronaldo-caiado": -0.01
+        },
+        "peerComparisonCount": 7,
+        "meanPeerDeviation": 1.69,
+        "atypicalSignal": false
+      },
+      {
+        "date": "2026-09-01",
+        "institute": "Futura",
+        "sample": 2000,
+        "method": "Telefonica (CATI)",
+        "registration": "BR-02793/2026",
+        "verifiedTse": false,
+        "maxAbsoluteShift": 0.03,
+        "meanAbsoluteShift": 0.01,
+        "candidateShifts": {
+          "augusto-cury": -0.03,
+          "flavio-bolsonaro": 0.03,
+          "lula": -0.0,
+          "pablo-marcal": -0.01,
+          "renan-santos": 0.0,
+          "romeu-zema": -0.01,
+          "ronaldo-caiado": 0.02
+        },
+        "peerComparisonCount": 7,
+        "meanPeerDeviation": 0.71,
+        "atypicalSignal": false
+      },
+      {
+        "date": "2026-09-01",
+        "institute": "Quaest",
+        "sample": 2004,
+        "method": "Presencial (Domiciliar)",
+        "registration": "BR-07065/2026",
+        "verifiedTse": false,
+        "maxAbsoluteShift": 0.03,
+        "meanAbsoluteShift": 0.01,
+        "candidateShifts": {
+          "augusto-cury": -0.02,
+          "flavio-bolsonaro": -0.01,
+          "lula": -0.02,
+          "pablo-marcal": 0.01,
+          "renan-santos": -0.01,
+          "romeu-zema": 0.0,
+          "ronaldo-caiado": 0.03
+        },
+        "peerComparisonCount": 7,
+        "meanPeerDeviation": 1.96,
+        "atypicalSignal": false
+      },
+      {
+        "date": "2026-09-02",
+        "institute": "PoderData",
+        "sample": 3000,
+        "method": "Telefonica (IVR)",
+        "registration": "BR-07561/2026",
+        "verifiedTse": false,
+        "maxAbsoluteShift": 0.02,
+        "meanAbsoluteShift": 0.01,
+        "candidateShifts": {
+          "augusto-cury": -0.02,
+          "flavio-bolsonaro": 0.02,
+          "lula": 0.0,
+          "pablo-marcal": -0.0,
+          "renan-santos": 0.0,
+          "romeu-zema": 0.0,
+          "ronaldo-caiado": 0.01
+        },
+        "peerComparisonCount": 7,
+        "meanPeerDeviation": 1.03,
+        "atypicalSignal": false
+      },
+      {
+        "date": "2026-09-03",
+        "institute": "Datafolha",
+        "sample": 2002,
+        "method": "Presencial (Ponto de fluxo)",
+        "registration": "BR-03669/2026",
+        "verifiedTse": false,
+        "maxAbsoluteShift": 0.03,
+        "meanAbsoluteShift": 0.01,
+        "candidateShifts": {
+          "augusto-cury": -0.02,
+          "flavio-bolsonaro": 0.03,
+          "lula": -0.0,
+          "pablo-marcal": -0.0,
+          "renan-santos": -0.02,
+          "romeu-zema": 0.0,
+          "ronaldo-caiado": 0.0
+        },
+        "peerComparisonCount": 7,
+        "meanPeerDeviation": 0.95,
+        "atypicalSignal": false
+      },
+      {
+        "date": "2026-09-04",
+        "institute": "Veritá",
+        "sample": 3840,
+        "method": "Telefonica (IVR)",
+        "registration": "BR-09426/2026",
+        "verifiedTse": false,
+        "maxAbsoluteShift": 0.19,
+        "meanAbsoluteShift": 0.06,
+        "candidateShifts": {
+          "augusto-cury": -0.19,
+          "flavio-bolsonaro": -0.08,
+          "lula": 0.03,
+          "pablo-marcal": 0.02,
+          "renan-santos": 0.03,
+          "romeu-zema": 0.03,
+          "ronaldo-caiado": 0.03
+        },
+        "peerComparisonCount": 7,
+        "meanPeerDeviation": 1.94,
+        "atypicalSignal": false
+      },
+      {
+        "date": "2026-09-06",
+        "institute": "Quaest",
+        "sample": 2004,
+        "method": "Presencial (Domiciliar)",
+        "registration": "BR-01720/2026",
+        "verifiedTse": false,
+        "maxAbsoluteShift": 0.04,
+        "meanAbsoluteShift": 0.02,
+        "candidateShifts": {
+          "augusto-cury": -0.02,
+          "flavio-bolsonaro": 0.04,
+          "lula": 0.01,
+          "pablo-marcal": 0.02,
+          "renan-santos": 0.0,
+          "romeu-zema": -0.01,
+          "ronaldo-caiado": 0.01
+        },
+        "peerComparisonCount": 7,
+        "meanPeerDeviation": 1.93,
+        "atypicalSignal": false
+      },
+      {
+        "date": "2026-09-07",
+        "institute": "Ideia Inteligência",
+        "sample": 1500,
+        "method": "Telefonica (CATI)",
+        "registration": "BR-07935/2026",
+        "verifiedTse": false,
+        "maxAbsoluteShift": 0.02,
+        "meanAbsoluteShift": 0.02,
+        "candidateShifts": {
+          "augusto-cury": -0.02,
+          "flavio-bolsonaro": -0.02,
+          "lula": 0.02,
+          "pablo-marcal": 0.01,
+          "renan-santos": 0.02,
+          "romeu-zema": -0.01,
+          "ronaldo-caiado": -0.02
+        },
+        "peerComparisonCount": 7,
+        "meanPeerDeviation": 0.81,
+        "atypicalSignal": false
+      },
+      {
+        "date": "2026-09-07",
+        "institute": "Nexus",
+        "sample": 2000,
+        "method": "Telefonica (CATI)",
+        "registration": "BR-06790/2026",
+        "verifiedTse": false,
+        "maxAbsoluteShift": 0.03,
+        "meanAbsoluteShift": 0.02,
+        "candidateShifts": {
+          "augusto-cury": -0.03,
+          "flavio-bolsonaro": 0.03,
+          "lula": 0.01,
+          "pablo-marcal": -0.03,
+          "renan-santos": -0.01,
+          "romeu-zema": -0.01,
+          "ronaldo-caiado": 0.0
+        },
+        "peerComparisonCount": 7,
+        "meanPeerDeviation": 1.06,
+        "atypicalSignal": false
+      },
+      {
+        "date": "2026-09-08",
+        "institute": "GERP",
+        "sample": 2400,
+        "method": "Presencial (Domiciliar)",
+        "registration": "BR-00251/2026",
+        "verifiedTse": false,
+        "maxAbsoluteShift": 0.07,
+        "meanAbsoluteShift": 0.03,
+        "candidateShifts": {
+          "augusto-cury": 0.01,
+          "flavio-bolsonaro": 0.03,
+          "lula": 0.07,
+          "pablo-marcal": -0.02,
+          "renan-santos": -0.01,
+          "romeu-zema": 0.0,
+          "ronaldo-caiado": -0.04
+        },
+        "peerComparisonCount": 7,
+        "meanPeerDeviation": 1.59,
+        "atypicalSignal": false
+      },
+      {
+        "date": "2026-09-08",
+        "institute": "Palver",
+        "sample": 5000,
+        "method": "Online",
+        "registration": "BR-05420/2026",
+        "verifiedTse": false,
+        "maxAbsoluteShift": 0.15,
+        "meanAbsoluteShift": 0.07,
+        "candidateShifts": {
+          "augusto-cury": -0.12,
+          "flavio-bolsonaro": 0.15,
+          "lula": 0.06,
+          "pablo-marcal": 0.06,
+          "renan-santos": 0.08,
+          "romeu-zema": -0.0,
+          "ronaldo-caiado": -0.03
+        },
+        "peerComparisonCount": 7,
+        "meanPeerDeviation": 2.92,
+        "atypicalSignal": true
+      },
+      {
+        "date": "2026-09-09",
+        "institute": "AtlasIntel",
+        "sample": 5000,
+        "method": "Online",
+        "registration": "BR-01452/2026",
+        "verifiedTse": false,
+        "maxAbsoluteShift": 0.05,
+        "meanAbsoluteShift": 0.04,
+        "candidateShifts": {
+          "augusto-cury": -0.05,
+          "flavio-bolsonaro": 0.04,
+          "lula": -0.04,
+          "pablo-marcal": 0.05,
+          "renan-santos": -0.04,
+          "romeu-zema": -0.03,
+          "ronaldo-caiado": 0.04
+        },
+        "peerComparisonCount": 7,
+        "meanPeerDeviation": 1.99,
+        "atypicalSignal": false
+      },
+      {
+        "date": "2026-09-09",
+        "institute": "Futura",
+        "sample": 2000,
+        "method": "Telefonica (CATI)",
+        "registration": "BR-02322/2026",
+        "verifiedTse": false,
+        "maxAbsoluteShift": 0.07,
+        "meanAbsoluteShift": 0.02,
+        "candidateShifts": {
+          "augusto-cury": 0.0,
+          "flavio-bolsonaro": 0.07,
+          "lula": -0.01,
+          "pablo-marcal": -0.02,
+          "renan-santos": -0.01,
+          "romeu-zema": 0.01,
+          "ronaldo-caiado": -0.01
+        },
+        "peerComparisonCount": 7,
+        "meanPeerDeviation": 0.89,
+        "atypicalSignal": false
+      },
+      {
+        "date": "2026-09-09",
+        "institute": "PoderData",
+        "sample": 3000,
+        "method": "Telefonica (IVR)",
+        "registration": "BR-04914/2026",
+        "verifiedTse": false,
+        "maxAbsoluteShift": 0.07,
+        "meanAbsoluteShift": 0.02,
+        "candidateShifts": {
+          "augusto-cury": -0.07,
+          "flavio-bolsonaro": 0.0,
+          "lula": 0.01,
+          "pablo-marcal": -0.01,
+          "renan-santos": 0.02,
+          "romeu-zema": 0.0,
+          "ronaldo-caiado": 0.02
+        },
+        "peerComparisonCount": 7,
+        "meanPeerDeviation": 1.23,
+        "atypicalSignal": false
+      },
+      {
+        "date": "2026-09-11",
+        "institute": "Datafolha",
+        "sample": 2002,
+        "method": "Presencial (Ponto de fluxo)",
+        "registration": "BR-01833/2026",
+        "verifiedTse": false,
+        "maxAbsoluteShift": 0.07,
+        "meanAbsoluteShift": 0.02,
+        "candidateShifts": {
+          "augusto-cury": 0.03,
+          "flavio-bolsonaro": 0.07,
+          "lula": 0.0,
+          "pablo-marcal": -0.01,
+          "renan-santos": 0.02,
+          "romeu-zema": -0.01,
+          "ronaldo-caiado": -0.01
+        },
+        "peerComparisonCount": 7,
+        "meanPeerDeviation": 1.19,
+        "atypicalSignal": false
+      },
+      {
+        "date": "2026-09-13",
+        "institute": "Indexa",
+        "sample": 2000,
+        "method": "Telefonica (CATI)",
+        "registration": "BR-03482/2026",
+        "verifiedTse": false,
+        "maxAbsoluteShift": 0.09,
+        "meanAbsoluteShift": 0.04,
+        "candidateShifts": {
+          "augusto-cury": -0.01,
+          "flavio-bolsonaro": 0.09,
+          "lula": 0.05,
+          "pablo-marcal": 0.0,
+          "renan-santos": 0.07,
+          "romeu-zema": 0.01,
+          "ronaldo-caiado": -0.03
+        },
+        "peerComparisonCount": 6,
+        "meanPeerDeviation": 0.93,
+        "atypicalSignal": false
+      },
+      {
+        "date": "2026-09-13",
+        "institute": "MDA",
+        "sample": 2002,
+        "method": "Presencial (Domiciliar)",
+        "registration": "BR-06902/2026",
+        "verifiedTse": false,
+        "maxAbsoluteShift": 0.34,
+        "meanAbsoluteShift": 0.08,
+        "candidateShifts": {
+          "augusto-cury": -0.0,
+          "flavio-bolsonaro": 0.34,
+          "lula": -0.07,
+          "pablo-marcal": -0.0,
+          "renan-santos": 0.12,
+          "romeu-zema": 0.01,
+          "ronaldo-caiado": 0.0
+        },
+        "peerComparisonCount": 7,
+        "meanPeerDeviation": 1.38,
+        "atypicalSignal": false
+      },
+      {
+        "date": "2026-09-13",
+        "institute": "Nexus",
+        "sample": 2000,
+        "method": "Telefonica (CATI)",
+        "registration": "BR-04076/2026",
+        "verifiedTse": false,
+        "maxAbsoluteShift": 0.03,
+        "meanAbsoluteShift": 0.01,
+        "candidateShifts": {
+          "augusto-cury": -0.02,
+          "flavio-bolsonaro": 0.01,
+          "lula": -0.02,
+          "pablo-marcal": -0.0,
+          "renan-santos": 0.03,
+          "romeu-zema": 0.01,
+          "ronaldo-caiado": -0.01
+        },
+        "peerComparisonCount": 7,
+        "meanPeerDeviation": 0.71,
+        "atypicalSignal": false
+      },
+      {
+        "date": "2026-09-13",
+        "institute": "Quaest",
+        "sample": 2004,
+        "method": "Presencial (Domiciliar)",
+        "registration": "BR-03607/2026",
+        "verifiedTse": false,
+        "maxAbsoluteShift": 0.09,
+        "meanAbsoluteShift": 0.03,
+        "candidateShifts": {
+          "augusto-cury": -0.02,
+          "flavio-bolsonaro": 0.09,
+          "lula": 0.06,
+          "pablo-marcal": -0.0,
+          "renan-santos": -0.0,
+          "romeu-zema": 0.0,
+          "ronaldo-caiado": -0.02
+        },
+        "peerComparisonCount": 6,
+        "meanPeerDeviation": 1.78,
+        "atypicalSignal": false
+      },
+      {
+        "date": "2026-09-14",
+        "institute": "DataTrends",
+        "sample": 2000,
+        "method": "Telefonica (IVR)",
+        "registration": "BR-08691/2026",
+        "verifiedTse": false,
+        "maxAbsoluteShift": 0.09,
+        "meanAbsoluteShift": 0.02,
+        "candidateShifts": {
+          "augusto-cury": -0.0,
+          "flavio-bolsonaro": 0.09,
+          "lula": 0.01,
+          "pablo-marcal": 0.0,
+          "renan-santos": 0.05,
+          "romeu-zema": 0.01,
+          "ronaldo-caiado": 0.0
+        },
+        "peerComparisonCount": 6,
+        "meanPeerDeviation": 0.33,
+        "atypicalSignal": false
+      },
+      {
+        "date": "2026-09-16",
+        "institute": "AtlasIntel",
+        "sample": 5000,
+        "method": "Online",
+        "registration": "BR-06221/2026",
+        "verifiedTse": false,
+        "maxAbsoluteShift": 0.36,
+        "meanAbsoluteShift": 0.13,
+        "candidateShifts": {
+          "augusto-cury": 0.18,
+          "flavio-bolsonaro": -0.36,
+          "lula": -0.3,
+          "pablo-marcal": -0.01,
+          "renan-santos": -0.0,
+          "romeu-zema": 0.01,
+          "ronaldo-caiado": 0.08
+        },
+        "peerComparisonCount": 6,
+        "meanPeerDeviation": 2.86,
+        "atypicalSignal": true
+      },
+      {
+        "date": "2026-09-16",
+        "institute": "GERP",
+        "sample": 2400,
+        "method": "Presencial (Domiciliar)",
+        "registration": "BR-00535/2026",
+        "verifiedTse": false,
+        "maxAbsoluteShift": 0.17,
+        "meanAbsoluteShift": 0.07,
+        "candidateShifts": {
+          "augusto-cury": -0.05,
+          "flavio-bolsonaro": -0.17,
+          "lula": 0.08,
+          "pablo-marcal": 0.08,
+          "renan-santos": 0.12,
+          "romeu-zema": 0.01,
+          "ronaldo-caiado": 0.01
+        },
+        "peerComparisonCount": 7,
+        "meanPeerDeviation": 1.52,
+        "atypicalSignal": false
+      },
+      {
+        "date": "2026-09-16",
+        "institute": "PoderData",
+        "sample": 3000,
+        "method": "Telefonica (IVR)",
+        "registration": "BR-00360/2026",
+        "verifiedTse": false,
+        "maxAbsoluteShift": 0.09,
+        "meanAbsoluteShift": 0.04,
+        "candidateShifts": {
+          "augusto-cury": -0.07,
+          "flavio-bolsonaro": 0.01,
+          "lula": 0.09,
+          "pablo-marcal": 0.0,
+          "renan-santos": 0.07,
+          "romeu-zema": 0.01,
+          "ronaldo-caiado": -0.0
+        },
+        "peerComparisonCount": 6,
+        "meanPeerDeviation": 1.24,
+        "atypicalSignal": false
+      },
+      {
+        "date": "2026-09-17",
+        "institute": "Datafolha",
+        "sample": 2002,
+        "method": "Presencial (Ponto de fluxo)",
+        "registration": "BR-04029/2026",
+        "verifiedTse": false,
+        "maxAbsoluteShift": 0.07,
+        "meanAbsoluteShift": 0.02,
+        "candidateShifts": {
+          "augusto-cury": -0.0,
+          "flavio-bolsonaro": -0.01,
+          "lula": 0.01,
+          "pablo-marcal": 0.0,
+          "renan-santos": 0.07,
+          "romeu-zema": -0.03,
+          "ronaldo-caiado": -0.04
+        },
+        "peerComparisonCount": 6,
+        "meanPeerDeviation": 0.81,
+        "atypicalSignal": false
+      },
+      {
+        "date": "2026-09-17",
+        "institute": "Futura",
+        "sample": 2000,
+        "method": "Telefonica (CATI)",
+        "registration": "BR-00749/2026",
+        "verifiedTse": false,
+        "maxAbsoluteShift": 0.08,
+        "meanAbsoluteShift": 0.04,
+        "candidateShifts": {
+          "augusto-cury": -0.01,
+          "flavio-bolsonaro": -0.08,
+          "lula": 0.04,
+          "pablo-marcal": -0.0,
+          "renan-santos": 0.06,
+          "romeu-zema": 0.01,
+          "ronaldo-caiado": -0.06
+        },
+        "peerComparisonCount": 7,
+        "meanPeerDeviation": 0.78,
+        "atypicalSignal": false
+      },
+      {
+        "date": "2026-09-20",
+        "institute": "Nexus",
+        "sample": 2000,
+        "method": "Telefonica (CATI)",
+        "registration": "BR-00485/2026",
+        "verifiedTse": false,
+        "maxAbsoluteShift": 0.09,
+        "meanAbsoluteShift": 0.04,
+        "candidateShifts": {
+          "augusto-cury": 0.01,
+          "flavio-bolsonaro": -0.04,
+          "lula": -0.04,
+          "pablo-marcal": 0.01,
+          "renan-santos": 0.08,
+          "romeu-zema": 0.01,
+          "ronaldo-caiado": -0.09
+        },
+        "peerComparisonCount": 6,
+        "meanPeerDeviation": 1.09,
+        "atypicalSignal": false
+      },
+      {
+        "date": "2026-09-20",
+        "institute": "Palver",
+        "sample": 5000,
+        "method": "Online",
+        "registration": "BR-00860/2026",
+        "verifiedTse": false,
+        "maxAbsoluteShift": 0.73,
+        "meanAbsoluteShift": 0.34,
+        "candidateShifts": {
+          "augusto-cury": 0.5,
+          "flavio-bolsonaro": -0.68,
+          "lula": -0.22,
+          "pablo-marcal": -0.02,
+          "renan-santos": -0.73,
+          "romeu-zema": 0.02,
+          "ronaldo-caiado": 0.24
+        },
+        "peerComparisonCount": 6,
+        "meanPeerDeviation": 3.75,
+        "atypicalSignal": true
+      },
+      {
+        "date": "2026-09-20",
+        "institute": "Quaest",
+        "sample": 2004,
+        "method": "Presencial (Domiciliar)",
+        "registration": "BR-06004/2026",
+        "verifiedTse": false,
+        "maxAbsoluteShift": 0.14,
+        "meanAbsoluteShift": 0.06,
+        "candidateShifts": {
+          "augusto-cury": 0.01,
+          "flavio-bolsonaro": 0.14,
+          "lula": 0.1,
+          "pablo-marcal": -0.0,
+          "renan-santos": 0.09,
+          "romeu-zema": 0.01,
+          "ronaldo-caiado": -0.05
+        },
+        "peerComparisonCount": 6,
+        "meanPeerDeviation": 2.04,
+        "atypicalSignal": false
+      }
+    ],
+    "institutes": [
+      {
+        "institute": "AtlasIntel",
+        "pollCount": 3,
+        "maxAbsoluteShift": 0.55,
+        "meanAbsoluteShift": 0.21,
+        "candidateShifts": {
+          "augusto-cury": 0.13,
+          "flavio-bolsonaro": -0.39,
+          "lula": -0.55,
+          "pablo-marcal": 0.05,
+          "renan-santos": -0.13,
+          "romeu-zema": -0.02,
+          "ronaldo-caiado": 0.16
+        }
+      },
+      {
+        "institute": "Datafolha",
+        "pollCount": 3,
+        "maxAbsoluteShift": 0.17,
+        "meanAbsoluteShift": 0.07,
+        "candidateShifts": {
+          "augusto-cury": 0.01,
+          "flavio-bolsonaro": 0.17,
+          "lula": 0.02,
+          "pablo-marcal": -0.02,
+          "renan-santos": 0.14,
+          "romeu-zema": -0.07,
+          "ronaldo-caiado": -0.09
+        }
+      },
+      {
+        "institute": "DataTrends",
+        "pollCount": 1,
+        "maxAbsoluteShift": 0.09,
+        "meanAbsoluteShift": 0.02,
+        "candidateShifts": {
+          "augusto-cury": -0.0,
+          "flavio-bolsonaro": 0.09,
+          "lula": 0.01,
+          "pablo-marcal": 0.0,
+          "renan-santos": 0.05,
+          "romeu-zema": 0.01,
+          "ronaldo-caiado": 0.0
+        }
+      },
+      {
+        "institute": "Futura",
+        "pollCount": 3,
+        "maxAbsoluteShift": 0.11,
+        "meanAbsoluteShift": 0.06,
+        "candidateShifts": {
+          "augusto-cury": -0.07,
+          "flavio-bolsonaro": 0.03,
+          "lula": 0.05,
+          "pablo-marcal": -0.06,
+          "renan-santos": 0.1,
+          "romeu-zema": 0.02,
+          "ronaldo-caiado": -0.11
+        }
+      },
+      {
+        "institute": "GERP",
+        "pollCount": 3,
+        "maxAbsoluteShift": 0.22,
+        "meanAbsoluteShift": 0.1,
+        "candidateShifts": {
+          "augusto-cury": -0.03,
+          "flavio-bolsonaro": -0.18,
+          "lula": 0.22,
+          "pablo-marcal": 0.05,
+          "renan-santos": 0.16,
+          "romeu-zema": 0.01,
+          "ronaldo-caiado": -0.04
+        }
+      },
+      {
+        "institute": "Ideia Inteligência",
+        "pollCount": 1,
+        "maxAbsoluteShift": 0.02,
+        "meanAbsoluteShift": 0.02,
+        "candidateShifts": {
+          "augusto-cury": -0.02,
+          "flavio-bolsonaro": -0.02,
+          "lula": 0.02,
+          "pablo-marcal": 0.01,
+          "renan-santos": 0.02,
+          "romeu-zema": -0.01,
+          "ronaldo-caiado": -0.02
+        }
+      },
+      {
+        "institute": "Indexa",
+        "pollCount": 2,
+        "maxAbsoluteShift": 0.11,
+        "meanAbsoluteShift": 0.05,
+        "candidateShifts": {
+          "augusto-cury": 0.03,
+          "flavio-bolsonaro": 0.11,
+          "lula": 0.05,
+          "pablo-marcal": -0.0,
+          "renan-santos": 0.07,
+          "romeu-zema": 0.01,
+          "ronaldo-caiado": -0.05
+        }
+      },
+      {
+        "institute": "MDA",
+        "pollCount": 1,
+        "maxAbsoluteShift": 0.34,
+        "meanAbsoluteShift": 0.08,
+        "candidateShifts": {
+          "augusto-cury": -0.0,
+          "flavio-bolsonaro": 0.34,
+          "lula": -0.07,
+          "pablo-marcal": -0.0,
+          "renan-santos": 0.12,
+          "romeu-zema": 0.01,
+          "ronaldo-caiado": 0.0
+        }
+      },
+      {
+        "institute": "Nexus",
+        "pollCount": 5,
+        "maxAbsoluteShift": 0.17,
+        "meanAbsoluteShift": 0.09,
+        "candidateShifts": {
+          "augusto-cury": -0.09,
+          "flavio-bolsonaro": 0.06,
+          "lula": -0.05,
+          "pablo-marcal": -0.08,
+          "renan-santos": 0.17,
+          "romeu-zema": -0.0,
+          "ronaldo-caiado": -0.17
+        }
+      },
+      {
+        "institute": "Palver",
+        "pollCount": 2,
+        "maxAbsoluteShift": 1.15,
+        "meanAbsoluteShift": 0.5,
+        "candidateShifts": {
+          "augusto-cury": 0.65,
+          "flavio-bolsonaro": -0.94,
+          "lula": -0.28,
+          "pablo-marcal": 0.06,
+          "renan-santos": -1.15,
+          "romeu-zema": 0.03,
+          "ronaldo-caiado": 0.37
+        }
+      },
+      {
+        "institute": "PoderData",
+        "pollCount": 4,
+        "maxAbsoluteShift": 0.23,
+        "meanAbsoluteShift": 0.1,
+        "candidateShifts": {
+          "augusto-cury": -0.23,
+          "flavio-bolsonaro": 0.07,
+          "lula": 0.17,
+          "pablo-marcal": -0.03,
+          "renan-santos": 0.15,
+          "romeu-zema": 0.01,
+          "ronaldo-caiado": 0.03
+        }
+      },
+      {
+        "institute": "Quaest",
+        "pollCount": 4,
+        "maxAbsoluteShift": 0.53,
+        "meanAbsoluteShift": 0.17,
+        "candidateShifts": {
+          "augusto-cury": -0.1,
+          "flavio-bolsonaro": 0.53,
+          "lula": 0.29,
+          "pablo-marcal": 0.03,
+          "renan-santos": 0.17,
+          "romeu-zema": 0.01,
+          "ronaldo-caiado": -0.07
+        }
+      },
+      {
+        "institute": "Real Time Big Data",
+        "pollCount": 1,
+        "maxAbsoluteShift": 0.11,
+        "meanAbsoluteShift": 0.04,
+        "candidateShifts": {
+          "augusto-cury": -0.06,
+          "flavio-bolsonaro": 0.11,
+          "lula": 0.02,
+          "pablo-marcal": -0.04,
+          "renan-santos": -0.02,
+          "romeu-zema": -0.01,
+          "ronaldo-caiado": -0.01
+        }
+      },
+      {
+        "institute": "Veritá",
+        "pollCount": 1,
+        "maxAbsoluteShift": 0.19,
+        "meanAbsoluteShift": 0.06,
+        "candidateShifts": {
+          "augusto-cury": -0.19,
+          "flavio-bolsonaro": -0.08,
+          "lula": 0.03,
+          "pablo-marcal": 0.02,
+          "renan-santos": 0.03,
+          "romeu-zema": 0.03,
+          "ronaldo-caiado": 0.03
+        }
+      },
+      {
+        "institute": "Vox Brasil",
+        "pollCount": 1,
+        "maxAbsoluteShift": 0.03,
+        "meanAbsoluteShift": 0.02,
+        "candidateShifts": {
+          "augusto-cury": 0.03,
+          "flavio-bolsonaro": 0.02,
+          "lula": 0.02,
+          "pablo-marcal": -0.0,
+          "renan-santos": 0.01,
+          "romeu-zema": -0.02,
+          "ronaldo-caiado": -0.02
+        }
+      }
+    ],
+    "correctionApplied": false,
+    "note": "Influência mede mudança mecânica do agregado ao retirar dados. Sinal atípico usa desvio robusto entre pesquisas contemporâneas e não implica erro, viés ou fraude."
+  },
   "methodology": {
     "primaryUnit": "pesquisa individual",
     "windowDays": 30,
@@ -258,7 +1266,8 @@
     "uncertainty": "erro amostral aproximado + heterogeneidade entre pesquisas",
     "marketUse": "informativo; não entra na média de pesquisas",
     "responseComposition": "categorias não candidatas somente quando identificadas pela fonte; residual não classificado não é indecisão",
-    "sensitivity": "leave-one-out por pesquisa + comparação de janelas de 14 e 30 dias; informativo, sem ajuste automático"
+    "sensitivity": "leave-one-out por pesquisa + comparação de janelas de 14 e 30 dias; informativo, sem ajuste automático",
+    "influence": "remoção de uma pesquisa ou de um instituto + desvio robusto entre pares contemporâneos; diagnóstico apenas"
   },
   "note": "Leitura estatística de pesquisas públicas. Intervalos e testes de sensibilidade expressam incerteza do agregador e não garantem resultado eleitoral."
 }
