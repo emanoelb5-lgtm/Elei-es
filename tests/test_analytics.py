@@ -1,3 +1,4 @@
+# v0.4.1: dispara backtest histórico no pipeline completo.
 # v0.4 pipeline: inclui calibration.json na publicação.
 # Testes determinísticos: sem chamadas de rede.
 import unittest
