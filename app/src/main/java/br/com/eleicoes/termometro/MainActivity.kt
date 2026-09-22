@@ -1058,6 +1058,15 @@ private fun AdvancedUncertaintyCard(uncertainty: UncertaintyData, candidates: Li
                             row.empiricalErrorQ80?.let {
                                 MetricRow("Piso empírico q80", "±${it.one()} p.p.")
                             }
+                            Text(
+                                if (row.empiricalSupportBandUsed) {
+                                    "Calibração por faixa de apoio · N=${row.empiricalSupportBandCount}"
+                                } else {
+                                    "Fallback para calibração empírica global"
+                                },
+                                color = Muted,
+                                fontSize = 10.sp
+                            )
                             HorizontalDivider(color = Color(0xFFE8ECE9))
                         }
                     }
