@@ -1,6 +1,6 @@
 {
   "schemaVersion": 3,
-  "generatedAt": "2026-09-22T18:00:42.003318Z",
+  "generatedAt": "2026-09-22T18:13:06.933342Z",
   "electionDate": "2026-10-04",
   "daysToElection": 12,
   "quality": {
@@ -19,7 +19,7 @@
       "label": "BBC / PollingData",
       "type": "base de pesquisas individuais",
       "status": "ok",
-      "updatedAt": "2026-09-22T18:00:43.257582Z",
+      "updatedAt": "2026-09-22T18:13:08.435948Z",
       "url": "https://news.files.bbci.co.uk/include/vjamericas/1561-poll-tracker-brazil-2026/table/portuguese/app/amp",
       "tablesFound": 2
     },
@@ -46,7 +46,7 @@
       "label": "ElectioLab",
       "type": "agregador de conferência · sem peso",
       "status": "ok",
-      "updatedAt": "2026-09-22T18:00:43.988386Z",
+      "updatedAt": "2026-09-22T18:13:09.014280Z",
       "url": "https://electiolab.com/pesquisas-presidenciais-2026",
       "pageFreshness": "21 de setembro de 2026"
     },
@@ -64,7 +64,7 @@
       "label": "Polymarket",
       "type": "mercado de previsão · sinal externo",
       "status": "ok",
-      "updatedAt": "2026-09-22T18:00:43.393884Z",
+      "updatedAt": "2026-09-22T18:13:08.541466Z",
       "url": "https://polymarket.com/event/brazil-presidential-election"
     }
   ],
@@ -87,7 +87,7 @@
       "intervalHigh": 38.06,
       "change": 0.0,
       "trend": "estável",
-      "marketSignal": 59.35
+      "marketSignal": 59.15
     },
     {
       "id": "lula",
@@ -117,7 +117,7 @@
       "intervalHigh": 6.0,
       "change": 0.0,
       "trend": "estável",
-      "marketSignal": 0.75
+      "marketSignal": 0.65
     },
     {
       "id": "romeu-zema",
@@ -161,16 +161,104 @@
         }
       ],
       "pollCount": 35,
-      "instituteCount": 15
+      "instituteCount": 15,
+      "responseComposition": {
+        "available": true,
+        "candidateShare": 89.59,
+        "categories": {},
+        "residualUnclassified": 10.41,
+        "pollCount": 35,
+        "note": "Categorias não candidatas são agregadas apenas quando a fonte as identifica. Residual não classificado não é tratado como indecisão."
+      },
+      "pairNormalized": {
+        "flavio-bolsonaro": 50.55,
+        "lula": 49.45
+      },
+      "pairNormalizationNote": "Normalização apenas entre os dois candidatos exibidos; não é projeção de votos válidos."
     }
   ],
+  "responseComposition": {
+    "available": true,
+    "candidateShare": 91.5,
+    "categories": {},
+    "residualUnclassified": 8.5,
+    "pollCount": 35,
+    "note": "Categorias não candidatas são agregadas apenas quando a fonte as identifica. Residual não classificado não é tratado como indecisão."
+  },
+  "sensitivity": {
+    "status": "ok",
+    "pollCount": 35,
+    "maxLeaveOneOutShift": 0.73,
+    "stability": "moderada",
+    "candidates": {
+      "augusto-cury": {
+        "baseline": 5.98,
+        "leaveOneOutLow": 5.79,
+        "leaveOneOutHigh": 6.47,
+        "maxLeaveOneOutShift": 0.5,
+        "support14Days": 5.66,
+        "difference14Vs30": -0.32
+      },
+      "flavio-bolsonaro": {
+        "baseline": 36.42,
+        "leaveOneOutLow": 35.74,
+        "leaveOneOutHigh": 36.76,
+        "maxLeaveOneOutShift": 0.68,
+        "support14Days": 36.75,
+        "difference14Vs30": 0.32
+      },
+      "lula": {
+        "baseline": 39.23,
+        "leaveOneOutLow": 38.93,
+        "leaveOneOutHigh": 39.33,
+        "maxLeaveOneOutShift": 0.3,
+        "support14Days": 39.3,
+        "difference14Vs30": 0.07
+      },
+      "pablo-marcal": {
+        "baseline": 1.77,
+        "leaveOneOutLow": 1.73,
+        "leaveOneOutHigh": 1.85,
+        "maxLeaveOneOutShift": 0.08,
+        "support14Days": 1.64,
+        "difference14Vs30": -0.13
+      },
+      "renan-santos": {
+        "baseline": 4.76,
+        "leaveOneOutLow": 4.03,
+        "leaveOneOutHigh": 4.88,
+        "maxLeaveOneOutShift": 0.73,
+        "support14Days": 4.64,
+        "difference14Vs30": -0.12
+      },
+      "romeu-zema": {
+        "baseline": 1.19,
+        "leaveOneOutLow": 1.16,
+        "leaveOneOutHigh": 1.21,
+        "maxLeaveOneOutShift": 0.03,
+        "support14Days": 1.13,
+        "difference14Vs30": -0.06
+      },
+      "ronaldo-caiado": {
+        "baseline": 3.04,
+        "leaveOneOutLow": 2.95,
+        "leaveOneOutHigh": 3.27,
+        "maxLeaveOneOutShift": 0.24,
+        "support14Days": 3.09,
+        "difference14Vs30": 0.05
+      }
+    },
+    "note": "Teste de robustez: mede a mudança do agregado ao retirar uma pesquisa por vez e ao comparar janelas de 14 e 30 dias. Não é previsão de resultado."
+  },
   "methodology": {
     "primaryUnit": "pesquisa individual",
     "windowDays": 30,
     "deduplication": "registro TSE; fallback por instituto/data/amostra/resultados",
     "weighting": "decaimento temporal + tamanho amostral + controle de repetição por instituto",
     "uncertainty": "erro amostral aproximado + heterogeneidade entre pesquisas",
-    "marketUse": "informativo; não entra na média de pesquisas"
+    "marketUse": "informativo; não entra na média de pesquisas",
+    "responseComposition": "categorias não candidatas somente quando identificadas pela fonte; residual não classificado não é indecisão",
+    "sensitivity": "leave-one-out por pesquisa + comparação de janelas de 14 e 30 dias; informativo, sem ajuste automático"
   },
-  "note": "Leitura estatística de pesquisas públicas. Os intervalos expressam incerteza do agregador e não garantem resultado eleitoral."
+  "note": "Leitura estatística de pesquisas públicas. Intervalos e testes de sensibilidade expressam incerteza do agregador e não garantem resultado eleitoral."
 }

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-22T18:00:42.003318Z",
+  "generatedAt": "2026-09-22T18:13:06.933342Z",
   "firstRound": [
     {
       "date": "2026-01-11",
@@ -15,7 +15,8 @@
         "renan-santos": 1.0,
         "ronaldo-caiado": 5.0,
         "romeu-zema": 3.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-01-12",
@@ -31,7 +32,8 @@
         "renan-santos": 0.4,
         "ronaldo-caiado": 4.2,
         "romeu-zema": 3.6
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-01-19",
@@ -47,7 +49,8 @@
         "renan-santos": 1.7,
         "ronaldo-caiado": 3.7,
         "romeu-zema": 4.4
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-01-20",
@@ -63,7 +66,8 @@
         "renan-santos": 3.4,
         "ronaldo-caiado": 4.3,
         "romeu-zema": 2.8
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-01-28",
@@ -79,7 +83,8 @@
         "renan-santos": 1.5,
         "ronaldo-caiado": 3.7,
         "romeu-zema": 2.8
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-01-30",
@@ -95,7 +100,8 @@
         "renan-santos": 0.0,
         "ronaldo-caiado": 2.0,
         "romeu-zema": 2.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-02-02",
@@ -111,7 +117,8 @@
         "renan-santos": 0.7,
         "ronaldo-caiado": 5.1,
         "romeu-zema": 6.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-02-07",
@@ -127,7 +134,8 @@
         "renan-santos": 2.1,
         "ronaldo-caiado": 6.6,
         "romeu-zema": 6.5
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-02-07",
@@ -142,7 +150,8 @@
         "flavio-bolsonaro": 30.0,
         "renan-santos": 1.0,
         "romeu-zema": 3.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-02-09",
@@ -158,7 +167,8 @@
         "renan-santos": 1.6,
         "ronaldo-caiado": 3.1,
         "romeu-zema": 3.1
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-02-09",
@@ -174,7 +184,8 @@
         "renan-santos": 1.0,
         "ronaldo-caiado": 4.0,
         "romeu-zema": 4.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-02-24",
@@ -190,7 +201,8 @@
         "renan-santos": 2.9,
         "ronaldo-caiado": 4.9,
         "romeu-zema": 3.9
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-02-25",
@@ -206,7 +218,8 @@
         "renan-santos": 1.5,
         "ronaldo-caiado": 3.7,
         "romeu-zema": 4.3
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-03-02",
@@ -222,7 +235,8 @@
         "renan-santos": 2.0,
         "ronaldo-caiado": 5.0,
         "romeu-zema": 3.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-03-03",
@@ -237,7 +251,8 @@
         "flavio-bolsonaro": 44.0,
         "renan-santos": 1.8,
         "romeu-zema": 2.3
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-03-05",
@@ -253,7 +268,8 @@
         "renan-santos": 3.0,
         "ronaldo-caiado": 4.0,
         "romeu-zema": 5.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-03-06",
@@ -268,7 +284,8 @@
         "flavio-bolsonaro": 37.6,
         "renan-santos": 2.1,
         "romeu-zema": 2.7
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-03-09",
@@ -284,7 +301,8 @@
         "renan-santos": 1.0,
         "ronaldo-caiado": 4.0,
         "romeu-zema": 2.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-03-10",
@@ -300,7 +318,8 @@
         "renan-santos": 1.6,
         "ronaldo-caiado": 5.5,
         "romeu-zema": 5.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-03-11",
@@ -316,7 +335,8 @@
         "renan-santos": 1.0,
         "ronaldo-caiado": 3.0,
         "romeu-zema": 4.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-03-11",
@@ -331,7 +351,8 @@
         "flavio-bolsonaro": 34.0,
         "renan-santos": 2.0,
         "ronaldo-caiado": 4.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-03-18",
@@ -347,7 +368,8 @@
         "renan-santos": 1.0,
         "ronaldo-caiado": 4.0,
         "romeu-zema": 1.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-03-23",
@@ -363,7 +385,8 @@
         "renan-santos": 4.4,
         "ronaldo-caiado": 3.7,
         "romeu-zema": 3.1
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-03-27",
@@ -379,7 +402,8 @@
         "renan-santos": 1.0,
         "ronaldo-caiado": 3.0,
         "romeu-zema": 3.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-03-28",
@@ -395,7 +419,8 @@
         "renan-santos": 1.2,
         "ronaldo-caiado": 3.6,
         "romeu-zema": 3.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-03-29",
@@ -411,7 +436,8 @@
         "renan-santos": 2.0,
         "ronaldo-caiado": 4.0,
         "romeu-zema": 4.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-04-04",
@@ -428,7 +454,8 @@
         "ronaldo-caiado": 1.9,
         "romeu-zema": 1.8,
         "pablo-marcal": 2.1
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-04-07",
@@ -444,7 +471,8 @@
         "renan-santos": 3.0,
         "ronaldo-caiado": 6.5,
         "romeu-zema": 3.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-04-09",
@@ -460,7 +488,8 @@
         "renan-santos": 2.0,
         "ronaldo-caiado": 5.0,
         "romeu-zema": 4.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-04-11",
@@ -477,7 +506,8 @@
         "renan-santos": 1.4,
         "ronaldo-caiado": 4.8,
         "romeu-zema": 2.9
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-04-12",
@@ -493,7 +523,8 @@
         "renan-santos": 1.8,
         "ronaldo-caiado": 4.6,
         "romeu-zema": 3.3
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-04-13",
@@ -510,7 +541,8 @@
         "renan-santos": 2.0,
         "ronaldo-caiado": 6.0,
         "romeu-zema": 3.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-04-26",
@@ -527,7 +559,8 @@
         "renan-santos": 3.0,
         "ronaldo-caiado": 3.0,
         "romeu-zema": 4.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-04-27",
@@ -544,7 +577,8 @@
         "renan-santos": 5.3,
         "ronaldo-caiado": 3.3,
         "romeu-zema": 3.1
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-05-04",
@@ -561,7 +595,8 @@
         "renan-santos": 3.0,
         "ronaldo-caiado": 5.0,
         "romeu-zema": 4.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-05-05",
@@ -578,7 +613,8 @@
         "renan-santos": 1.4,
         "ronaldo-caiado": 5.6,
         "romeu-zema": 3.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-05-08",
@@ -595,7 +631,8 @@
         "renan-santos": 1.5,
         "ronaldo-caiado": 4.4,
         "romeu-zema": 3.6
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-05-11",
@@ -613,7 +650,8 @@
         "ronaldo-caiado": 1.0,
         "romeu-zema": 5.0,
         "pablo-marcal": 2.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-05-11",
@@ -630,7 +668,8 @@
         "renan-santos": 2.0,
         "ronaldo-caiado": 4.0,
         "romeu-zema": 4.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-05-12",
@@ -647,7 +686,8 @@
         "renan-santos": 1.3,
         "ronaldo-caiado": 4.1,
         "romeu-zema": 2.9
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-05-14",
@@ -664,7 +704,8 @@
         "renan-santos": 2.0,
         "ronaldo-caiado": 3.0,
         "romeu-zema": 3.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-05-15",
@@ -681,7 +722,8 @@
         "renan-santos": 2.3,
         "ronaldo-caiado": 2.8,
         "romeu-zema": 6.5
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-05-19",
@@ -698,7 +740,8 @@
         "renan-santos": 7.4,
         "ronaldo-caiado": 2.9,
         "romeu-zema": 3.6
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-05-19",
@@ -715,7 +758,8 @@
         "renan-santos": 1.5,
         "ronaldo-caiado": 5.9,
         "romeu-zema": 4.1
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-05-21",
@@ -732,7 +776,8 @@
         "renan-santos": 1.7,
         "ronaldo-caiado": 3.3,
         "romeu-zema": 3.9
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-05-22",
@@ -749,7 +794,8 @@
         "renan-santos": 3.0,
         "ronaldo-caiado": 4.0,
         "romeu-zema": 3.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-05-22",
@@ -766,7 +812,8 @@
         "renan-santos": 3.0,
         "ronaldo-caiado": 2.0,
         "romeu-zema": 3.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-05-24",
@@ -783,7 +830,8 @@
         "renan-santos": 2.0,
         "ronaldo-caiado": 4.0,
         "romeu-zema": 3.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-05-24",
@@ -800,7 +848,8 @@
         "renan-santos": 3.0,
         "ronaldo-caiado": 5.0,
         "romeu-zema": 4.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-05-27",
@@ -816,7 +865,8 @@
         "renan-santos": 2.1,
         "ronaldo-caiado": 5.5,
         "romeu-zema": 2.4
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-05-28",
@@ -833,7 +883,8 @@
         "renan-santos": 3.0,
         "ronaldo-caiado": 3.0,
         "romeu-zema": 4.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-05-30",
@@ -850,7 +901,8 @@
         "renan-santos": 6.0,
         "ronaldo-caiado": 6.0,
         "romeu-zema": 4.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-06-03",
@@ -867,7 +919,8 @@
         "renan-santos": 3.1,
         "ronaldo-caiado": 6.9,
         "romeu-zema": 5.1
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-06-05",
@@ -884,7 +937,8 @@
         "renan-santos": 4.0,
         "ronaldo-caiado": 2.0,
         "romeu-zema": 2.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-06-08",
@@ -901,7 +955,8 @@
         "renan-santos": 3.0,
         "ronaldo-caiado": 3.0,
         "romeu-zema": 2.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-06-10",
@@ -917,7 +972,8 @@
         "renan-santos": 2.0,
         "ronaldo-caiado": 7.0,
         "romeu-zema": 7.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-06-12",
@@ -934,7 +990,8 @@
         "renan-santos": 2.3,
         "ronaldo-caiado": 4.5,
         "romeu-zema": 3.5
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-06-14",
@@ -951,7 +1008,8 @@
         "renan-santos": 2.0,
         "ronaldo-caiado": 4.0,
         "romeu-zema": 2.8
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-06-14",
@@ -968,7 +1026,8 @@
         "renan-santos": 4.0,
         "ronaldo-caiado": 4.0,
         "romeu-zema": 2.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-06-15",
@@ -984,7 +1043,8 @@
         "renan-santos": 3.0,
         "ronaldo-caiado": 4.0,
         "romeu-zema": 2.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-06-19",
@@ -1001,7 +1061,8 @@
         "renan-santos": 3.0,
         "ronaldo-caiado": 3.0,
         "romeu-zema": 2.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-06-19",
@@ -1018,7 +1079,8 @@
         "renan-santos": 3.0,
         "ronaldo-caiado": 4.0,
         "romeu-zema": 3.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-06-20",
@@ -1035,7 +1097,8 @@
         "renan-santos": 3.0,
         "ronaldo-caiado": 5.0,
         "romeu-zema": 3.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-06-24",
@@ -1052,7 +1115,8 @@
         "renan-santos": 4.0,
         "ronaldo-caiado": 4.0,
         "romeu-zema": 3.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-06-25",
@@ -1069,7 +1133,8 @@
         "renan-santos": 2.5,
         "ronaldo-caiado": 5.1,
         "romeu-zema": 3.8
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-06-28",
@@ -1086,7 +1151,8 @@
         "renan-santos": 4.0,
         "ronaldo-caiado": 5.0,
         "romeu-zema": 3.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-06-30",
@@ -1103,7 +1169,8 @@
         "renan-santos": 7.8,
         "ronaldo-caiado": 2.9,
         "romeu-zema": 2.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-07-06",
@@ -1120,7 +1187,8 @@
         "renan-santos": 2.0,
         "ronaldo-caiado": 4.0,
         "romeu-zema": 2.5
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-07-07",
@@ -1137,7 +1205,8 @@
         "renan-santos": 2.0,
         "ronaldo-caiado": 4.0,
         "romeu-zema": 2.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-07-11",
@@ -1154,7 +1223,8 @@
         "renan-santos": 2.6,
         "ronaldo-caiado": 5.0,
         "romeu-zema": 3.7
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-07-12",
@@ -1171,7 +1241,8 @@
         "renan-santos": 4.0,
         "ronaldo-caiado": 5.0,
         "romeu-zema": 4.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-07-13",
@@ -1188,7 +1259,8 @@
         "renan-santos": 3.0,
         "ronaldo-caiado": 4.0,
         "romeu-zema": 2.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-07-15",
@@ -1205,7 +1277,8 @@
         "renan-santos": 6.0,
         "ronaldo-caiado": 4.0,
         "romeu-zema": 4.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-07-19",
@@ -1222,7 +1295,8 @@
         "renan-santos": 3.0,
         "ronaldo-caiado": 6.0,
         "romeu-zema": 3.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-07-20",
@@ -1239,7 +1313,8 @@
         "renan-santos": 3.0,
         "ronaldo-caiado": 3.0,
         "romeu-zema": 3.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-07-20",
@@ -1256,7 +1331,8 @@
         "renan-santos": 9.0,
         "ronaldo-caiado": 7.0,
         "romeu-zema": 2.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-07-24",
@@ -1273,7 +1349,8 @@
         "renan-santos": 3.0,
         "ronaldo-caiado": 4.0,
         "romeu-zema": 3.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-07-26",
@@ -1290,7 +1367,8 @@
         "renan-santos": 5.0,
         "ronaldo-caiado": 6.0,
         "romeu-zema": 3.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-07-27",
@@ -1307,7 +1385,8 @@
         "renan-santos": 7.8,
         "ronaldo-caiado": 3.1,
         "romeu-zema": 2.8
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-07-28",
@@ -1324,7 +1403,8 @@
         "renan-santos": 3.0,
         "ronaldo-caiado": 7.0,
         "romeu-zema": 6.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-07-28",
@@ -1341,7 +1421,8 @@
         "renan-santos": 3.0,
         "ronaldo-caiado": 5.5,
         "romeu-zema": 3.2
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-07-29",
@@ -1358,7 +1439,8 @@
         "renan-santos": 4.0,
         "ronaldo-caiado": 5.0,
         "romeu-zema": 3.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-08-02",
@@ -1375,7 +1457,8 @@
         "renan-santos": 4.0,
         "ronaldo-caiado": 5.0,
         "romeu-zema": 3.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-08-03",
@@ -1392,7 +1475,8 @@
         "renan-santos": 4.7,
         "ronaldo-caiado": 5.7,
         "romeu-zema": 2.6
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-08-03",
@@ -1409,7 +1493,8 @@
         "renan-santos": 4.0,
         "ronaldo-caiado": 4.0,
         "romeu-zema": 2.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-08-06",
@@ -1426,7 +1511,8 @@
         "renan-santos": 3.6,
         "ronaldo-caiado": 5.9,
         "romeu-zema": 3.6
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-08-09",
@@ -1443,7 +1529,8 @@
         "renan-santos": 2.8,
         "ronaldo-caiado": 4.0,
         "romeu-zema": 3.3
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-08-09",
@@ -1460,7 +1547,8 @@
         "renan-santos": 4.0,
         "ronaldo-caiado": 5.0,
         "romeu-zema": 3.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-08-09",
@@ -1477,7 +1565,8 @@
         "renan-santos": 10.0,
         "ronaldo-caiado": 2.0,
         "romeu-zema": 1.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-08-10",
@@ -1494,7 +1583,8 @@
         "renan-santos": 5.0,
         "ronaldo-caiado": 4.0,
         "romeu-zema": 2.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-08-12",
@@ -1511,7 +1601,8 @@
         "renan-santos": 4.0,
         "ronaldo-caiado": 4.0,
         "romeu-zema": 3.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-08-13",
@@ -1528,7 +1619,8 @@
         "renan-santos": 4.0,
         "ronaldo-caiado": 4.0,
         "romeu-zema": 2.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-08-16",
@@ -1545,7 +1637,8 @@
         "renan-santos": 4.0,
         "ronaldo-caiado": 5.0,
         "romeu-zema": 4.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-08-20",
@@ -1563,7 +1656,8 @@
         "ronaldo-caiado": 5.0,
         "romeu-zema": 3.0,
         "pablo-marcal": 2.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-08-20",
@@ -1581,7 +1675,8 @@
         "ronaldo-caiado": 3.3,
         "romeu-zema": 1.3,
         "pablo-marcal": 5.2
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-08-23",
@@ -1599,7 +1694,8 @@
         "ronaldo-caiado": 3.0,
         "romeu-zema": 1.0,
         "pablo-marcal": 4.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-08-23",
@@ -1617,7 +1713,8 @@
         "ronaldo-caiado": 5.0,
         "romeu-zema": 1.0,
         "pablo-marcal": 2.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-08-23",
@@ -1635,7 +1732,8 @@
         "ronaldo-caiado": 5.0,
         "romeu-zema": 2.0,
         "pablo-marcal": 4.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-08-26",
@@ -1653,7 +1751,8 @@
         "ronaldo-caiado": 4.0,
         "romeu-zema": 2.0,
         "pablo-marcal": 3.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-08-27",
@@ -1671,7 +1770,8 @@
         "ronaldo-caiado": 5.0,
         "romeu-zema": 2.8,
         "pablo-marcal": 2.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-08-30",
@@ -1689,7 +1789,8 @@
         "ronaldo-caiado": 3.3,
         "romeu-zema": 1.0,
         "pablo-marcal": 1.9
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-08-30",
@@ -1707,7 +1808,8 @@
         "ronaldo-caiado": 6.0,
         "romeu-zema": 2.0,
         "pablo-marcal": 3.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-08-31",
@@ -1725,7 +1827,8 @@
         "ronaldo-caiado": 4.0,
         "romeu-zema": 2.0,
         "pablo-marcal": 3.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-09-01",
@@ -1743,7 +1846,8 @@
         "ronaldo-caiado": 3.5,
         "romeu-zema": 1.6,
         "pablo-marcal": 2.7
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-09-01",
@@ -1761,7 +1865,8 @@
         "ronaldo-caiado": 1.0,
         "romeu-zema": 1.0,
         "pablo-marcal": 1.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-09-02",
@@ -1779,7 +1884,8 @@
         "ronaldo-caiado": 2.0,
         "romeu-zema": 1.0,
         "pablo-marcal": 2.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-09-03",
@@ -1797,7 +1903,8 @@
         "ronaldo-caiado": 4.0,
         "romeu-zema": 2.0,
         "pablo-marcal": 2.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-09-04",
@@ -1815,7 +1922,8 @@
         "ronaldo-caiado": 1.9,
         "romeu-zema": 0.3,
         "pablo-marcal": 1.4
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-09-06",
@@ -1833,7 +1941,8 @@
         "ronaldo-caiado": 3.0,
         "romeu-zema": 2.0,
         "pablo-marcal": 1.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-09-07",
@@ -1851,7 +1960,8 @@
         "ronaldo-caiado": 4.0,
         "romeu-zema": 1.5,
         "pablo-marcal": 1.5
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-09-07",
@@ -1869,7 +1979,8 @@
         "ronaldo-caiado": 4.0,
         "romeu-zema": 2.0,
         "pablo-marcal": 3.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-09-08",
@@ -1887,7 +1998,8 @@
         "ronaldo-caiado": 5.0,
         "romeu-zema": 1.0,
         "pablo-marcal": 2.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-09-08",
@@ -1905,7 +2017,8 @@
         "ronaldo-caiado": 1.0,
         "romeu-zema": 1.0,
         "pablo-marcal": 1.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-09-09",
@@ -1923,7 +2036,8 @@
         "ronaldo-caiado": 1.1,
         "romeu-zema": 2.1,
         "pablo-marcal": 1.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-09-09",
@@ -1941,7 +2055,8 @@
         "ronaldo-caiado": 4.4,
         "romeu-zema": 0.7,
         "pablo-marcal": 2.3
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-09-09",
@@ -1959,7 +2074,8 @@
         "ronaldo-caiado": 2.0,
         "romeu-zema": 1.0,
         "pablo-marcal": 2.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-09-11",
@@ -1977,7 +2093,8 @@
         "ronaldo-caiado": 4.0,
         "romeu-zema": 2.0,
         "pablo-marcal": 2.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-09-13",
@@ -1994,7 +2111,8 @@
         "renan-santos": 3.0,
         "ronaldo-caiado": 4.0,
         "romeu-zema": 1.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-09-13",
@@ -2012,7 +2130,8 @@
         "ronaldo-caiado": 3.0,
         "romeu-zema": 1.0,
         "pablo-marcal": 1.8
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-09-13",
@@ -2030,7 +2149,8 @@
         "ronaldo-caiado": 4.0,
         "romeu-zema": 1.0,
         "pablo-marcal": 2.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-09-13",
@@ -2047,7 +2167,8 @@
         "renan-santos": 4.0,
         "ronaldo-caiado": 4.0,
         "romeu-zema": 1.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-09-14",
@@ -2064,7 +2185,8 @@
         "renan-santos": 4.0,
         "ronaldo-caiado": 3.0,
         "romeu-zema": 1.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-09-16",
@@ -2081,7 +2203,8 @@
         "renan-santos": 5.1,
         "ronaldo-caiado": 1.7,
         "romeu-zema": 1.1
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-09-16",
@@ -2099,7 +2222,8 @@
         "ronaldo-caiado": 3.0,
         "romeu-zema": 1.0,
         "pablo-marcal": 1.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-09-16",
@@ -2116,7 +2240,8 @@
         "renan-santos": 3.0,
         "ronaldo-caiado": 3.0,
         "romeu-zema": 1.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-09-17",
@@ -2133,7 +2258,8 @@
         "renan-santos": 3.0,
         "ronaldo-caiado": 4.0,
         "romeu-zema": 2.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-09-17",
@@ -2151,7 +2277,8 @@
         "ronaldo-caiado": 4.5,
         "romeu-zema": 1.0,
         "pablo-marcal": 1.9
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-09-20",
@@ -2168,7 +2295,8 @@
         "renan-santos": 3.0,
         "ronaldo-caiado": 5.0,
         "romeu-zema": 1.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-09-20",
@@ -2185,7 +2313,8 @@
         "renan-santos": 11.0,
         "ronaldo-caiado": 1.0,
         "romeu-zema": 1.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-09-20",
@@ -2202,7 +2331,8 @@
         "renan-santos": 3.0,
         "ronaldo-caiado": 4.0,
         "romeu-zema": 1.0
-      }
+      },
+      "nonCandidate": {}
     }
   ],
   "runoff": [
@@ -2217,7 +2347,8 @@
       "candidates": {
         "flavio-bolsonaro": 38.0,
         "lula": 45.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-01-12",
@@ -2230,7 +2361,8 @@
       "candidates": {
         "flavio-bolsonaro": 37.2,
         "lula": 46.2
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-01-19",
@@ -2243,7 +2375,8 @@
       "candidates": {
         "flavio-bolsonaro": 48.1,
         "lula": 41.9
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-01-20",
@@ -2256,7 +2389,8 @@
       "candidates": {
         "flavio-bolsonaro": 45.0,
         "lula": 49.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-01-28",
@@ -2269,7 +2403,8 @@
       "candidates": {
         "flavio-bolsonaro": 42.2,
         "lula": 44.8
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-01-30",
@@ -2282,7 +2417,8 @@
       "candidates": {
         "flavio-bolsonaro": 45.0,
         "lula": 45.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-02-02",
@@ -2295,7 +2431,8 @@
       "candidates": {
         "flavio-bolsonaro": 41.1,
         "lula": 45.8
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-02-07",
@@ -2308,7 +2445,8 @@
       "candidates": {
         "flavio-bolsonaro": 48.2,
         "lula": 42.4
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-02-09",
@@ -2321,7 +2459,8 @@
       "candidates": {
         "flavio-bolsonaro": 35.2,
         "lula": 50.8
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-02-09",
@@ -2334,7 +2473,8 @@
       "candidates": {
         "flavio-bolsonaro": 38.0,
         "lula": 43.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-02-24",
@@ -2347,7 +2487,8 @@
       "candidates": {
         "flavio-bolsonaro": 46.3,
         "lula": 46.2
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-02-25",
@@ -2360,7 +2501,8 @@
       "candidates": {
         "flavio-bolsonaro": 44.4,
         "lula": 43.8
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-03-02",
@@ -2373,7 +2515,8 @@
       "candidates": {
         "flavio-bolsonaro": 41.0,
         "lula": 42.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-03-03",
@@ -2386,7 +2529,8 @@
       "candidates": {
         "flavio-bolsonaro": 49.0,
         "lula": 40.4
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-03-05",
@@ -2399,7 +2543,8 @@
       "candidates": {
         "flavio-bolsonaro": 42.0,
         "lula": 45.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-03-06",
@@ -2412,7 +2557,8 @@
       "candidates": {
         "flavio-bolsonaro": 48.8,
         "lula": 40.5
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-03-09",
@@ -2425,7 +2571,8 @@
       "candidates": {
         "flavio-bolsonaro": 41.0,
         "lula": 41.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-03-10",
@@ -2438,7 +2585,8 @@
       "candidates": {
         "flavio-bolsonaro": 45.3,
         "lula": 47.4
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-03-11",
@@ -2451,7 +2599,8 @@
       "candidates": {
         "flavio-bolsonaro": 41.0,
         "lula": 41.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-03-23",
@@ -2464,7 +2613,8 @@
       "candidates": {
         "flavio-bolsonaro": 47.6,
         "lula": 46.6
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-03-27",
@@ -2477,7 +2627,8 @@
       "candidates": {
         "flavio-bolsonaro": 48.0,
         "lula": 45.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-03-28",
@@ -2490,7 +2641,8 @@
       "candidates": {
         "flavio-bolsonaro": 45.2,
         "lula": 44.1
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-03-29",
@@ -2503,7 +2655,8 @@
       "candidates": {
         "flavio-bolsonaro": 46.0,
         "lula": 46.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-04-04",
@@ -2516,7 +2669,8 @@
       "candidates": {
         "flavio-bolsonaro": 42.8,
         "lula": 38.4
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-04-07",
@@ -2529,7 +2683,8 @@
       "candidates": {
         "flavio-bolsonaro": 45.8,
         "lula": 45.5
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-04-11",
@@ -2542,7 +2697,8 @@
       "candidates": {
         "flavio-bolsonaro": 48.0,
         "lula": 42.6
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-04-12",
@@ -2555,7 +2711,8 @@
       "candidates": {
         "flavio-bolsonaro": 40.2,
         "lula": 44.9
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-04-13",
@@ -2568,7 +2725,8 @@
       "candidates": {
         "flavio-bolsonaro": 42.0,
         "lula": 40.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-04-26",
@@ -2581,7 +2739,8 @@
       "candidates": {
         "flavio-bolsonaro": 45.0,
         "lula": 46.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-04-27",
@@ -2594,7 +2753,8 @@
       "candidates": {
         "flavio-bolsonaro": 47.8,
         "lula": 47.5
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-05-04",
@@ -2607,7 +2767,8 @@
       "candidates": {
         "flavio-bolsonaro": 44.0,
         "lula": 43.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-05-05",
@@ -2620,7 +2781,8 @@
       "candidates": {
         "flavio-bolsonaro": 45.3,
         "lula": 44.7
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-05-08",
@@ -2633,7 +2795,8 @@
       "candidates": {
         "flavio-bolsonaro": 46.9,
         "lula": 44.4
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-05-11",
@@ -2646,7 +2809,8 @@
       "candidates": {
         "flavio-bolsonaro": 50.0,
         "lula": 43.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-05-11",
@@ -2659,7 +2823,8 @@
       "candidates": {
         "flavio-bolsonaro": 41.0,
         "lula": 42.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-05-12",
@@ -2672,7 +2837,8 @@
       "candidates": {
         "flavio-bolsonaro": 43.8,
         "lula": 40.2
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-05-14",
@@ -2685,7 +2851,8 @@
       "candidates": {
         "flavio-bolsonaro": 45.0,
         "lula": 45.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-05-19",
@@ -2698,7 +2865,8 @@
       "candidates": {
         "flavio-bolsonaro": 38.3,
         "lula": 50.7
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-05-19",
@@ -2711,7 +2879,8 @@
       "candidates": {
         "flavio-bolsonaro": 38.1,
         "lula": 46.8
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-05-21",
@@ -2724,7 +2893,8 @@
       "candidates": {
         "flavio-bolsonaro": 42.2,
         "lula": 47.7
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-05-22",
@@ -2737,7 +2907,8 @@
       "candidates": {
         "flavio-bolsonaro": 43.0,
         "lula": 47.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-05-22",
@@ -2750,7 +2921,8 @@
       "candidates": {
         "flavio-bolsonaro": 47.0,
         "lula": 44.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-05-24",
@@ -2763,7 +2935,8 @@
       "candidates": {
         "flavio-bolsonaro": 41.0,
         "lula": 46.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-05-24",
@@ -2776,7 +2949,8 @@
       "candidates": {
         "flavio-bolsonaro": 43.0,
         "lula": 47.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-05-27",
@@ -2789,7 +2963,8 @@
       "candidates": {
         "flavio-bolsonaro": 41.4,
         "lula": 46.5
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-05-28",
@@ -2802,7 +2977,8 @@
       "candidates": {
         "flavio-bolsonaro": 42.0,
         "lula": 46.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-05-30",
@@ -2815,7 +2991,8 @@
       "candidates": {
         "flavio-bolsonaro": 40.0,
         "lula": 45.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-06-03",
@@ -2828,7 +3005,8 @@
       "candidates": {
         "flavio-bolsonaro": 41.3,
         "lula": 47.8
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-06-05",
@@ -2841,7 +3019,8 @@
       "candidates": {
         "flavio-bolsonaro": 44.7,
         "lula": 39.1
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-06-08",
@@ -2854,7 +3033,8 @@
       "candidates": {
         "flavio-bolsonaro": 38.0,
         "lula": 44.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-06-10",
@@ -2867,7 +3047,8 @@
       "candidates": {
         "flavio-bolsonaro": 41.0,
         "lula": 44.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-06-12",
@@ -2880,7 +3061,8 @@
       "candidates": {
         "flavio-bolsonaro": 42.9,
         "lula": 48.1
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-06-14",
@@ -2893,7 +3075,8 @@
       "candidates": {
         "flavio-bolsonaro": 36.8,
         "lula": 49.3
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-06-14",
@@ -2906,7 +3089,8 @@
       "candidates": {
         "flavio-bolsonaro": 43.0,
         "lula": 49.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-06-19",
@@ -2919,7 +3103,8 @@
       "candidates": {
         "flavio-bolsonaro": 43.0,
         "lula": 47.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-06-19",
@@ -2932,7 +3117,8 @@
       "candidates": {
         "flavio-bolsonaro": 42.0,
         "lula": 40.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-06-20",
@@ -2945,7 +3131,8 @@
       "candidates": {
         "flavio-bolsonaro": 40.0,
         "lula": 47.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-06-24",
@@ -2958,7 +3145,8 @@
       "candidates": {
         "flavio-bolsonaro": 43.0,
         "lula": 46.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-06-25",
@@ -2971,7 +3159,8 @@
       "candidates": {
         "flavio-bolsonaro": 42.8,
         "lula": 45.3
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-06-28",
@@ -2984,7 +3173,8 @@
       "candidates": {
         "flavio-bolsonaro": 44.0,
         "lula": 47.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-06-30",
@@ -2997,7 +3187,8 @@
       "candidates": {
         "flavio-bolsonaro": 42.3,
         "lula": 48.8
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-07-06",
@@ -3010,7 +3201,8 @@
       "candidates": {
         "flavio-bolsonaro": 40.0,
         "lula": 45.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-07-07",
@@ -3023,7 +3215,8 @@
       "candidates": {
         "flavio-bolsonaro": 45.0,
         "lula": 42.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-07-11",
@@ -3036,7 +3229,8 @@
       "candidates": {
         "flavio-bolsonaro": 46.1,
         "lula": 46.3
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-07-12",
@@ -3049,7 +3243,8 @@
       "candidates": {
         "flavio-bolsonaro": 44.0,
         "lula": 47.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-07-13",
@@ -3062,7 +3257,8 @@
       "candidates": {
         "flavio-bolsonaro": 37.0,
         "lula": 45.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-07-15",
@@ -3075,7 +3271,8 @@
       "candidates": {
         "flavio-bolsonaro": 43.0,
         "lula": 45.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-07-19",
@@ -3088,7 +3285,8 @@
       "candidates": {
         "flavio-bolsonaro": 39.0,
         "lula": 46.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-07-20",
@@ -3101,7 +3299,8 @@
       "candidates": {
         "flavio-bolsonaro": 46.0,
         "lula": 45.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-07-20",
@@ -3114,7 +3313,8 @@
       "candidates": {
         "flavio-bolsonaro": 42.0,
         "lula": 45.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-07-24",
@@ -3127,7 +3327,8 @@
       "candidates": {
         "flavio-bolsonaro": 43.0,
         "lula": 48.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-07-26",
@@ -3140,7 +3341,8 @@
       "candidates": {
         "flavio-bolsonaro": 43.0,
         "lula": 47.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-07-27",
@@ -3153,7 +3355,8 @@
       "candidates": {
         "flavio-bolsonaro": 42.9,
         "lula": 49.2
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-07-28",
@@ -3166,7 +3369,8 @@
       "candidates": {
         "flavio-bolsonaro": 41.0,
         "lula": 48.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-07-28",
@@ -3179,7 +3383,8 @@
       "candidates": {
         "flavio-bolsonaro": 41.1,
         "lula": 47.5
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-07-29",
@@ -3192,7 +3397,8 @@
       "candidates": {
         "flavio-bolsonaro": 43.0,
         "lula": 46.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-08-02",
@@ -3205,7 +3411,8 @@
       "candidates": {
         "flavio-bolsonaro": 45.0,
         "lula": 46.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-08-03",
@@ -3218,7 +3425,8 @@
       "candidates": {
         "flavio-bolsonaro": 43.0,
         "lula": 48.5
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-08-03",
@@ -3231,7 +3439,8 @@
       "candidates": {
         "flavio-bolsonaro": 39.0,
         "lula": 44.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-08-06",
@@ -3244,7 +3453,8 @@
       "candidates": {
         "flavio-bolsonaro": 44.0,
         "lula": 46.5
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-08-09",
@@ -3257,7 +3467,8 @@
       "candidates": {
         "flavio-bolsonaro": 39.1,
         "lula": 48.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-08-09",
@@ -3270,7 +3481,8 @@
       "candidates": {
         "flavio-bolsonaro": 44.0,
         "lula": 47.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-08-09",
@@ -3283,7 +3495,8 @@
       "candidates": {
         "flavio-bolsonaro": 46.0,
         "lula": 46.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-08-10",
@@ -3296,7 +3509,8 @@
       "candidates": {
         "flavio-bolsonaro": 45.0,
         "lula": 43.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-08-12",
@@ -3309,7 +3523,8 @@
       "candidates": {
         "flavio-bolsonaro": 45.0,
         "lula": 46.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-08-13",
@@ -3322,7 +3537,8 @@
       "candidates": {
         "flavio-bolsonaro": 40.0,
         "lula": 43.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-08-16",
@@ -3335,7 +3551,8 @@
       "candidates": {
         "flavio-bolsonaro": 44.0,
         "lula": 47.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-08-20",
@@ -3348,7 +3565,8 @@
       "candidates": {
         "flavio-bolsonaro": 43.0,
         "lula": 47.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-08-20",
@@ -3361,7 +3579,8 @@
       "candidates": {
         "flavio-bolsonaro": 47.3,
         "lula": 42.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-08-23",
@@ -3374,7 +3593,8 @@
       "candidates": {
         "flavio-bolsonaro": 47.0,
         "lula": 42.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-08-23",
@@ -3387,7 +3607,8 @@
       "candidates": {
         "flavio-bolsonaro": 41.0,
         "lula": 46.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-08-23",
@@ -3400,7 +3621,8 @@
       "candidates": {
         "flavio-bolsonaro": 45.0,
         "lula": 46.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-08-26",
@@ -3413,7 +3635,8 @@
       "candidates": {
         "flavio-bolsonaro": 44.0,
         "lula": 45.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-08-27",
@@ -3426,7 +3649,8 @@
       "candidates": {
         "flavio-bolsonaro": 45.1,
         "lula": 44.5
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-08-30",
@@ -3439,7 +3663,8 @@
       "candidates": {
         "flavio-bolsonaro": 42.6,
         "lula": 47.1
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-08-30",
@@ -3452,7 +3677,8 @@
       "candidates": {
         "flavio-bolsonaro": 45.0,
         "lula": 46.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-08-31",
@@ -3465,7 +3691,8 @@
       "candidates": {
         "flavio-bolsonaro": 44.0,
         "lula": 44.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-09-01",
@@ -3478,7 +3705,8 @@
       "candidates": {
         "flavio-bolsonaro": 45.2,
         "lula": 45.6
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-09-01",
@@ -3491,7 +3719,8 @@
       "candidates": {
         "flavio-bolsonaro": 41.0,
         "lula": 42.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-09-02",
@@ -3504,7 +3733,8 @@
       "candidates": {
         "flavio-bolsonaro": 45.0,
         "lula": 44.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-09-03",
@@ -3517,7 +3747,8 @@
       "candidates": {
         "flavio-bolsonaro": 44.0,
         "lula": 46.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-09-04",
@@ -3530,7 +3761,8 @@
       "candidates": {
         "flavio-bolsonaro": 48.5,
         "lula": 43.1
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-09-06",
@@ -3543,7 +3775,8 @@
       "candidates": {
         "flavio-bolsonaro": 41.0,
         "lula": 41.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-09-07",
@@ -3556,7 +3789,8 @@
       "candidates": {
         "flavio-bolsonaro": 46.0,
         "lula": 46.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-09-07",
@@ -3569,7 +3803,8 @@
       "candidates": {
         "flavio-bolsonaro": 46.0,
         "lula": 45.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-09-08",
@@ -3582,7 +3817,8 @@
       "candidates": {
         "flavio-bolsonaro": 47.0,
         "lula": 40.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-09-08",
@@ -3595,7 +3831,8 @@
       "candidates": {
         "flavio-bolsonaro": 46.0,
         "lula": 44.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-09-09",
@@ -3608,7 +3845,8 @@
       "candidates": {
         "flavio-bolsonaro": 46.4,
         "lula": 46.2
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-09-09",
@@ -3621,7 +3859,8 @@
       "candidates": {
         "flavio-bolsonaro": 45.4,
         "lula": 45.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-09-09",
@@ -3634,7 +3873,8 @@
       "candidates": {
         "flavio-bolsonaro": 47.0,
         "lula": 45.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-09-11",
@@ -3647,7 +3887,8 @@
       "candidates": {
         "flavio-bolsonaro": 44.0,
         "lula": 46.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-09-13",
@@ -3660,7 +3901,8 @@
       "candidates": {
         "flavio-bolsonaro": 42.0,
         "lula": 43.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-09-13",
@@ -3673,7 +3915,8 @@
       "candidates": {
         "flavio-bolsonaro": 40.0,
         "lula": 47.3
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-09-13",
@@ -3686,7 +3929,8 @@
       "candidates": {
         "flavio-bolsonaro": 46.0,
         "lula": 47.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-09-13",
@@ -3699,7 +3943,8 @@
       "candidates": {
         "flavio-bolsonaro": 42.0,
         "lula": 40.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-09-14",
@@ -3712,7 +3957,8 @@
       "candidates": {
         "flavio-bolsonaro": 45.0,
         "lula": 44.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-09-16",
@@ -3725,7 +3971,8 @@
       "candidates": {
         "flavio-bolsonaro": 47.2,
         "lula": 46.8
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-09-16",
@@ -3738,7 +3985,8 @@
       "candidates": {
         "flavio-bolsonaro": 50.0,
         "lula": 43.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-09-16",
@@ -3751,7 +3999,8 @@
       "candidates": {
         "flavio-bolsonaro": 46.0,
         "lula": 44.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-09-17",
@@ -3764,7 +4013,8 @@
       "candidates": {
         "flavio-bolsonaro": 44.0,
         "lula": 46.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-09-17",
@@ -3777,7 +4027,8 @@
       "candidates": {
         "flavio-bolsonaro": 48.1,
         "lula": 43.7
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-09-20",
@@ -3790,7 +4041,8 @@
       "candidates": {
         "flavio-bolsonaro": 45.0,
         "lula": 46.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-09-20",
@@ -3803,7 +4055,8 @@
       "candidates": {
         "flavio-bolsonaro": 47.0,
         "lula": 43.0
-      }
+      },
+      "nonCandidate": {}
     },
     {
       "date": "2026-09-20",
@@ -3816,7 +4069,8 @@
       "candidates": {
         "flavio-bolsonaro": 42.0,
         "lula": 41.0
-      }
+      },
+      "nonCandidate": {}
     }
   ]
 }
