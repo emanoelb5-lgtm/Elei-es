@@ -1,6 +1,6 @@
 {
   "schemaVersion": 6,
-  "generatedAt": "2026-09-22T19:07:17.996518Z",
+  "generatedAt": "2026-09-22T19:08:32.962395Z",
   "electionDate": "2026-10-04",
   "daysToElection": 12,
   "quality": {
@@ -19,7 +19,7 @@
       "label": "BBC / PollingData",
       "type": "base de pesquisas individuais",
       "status": "ok",
-      "updatedAt": "2026-09-22T19:07:19.500237Z",
+      "updatedAt": "2026-09-22T19:08:34.479810Z",
       "url": "https://news.files.bbci.co.uk/include/vjamericas/1561-poll-tracker-brazil-2026/table/portuguese/app/amp",
       "tablesFound": 2
     },
@@ -46,7 +46,7 @@
       "label": "ElectioLab",
       "type": "agregador de conferência · sem peso",
       "status": "ok",
-      "updatedAt": "2026-09-22T19:07:19.858474Z",
+      "updatedAt": "2026-09-22T19:08:35.124472Z",
       "url": "https://electiolab.com/pesquisas-presidenciais-2026",
       "pageFreshness": "21 de setembro de 2026"
     },
@@ -64,7 +64,7 @@
       "label": "Polymarket",
       "type": "mercado de previsão · sinal externo",
       "status": "ok",
-      "updatedAt": "2026-09-22T19:07:19.534823Z",
+      "updatedAt": "2026-09-22T19:08:34.639528Z",
       "url": "https://polymarket.com/event/brazil-presidential-election"
     }
   ],
@@ -73,8 +73,8 @@
       "id": "augusto-cury",
       "name": "Augusto Cury",
       "pollingSupport": 5.98,
-      "intervalLow": 3.66,
-      "intervalHigh": 8.3,
+      "intervalLow": 4.42,
+      "intervalHigh": 7.54,
       "modelIntervalLow": 4.93,
       "modelIntervalHigh": 7.02,
       "change": -0.0,
@@ -85,8 +85,8 @@
       "id": "flavio-bolsonaro",
       "name": "Flávio Bolsonaro",
       "pollingSupport": 36.42,
-      "intervalLow": 34.1,
-      "intervalHigh": 38.74,
+      "intervalLow": 32.56,
+      "intervalHigh": 40.28,
       "modelIntervalLow": 34.79,
       "modelIntervalHigh": 38.06,
       "change": 0.0,
@@ -97,8 +97,8 @@
       "id": "lula",
       "name": "Lula",
       "pollingSupport": 39.23,
-      "intervalLow": 36.91,
-      "intervalHigh": 41.55,
+      "intervalLow": 35.37,
+      "intervalHigh": 43.09,
       "modelIntervalLow": 38.22,
       "modelIntervalHigh": 40.24,
       "change": -0.0,
@@ -109,8 +109,8 @@
       "id": "pablo-marcal",
       "name": "Pablo Marçal",
       "pollingSupport": 1.77,
-      "intervalLow": 0.0,
-      "intervalHigh": 4.09,
+      "intervalLow": 0.21,
+      "intervalHigh": 3.33,
       "modelIntervalLow": 1.17,
       "modelIntervalHigh": 2.37,
       "change": -0.0,
@@ -121,8 +121,8 @@
       "id": "renan-santos",
       "name": "Renan Santos",
       "pollingSupport": 4.76,
-      "intervalLow": 2.44,
-      "intervalHigh": 7.08,
+      "intervalLow": 3.2,
+      "intervalHigh": 6.32,
       "modelIntervalLow": 3.52,
       "modelIntervalHigh": 6.0,
       "change": 0.0,
@@ -134,7 +134,7 @@
       "name": "Romeu Zema",
       "pollingSupport": 1.19,
       "intervalLow": 0.0,
-      "intervalHigh": 3.51,
+      "intervalHigh": 2.75,
       "modelIntervalLow": 0.59,
       "modelIntervalHigh": 1.79,
       "change": -0.0,
@@ -145,8 +145,8 @@
       "id": "ronaldo-caiado",
       "name": "Ronaldo Caiado",
       "pollingSupport": 3.04,
-      "intervalLow": 0.72,
-      "intervalHigh": 5.36,
+      "intervalLow": 1.48,
+      "intervalHigh": 4.6,
       "modelIntervalLow": 2.44,
       "modelIntervalHigh": 3.64,
       "change": -0.0,
@@ -1278,6 +1278,20 @@
     "empiricalErrorQuantileUsed": "q80",
     "empiricalErrorQ80": 2.32,
     "empiricalErrorQ90": 3.51,
+    "supportBandCalibration": {
+      "low": {
+        "count": 496,
+        "q50": 0.74,
+        "q80": 1.56,
+        "q90": 2.17
+      },
+      "high": {
+        "count": 252,
+        "q50": 1.91,
+        "q80": 3.86,
+        "q90": 5.36
+      }
+    },
     "candidates": {
       "augusto-cury": {
         "support": 5.98,
@@ -1286,10 +1300,13 @@
         "bootstrapP10": 5.39,
         "bootstrapP50": 5.94,
         "bootstrapP90": 6.63,
-        "empiricalErrorQ80": 2.32,
-        "advancedLow": 3.66,
-        "advancedHigh": 8.3,
-        "advancedHalfWidth": 2.32
+        "empiricalErrorQ80": 1.56,
+        "empiricalSupportBand": "low",
+        "empiricalSupportBandCount": 496,
+        "empiricalSupportBandUsed": true,
+        "advancedLow": 4.42,
+        "advancedHigh": 7.54,
+        "advancedHalfWidth": 1.56
       },
       "flavio-bolsonaro": {
         "support": 36.42,
@@ -1298,10 +1315,13 @@
         "bootstrapP10": 35.42,
         "bootstrapP50": 36.44,
         "bootstrapP90": 37.39,
-        "empiricalErrorQ80": 2.32,
-        "advancedLow": 34.1,
-        "advancedHigh": 38.74,
-        "advancedHalfWidth": 2.32
+        "empiricalErrorQ80": 3.86,
+        "empiricalSupportBand": "high",
+        "empiricalSupportBandCount": 252,
+        "empiricalSupportBandUsed": true,
+        "advancedLow": 32.56,
+        "advancedHigh": 40.28,
+        "advancedHalfWidth": 3.86
       },
       "lula": {
         "support": 39.23,
@@ -1310,10 +1330,13 @@
         "bootstrapP10": 38.7,
         "bootstrapP50": 39.21,
         "bootstrapP90": 39.76,
-        "empiricalErrorQ80": 2.32,
-        "advancedLow": 36.91,
-        "advancedHigh": 41.55,
-        "advancedHalfWidth": 2.32
+        "empiricalErrorQ80": 3.86,
+        "empiricalSupportBand": "high",
+        "empiricalSupportBandCount": 252,
+        "empiricalSupportBandUsed": true,
+        "advancedLow": 35.37,
+        "advancedHigh": 43.09,
+        "advancedHalfWidth": 3.86
       },
       "pablo-marcal": {
         "support": 1.77,
@@ -1322,10 +1345,13 @@
         "bootstrapP10": 1.65,
         "bootstrapP50": 1.77,
         "bootstrapP90": 1.94,
-        "empiricalErrorQ80": 2.32,
-        "advancedLow": 0.0,
-        "advancedHigh": 4.09,
-        "advancedHalfWidth": 2.32
+        "empiricalErrorQ80": 1.56,
+        "empiricalSupportBand": "low",
+        "empiricalSupportBandCount": 496,
+        "empiricalSupportBandUsed": true,
+        "advancedLow": 0.21,
+        "advancedHigh": 3.33,
+        "advancedHalfWidth": 1.56
       },
       "renan-santos": {
         "support": 4.76,
@@ -1334,10 +1360,13 @@
         "bootstrapP10": 3.78,
         "bootstrapP50": 4.84,
         "bootstrapP90": 5.52,
-        "empiricalErrorQ80": 2.32,
-        "advancedLow": 2.44,
-        "advancedHigh": 7.08,
-        "advancedHalfWidth": 2.32
+        "empiricalErrorQ80": 1.56,
+        "empiricalSupportBand": "low",
+        "empiricalSupportBandCount": 496,
+        "empiricalSupportBandUsed": true,
+        "advancedLow": 3.2,
+        "advancedHigh": 6.32,
+        "advancedHalfWidth": 1.56
       },
       "romeu-zema": {
         "support": 1.19,
@@ -1346,10 +1375,13 @@
         "bootstrapP10": 1.12,
         "bootstrapP50": 1.19,
         "bootstrapP90": 1.29,
-        "empiricalErrorQ80": 2.32,
+        "empiricalErrorQ80": 1.56,
+        "empiricalSupportBand": "low",
+        "empiricalSupportBandCount": 496,
+        "empiricalSupportBandUsed": true,
         "advancedLow": 0.0,
-        "advancedHigh": 3.51,
-        "advancedHalfWidth": 2.32
+        "advancedHigh": 2.75,
+        "advancedHalfWidth": 1.56
       },
       "ronaldo-caiado": {
         "support": 3.04,
@@ -1358,13 +1390,16 @@
         "bootstrapP10": 2.71,
         "bootstrapP50": 3.03,
         "bootstrapP90": 3.43,
-        "empiricalErrorQ80": 2.32,
-        "advancedLow": 0.72,
-        "advancedHigh": 5.36,
-        "advancedHalfWidth": 2.32
+        "empiricalErrorQ80": 1.56,
+        "empiricalSupportBand": "low",
+        "empiricalSupportBandCount": 496,
+        "empiricalSupportBandUsed": true,
+        "advancedLow": 1.48,
+        "advancedHigh": 4.6,
+        "advancedHalfWidth": 1.56
       }
     },
-    "note": "Faixa avançada combina a incerteza analítica existente, a variabilidade de reamostragem das pesquisas e um piso baseado no erro absoluto empírico contra a próxima pesquisa publicada. É uma faixa de incerteza da leitura atual, não probabilidade de vitória nem previsão do resultado da eleição."
+    "note": "Faixa avançada combina a incerteza analítica existente, a variabilidade de reamostragem das pesquisas e um piso de erro empírico calibrado por faixa de apoio quando houver amostra suficiente contra a próxima pesquisa publicada. É uma faixa de incerteza da leitura atual, não probabilidade de vitória nem previsão do resultado da eleição."
   },
   "methodology": {
     "primaryUnit": "pesquisa individual",
