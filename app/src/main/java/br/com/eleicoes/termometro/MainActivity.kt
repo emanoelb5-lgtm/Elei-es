@@ -1010,7 +1010,9 @@ private fun AdvancedUncertaintySummary(uncertainty: UncertaintyData) {
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
             Text("Incerteza avançada", fontWeight = FontWeight.ExtraBold, fontSize = 17.sp)
             if (uncertainty.status == "ok") {
-                MetricRow("Reamostragens bootstrap", uncertainty.bootstrapDraws.toString())
+                MetricRow("Bootstrap por pesquisa", uncertainty.bootstrapDraws.toString())
+                MetricRow("Bootstrap por instituto", uncertainty.instituteBootstrapDraws.toString())
+                MetricRow("Institutos na reamostragem", uncertainty.instituteClusterCount.toString())
                 uncertainty.empiricalErrorQ80?.let {
                     MetricRow("Erro empírico · percentil 80", "${it.one()} p.p.")
                 }
@@ -1018,7 +1020,7 @@ private fun AdvancedUncertaintySummary(uncertainty: UncertaintyData) {
                     MetricRow("Erro empírico · percentil 90", "${it.one()} p.p.")
                 }
                 Text(
-                    "A faixa exibida nos candidatos usa o componente mais conservador entre o intervalo analítico, o bootstrap e o piso empírico.",
+                    "A faixa exibida usa o componente mais conservador entre intervalo analítico, bootstrap por pesquisa, bootstrap por instituto e piso empírico quando aplicável.",
                     color = Muted,
                     fontSize = 11.sp,
                     lineHeight = 16.sp
@@ -1039,7 +1041,7 @@ private fun AdvancedUncertaintyCard(uncertainty: UncertaintyData, candidates: Li
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
             if (uncertainty.status == "ok") {
                 Text(
-                    "${uncertainty.bootstrapDraws} reamostragens · piso empírico ${uncertainty.empiricalErrorQuantileUsed}",
+                    "${uncertainty.bootstrapDraws} reamostragens individuais + ${uncertainty.instituteBootstrapDraws} por instituto",
                     color = BrazilBlue,
                     fontWeight = FontWeight.Bold
                 )
@@ -1057,13 +1059,23 @@ private fun AdvancedUncertaintyCard(uncertainty: UncertaintyData, candidates: Li
                             )
                             if (row.bootstrapP10 != null && row.bootstrapP90 != null) {
                                 MetricRow(
-                                    "Bootstrap central 80%",
+                                    "Bootstrap por pesquisa · 80%",
                                     "${row.bootstrapP10.one()}% – ${row.bootstrapP90.one()}%"
+                                )
+                            }
+                            if (row.instituteBootstrapP10 != null && row.instituteBootstrapP90 != null) {
+                                MetricRow(
+                                    "Bootstrap por instituto · 80%",
+                                    "${row.instituteBootstrapP10.one()}% – ${row.instituteBootstrapP90.one()}%"
                                 )
                             }
                             row.empiricalErrorQ80?.let {
                                 MetricRow("Piso empírico q80", "±${it.one()} p.p.")
                             }
+                            MetricRow(
+                                "Componente que definiu a faixa",
+                                uncertaintyComponentLabel(row.dominantComponent)
+                            )
                             Text(
                                 if (row.empiricalSupportBandUsed) {
                                     "Calibração por faixa de apoio · N=${row.empiricalSupportBandCount}"
@@ -1440,10 +1452,20 @@ private fun RunoffCard(scenario: RunoffScenario) {
                         Text("${candidate.support.one()}%", fontWeight = FontWeight.ExtraBold, color = BrazilBlue)
                     }
                     Text(
-                        "${candidate.intervalLow.one()}% – ${candidate.intervalHigh.one()}%",
+                        "Faixa avançada: ${candidate.intervalLow.one()}% – ${candidate.intervalHigh.one()}%",
                         color = Muted,
                         fontSize = 12.sp
                     )
+                    if (
+                        abs(candidate.intervalLow - candidate.modelIntervalLow) >= 0.05 ||
+                        abs(candidate.intervalHigh - candidate.modelIntervalHigh) >= 0.05
+                    ) {
+                        Text(
+                            "Intervalo analítico: ${candidate.modelIntervalLow.one()}% – ${candidate.modelIntervalHigh.one()}%",
+                            color = Muted,
+                            fontSize = 10.sp
+                        )
+                    }
                     scenario.pairNormalized[candidate.id]?.let { normalized ->
                         Text(
                             "Entre os dois nomes exibidos: ${normalized.one()}%",
@@ -1462,6 +1484,17 @@ private fun RunoffCard(scenario: RunoffScenario) {
                 scenario.responseComposition.categories.forEach { (key, value) ->
                     MetricRow(responseLabel(key), "${value.one()}%")
                 }
+            }
+            if (scenario.uncertainty.status == "ok") {
+                HorizontalDivider(color = Color(0xFFE8ECE9))
+                Text(
+                    "Incerteza do confronto: ${scenario.uncertainty.bootstrapDraws} reamostragens por pesquisa + " +
+                        "${scenario.uncertainty.instituteBootstrapDraws} por instituto. " +
+                        "O piso empírico do 1º turno não é reutilizado aqui.",
+                    color = Muted,
+                    fontSize = 10.sp,
+                    lineHeight = 15.sp
+                )
             }
             Text(
                 scenario.pairNormalizationNote,
@@ -1552,6 +1585,14 @@ private fun refreshFeedback(before: DashboardData?, fresh: DashboardData): Strin
     } else {
         "Fontes verificadas e nova leitura recebida, sem mudança relevante nos percentuais."
     }
+}
+
+private fun uncertaintyComponentLabel(key: String): String = when (key) {
+    "analytical" -> "Intervalo analítico"
+    "pollBootstrap" -> "Bootstrap por pesquisa"
+    "instituteBootstrap" -> "Bootstrap por instituto"
+    "empirical" -> "Piso empírico"
+    else -> "Não identificado"
 }
 
 private fun responseLabel(key: String): String = when (key) {
