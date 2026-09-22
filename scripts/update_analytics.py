@@ -14,6 +14,7 @@ from __future__ import annotations
 import io
 import json
 import math
+import random
 import re
 import zipfile
 from collections import Counter
@@ -925,6 +926,135 @@ def simple_equal_average(polls: List[dict], target: date) -> dict:
     }
 
 
+def percentile(values: List[float], q: float) -> float | None:
+    if not values:
+        return None
+    ordered = sorted(float(v) for v in values)
+    if len(ordered) == 1:
+        return ordered[0]
+    position = min(max(q, 0.0), 1.0) * (len(ordered) - 1)
+    low = int(math.floor(position))
+    high = int(math.ceil(position))
+    if low == high:
+        return ordered[low]
+    fraction = position - low
+    return ordered[low] * (1.0 - fraction) + ordered[high] * fraction
+
+
+def bootstrap_current_support(
+    polls: List[dict],
+    target: date,
+    draws: int = 500,
+) -> dict:
+    eligible = [
+        p for p in polls
+        if p["date"] <= target and (target - p["date"]).days <= LIVE_WINDOW_DAYS
+    ]
+    if len(eligible) < 3:
+        return {
+            "status": "insufficient-data",
+            "draws": 0,
+            "candidates": {},
+        }
+
+    # Semente determinística por data e conteúdo básico da janela para que duas
+    # execuções com os mesmos dados produzam os mesmos percentis.
+    fingerprint = sum(
+        int(p["date"].strftime("%Y%m%d"))
+        + int(p.get("sample", 0))
+        + sum(int(round(float(v) * 100)) for v in p.get("values", {}).values())
+        for p in eligible
+    )
+    rng = random.Random(fingerprint)
+    series: Dict[str, List[float]] = {}
+
+    for _ in range(draws):
+        sample = [eligible[rng.randrange(len(eligible))] for _ in range(len(eligible))]
+        aggregate = aggregate_first_round(sample, target)
+        for cid, values in aggregate.get("candidates", {}).items():
+            series.setdefault(cid, []).append(float(values["support"]))
+
+    candidates = {}
+    for cid, values in series.items():
+        if len(values) < max(50, draws // 4):
+            continue
+        candidates[cid] = {
+            "p10": round(percentile(values, 0.10) or 0.0, 2),
+            "p25": round(percentile(values, 0.25) or 0.0, 2),
+            "p50": round(percentile(values, 0.50) or 0.0, 2),
+            "p75": round(percentile(values, 0.75) or 0.0, 2),
+            "p90": round(percentile(values, 0.90) or 0.0, 2),
+            "drawCount": len(values),
+        }
+
+    return {
+        "status": "ok" if candidates else "insufficient-data",
+        "draws": draws,
+        "candidates": candidates,
+    }
+
+
+def advanced_uncertainty(
+    polls: List[dict],
+    target: date,
+    aggregate: dict,
+    validation: dict,
+) -> dict:
+    bootstrap = bootstrap_current_support(polls, target)
+    empirical_q80 = validation.get("absoluteErrorQuantiles", {}).get("q80")
+    empirical_q90 = validation.get("absoluteErrorQuantiles", {}).get("q90")
+
+    candidates = {}
+    for cid, values in aggregate.get("candidates", {}).items():
+        support = float(values["support"])
+        model_low = float(values["low"])
+        model_high = float(values["high"])
+        model_half = max(support - model_low, model_high - support)
+
+        boot = bootstrap.get("candidates", {}).get(cid)
+        if boot:
+            bootstrap_low = float(boot["p10"])
+            bootstrap_high = float(boot["p90"])
+            bootstrap_half = max(support - bootstrap_low, bootstrap_high - support, 0.0)
+        else:
+            bootstrap_low = bootstrap_high = None
+            bootstrap_half = 0.0
+
+        # O erro empírico usa a distribuição de erro absoluto contra a próxima
+        # pesquisa publicada. Ele funciona como piso de reprodução, não como
+        # probabilidade de resultado eleitoral.
+        empirical_half = float(empirical_q80) if empirical_q80 is not None else 0.0
+        advanced_half = max(model_half, bootstrap_half, empirical_half, 0.6)
+
+        candidates[cid] = {
+            "support": round(support, 2),
+            "modelLow": round(model_low, 2),
+            "modelHigh": round(model_high, 2),
+            "bootstrapP10": round(bootstrap_low, 2) if bootstrap_low is not None else None,
+            "bootstrapP50": round(float(boot["p50"]), 2) if boot else None,
+            "bootstrapP90": round(bootstrap_high, 2) if bootstrap_high is not None else None,
+            "empiricalErrorQ80": round(empirical_half, 2) if empirical_q80 is not None else None,
+            "advancedLow": round(max(0.0, support - advanced_half), 2),
+            "advancedHigh": round(min(100.0, support + advanced_half), 2),
+            "advancedHalfWidth": round(advanced_half, 2),
+        }
+
+    return {
+        "status": "ok" if candidates else "insufficient-data",
+        "bootstrapDraws": bootstrap.get("draws", 0),
+        "empiricalErrorQuantileUsed": "q80",
+        "empiricalErrorQ80": round(float(empirical_q80), 2) if empirical_q80 is not None else None,
+        "empiricalErrorQ90": round(float(empirical_q90), 2) if empirical_q90 is not None else None,
+        "candidates": candidates,
+        "note": (
+            "Faixa avançada combina a incerteza analítica existente, a variabilidade "
+            "de reamostragem das pesquisas e um piso baseado no erro absoluto empírico "
+            "contra a próxima pesquisa publicada. É uma faixa de incerteza da leitura atual, "
+            "não probabilidade de vitória nem previsão do resultado da eleição."
+        ),
+    }
+
+
 def rolling_validation(polls: List[dict], minimum_training_polls: int = 4) -> dict:
     """Valida retrospectivamente o agregado contra a próxima pesquisa publicada.
 
@@ -973,6 +1103,7 @@ def rolling_validation(polls: List[dict], minimum_training_polls: int = 4) -> di
             "simpleMeanAbsoluteError": None,
             "errorDifferenceVsSimple": None,
             "intervalCoverage": None,
+            "absoluteErrorQuantiles": {},
         }
 
     sorted_errors = sorted(weighted_errors)
@@ -984,6 +1115,13 @@ def rolling_validation(polls: List[dict], minimum_training_polls: int = 4) -> di
 
     weighted_mae = sum(weighted_errors) / len(weighted_errors)
     simple_mae = sum(simple_errors) / len(simple_errors)
+    absolute_error_quantiles = {
+        "q50": round(percentile(weighted_errors, 0.50), 2),
+        "q68": round(percentile(weighted_errors, 0.68), 2),
+        "q80": round(percentile(weighted_errors, 0.80), 2),
+        "q90": round(percentile(weighted_errors, 0.90), 2),
+        "q95": round(percentile(weighted_errors, 0.95), 2),
+    }
 
     return {
         "status": "ok",
@@ -994,6 +1132,7 @@ def rolling_validation(polls: List[dict], minimum_training_polls: int = 4) -> di
         "simpleMeanAbsoluteError": round(simple_mae, 2),
         "errorDifferenceVsSimple": round(weighted_mae - simple_mae, 2),
         "intervalCoverage": round(100.0 * covered / len(weighted_errors), 1),
+        "absoluteErrorQuantiles": absolute_error_quantiles,
         "target": "próxima pesquisa publicada",
         "note": "Validação interna do agregador; não mede acerto do resultado eleitoral.",
     }
@@ -1099,6 +1238,12 @@ def main() -> None:
         raise SystemExit("Nenhuma pesquisa de primeiro turno disponível para a leitura.")
 
     calibration = build_calibration_payload(first_round, now)
+    uncertainty = advanced_uncertainty(
+        first_round,
+        now.date(),
+        agg,
+        calibration["rollingValidation"],
+    )
     composition = response_composition(first_round, now.date())
     sensitivity = sensitivity_analysis(first_round, now.date())
     influence = influence_analysis(first_round, now.date())
@@ -1118,12 +1263,15 @@ def main() -> None:
         support = values["support"]
         prev = float(previous_support.get(cid, support))
         change = support - prev
+        uncertainty_row = uncertainty.get("candidates", {}).get(cid, {})
         candidates.append({
             "id": cid,
             "name": NAMES.get(cid, cid.replace("-", " ").title()),
             "pollingSupport": round(support, 2),
-            "intervalLow": round(values["low"], 2),
-            "intervalHigh": round(values["high"], 2),
+            "intervalLow": round(float(uncertainty_row.get("advancedLow", values["low"])), 2),
+            "intervalHigh": round(float(uncertainty_row.get("advancedHigh", values["high"])), 2),
+            "modelIntervalLow": round(values["low"], 2),
+            "modelIntervalHigh": round(values["high"], 2),
             "change": round(change, 2),
             "trend": "subindo" if change > 0.10 else "caindo" if change < -0.10 else "estável",
             "marketSignal": round(market_signal[cid], 2) if cid in market_signal else None,
@@ -1149,7 +1297,7 @@ def main() -> None:
     }
 
     snapshot = {
-        "schemaVersion": 5,
+        "schemaVersion": 6,
         "generatedAt": now.isoformat().replace("+00:00", "Z"),
         "electionDate": ELECTION_DATE.isoformat(),
         "daysToElection": max((ELECTION_DATE - now.date()).days, 0),
@@ -1160,12 +1308,13 @@ def main() -> None:
         "responseComposition": composition,
         "sensitivity": sensitivity,
         "influence": influence,
+        "uncertainty": uncertainty,
         "methodology": {
             "primaryUnit": "pesquisa individual",
             "windowDays": LIVE_WINDOW_DAYS,
             "deduplication": "registro TSE; fallback por instituto/data/amostra/resultados",
             "weighting": "decaimento temporal + tamanho amostral + controle de repetição por instituto",
-            "uncertainty": "erro amostral aproximado + heterogeneidade entre pesquisas",
+            "uncertainty": "faixa avançada = intervalo analítico + bootstrap das pesquisas + piso de erro empírico q80",
             "marketUse": "informativo; não entra na média de pesquisas",
             "responseComposition": "categorias não candidatas somente quando identificadas pela fonte; residual não classificado não é indecisão",
             "sensitivity": "leave-one-out por pesquisa + comparação de janelas de 14 e 30 dias; informativo, sem ajuste automático",
