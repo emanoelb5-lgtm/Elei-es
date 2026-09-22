@@ -414,6 +414,31 @@ private fun DiagnosticsScreen(data: DashboardData?, loading: Boolean) {
 
             item {
                 SectionTitle(
+                    "Laboratório de modelos",
+                    "Fórmulas pré-definidas avaliadas sem promoção automática"
+                )
+            }
+            data.modelLab?.let { lab ->
+                item { ModelLabPolicyCard(lab) }
+                items(lab.variants, key = { "model-${it.id}" }) { variant ->
+                    ModelVariantCard(variant, lab.productionModelId)
+                }
+            } ?: item {
+                Card(
+                    shape = RoundedCornerShape(20.dp),
+                    colors = CardDefaults.cardColors(containerColor = Color.White)
+                ) {
+                    Text(
+                        "Laboratório ainda não publicado nesta leitura. O modelo corrente continua inalterado.",
+                        Modifier.padding(16.dp),
+                        color = Muted,
+                        lineHeight = 19.sp
+                    )
+                }
+            }
+
+            item {
+                SectionTitle(
                     "Efeito de fonte",
                     "Comparação com pesquisas contemporâneas de outros institutos"
                 )
@@ -467,6 +492,101 @@ private fun DiagnosticsScreen(data: DashboardData?, loading: Boolean) {
             }
         } else if (loading) {
             item { LoadingBlock() }
+        }
+    }
+}
+
+@Composable
+private fun ModelLabPolicyCard(lab: ModelLabData) {
+    Card(
+        shape = RoundedCornerShape(22.dp),
+        colors = CardDefaults.cardColors(containerColor = Color(0xFFEFF3F8))
+    ) {
+        Column(Modifier.padding(17.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            Text("Regra de promoção", fontWeight = FontWeight.ExtraBold, fontSize = 18.sp)
+            Text(
+                if (lab.automaticPromotion) "Promoção automática habilitada" else "Promoção automática desabilitada",
+                color = BrazilBlue,
+                fontWeight = FontWeight.Bold
+            )
+            Text(lab.promotionPolicy, color = Muted, lineHeight = 19.sp)
+            Text(
+                if (lab.promotionCandidates.isEmpty()) {
+                    "Nenhuma variante atingiu simultaneamente todos os critérios de revisão."
+                } else {
+                    "${lab.promotionCandidates.size} variante(s) atingiram o critério técnico de revisão; nenhuma foi aplicada automaticamente."
+                },
+                color = Muted,
+                fontSize = 12.sp,
+                lineHeight = 17.sp
+            )
+        }
+    }
+}
+
+@Composable
+private fun ModelVariantCard(variant: ModelVariantDiagnostic, productionModelId: String) {
+    val production = variant.id == productionModelId
+    Card(
+        shape = RoundedCornerShape(20.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = if (production) Color(0xFFEAF2ED) else Color.White
+        )
+    ) {
+        Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(9.dp)) {
+            Row(
+                Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.Top
+            ) {
+                Column(Modifier.weight(1f)) {
+                    Text(variant.label, fontWeight = FontWeight.ExtraBold, fontSize = 16.sp)
+                    Text(
+                        when {
+                            production -> "Modelo em produção"
+                            variant.promotionCandidate -> "Sinalizado para revisão técnica"
+                            else -> "Variante experimental"
+                        },
+                        color = if (production) BrazilGreen else Muted,
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+            }
+
+            variant.historicalMae?.let {
+                MetricRow("MAE histórico agrupado", "${it.one()} p.p.")
+            }
+            variant.currentMae?.let {
+                MetricRow("MAE · próxima pesquisa 2026", "${it.one()} p.p.")
+            }
+
+            if (!production) {
+                variant.historicalDeltaVsProduction?.let {
+                    MetricRow("Δ histórico vs produção", "${signed(it)} p.p.")
+                }
+                variant.currentDeltaVsProduction?.let {
+                    MetricRow("Δ corrente vs produção", "${signed(it)} p.p.")
+                }
+            }
+
+            val decay = variant.decayDays?.let { "${it.one()} dias" } ?: "sem decaimento"
+            Text(
+                "Recência: $decay · peso por amostra: ${if (variant.sampleWeight) "sim" else "não"} · controle de repetição: ${if (variant.repeatPenalty) "sim" else "não"}",
+                color = Muted,
+                fontSize = 11.sp,
+                lineHeight = 16.sp
+            )
+
+            if (variant.historicalStudies.isNotEmpty()) {
+                Text(
+                    variant.historicalStudies.joinToString(" · ") { study ->
+                        "${study.year}: ${study.meanAbsoluteError?.one() ?: "—"} p.p."
+                    },
+                    color = Muted,
+                    fontSize = 11.sp
+                )
+            }
         }
     }
 }
