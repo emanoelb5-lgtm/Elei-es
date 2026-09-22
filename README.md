@@ -2,7 +2,7 @@
 
 Aplicativo Android público e experimental para acompanhar **pesquisas presidenciais de 2026**, sua evolução no tempo, incerteza e diferenças entre fontes.
 
-## O que a v0.5.0 faz
+## O que a v0.5.1 faz
 
 - trabalha com **pesquisas individuais** como unidade principal, em vez de somar agregadores;
 - deduplica levantamentos pelo número de registro TSE e, quando necessário, por uma chave de conteúdo;
@@ -42,7 +42,7 @@ UOL Agregador, ElectioLab e páginas públicas do AtlasIntel são monitorados co
 
 Polymarket aparece apenas como **sinal externo separado**. Seus preços não alteram a média das pesquisas.
 
-## Metodologia v0.4
+## Metodologia v0.5
 
 Para cada data de referência:
 
@@ -76,7 +76,7 @@ Se os testes ou a validação estrutural falharem, os novos dados não são publ
 
 O workflow **Build e publicar APK** compila e assina o APK com a mesma identidade de desenvolvimento estável adotada desde a v0.2.0, permitindo atualização sobre versões posteriores à transição de assinatura.
 
-A release atual é v0.5.0.
+A release atual é v0.5.1.
 
 ## Aviso
 
@@ -122,3 +122,11 @@ A composição das respostas também passou a ser tratada explicitamente. Coluna
 Nos cenários de segundo turno, os percentuais brutos permanecem a leitura principal. Uma normalização adicional entre os dois nomes pode ser exibida como transformação matemática auxiliar, acompanhada de aviso explícito de que ela não é projeção de votos válidos.
 
 O schema de data/analytics.json é v4.
+
+## Influência e sinais atípicos v0.5.1
+
+O diagnóstico de influência mede quanto o agregado muda quando uma pesquisa é removida e quando todas as pesquisas de um instituto são removidas da janela atual. O sistema registra a mudança máxima entre candidatos, a mudança média e as diferenças por candidato.
+
+Separadamente, cada levantamento é comparado a pesquisas contemporâneas de outros institutos em uma janela de ±10 dias. Um limiar robusto baseado na distribuição dos desvios da própria janela pode marcar um "sinal atípico". Esse sinal não afirma que a pesquisa está errada, enviesada ou irregular; ele apenas indica distância estatística em relação aos pares disponíveis.
+
+Nenhum desses diagnósticos é usado automaticamente para excluir pesquisas, reduzir peso de institutos ou alterar a leitura principal. O schema de data/analytics.json é v5.
