@@ -170,6 +170,54 @@ class ElectionRepository {
         )
     }
 
+    private fun parseRegimeShift(obj: JSONObject?): RegimeShiftData {
+        val root = obj ?: JSONObject()
+        val candidatesObj = root.optJSONObject("candidates") ?: JSONObject()
+        val candidates = mutableMapOf<String, RegimeCandidateDiagnostic>()
+        candidatesObj.keys().forEach { id ->
+            val item = candidatesObj.optJSONObject(id) ?: return@forEach
+            candidates[id] = RegimeCandidateDiagnostic(
+                recentSupport = item.optDouble("recentSupport", 0.0),
+                previousSupport = item.optDouble("previousSupport", 0.0),
+                currentSupport = item.optDouble("currentSupport", 0.0),
+                differenceRecentVsPrevious = item.optDouble("differenceRecentVsPrevious", 0.0),
+                signalRatio = item.optDouble("signalRatio", 0.0),
+                instituteConsistency = item.optDouble("instituteConsistency", 0.0),
+                recentInstituteCount = item.optInt("recentInstituteCount", 0),
+                level = item.optString("level", "stable"),
+                shadowAdaptiveSupport = item.optDouble("shadowAdaptiveSupport", item.optDouble("currentSupport", 0.0)),
+                shadowRecentWeight = item.optDouble("shadowRecentWeight", 0.0)
+            )
+        }
+        return RegimeShiftData(
+            status = root.optString("status", "insufficient-data"),
+            overall = root.optString("overall").takeIf { it.isNotBlank() },
+            recentDays = root.optInt("recentDays", 7),
+            recentPollCount = root.optInt("recentPollCount", 0),
+            recentInstituteCount = root.optInt("recentInstituteCount", 0),
+            previousPollCount = root.optInt("previousPollCount", 0),
+            previousInstituteCount = root.optInt("previousInstituteCount", 0),
+            candidates = candidates,
+            adaptiveApplied = root.optBoolean("adaptiveApplied", false),
+            note = root.optString("note")
+        )
+    }
+
+    private fun parseRegimeShadowValidation(obj: JSONObject?): RegimeShadowValidation {
+        val root = obj ?: JSONObject()
+        return RegimeShadowValidation(
+            status = root.optString("status", "insufficient-data"),
+            signalCaseCount = root.optInt("signalCaseCount", 0),
+            comparisonCount = root.optInt("comparisonCount", 0),
+            baselineMeanAbsoluteError = if (root.isNull("baselineMeanAbsoluteError")) null else root.optDouble("baselineMeanAbsoluteError"),
+            shadowMeanAbsoluteError = if (root.isNull("shadowMeanAbsoluteError")) null else root.optDouble("shadowMeanAbsoluteError"),
+            differenceShadowVsBaseline = if (root.isNull("differenceShadowVsBaseline")) null else root.optDouble("differenceShadowVsBaseline"),
+            promotionEligible = root.optBoolean("promotionEligible", false),
+            adaptiveApplied = root.optBoolean("adaptiveApplied", false),
+            note = root.optString("note")
+        )
+    }
+
     private fun parseSnapshot(root: JSONObject): Snapshot {
         val q = root.optJSONObject("quality") ?: JSONObject()
         val quality = QualityInfo(
@@ -256,6 +304,7 @@ class ElectionRepository {
             sensitivity = parseSensitivity(root.optJSONObject("sensitivity")),
             influence = parseInfluence(root.optJSONObject("influence")),
             uncertainty = parseUncertainty(root.optJSONObject("uncertainty")),
+            regimeShift = parseRegimeShift(root.optJSONObject("regimeShift")),
             note = root.optString("note", "Leitura estatística de pesquisas públicas.")
         )
     }
@@ -322,6 +371,7 @@ class ElectionRepository {
 
         val source = root.optJSONObject("sourceDiagnostics") ?: JSONObject()
         val rolling = root.optJSONObject("rollingValidation") ?: JSONObject()
+        val regimeShadow = root.optJSONObject("regimeShadowValidation") ?: JSONObject()
         val historical = root.optJSONObject("historicalElectionBacktest") ?: JSONObject()
 
         return CalibrationData(
@@ -346,6 +396,7 @@ class ElectionRepository {
                 target = rolling.optString("target").takeIf { it.isNotBlank() },
                 note = rolling.optString("note").takeIf { it.isNotBlank() }
             ),
+            regimeShadowValidation = parseRegimeShadowValidation(regimeShadow),
             historicalBacktestStatus = historical.optString("status", "not-applied"),
             historicalBacktestNote = historical.optString("note")
         )
