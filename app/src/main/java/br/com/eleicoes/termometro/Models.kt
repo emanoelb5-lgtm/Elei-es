@@ -107,6 +107,8 @@ data class RollingValidation(
     val comparisonCount: Int,
     val meanAbsoluteError: Double?,
     val medianAbsoluteError: Double?,
+    val simpleMeanAbsoluteError: Double?,
+    val errorDifferenceVsSimple: Double?,
     val intervalCoverage: Double?,
     val target: String?,
     val note: String?
