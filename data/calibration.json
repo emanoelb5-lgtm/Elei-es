@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-22T18:28:03.024252Z",
+  "generatedAt": "2026-09-22T19:07:17.996518Z",
   "correctionApplied": false,
   "correctionPolicy": "diagnóstico somente; nenhum ajuste por instituto ou método altera a média atual",
   "sourceDiagnostics": {
@@ -1042,6 +1042,13 @@
     "simpleMeanAbsoluteError": 1.46,
     "errorDifferenceVsSimple": 0.02,
     "intervalCoverage": 52.3,
+    "absoluteErrorQuantiles": {
+      "q50": 0.96,
+      "q68": 1.59,
+      "q80": 2.32,
+      "q90": 3.51,
+      "q95": 5.17
+    },
     "target": "próxima pesquisa publicada",
     "note": "Validação interna do agregador; não mede acerto do resultado eleitoral."
   },

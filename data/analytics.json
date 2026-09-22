@@ -1,6 +1,6 @@
 {
-  "schemaVersion": 5,
-  "generatedAt": "2026-09-22T18:28:03.024252Z",
+  "schemaVersion": 6,
+  "generatedAt": "2026-09-22T19:07:17.996518Z",
   "electionDate": "2026-10-04",
   "daysToElection": 12,
   "quality": {
@@ -19,7 +19,7 @@
       "label": "BBC / PollingData",
       "type": "base de pesquisas individuais",
       "status": "ok",
-      "updatedAt": "2026-09-22T18:28:04.013489Z",
+      "updatedAt": "2026-09-22T19:07:19.500237Z",
       "url": "https://news.files.bbci.co.uk/include/vjamericas/1561-poll-tracker-brazil-2026/table/portuguese/app/amp",
       "tablesFound": 2
     },
@@ -46,7 +46,7 @@
       "label": "ElectioLab",
       "type": "agregador de conferência · sem peso",
       "status": "ok",
-      "updatedAt": "2026-09-22T18:28:04.413415Z",
+      "updatedAt": "2026-09-22T19:07:19.858474Z",
       "url": "https://electiolab.com/pesquisas-presidenciais-2026",
       "pageFreshness": "21 de setembro de 2026"
     },
@@ -64,7 +64,7 @@
       "label": "Polymarket",
       "type": "mercado de previsão · sinal externo",
       "status": "ok",
-      "updatedAt": "2026-09-22T18:28:04.047005Z",
+      "updatedAt": "2026-09-22T19:07:19.534823Z",
       "url": "https://polymarket.com/event/brazil-presidential-election"
     }
   ],
@@ -73,8 +73,10 @@
       "id": "augusto-cury",
       "name": "Augusto Cury",
       "pollingSupport": 5.98,
-      "intervalLow": 4.93,
-      "intervalHigh": 7.02,
+      "intervalLow": 3.66,
+      "intervalHigh": 8.3,
+      "modelIntervalLow": 4.93,
+      "modelIntervalHigh": 7.02,
       "change": -0.0,
       "trend": "estável",
       "marketSignal": 0.05
@@ -83,18 +85,22 @@
       "id": "flavio-bolsonaro",
       "name": "Flávio Bolsonaro",
       "pollingSupport": 36.42,
-      "intervalLow": 34.79,
-      "intervalHigh": 38.06,
+      "intervalLow": 34.1,
+      "intervalHigh": 38.74,
+      "modelIntervalLow": 34.79,
+      "modelIntervalHigh": 38.06,
       "change": 0.0,
       "trend": "estável",
-      "marketSignal": 59.05
+      "marketSignal": 59.35
     },
     {
       "id": "lula",
       "name": "Lula",
       "pollingSupport": 39.23,
-      "intervalLow": 38.22,
-      "intervalHigh": 40.24,
+      "intervalLow": 36.91,
+      "intervalHigh": 41.55,
+      "modelIntervalLow": 38.22,
+      "modelIntervalHigh": 40.24,
       "change": -0.0,
       "trend": "estável",
       "marketSignal": 40.5
@@ -103,8 +109,10 @@
       "id": "pablo-marcal",
       "name": "Pablo Marçal",
       "pollingSupport": 1.77,
-      "intervalLow": 1.17,
-      "intervalHigh": 2.37,
+      "intervalLow": 0.0,
+      "intervalHigh": 4.09,
+      "modelIntervalLow": 1.17,
+      "modelIntervalHigh": 2.37,
       "change": -0.0,
       "trend": "estável",
       "marketSignal": 0.05
@@ -113,18 +121,22 @@
       "id": "renan-santos",
       "name": "Renan Santos",
       "pollingSupport": 4.76,
-      "intervalLow": 3.52,
-      "intervalHigh": 6.0,
+      "intervalLow": 2.44,
+      "intervalHigh": 7.08,
+      "modelIntervalLow": 3.52,
+      "modelIntervalHigh": 6.0,
       "change": 0.0,
       "trend": "estável",
-      "marketSignal": 0.65
+      "marketSignal": 0.75
     },
     {
       "id": "romeu-zema",
       "name": "Romeu Zema",
       "pollingSupport": 1.19,
-      "intervalLow": 0.59,
-      "intervalHigh": 1.79,
+      "intervalLow": 0.0,
+      "intervalHigh": 3.51,
+      "modelIntervalLow": 0.59,
+      "modelIntervalHigh": 1.79,
       "change": -0.0,
       "trend": "estável",
       "marketSignal": 0.05
@@ -133,8 +145,10 @@
       "id": "ronaldo-caiado",
       "name": "Ronaldo Caiado",
       "pollingSupport": 3.04,
-      "intervalLow": 2.44,
-      "intervalHigh": 3.64,
+      "intervalLow": 0.72,
+      "intervalHigh": 5.36,
+      "modelIntervalLow": 2.44,
+      "modelIntervalHigh": 3.64,
       "change": -0.0,
       "trend": "estável",
       "marketSignal": 0.05
@@ -1258,12 +1272,106 @@
     "correctionApplied": false,
     "note": "Influência mede mudança mecânica do agregado ao retirar dados. Sinal atípico usa desvio robusto entre pesquisas contemporâneas e não implica erro, viés ou fraude."
   },
+  "uncertainty": {
+    "status": "ok",
+    "bootstrapDraws": 500,
+    "empiricalErrorQuantileUsed": "q80",
+    "empiricalErrorQ80": 2.32,
+    "empiricalErrorQ90": 3.51,
+    "candidates": {
+      "augusto-cury": {
+        "support": 5.98,
+        "modelLow": 4.93,
+        "modelHigh": 7.02,
+        "bootstrapP10": 5.39,
+        "bootstrapP50": 5.94,
+        "bootstrapP90": 6.63,
+        "empiricalErrorQ80": 2.32,
+        "advancedLow": 3.66,
+        "advancedHigh": 8.3,
+        "advancedHalfWidth": 2.32
+      },
+      "flavio-bolsonaro": {
+        "support": 36.42,
+        "modelLow": 34.79,
+        "modelHigh": 38.06,
+        "bootstrapP10": 35.42,
+        "bootstrapP50": 36.44,
+        "bootstrapP90": 37.39,
+        "empiricalErrorQ80": 2.32,
+        "advancedLow": 34.1,
+        "advancedHigh": 38.74,
+        "advancedHalfWidth": 2.32
+      },
+      "lula": {
+        "support": 39.23,
+        "modelLow": 38.22,
+        "modelHigh": 40.24,
+        "bootstrapP10": 38.7,
+        "bootstrapP50": 39.21,
+        "bootstrapP90": 39.76,
+        "empiricalErrorQ80": 2.32,
+        "advancedLow": 36.91,
+        "advancedHigh": 41.55,
+        "advancedHalfWidth": 2.32
+      },
+      "pablo-marcal": {
+        "support": 1.77,
+        "modelLow": 1.17,
+        "modelHigh": 2.37,
+        "bootstrapP10": 1.65,
+        "bootstrapP50": 1.77,
+        "bootstrapP90": 1.94,
+        "empiricalErrorQ80": 2.32,
+        "advancedLow": 0.0,
+        "advancedHigh": 4.09,
+        "advancedHalfWidth": 2.32
+      },
+      "renan-santos": {
+        "support": 4.76,
+        "modelLow": 3.52,
+        "modelHigh": 6.0,
+        "bootstrapP10": 3.78,
+        "bootstrapP50": 4.84,
+        "bootstrapP90": 5.52,
+        "empiricalErrorQ80": 2.32,
+        "advancedLow": 2.44,
+        "advancedHigh": 7.08,
+        "advancedHalfWidth": 2.32
+      },
+      "romeu-zema": {
+        "support": 1.19,
+        "modelLow": 0.59,
+        "modelHigh": 1.79,
+        "bootstrapP10": 1.12,
+        "bootstrapP50": 1.19,
+        "bootstrapP90": 1.29,
+        "empiricalErrorQ80": 2.32,
+        "advancedLow": 0.0,
+        "advancedHigh": 3.51,
+        "advancedHalfWidth": 2.32
+      },
+      "ronaldo-caiado": {
+        "support": 3.04,
+        "modelLow": 2.44,
+        "modelHigh": 3.64,
+        "bootstrapP10": 2.71,
+        "bootstrapP50": 3.03,
+        "bootstrapP90": 3.43,
+        "empiricalErrorQ80": 2.32,
+        "advancedLow": 0.72,
+        "advancedHigh": 5.36,
+        "advancedHalfWidth": 2.32
+      }
+    },
+    "note": "Faixa avançada combina a incerteza analítica existente, a variabilidade de reamostragem das pesquisas e um piso baseado no erro absoluto empírico contra a próxima pesquisa publicada. É uma faixa de incerteza da leitura atual, não probabilidade de vitória nem previsão do resultado da eleição."
+  },
   "methodology": {
     "primaryUnit": "pesquisa individual",
     "windowDays": 30,
     "deduplication": "registro TSE; fallback por instituto/data/amostra/resultados",
     "weighting": "decaimento temporal + tamanho amostral + controle de repetição por instituto",
-    "uncertainty": "erro amostral aproximado + heterogeneidade entre pesquisas",
+    "uncertainty": "faixa avançada = intervalo analítico + bootstrap das pesquisas + piso de erro empírico q80",
     "marketUse": "informativo; não entra na média de pesquisas",
     "responseComposition": "categorias não candidatas somente quando identificadas pela fonte; residual não classificado não é indecisão",
     "sensitivity": "leave-one-out por pesquisa + comparação de janelas de 14 e 30 dias; informativo, sem ajuste automático",
