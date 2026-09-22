@@ -121,7 +121,7 @@ def load_2022_polls() -> List[dict]:
         if sum(1 for x in ccols.values() if x) < 4:
             continue
         pollster=find_col(cols,["pollster","polling firm","firm","source"])
-        dates=find_col(cols,["date","dates conducted","fieldwork"])
+        dates=find_col(cols,["date","dates conducted","fieldwork","polling period"])
         sample=find_col(cols,["sample"])
         if not pollster or not dates:
             continue
@@ -141,7 +141,8 @@ def load_2022_polls() -> List[dict]:
             if not ok:
                 continue
             inst=str(row.get(pollster,"")).strip()
-            if not inst or inst.lower()=="nan":
+            inst=re.sub(r"\[[^\]]+\]","",inst).strip()
+            if not inst or inst.lower()=="nan" or norm(inst)=="results":
                 continue
             polls.append({
                 "date":end,
@@ -150,13 +151,6 @@ def load_2022_polls() -> List[dict]:
                 "method":"histórico não padronizado",
                 "values":values,
             })
-    if not polls:
-        print("DEBUG historical tables:", len(tables))
-        for i, table in enumerate(tables[:30]):
-            cols=flatten_columns(table.copy())
-            print("TABLE", i, "COLS", cols[:20])
-            print("HEAD", table.head(2).astype(str).to_dict(orient="records"))
-
     # dedupe by content
     seen={}
     for p in polls:
