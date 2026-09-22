@@ -13,10 +13,12 @@ class ElectionRepository {
         val latest = getJson("$base/analytics.json?t=$nonce")
         val history = getJson("$base/analytics-history.json?t=$nonce")
         val polls = getJson("$base/polls.json?t=$nonce")
+        val calibration = getJson("$base/calibration.json?t=$nonce")
         return DashboardData(
             snapshot = parseSnapshot(JSONObject(latest)),
             history = parseHistory(JSONArray(history)),
-            polls = parsePolls(JSONObject(polls))
+            polls = parsePolls(JSONObject(polls)),
+            calibration = parseCalibration(JSONObject(calibration))
         )
     }
 
@@ -143,6 +145,61 @@ class ElectionRepository {
                 candidates = readDoubleMap(item.optJSONObject("candidates"))
             )
         }.sortedByDescending { it.date }
+    }
+
+    private fun parseCalibration(root: JSONObject): CalibrationData {
+        fun parseDiagnosticArray(array: JSONArray?): List<SourceDiagnostic> {
+            if (array == null) return emptyList()
+            return List(array.length()) { i ->
+                val item = array.getJSONObject(i)
+                val offsetsObj = item.optJSONObject("candidateOffsets") ?: JSONObject()
+                val offsets = mutableListOf<CandidateOffsetDiagnostic>()
+                offsetsObj.keys().forEach { id ->
+                    val value = offsetsObj.optJSONObject(id) ?: return@forEach
+                    offsets += CandidateOffsetDiagnostic(
+                        id = id,
+                        name = value.optString("name", id),
+                        comparisons = value.optInt("comparisons", 0),
+                        meanOffset = value.optDouble("meanOffset", 0.0),
+                        meanAbsoluteDeviation = value.optDouble("meanAbsoluteDeviation", 0.0)
+                    )
+                }
+                SourceDiagnostic(
+                    label = item.optString("label"),
+                    pollCount = item.optInt("pollCount", 0),
+                    comparisonCount = item.optInt("comparisonCount", 0),
+                    meanOffset = item.optDouble("meanOffset", 0.0),
+                    meanAbsoluteDeviation = item.optDouble("meanAbsoluteDeviation", 0.0),
+                    residualSd = item.optDouble("residualSd", 0.0),
+                    candidateOffsets = offsets.sortedBy { it.name }
+                )
+            }
+        }
+
+        val source = root.optJSONObject("sourceDiagnostics") ?: JSONObject()
+        val rolling = root.optJSONObject("rollingValidation") ?: JSONObject()
+        val historical = root.optJSONObject("historicalElectionBacktest") ?: JSONObject()
+
+        return CalibrationData(
+            generatedAt = root.optString("generatedAt"),
+            correctionApplied = root.optBoolean("correctionApplied", false),
+            correctionPolicy = root.optString("correctionPolicy"),
+            peerWindowDays = source.optInt("peerWindowDays", 10),
+            instituteDiagnostics = parseDiagnosticArray(source.optJSONArray("institutes")),
+            methodDiagnostics = parseDiagnosticArray(source.optJSONArray("methods")),
+            rollingValidation = RollingValidation(
+                status = rolling.optString("status", "insufficient-data"),
+                caseCount = rolling.optInt("caseCount", 0),
+                comparisonCount = rolling.optInt("comparisonCount", 0),
+                meanAbsoluteError = if (rolling.isNull("meanAbsoluteError")) null else rolling.optDouble("meanAbsoluteError"),
+                medianAbsoluteError = if (rolling.isNull("medianAbsoluteError")) null else rolling.optDouble("medianAbsoluteError"),
+                intervalCoverage = if (rolling.isNull("intervalCoverage")) null else rolling.optDouble("intervalCoverage"),
+                target = rolling.optString("target").takeIf { it.isNotBlank() },
+                note = rolling.optString("note").takeIf { it.isNotBlank() }
+            ),
+            historicalBacktestStatus = historical.optString("status", "not-applied"),
+            historicalBacktestNote = historical.optString("note")
+        )
     }
 
     private fun readDoubleMap(obj: JSONObject?): Map<String, Double> {
