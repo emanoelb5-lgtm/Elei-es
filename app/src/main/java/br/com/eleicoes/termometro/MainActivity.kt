@@ -453,7 +453,7 @@ private fun DiagnosticsScreen(data: DashboardData?, loading: Boolean) {
             }
             if (influenceMode == 0) {
                 items(
-                    data.snapshot.influence.polls,
+                    data.snapshot.influence.polls.sortedByDescending { it.date },
                     key = { "poll-influence-${it.registration ?: "${it.date}-${it.institute}-${it.sample}"}" }
                 ) { row ->
                     PollInfluenceCard(row, data.snapshot.candidates)
@@ -1134,6 +1134,13 @@ private fun PollInfluenceCard(row: PollInfluence, candidates: List<Candidate>) {
                 }
             }
 
+            MetricRow("Método", row.method)
+            row.registration?.let {
+                MetricRow(
+                    if (row.verifiedTse) "Registro TSE validado" else "Registro TSE informado",
+                    it
+                )
+            } ?: MetricRow("Registro TSE", "não identificado nesta fonte")
             MetricRow("Maior mudança sem esta pesquisa", "${row.maxAbsoluteShift.one()} p.p.")
             MetricRow("Mudança média entre candidatos", "${row.meanAbsoluteShift.one()} p.p.")
             row.meanPeerDeviation?.let {
