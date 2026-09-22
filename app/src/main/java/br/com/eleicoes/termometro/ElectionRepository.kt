@@ -43,6 +43,43 @@ class ElectionRepository {
         }
     }
 
+    private fun parseResponseComposition(obj: JSONObject?): ResponseComposition {
+        val root = obj ?: JSONObject()
+        return ResponseComposition(
+            available = root.optBoolean("available", false),
+            candidateShare = if (root.isNull("candidateShare")) null else root.optDouble("candidateShare"),
+            categories = readDoubleMap(root.optJSONObject("categories")),
+            residualUnclassified = if (root.isNull("residualUnclassified")) null else root.optDouble("residualUnclassified"),
+            pollCount = root.optInt("pollCount", 0),
+            note = root.optString("note")
+        )
+    }
+
+    private fun parseSensitivity(obj: JSONObject?): SensitivityData {
+        val root = obj ?: JSONObject()
+        val candidatesObj = root.optJSONObject("candidates") ?: JSONObject()
+        val candidates = mutableMapOf<String, CandidateSensitivity>()
+        candidatesObj.keys().forEach { id ->
+            val item = candidatesObj.optJSONObject(id) ?: return@forEach
+            candidates[id] = CandidateSensitivity(
+                baseline = item.optDouble("baseline", 0.0),
+                leaveOneOutLow = item.optDouble("leaveOneOutLow", 0.0),
+                leaveOneOutHigh = item.optDouble("leaveOneOutHigh", 0.0),
+                maxLeaveOneOutShift = item.optDouble("maxLeaveOneOutShift", 0.0),
+                support14Days = if (item.isNull("support14Days")) null else item.optDouble("support14Days"),
+                difference14Vs30 = if (item.isNull("difference14Vs30")) null else item.optDouble("difference14Vs30")
+            )
+        }
+        return SensitivityData(
+            status = root.optString("status", "insufficient-data"),
+            pollCount = root.optInt("pollCount", 0),
+            maxLeaveOneOutShift = if (root.isNull("maxLeaveOneOutShift")) null else root.optDouble("maxLeaveOneOutShift"),
+            stability = root.optString("stability").takeIf { it.isNotBlank() },
+            candidates = candidates,
+            note = root.optString("note")
+        )
+    }
+
     private fun parseSnapshot(root: JSONObject): Snapshot {
         val q = root.optJSONObject("quality") ?: JSONObject()
         val quality = QualityInfo(
@@ -104,7 +141,10 @@ class ElectionRepository {
                         )
                     },
                     pollCount = scenario.optInt("pollCount", 0),
-                    instituteCount = scenario.optInt("instituteCount", 0)
+                    instituteCount = scenario.optInt("instituteCount", 0),
+                    responseComposition = parseResponseComposition(scenario.optJSONObject("responseComposition")),
+                    pairNormalized = readDoubleMap(scenario.optJSONObject("pairNormalized")),
+                    pairNormalizationNote = scenario.optString("pairNormalizationNote")
                 )
             }
         } ?: emptyList()
@@ -117,6 +157,8 @@ class ElectionRepository {
             candidates = candidates,
             sources = sources,
             runoffScenarios = runoff,
+            responseComposition = parseResponseComposition(root.optJSONObject("responseComposition")),
+            sensitivity = parseSensitivity(root.optJSONObject("sensitivity")),
             note = root.optString("note", "Leitura estatística de pesquisas públicas.")
         )
     }
@@ -146,7 +188,8 @@ class ElectionRepository {
                 method = item.optString("method", "não identificado"),
                 registration = item.optString("registration").takeIf { it.isNotBlank() && it != "null" },
                 verifiedTse = item.optBoolean("verifiedTse", false),
-                candidates = readDoubleMap(item.optJSONObject("candidates"))
+                candidates = readDoubleMap(item.optJSONObject("candidates")),
+                nonCandidate = readDoubleMap(item.optJSONObject("nonCandidate"))
             )
         }.sortedByDescending { it.date }
     }
