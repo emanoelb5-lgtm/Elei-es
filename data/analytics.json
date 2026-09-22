@@ -1,6 +1,6 @@
 {
-  "schemaVersion": 7,
-  "generatedAt": "2026-09-22T19:28:58.898190Z",
+  "schemaVersion": 8,
+  "generatedAt": "2026-09-22T19:45:15.531500Z",
   "electionDate": "2026-10-04",
   "daysToElection": 12,
   "quality": {
@@ -19,7 +19,7 @@
       "label": "BBC / PollingData",
       "type": "base de pesquisas individuais",
       "status": "ok",
-      "updatedAt": "2026-09-22T19:29:00.149432Z",
+      "updatedAt": "2026-09-22T19:45:17.244889Z",
       "url": "https://news.files.bbci.co.uk/include/vjamericas/1561-poll-tracker-brazil-2026/table/portuguese/app/amp",
       "tablesFound": 2
     },
@@ -46,7 +46,7 @@
       "label": "ElectioLab",
       "type": "agregador de conferência · sem peso",
       "status": "ok",
-      "updatedAt": "2026-09-22T19:29:01.939117Z",
+      "updatedAt": "2026-09-22T19:45:17.785750Z",
       "url": "https://electiolab.com/pesquisas-presidenciais-2026",
       "pageFreshness": "21 de setembro de 2026"
     },
@@ -64,7 +64,7 @@
       "label": "Polymarket",
       "type": "mercado de previsão · sinal externo",
       "status": "ok",
-      "updatedAt": "2026-09-22T19:29:00.292894Z",
+      "updatedAt": "2026-09-22T19:45:17.283715Z",
       "url": "https://polymarket.com/event/brazil-presidential-election"
     }
   ],
@@ -91,7 +91,7 @@
       "modelIntervalHigh": 38.06,
       "change": 0.0,
       "trend": "estável",
-      "marketSignal": 59.35
+      "marketSignal": 59.25
     },
     {
       "id": "lula",
@@ -1497,6 +1497,103 @@
     },
     "note": "Faixa avançada combina a incerteza analítica existente, bootstrap por pesquisa, bootstrap em blocos por instituto e, quando aplicável, piso de erro empírico calibrado por faixa de apoio contra a próxima pesquisa publicada. É uma faixa de incerteza da leitura atual, não probabilidade de vitória nem previsão do resultado da eleição."
   },
+  "regimeShift": {
+    "status": "ok",
+    "overall": "consistent",
+    "recentDays": 7,
+    "recentPollCount": 8,
+    "recentInstituteCount": 8,
+    "previousPollCount": 27,
+    "previousInstituteCount": 15,
+    "candidates": {
+      "augusto-cury": {
+        "recentSupport": 5.19,
+        "previousSupport": 6.81,
+        "currentSupport": 5.98,
+        "differenceRecentVsPrevious": -1.62,
+        "signalRatio": 1.74,
+        "instituteConsistency": 0.75,
+        "recentInstituteCount": 8,
+        "level": "consistent",
+        "shadowAdaptiveSupport": 5.46,
+        "shadowRecentWeight": 0.65
+      },
+      "flavio-bolsonaro": {
+        "recentSupport": 38.31,
+        "previousSupport": 34.6,
+        "currentSupport": 36.42,
+        "differenceRecentVsPrevious": 3.71,
+        "signalRatio": 2.64,
+        "instituteConsistency": 0.88,
+        "recentInstituteCount": 8,
+        "level": "consistent",
+        "shadowAdaptiveSupport": 37.65,
+        "shadowRecentWeight": 0.65
+      },
+      "lula": {
+        "recentSupport": 39.51,
+        "previousSupport": 38.89,
+        "currentSupport": 39.23,
+        "differenceRecentVsPrevious": 0.62,
+        "signalRatio": 0.59,
+        "instituteConsistency": 0.5,
+        "recentInstituteCount": 8,
+        "level": "stable",
+        "shadowAdaptiveSupport": 39.23,
+        "shadowRecentWeight": 0.0
+      },
+      "pablo-marcal": {
+        "recentSupport": 1.45,
+        "previousSupport": 1.82,
+        "currentSupport": 1.77,
+        "differenceRecentVsPrevious": -0.37,
+        "signalRatio": 0.77,
+        "instituteConsistency": 0.5,
+        "recentInstituteCount": 2,
+        "level": "stable",
+        "shadowAdaptiveSupport": 1.77,
+        "shadowRecentWeight": 0.0
+      },
+      "renan-santos": {
+        "recentSupport": 4.88,
+        "previousSupport": 4.46,
+        "currentSupport": 4.76,
+        "differenceRecentVsPrevious": 0.42,
+        "signalRatio": 0.32,
+        "instituteConsistency": 0.25,
+        "recentInstituteCount": 8,
+        "level": "stable",
+        "shadowAdaptiveSupport": 4.76,
+        "shadowRecentWeight": 0.0
+      },
+      "romeu-zema": {
+        "recentSupport": 1.11,
+        "previousSupport": 1.26,
+        "currentSupport": 1.19,
+        "differenceRecentVsPrevious": -0.15,
+        "signalRatio": 0.35,
+        "instituteConsistency": 0.88,
+        "recentInstituteCount": 8,
+        "level": "stable",
+        "shadowAdaptiveSupport": 1.19,
+        "shadowRecentWeight": 0.0
+      },
+      "ronaldo-caiado": {
+        "recentSupport": 3.04,
+        "previousSupport": 3.14,
+        "currentSupport": 3.04,
+        "differenceRecentVsPrevious": -0.1,
+        "signalRatio": 0.16,
+        "instituteConsistency": 0.5,
+        "recentInstituteCount": 8,
+        "level": "stable",
+        "shadowAdaptiveSupport": 3.04,
+        "shadowRecentWeight": 0.0
+      }
+    },
+    "adaptiveApplied": false,
+    "note": "Compara o bloco recente com pesquisas de 8 a 30 dias. A leitura adaptativa é calculada apenas em sombra para validação e não substitui o agregado principal."
+  },
   "methodology": {
     "primaryUnit": "pesquisa individual",
     "windowDays": 30,
@@ -1506,7 +1603,8 @@
     "marketUse": "informativo; não entra na média de pesquisas",
     "responseComposition": "categorias não candidatas somente quando identificadas pela fonte; residual não classificado não é indecisão",
     "sensitivity": "leave-one-out por pesquisa + comparação de janelas de 14 e 30 dias; informativo, sem ajuste automático",
-    "influence": "remoção de uma pesquisa ou de um instituto + desvio robusto entre pares contemporâneos; diagnóstico apenas"
+    "influence": "remoção de uma pesquisa ou de um instituto + desvio robusto entre pares contemporâneos; diagnóstico apenas",
+    "regimeShift": "comparação entre últimos 7 dias e bloco de 8 a 30 dias; leitura adaptativa apenas em sombra, sem aplicação automática"
   },
   "note": "Leitura estatística de pesquisas públicas. Intervalos e testes de sensibilidade expressam incerteza do agregador e não garantem resultado eleitoral."
 }

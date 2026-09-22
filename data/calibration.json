@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-22T19:28:58.898190Z",
+  "generatedAt": "2026-09-22T19:45:15.531500Z",
   "correctionApplied": false,
   "correctionPolicy": "diagnóstico somente; nenhum ajuste por instituto ou método altera a média atual",
   "sourceDiagnostics": {
@@ -1067,6 +1067,17 @@
     "empiricalQ90Coverage": 89.8,
     "target": "próxima pesquisa publicada",
     "note": "Validação interna do agregador; não mede acerto do resultado eleitoral."
+  },
+  "regimeShadowValidation": {
+    "status": "ok",
+    "signalCaseCount": 63,
+    "comparisonCount": 397,
+    "baselineMeanAbsoluteError": 1.44,
+    "shadowMeanAbsoluteError": 1.44,
+    "differenceShadowVsBaseline": 0.0,
+    "promotionEligible": false,
+    "adaptiveApplied": false,
+    "note": "Validação da leitura adaptativa em sombra apenas nos casos em que o detector identificou mudança. Nenhuma promoção é automática."
   },
   "historicalElectionBacktest": {
     "status": "not-applied",
