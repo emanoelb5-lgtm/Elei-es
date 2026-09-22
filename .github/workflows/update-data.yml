@@ -47,8 +47,9 @@ jobs:
           h=json.load(open('data/analytics-history.json'))
           p=json.load(open('data/polls.json'))
           c=json.load(open('data/calibration.json'))
+          r=json.load(open('data/regime-history.json'))
 
-          assert a.get('schemaVersion') == 8
+          assert a.get('schemaVersion') == 9
           assert c.get('schemaVersion') == 1
           assert c.get('correctionApplied') is False
           assert len(a.get('candidates', [])) >= 2
@@ -67,6 +68,9 @@ jobs:
           assert a['uncertainty']['status'] in ('ok', 'insufficient-data')
           assert a['regimeShift']['status'] in ('ok', 'insufficient-data')
           assert a['regimeShift'].get('adaptiveApplied', False) is False
+          assert a['regimeShift'].get('persistenceApplied', False) is False
+          assert isinstance(r, list) and len(r) >= 1
+          assert r[-1]['evidenceFingerprint'] == a['regimeShift']['evidenceFingerprint']
           assert c['regimeShadowValidation']['status'] in ('ok', 'insufficient-data')
           assert c['regimeShadowValidation'].get('adaptiveApplied', False) is False
           if a['uncertainty']['status'] == 'ok':
@@ -106,6 +110,7 @@ jobs:
           cp data/analytics-history.json /tmp/analytics-history.json
           cp data/polls.json /tmp/polls.json
           cp data/calibration.json /tmp/calibration.json
+          cp data/regime-history.json /tmp/regime-history.json
 
           for attempt in 1 2 3 4 5; do
             echo "Tentativa de publicação $attempt/5"
@@ -116,8 +121,9 @@ jobs:
             cp /tmp/analytics-history.json data/analytics-history.json
             cp /tmp/polls.json data/polls.json
             cp /tmp/calibration.json data/calibration.json
+            cp /tmp/regime-history.json data/regime-history.json
 
-            git add data/analytics.json data/analytics-history.json data/polls.json data/calibration.json
+            git add data/analytics.json data/analytics-history.json data/polls.json data/calibration.json data/regime-history.json
             if git diff --cached --quiet; then
               echo "Sem mudança"
               exit 0
