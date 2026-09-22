@@ -1,3 +1,4 @@
+# pipeline schema v7 final.
 # schema v7: institute-cluster bootstrap.
 # pipeline schema v6 final.
 # schema v6: advanced uncertainty.
