@@ -1,0 +1,88 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-22T17:50:27.049304Z",
+  "studies": [
+    {
+      "status": "insufficient-data",
+      "year": 2022,
+      "round": "1º turno",
+      "electionDate": "2022-10-02",
+      "pollSource": "https://en.wikipedia.org/wiki/Opinion_polling_for_the_2022_Brazilian_presidential_election",
+      "resultSource": "https://www.tse.jus.br/comunicacao/noticias/2022/Outubro/100-das-secoes-totalizadas-confira-como-ficou-o-quadro-eleitoral-apos-o-1o-turno",
+      "pollCountTotal": 0,
+      "resultComparisonBasis": "votos dos quatro candidatos comuns normalizados para 100%",
+      "officialResultCommonSet": {
+        "lula": 49.0,
+        "bolsonaro": 43.71,
+        "tebet": 4.21,
+        "gomes": 3.08
+      },
+      "horizons": [
+        {
+          "daysBeforeElection": 30,
+          "cutoff": "2022-09-02",
+          "pollCount": 0,
+          "instituteCount": 0,
+          "weightedMae": null,
+          "simpleMae": null,
+          "weightedEstimate": {},
+          "simpleEstimate": {}
+        },
+        {
+          "daysBeforeElection": 21,
+          "cutoff": "2022-09-11",
+          "pollCount": 0,
+          "instituteCount": 0,
+          "weightedMae": null,
+          "simpleMae": null,
+          "weightedEstimate": {},
+          "simpleEstimate": {}
+        },
+        {
+          "daysBeforeElection": 14,
+          "cutoff": "2022-09-18",
+          "pollCount": 0,
+          "instituteCount": 0,
+          "weightedMae": null,
+          "simpleMae": null,
+          "weightedEstimate": {},
+          "simpleEstimate": {}
+        },
+        {
+          "daysBeforeElection": 7,
+          "cutoff": "2022-09-25",
+          "pollCount": 0,
+          "instituteCount": 0,
+          "weightedMae": null,
+          "simpleMae": null,
+          "weightedEstimate": {},
+          "simpleEstimate": {}
+        },
+        {
+          "daysBeforeElection": 3,
+          "cutoff": "2022-09-29",
+          "pollCount": 0,
+          "instituteCount": 0,
+          "weightedMae": null,
+          "simpleMae": null,
+          "weightedEstimate": {},
+          "simpleEstimate": {}
+        },
+        {
+          "daysBeforeElection": 1,
+          "cutoff": "2022-10-01",
+          "pollCount": 0,
+          "instituteCount": 0,
+          "weightedMae": null,
+          "simpleMae": null,
+          "weightedEstimate": {},
+          "simpleEstimate": {}
+        }
+      ],
+      "averageWeightedMae": null,
+      "averageSimpleMae": null,
+      "correctionApplied": false,
+      "note": "Backtest histórico separado. Não altera pesos, médias ou candidatos de 2026."
+    }
+  ]
+}
