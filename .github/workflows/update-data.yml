@@ -48,7 +48,7 @@ jobs:
           p=json.load(open('data/polls.json'))
           c=json.load(open('data/calibration.json'))
 
-          assert a.get('schemaVersion') == 3
+          assert a.get('schemaVersion') == 4
           assert c.get('schemaVersion') == 1
           assert c.get('correctionApplied') is False
           assert len(a.get('candidates', [])) >= 2
@@ -60,6 +60,11 @@ jobs:
           assert len(p.get('firstRound', [])) >= 1
           assert c['sourceDiagnostics']['comparisonCount'] >= 1
           assert c['rollingValidation']['status'] in ('ok', 'insufficient-data')
+          assert a['responseComposition']['available'] in (True, False)
+          assert a['sensitivity']['status'] in ('ok', 'insufficient-data')
+          if a['sensitivity']['status'] == 'ok':
+              assert a['sensitivity']['maxLeaveOneOutShift'] >= 0
+              assert a['sensitivity']['stability'] in ('alta', 'moderada', 'baixa')
 
           for candidate in a['candidates']:
               assert 0 <= candidate['pollingSupport'] <= 100
