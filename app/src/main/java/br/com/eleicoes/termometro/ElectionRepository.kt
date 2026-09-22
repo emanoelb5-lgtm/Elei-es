@@ -330,6 +330,8 @@ class ElectionRepository {
                 errorDifferenceVsSimple = if (rolling.isNull("errorDifferenceVsSimple")) null else rolling.optDouble("errorDifferenceVsSimple"),
                 intervalCoverage = if (rolling.isNull("intervalCoverage")) null else rolling.optDouble("intervalCoverage"),
                 absoluteErrorQuantiles = readDoubleMap(rolling.optJSONObject("absoluteErrorQuantiles")),
+                empiricalQ80Coverage = if (rolling.isNull("empiricalQ80Coverage")) null else rolling.optDouble("empiricalQ80Coverage"),
+                empiricalQ90Coverage = if (rolling.isNull("empiricalQ90Coverage")) null else rolling.optDouble("empiricalQ90Coverage"),
                 target = rolling.optString("target").takeIf { it.isNotBlank() },
                 note = rolling.optString("note").takeIf { it.isNotBlank() }
             ),
