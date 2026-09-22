@@ -7,7 +7,10 @@ from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 from typing import Dict, List
 
-from scripts.historical_backtest import STUDIES, load_polls, normalize
+try:
+    from scripts.historical_backtest import STUDIES, load_polls, normalize
+except ModuleNotFoundError:
+    from historical_backtest import STUDIES, load_polls, normalize
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "data"
