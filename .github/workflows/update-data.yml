@@ -48,7 +48,7 @@ jobs:
           p=json.load(open('data/polls.json'))
           c=json.load(open('data/calibration.json'))
 
-          assert a.get('schemaVersion') == 5
+          assert a.get('schemaVersion') == 6
           assert c.get('schemaVersion') == 1
           assert c.get('correctionApplied') is False
           assert len(a.get('candidates', [])) >= 2
@@ -64,6 +64,11 @@ jobs:
           assert a['sensitivity']['status'] in ('ok', 'insufficient-data')
           assert a['influence']['status'] in ('ok', 'insufficient-data')
           assert a['influence'].get('correctionApplied', False) is False
+          assert a['uncertainty']['status'] in ('ok', 'insufficient-data')
+          if a['uncertainty']['status'] == 'ok':
+              assert a['uncertainty']['bootstrapDraws'] >= 100
+              assert a['uncertainty']['empiricalErrorQuantileUsed'] == 'q80'
+              assert len(a['uncertainty']['candidates']) >= 2
           if a['influence']['status'] == 'ok':
               assert a['influence']['pollCount'] >= 3
               assert a['influence']['instituteCount'] >= 1
