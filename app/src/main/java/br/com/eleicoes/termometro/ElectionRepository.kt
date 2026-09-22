@@ -142,6 +142,9 @@ class ElectionRepository {
                 bootstrapP50 = if (item.isNull("bootstrapP50")) null else item.optDouble("bootstrapP50"),
                 bootstrapP90 = if (item.isNull("bootstrapP90")) null else item.optDouble("bootstrapP90"),
                 empiricalErrorQ80 = if (item.isNull("empiricalErrorQ80")) null else item.optDouble("empiricalErrorQ80"),
+                empiricalSupportBand = item.optString("empiricalSupportBand"),
+                empiricalSupportBandCount = item.optInt("empiricalSupportBandCount", 0),
+                empiricalSupportBandUsed = item.optBoolean("empiricalSupportBandUsed", false),
                 advancedLow = item.optDouble("advancedLow", 0.0),
                 advancedHigh = item.optDouble("advancedHigh", 0.0),
                 advancedHalfWidth = item.optDouble("advancedHalfWidth", 0.0)
