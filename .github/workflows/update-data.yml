@@ -8,7 +8,6 @@ on:
     branches: [main]
     paths:
       - 'scripts/**'
-      - 'tools/**'
       - 'requirements.txt'
 
 permissions:
@@ -25,45 +24,66 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+
       - run: pip install -r requirements.txt
-      - run: python tools/update_data_safe.py
-      - name: Validar saída
+
+      - name: Atualizar analytics auditáveis
+        run: python scripts/update_analytics.py
+
+      - name: Validar saída v3
         run: |
           python - <<'PY'
           import json
-          d=json.load(open('data/latest.json'))
-          vals={c['id']:c['pollingSupport'] for c in d['candidates']}
-          assert 20 <= vals.get('lula',0) <= 60
-          assert 20 <= vals.get('flavio-bolsonaro',0) <= 60
-          for k,v in vals.items():
-              if k not in ('lula','flavio-bolsonaro'):
-                  assert 0 <= v <= 15, (k,v)
-          assert d.get('schemaVersion', 1) >= 2
-          print('Validação OK', vals)
+          from pathlib import Path
+
+          a=json.load(open('data/analytics.json'))
+          h=json.load(open('data/analytics-history.json'))
+          p=json.load(open('data/polls.json'))
+
+          assert a.get('schemaVersion') == 3
+          assert len(a.get('candidates', [])) >= 2
+          assert a['quality']['pollCount'] >= 1
+          assert a['quality']['instituteCount'] >= 1
+          assert len(h) >= 2
+          assert len(p.get('firstRound', [])) >= 1
+
+          for c in a['candidates']:
+              assert 0 <= c['pollingSupport'] <= 100
+              assert 0 <= c['intervalLow'] <= c['pollingSupport'] <= c['intervalHigh'] <= 100
+
+          print(
+              'Validação v3 OK:',
+              a['quality'],
+              'histórico=', len(h),
+              'pesquisas=', len(p['firstRound'])
+          )
           PY
-      - name: Publicar nova leitura se houver mudança
+
+      - name: Publicar dados se houver mudança
         run: |
           set -euo pipefail
           git config user.name "eleicoes-bot"
           git config user.email "actions@users.noreply.github.com"
 
-          # Guarda os JSONs validados, reaplica-os sobre o main mais recente e
-          # só então cria o commit. Assim commits de código feitos durante a
-          # coleta não provocam rejeição non-fast-forward.
-          cp data/latest.json /tmp/latest.json
-          cp data/history.json /tmp/history.json
+          cp data/analytics.json /tmp/analytics.json
+          cp data/analytics-history.json /tmp/analytics-history.json
+          cp data/polls.json /tmp/polls.json
+
           git fetch origin main
           git reset --hard origin/main
-          cp /tmp/latest.json data/latest.json
-          cp /tmp/history.json data/history.json
 
-          git add data/latest.json data/history.json
+          cp /tmp/analytics.json data/analytics.json
+          cp /tmp/analytics-history.json data/analytics-history.json
+          cp /tmp/polls.json data/polls.json
+
+          git add data/analytics.json data/analytics-history.json data/polls.json
           if git diff --cached --quiet; then
             echo "Sem mudança"
           else
-            git commit -m "data: atualiza leitura eleitoral validada"
+            git commit -m "data: atualiza agregador de pesquisas v3"
             git push origin HEAD:main
           fi
