@@ -472,7 +472,7 @@ def main() -> None:
         previous_support = previous_history[-1].get("pollingSupport", {})
 
     candidates = []
-    for cid, values in sorted(agg["candidates"].items(), key=lambda kv: kv[1]["support"], reverse=True):
+    for cid, values in sorted(agg["candidates"].items(), key=lambda kv: NAMES.get(kv[0], kv[0]).lower()):
         support = values["support"]
         prev = float(previous_support.get(cid, support))
         change = support - prev
