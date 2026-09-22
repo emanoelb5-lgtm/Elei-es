@@ -73,7 +73,18 @@ data class HistoryPoint(
     val origin: String = "live"
 )
 
+data class PollRecord(
+    val date: String,
+    val institute: String,
+    val sample: Int,
+    val method: String,
+    val registration: String?,
+    val verifiedTse: Boolean,
+    val candidates: Map<String, Double>
+)
+
 data class DashboardData(
     val snapshot: Snapshot,
-    val history: List<HistoryPoint>
+    val history: List<HistoryPoint>,
+    val polls: List<PollRecord>
 )
