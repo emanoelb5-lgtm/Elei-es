@@ -6,6 +6,8 @@ from scripts.update_analytics import (
     parse_metadata,
     dedupe_polls,
     aggregate_first_round,
+    build_source_diagnostics,
+    rolling_validation,
 )
 
 
@@ -84,6 +86,64 @@ class AnalyticsParserTests(unittest.TestCase):
         self.assertEqual(agg["methodCount"], 2)
         self.assertEqual(agg["registrationCount"], 2)
         self.assertIn("lula", agg["candidates"])
+
+
+    def test_source_diagnostics_use_other_institutes(self):
+        polls = [
+            {
+                "date": date(2026, 9, 10),
+                "institute": "A",
+                "sample": 2000,
+                "method": "Presencial",
+                "registration": "BR-10001/2026",
+                "verifiedTse": False,
+                "values": {"lula": 40.0, "flavio-bolsonaro": 35.0},
+            },
+            {
+                "date": date(2026, 9, 11),
+                "institute": "B",
+                "sample": 2000,
+                "method": "Online",
+                "registration": "BR-10002/2026",
+                "verifiedTse": False,
+                "values": {"lula": 42.0, "flavio-bolsonaro": 33.0},
+            },
+            {
+                "date": date(2026, 9, 12),
+                "institute": "C",
+                "sample": 2000,
+                "method": "Telefonica",
+                "registration": "BR-10003/2026",
+                "verifiedTse": False,
+                "values": {"lula": 41.0, "flavio-bolsonaro": 34.0},
+            },
+        ]
+        result = build_source_diagnostics(polls, peer_window_days=10)
+        self.assertGreater(result["comparisonCount"], 0)
+        labels = {row["label"] for row in result["institutes"]}
+        self.assertEqual(labels, {"A", "B", "C"})
+
+    def test_rolling_validation_reports_error_metrics(self):
+        polls = []
+        for idx in range(8):
+            polls.append({
+                "date": date(2026, 8, 1 + idx * 5),
+                "institute": ["A", "B", "C", "D"][idx % 4],
+                "sample": 2000,
+                "method": "Presencial",
+                "registration": f"BR-{20000 + idx:05d}/2026",
+                "verifiedTse": False,
+                "values": {
+                    "lula": 38.0 + idx * 0.2,
+                    "flavio-bolsonaro": 35.0 - idx * 0.1,
+                },
+            })
+        result = rolling_validation(polls, minimum_training_polls=3)
+        self.assertEqual(result["status"], "ok")
+        self.assertGreater(result["caseCount"], 0)
+        self.assertIsNotNone(result["meanAbsoluteError"])
+        self.assertGreaterEqual(result["intervalCoverage"], 0.0)
+        self.assertLessEqual(result["intervalCoverage"], 100.0)
 
 
 if __name__ == "__main__":
