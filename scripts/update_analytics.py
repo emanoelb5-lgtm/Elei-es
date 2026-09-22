@@ -705,16 +705,27 @@ def aggregate_runoff_table(polls: List[dict], target: date) -> dict | None:
     ids = sorted(set().union(*(p["values"].keys() for p, _ in weighted))) if weighted else []
     if len(ids) != 2:
         return None
+    raw_aggregate = aggregate_first_round(polls, target)
+    runoff_uncertainty = advanced_uncertainty(
+        polls,
+        target,
+        raw_aggregate,
+        {},
+        use_empirical=False,
+    )
     candidates = []
     for cid in ids:
         agg = aggregate_candidate(weighted, cid)
         if agg:
+            uncertainty_row = runoff_uncertainty.get("candidates", {}).get(cid, {})
             candidates.append({
                 "id": cid,
                 "name": NAMES.get(cid, cid.replace("-", " ").title()),
                 "support": round(agg[0], 2),
-                "intervalLow": round(agg[1], 2),
-                "intervalHigh": round(agg[2], 2),
+                "intervalLow": round(float(uncertainty_row.get("advancedLow", agg[1])), 2),
+                "intervalHigh": round(float(uncertainty_row.get("advancedHigh", agg[2])), 2),
+                "modelIntervalLow": round(agg[1], 2),
+                "modelIntervalHigh": round(agg[2], 2),
             })
     if len(candidates) != 2:
         return None
@@ -733,6 +744,7 @@ def aggregate_runoff_table(polls: List[dict], target: date) -> dict | None:
         "instituteCount": len({norm(p["institute"]) for p in used}),
         "responseComposition": composition,
         "pairNormalized": normalized,
+        "uncertainty": runoff_uncertainty,
         "pairNormalizationNote": "Normalização apenas entre os dois candidatos exibidos; não é projeção de votos válidos.",
     }
 
@@ -994,16 +1006,87 @@ def bootstrap_current_support(
     }
 
 
+def cluster_bootstrap_current_support(
+    polls: List[dict],
+    target: date,
+    draws: int = 500,
+) -> dict:
+    eligible = [
+        p for p in polls
+        if p["date"] <= target and (target - p["date"]).days <= LIVE_WINDOW_DAYS
+    ]
+    grouped: Dict[str, List[dict]] = {}
+    for poll in eligible:
+        grouped.setdefault(norm(poll.get("institute", "")) or "instituto-nao-identificado", []).append(poll)
+
+    cluster_keys = sorted(grouped)
+    if len(cluster_keys) < 3:
+        return {
+            "status": "insufficient-data",
+            "draws": 0,
+            "clusterCount": len(cluster_keys),
+            "candidates": {},
+        }
+
+    fingerprint = sum(
+        int(p["date"].strftime("%Y%m%d"))
+        + int(p.get("sample", 0))
+        + sum(int(round(float(v) * 100)) for v in p.get("values", {}).values())
+        for p in eligible
+    ) + 7919 * len(cluster_keys)
+    rng = random.Random(fingerprint)
+    series: Dict[str, List[float]] = {}
+
+    for draw_index in range(draws):
+        sampled: List[dict] = []
+        for slot in range(len(cluster_keys)):
+            key = cluster_keys[rng.randrange(len(cluster_keys))]
+            # Se o mesmo instituto for sorteado mais de uma vez, cada ocorrência
+            # é um bloco bootstrap distinto. O sufixo impede que o controle de
+            # repetição confunda blocos independentes sorteados na mesma réplica.
+            synthetic = f"{key}::bootstrap-{draw_index}-{slot}"
+            for original in grouped[key]:
+                clone = dict(original)
+                clone["institute"] = synthetic
+                sampled.append(clone)
+
+        aggregate = aggregate_first_round(sampled, target)
+        for cid, values in aggregate.get("candidates", {}).items():
+            series.setdefault(cid, []).append(float(values["support"]))
+
+    candidates = {}
+    for cid, values in series.items():
+        if len(values) < max(50, draws // 4):
+            continue
+        candidates[cid] = {
+            "p10": round(percentile(values, 0.10) or 0.0, 2),
+            "p25": round(percentile(values, 0.25) or 0.0, 2),
+            "p50": round(percentile(values, 0.50) or 0.0, 2),
+            "p75": round(percentile(values, 0.75) or 0.0, 2),
+            "p90": round(percentile(values, 0.90) or 0.0, 2),
+            "drawCount": len(values),
+        }
+
+    return {
+        "status": "ok" if candidates else "insufficient-data",
+        "draws": draws,
+        "clusterCount": len(cluster_keys),
+        "candidates": candidates,
+    }
+
+
 def advanced_uncertainty(
     polls: List[dict],
     target: date,
     aggregate: dict,
     validation: dict,
+    use_empirical: bool = True,
 ) -> dict:
     bootstrap = bootstrap_current_support(polls, target)
-    empirical_q80 = validation.get("absoluteErrorQuantiles", {}).get("q80")
-    empirical_q90 = validation.get("absoluteErrorQuantiles", {}).get("q90")
-    band_quantiles = validation.get("absoluteErrorQuantilesBySupportBand", {})
+    cluster_bootstrap = cluster_bootstrap_current_support(polls, target)
+    empirical_q80 = validation.get("absoluteErrorQuantiles", {}).get("q80") if use_empirical else None
+    empirical_q90 = validation.get("absoluteErrorQuantiles", {}).get("q90") if use_empirical else None
+    band_quantiles = validation.get("absoluteErrorQuantilesBySupportBand", {}) if use_empirical else {}
 
     candidates = {}
     for cid, values in aggregate.get("candidates", {}).items():
@@ -1021,17 +1104,39 @@ def advanced_uncertainty(
             bootstrap_low = bootstrap_high = None
             bootstrap_half = 0.0
 
+        cluster_boot = cluster_bootstrap.get("candidates", {}).get(cid)
+        if cluster_boot:
+            cluster_low = float(cluster_boot["p10"])
+            cluster_high = float(cluster_boot["p90"])
+            cluster_half = max(support - cluster_low, cluster_high - support, 0.0)
+        else:
+            cluster_low = cluster_high = None
+            cluster_half = 0.0
+
         # Usa erro empírico calibrado por faixa de apoio quando houver volume
         # mínimo suficiente; caso contrário, recua para o quantil global.
         support_band = "low" if support < 10.0 else "medium" if support < 30.0 else "high"
         band_info = band_quantiles.get(support_band, {})
-        use_band = int(band_info.get("count", 0)) >= 20 and band_info.get("q80") is not None
+        use_band = (
+            use_empirical
+            and int(band_info.get("count", 0)) >= 20
+            and band_info.get("q80") is not None
+        )
         empirical_half = (
             float(band_info["q80"])
             if use_band
-            else float(empirical_q80) if empirical_q80 is not None else 0.0
+            else float(empirical_q80) if use_empirical and empirical_q80 is not None else 0.0
         )
-        advanced_half = max(model_half, bootstrap_half, empirical_half, 0.6)
+
+        components = {
+            "analytical": model_half,
+            "pollBootstrap": bootstrap_half,
+            "instituteBootstrap": cluster_half,
+        }
+        if use_empirical:
+            components["empirical"] = empirical_half
+        dominant_component = max(components, key=components.get)
+        advanced_half = max(*components.values(), 0.6)
 
         candidates[cid] = {
             "support": round(support, 2),
@@ -1040,6 +1145,11 @@ def advanced_uncertainty(
             "bootstrapP10": round(bootstrap_low, 2) if bootstrap_low is not None else None,
             "bootstrapP50": round(float(boot["p50"]), 2) if boot else None,
             "bootstrapP90": round(bootstrap_high, 2) if bootstrap_high is not None else None,
+            "instituteBootstrapP10": round(cluster_low, 2) if cluster_low is not None else None,
+            "instituteBootstrapP50": round(float(cluster_boot["p50"]), 2) if cluster_boot else None,
+            "instituteBootstrapP90": round(cluster_high, 2) if cluster_high is not None else None,
+            "instituteBootstrapHalfWidth": round(cluster_half, 2),
+            "dominantComponent": dominant_component,
             "empiricalErrorQ80": round(empirical_half, 2) if empirical_half > 0 else None,
             "empiricalSupportBand": support_band,
             "empiricalSupportBandCount": int(band_info.get("count", 0)),
@@ -1052,14 +1162,17 @@ def advanced_uncertainty(
     return {
         "status": "ok" if candidates else "insufficient-data",
         "bootstrapDraws": bootstrap.get("draws", 0),
-        "empiricalErrorQuantileUsed": "q80",
+        "instituteBootstrapDraws": cluster_bootstrap.get("draws", 0),
+        "instituteClusterCount": cluster_bootstrap.get("clusterCount", 0),
+        "empiricalCalibrationApplied": use_empirical,
+        "empiricalErrorQuantileUsed": "q80" if use_empirical else "none",
         "empiricalErrorQ80": round(float(empirical_q80), 2) if empirical_q80 is not None else None,
         "empiricalErrorQ90": round(float(empirical_q90), 2) if empirical_q90 is not None else None,
         "supportBandCalibration": band_quantiles,
         "candidates": candidates,
         "note": (
-            "Faixa avançada combina a incerteza analítica existente, a variabilidade "
-            "de reamostragem das pesquisas e um piso de erro empírico calibrado por faixa de apoio quando houver amostra suficiente "
+            "Faixa avançada combina a incerteza analítica existente, bootstrap por pesquisa, "
+            "bootstrap em blocos por instituto e, quando aplicável, piso de erro empírico calibrado por faixa de apoio "
             "contra a próxima pesquisa publicada. É uma faixa de incerteza da leitura atual, "
             "não probabilidade de vitória nem previsão do resultado da eleição."
         ),
@@ -1349,7 +1462,7 @@ def main() -> None:
     }
 
     snapshot = {
-        "schemaVersion": 6,
+        "schemaVersion": 7,
         "generatedAt": now.isoformat().replace("+00:00", "Z"),
         "electionDate": ELECTION_DATE.isoformat(),
         "daysToElection": max((ELECTION_DATE - now.date()).days, 0),
@@ -1366,7 +1479,7 @@ def main() -> None:
             "windowDays": LIVE_WINDOW_DAYS,
             "deduplication": "registro TSE; fallback por instituto/data/amostra/resultados",
             "weighting": "decaimento temporal + tamanho amostral + controle de repetição por instituto",
-            "uncertainty": "faixa avançada = intervalo analítico + bootstrap das pesquisas + piso de erro empírico q80",
+            "uncertainty": "faixa avançada = intervalo analítico + bootstrap individual + bootstrap em blocos por instituto + piso empírico q80 quando aplicável",
             "marketUse": "informativo; não entra na média de pesquisas",
             "responseComposition": "categorias não candidatas somente quando identificadas pela fonte; residual não classificado não é indecisão",
             "sensitivity": "leave-one-out por pesquisa + comparação de janelas de 14 e 30 dias; informativo, sem ajuste automático",
