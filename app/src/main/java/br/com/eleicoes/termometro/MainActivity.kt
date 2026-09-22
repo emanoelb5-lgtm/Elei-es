@@ -108,7 +108,8 @@ private fun DashboardHost() {
             when (tab) {
                 0 -> HomeScreen(data, loading, error, notice) { refresh(true) }
                 1 -> TrendScreen(data, loading)
-                else -> PollsScreen(data, loading)
+                2 -> PollsScreen(data, loading)
+                else -> DiagnosticsScreen(data, loading)
             }
         }
         NavigationBar(containerColor = Color.White) {
@@ -129,6 +130,12 @@ private fun DashboardHost() {
                 onClick = { tab = 2 },
                 icon = { Text("≡", fontSize = 21.sp, fontWeight = FontWeight.Bold) },
                 label = { Text("Pesquisas") }
+            )
+            NavigationBarItem(
+                selected = tab == 3,
+                onClick = { tab = 3 },
+                icon = { Text("◎", fontSize = 20.sp, fontWeight = FontWeight.Bold) },
+                label = { Text("Diagnóstico") }
             )
         }
     }
@@ -376,6 +383,201 @@ private fun PollRecordCard(poll: PollRecord, candidates: List<Candidate>) {
                     }
                 }
             }
+        }
+    }
+}
+
+@Composable
+private fun DiagnosticsScreen(data: DashboardData?, loading: Boolean) {
+    var mode by remember { mutableIntStateOf(0) }
+
+    LazyColumn(
+        modifier = Modifier.fillMaxSize(),
+        contentPadding = PaddingValues(18.dp, 22.dp, 18.dp, 34.dp),
+        verticalArrangement = Arrangement.spacedBy(14.dp)
+    ) {
+        item {
+            Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                Text("CALIBRAÇÃO E CONTROLE", color = BrazilGreen, fontWeight = FontWeight.Bold, fontSize = 13.sp)
+                Text("Diagnóstico\ndo agregador", fontSize = 36.sp, lineHeight = 38.sp, fontWeight = FontWeight.ExtraBold)
+                Text(
+                    "Mede diferenças entre fontes e o erro retrospectivo do agregador. Os diagnósticos não alteram automaticamente a média eleitoral.",
+                    color = Muted,
+                    lineHeight = 21.sp
+                )
+            }
+        }
+
+        if (data != null) {
+            item { CalibrationPolicyCard(data.calibration) }
+            item { RollingValidationCard(data.calibration.rollingValidation) }
+
+            item {
+                SectionTitle(
+                    "Efeito de fonte",
+                    "Comparação com pesquisas contemporâneas de outros institutos"
+                )
+            }
+
+            item {
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    FilterChip(
+                        selected = mode == 0,
+                        onClick = { mode = 0 },
+                        label = { Text("Institutos") }
+                    )
+                    FilterChip(
+                        selected = mode == 1,
+                        onClick = { mode = 1 },
+                        label = { Text("Métodos") }
+                    )
+                }
+            }
+
+            val diagnostics = if (mode == 0) {
+                data.calibration.instituteDiagnostics
+            } else {
+                data.calibration.methodDiagnostics
+            }
+
+            items(diagnostics, key = { "${mode}-${it.label}" }) { diagnostic ->
+                SourceDiagnosticCard(diagnostic)
+            }
+
+            item { HistoricalBacktestCard(data.calibration) }
+        } else if (loading) {
+            item { LoadingBlock() }
+        }
+    }
+}
+
+@Composable
+private fun CalibrationPolicyCard(calibration: CalibrationData) {
+    val active = calibration.correctionApplied
+    Card(
+        shape = RoundedCornerShape(22.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = if (active) Color(0xFFFFF8E7) else Color(0xFFEAF2ED)
+        )
+    ) {
+        Column(Modifier.padding(17.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            Text("Uso dos diagnósticos", fontWeight = FontWeight.ExtraBold, fontSize = 18.sp)
+            Text(
+                if (active) "Há ajuste de calibração ativo." else "Nenhuma correção automática está ativa.",
+                color = if (active) Color(0xFF9A6700) else BrazilGreen,
+                fontWeight = FontWeight.Bold
+            )
+            Text(calibration.correctionPolicy, color = Muted, lineHeight = 19.sp)
+            Text(
+                "Janela de comparação entre fontes: ±${calibration.peerWindowDays} dias.",
+                color = Muted,
+                fontSize = 12.sp
+            )
+        }
+    }
+}
+
+@Composable
+private fun RollingValidationCard(validation: RollingValidation) {
+    Card(shape = RoundedCornerShape(22.dp), colors = CardDefaults.cardColors(containerColor = BrazilBlue)) {
+        Column(Modifier.padding(17.dp), verticalArrangement = Arrangement.spacedBy(9.dp)) {
+            Text("VALIDAÇÃO RETROSPECTIVA", color = Color(0xFFBFD3EF), fontSize = 12.sp, fontWeight = FontWeight.Bold)
+            if (validation.status == "ok") {
+                Text(
+                    "${validation.caseCount} pesquisas-alvo",
+                    color = Color.White,
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.ExtraBold
+                )
+                MetricRowLight("Comparações candidato/pesquisa", validation.comparisonCount.toString())
+                validation.meanAbsoluteError?.let {
+                    MetricRowLight("Erro absoluto médio", "${it.one()} p.p.")
+                }
+                validation.medianAbsoluteError?.let {
+                    MetricRowLight("Erro absoluto mediano", "${it.one()} p.p.")
+                }
+                validation.intervalCoverage?.let {
+                    MetricRowLight("Cobertura dos intervalos", "${it.one()}%")
+                }
+                Text(
+                    "O alvo é a próxima pesquisa publicada, não o resultado da eleição.",
+                    color = Color(0xFFD8E8FF),
+                    fontSize = 12.sp,
+                    lineHeight = 17.sp
+                )
+            } else {
+                Text("Dados ainda insuficientes para validação retrospectiva.", color = Color.White)
+            }
+        }
+    }
+}
+
+@Composable
+private fun MetricRowLight(label: String, value: String) {
+    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+        Text(label, color = Color(0xFFD8E8FF), fontSize = 13.sp)
+        Text(value, color = Color.White, fontWeight = FontWeight.Bold)
+    }
+}
+
+@Composable
+private fun SourceDiagnosticCard(diagnostic: SourceDiagnostic) {
+    Card(shape = RoundedCornerShape(20.dp), colors = CardDefaults.cardColors(containerColor = Color.White)) {
+        Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(9.dp)) {
+            Text(diagnostic.label, fontWeight = FontWeight.ExtraBold, fontSize = 17.sp)
+            Text(
+                "${diagnostic.pollCount} pesquisas · ${diagnostic.comparisonCount} comparações válidas",
+                color = Muted,
+                fontSize = 12.sp
+            )
+            MetricRow("Desvio absoluto médio", "${diagnostic.meanAbsoluteDeviation.one()} p.p.")
+            MetricRow("Dispersão dos resíduos", "${diagnostic.residualSd.one()} p.p.")
+
+            if (diagnostic.candidateOffsets.isNotEmpty()) {
+                HorizontalDivider(color = Color(0xFFE8ECE9))
+                Text(
+                    "Diferença média em relação aos pares",
+                    color = Muted,
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.Bold
+                )
+                diagnostic.candidateOffsets.forEach { offset ->
+                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                        Text(offset.name, fontSize = 13.sp)
+                        Text(
+                            "${signed(offset.meanOffset)} p.p.",
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 13.sp,
+                            color = Muted
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun HistoricalBacktestCard(calibration: CalibrationData) {
+    Card(shape = RoundedCornerShape(22.dp), colors = CardDefaults.cardColors(containerColor = Color(0xFFFFF8E7))) {
+        Column(Modifier.padding(17.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            Text("Backtest eleitoral histórico", fontWeight = FontWeight.ExtraBold, fontSize = 18.sp)
+            Text(
+                "Status: ${calibration.historicalBacktestStatus}",
+                color = BrazilBlue,
+                fontWeight = FontWeight.Bold
+            )
+            Text(
+                calibration.historicalBacktestNote,
+                color = Muted,
+                lineHeight = 19.sp
+            )
+            Text(
+                "Nenhum ajuste derivado de eleições anteriores é aplicado à leitura de 2026 nesta versão.",
+                color = Muted,
+                fontSize = 12.sp,
+                lineHeight = 17.sp
+            )
         }
     }
 }
