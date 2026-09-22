@@ -1,3 +1,4 @@
+# pipeline schema v9 final.
 # schema v9: regime persistence by distinct evidence.
 # pipeline schema v8 final.
 # schema v8: regime shift shadow model.
