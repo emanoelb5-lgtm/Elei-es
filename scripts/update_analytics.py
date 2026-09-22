@@ -350,6 +350,8 @@ def aggregate_first_round(polls: List[dict], target: date) -> dict:
 
     used = [p for p, _ in weighted]
     institutes = {norm(p["institute"]) for p in used}
+    methods = {norm(p.get("method", "não identificado")) for p in used}
+    registrations = sum(1 for p in used if p.get("registration"))
     verified = sum(1 for p in used if p.get("verifiedTse"))
     avg_age = (
         sum((target - p["date"]).days for p in used) / len(used)
@@ -361,6 +363,8 @@ def aggregate_first_round(polls: List[dict], target: date) -> dict:
         "candidates": candidates,
         "pollCount": len(used),
         "instituteCount": len(institutes),
+        "methodCount": len(methods),
+        "registrationCount": registrations,
         "verifiedTseCount": verified,
         "averageAgeDays": avg_age,
         "effectivePolls": effective,
@@ -542,6 +546,8 @@ def main() -> None:
     quality = {
         "pollCount": agg["pollCount"],
         "instituteCount": agg["instituteCount"],
+        "methodCount": agg["methodCount"],
+        "registrationCount": agg["registrationCount"],
         "verifiedTseCount": agg["verifiedTseCount"],
         "averageAgeDays": round(agg["averageAgeDays"], 1),
         "effectivePolls": round(agg["effectivePolls"], 1),
