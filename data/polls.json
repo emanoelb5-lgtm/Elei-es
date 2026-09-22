@@ -1,10 +1,11 @@
 {
-  "generatedAt": "2026-09-22T17:10:13.145758Z",
+  "generatedAt": "2026-09-22T17:13:03.882401Z",
   "firstRound": [
     {
       "date": "2026-01-11",
-      "institute": "08/01-11/01 Quaest 2.004 Presencial (Domiciliar) 2,0p.p. 95%",
-      "sample": 2000,
+      "institute": "Quaest",
+      "sample": 2004,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-00835/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -18,8 +19,9 @@
     },
     {
       "date": "2026-01-12",
-      "institute": "08/01-12/01 Ideia Inteligência 2.000 Telefonica (CATI) 2,2p.p. 95%",
+      "institute": "Ideia Inteligência",
       "sample": 2000,
+      "method": "Telefonica (CATI)",
       "registration": "BR-06731/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -33,8 +35,9 @@
     },
     {
       "date": "2026-01-19",
-      "institute": "15/01-19/01 Futura 2.000 Telefonica (CATI) 2,2p.p. 95%",
+      "institute": "Futura",
       "sample": 2000,
+      "method": "Telefonica (CATI)",
       "registration": "BR-08233/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -48,8 +51,9 @@
     },
     {
       "date": "2026-01-20",
-      "institute": "15/01-20/01 AtlasIntel 5.000 Online 1,0p.p. 95%",
-      "sample": 2000,
+      "institute": "AtlasIntel",
+      "sample": 5000,
+      "method": "Online",
       "registration": "BR-02804/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -63,8 +67,9 @@
     },
     {
       "date": "2026-01-28",
-      "institute": "25/01-28/01 Paraná Pesquisas 2.080 Presencial (Domiciliar) 2,2p.p. 95%",
-      "sample": 2000,
+      "institute": "Paraná Pesquisas",
+      "sample": 2080,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-08254/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -78,8 +83,9 @@
     },
     {
       "date": "2026-01-30",
-      "institute": "26/01-30/01 GERP 2.000 Presencial (Domiciliar) 2,2p.p. 95%",
+      "institute": "GERP",
       "sample": 2000,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-04519/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -93,36 +99,41 @@
     },
     {
       "date": "2026-02-02",
-      "institute": "30/01-02/02 Ideia Inteligência 1.500 Telefonica (CATI) 2,5p.p. 95%",
-      "sample": 2000,
+      "institute": "Ideia Inteligência",
+      "sample": 1500,
+      "method": "Telefonica (CATI)",
       "registration": "BR-08425/2026",
       "verifiedTse": false,
       "round": "1º turno",
       "candidates": {
         "lula": 39.5,
-        "flavio-bolsonaro": 32.0,
+        "flavio-bolsonaro": 33.0,
         "renan-santos": 0.7,
-        "romeu-zema": 3.0
+        "ronaldo-caiado": 5.1,
+        "romeu-zema": 6.0
       }
     },
     {
       "date": "2026-02-07",
-      "institute": "03/02-07/02 Futura 2.000 Telefonica (CATI) 2,2p.p. 95%",
+      "institute": "Futura",
       "sample": 2000,
+      "method": "Telefonica (CATI)",
       "registration": "BR-02276/2026",
       "verifiedTse": false,
       "round": "1º turno",
       "candidates": {
-        "lula": 35.9,
-        "flavio-bolsonaro": 37.2,
-        "renan-santos": 1.9,
-        "romeu-zema": 4.9
+        "lula": 35.3,
+        "flavio-bolsonaro": 35.7,
+        "renan-santos": 2.1,
+        "ronaldo-caiado": 6.6,
+        "romeu-zema": 6.5
       }
     },
     {
       "date": "2026-02-07",
-      "institute": "06/02-07/02 Real Time Big Data 2.000 Presencial (Domiciliar) 2,0p.p. 95%",
+      "institute": "Real Time Big Data",
       "sample": 2000,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-06428/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -135,22 +146,9 @@
     },
     {
       "date": "2026-02-09",
-      "institute": "05/02-09/02 Quaest 2.004 Presencial (Domiciliar) 2,0p.p. 95%",
-      "sample": 2000,
-      "registration": "BR-00249/2026",
-      "verifiedTse": false,
-      "round": "1º turno",
-      "candidates": {
-        "lula": 35.0,
-        "flavio-bolsonaro": 29.0,
-        "renan-santos": 1.0,
-        "romeu-zema": 4.0
-      }
-    },
-    {
-      "date": "2026-02-09",
-      "institute": "05/02-09/02 Colectta 2.004 Presencial (Domiciliar) 2,0p.p. 95%",
-      "sample": 2000,
+      "institute": "Colectta",
+      "sample": 2004,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-04291/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -163,9 +161,26 @@
       }
     },
     {
+      "date": "2026-02-09",
+      "institute": "Quaest",
+      "sample": 2004,
+      "method": "Presencial (Domiciliar)",
+      "registration": "BR-00249/2026",
+      "verifiedTse": false,
+      "round": "1º turno",
+      "candidates": {
+        "lula": 38.0,
+        "flavio-bolsonaro": 30.0,
+        "renan-santos": 1.0,
+        "ronaldo-caiado": 4.0,
+        "romeu-zema": 4.0
+      }
+    },
+    {
       "date": "2026-02-24",
-      "institute": "19/02-24/02 AtlasIntel 5.000 Online 1,0p.p. 95%",
-      "sample": 2000,
+      "institute": "AtlasIntel",
+      "sample": 5000,
+      "method": "Online",
       "registration": "BR-07600/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -179,36 +194,41 @@
     },
     {
       "date": "2026-02-25",
-      "institute": "22/02-25/02 Paraná Pesquisas 2.080 Presencial (Domiciliar) 2,2p.p. 95%",
-      "sample": 2000,
+      "institute": "Paraná Pesquisas",
+      "sample": 2080,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-07974/2026",
       "verifiedTse": false,
       "round": "1º turno",
       "candidates": {
-        "lula": 39.6,
-        "flavio-bolsonaro": 35.3,
+        "lula": 40.5,
+        "flavio-bolsonaro": 36.6,
         "renan-santos": 1.5,
-        "romeu-zema": 3.8
+        "ronaldo-caiado": 3.7,
+        "romeu-zema": 4.3
       }
     },
     {
       "date": "2026-03-02",
-      "institute": "28/02-02/03 Real Time Big Data 2.000 Presencial (Domiciliar) 2,0p.p. 95%",
+      "institute": "Real Time Big Data",
       "sample": 2000,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-09353/2026",
       "verifiedTse": false,
       "round": "1º turno",
       "candidates": {
-        "lula": 39.0,
-        "flavio-bolsonaro": 32.0,
+        "lula": 40.0,
+        "flavio-bolsonaro": 33.0,
         "renan-santos": 2.0,
-        "romeu-zema": 2.0
+        "ronaldo-caiado": 5.0,
+        "romeu-zema": 3.0
       }
     },
     {
       "date": "2026-03-03",
-      "institute": "27/02-03/03 Vetor Arrow 9.000 Telefonica (CATI) 2,5p.p. 95%",
-      "sample": 2000,
+      "institute": "Vetor Arrow",
+      "sample": 9000,
+      "method": "Telefonica (CATI)",
       "registration": "BR-03742/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -221,22 +241,25 @@
     },
     {
       "date": "2026-03-05",
-      "institute": "03/03-05/03 Datafolha 2.004 Presencial (Ponto de fluxo) 2,0p.p. 95%",
-      "sample": 2000,
+      "institute": "Datafolha",
+      "sample": 2004,
+      "method": "Presencial (Ponto de fluxo)",
       "registration": "BR-03715/2026",
       "verifiedTse": false,
       "round": "1º turno",
       "candidates": {
-        "lula": 38.0,
-        "flavio-bolsonaro": 32.0,
+        "lula": 39.0,
+        "flavio-bolsonaro": 33.0,
         "renan-santos": 3.0,
-        "romeu-zema": 4.0
+        "ronaldo-caiado": 4.0,
+        "romeu-zema": 5.0
       }
     },
     {
       "date": "2026-03-06",
-      "institute": "02/03-06/03 Futura 2.000 Telefonica (CATI) 2,2p.p. 95%",
+      "institute": "Futura",
       "sample": 2000,
+      "method": "Telefonica (CATI)",
       "registration": "BR-06607/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -249,22 +272,25 @@
     },
     {
       "date": "2026-03-09",
-      "institute": "06/03-09/03 Quaest 2.004 Presencial (Domiciliar) 2,0p.p. 95%",
-      "sample": 2000,
+      "institute": "Quaest",
+      "sample": 2004,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-05809/2026",
       "verifiedTse": false,
       "round": "1º turno",
       "candidates": {
-        "lula": 37.0,
-        "flavio-bolsonaro": 30.0,
+        "lula": 39.0,
+        "flavio-bolsonaro": 32.0,
         "renan-santos": 1.0,
-        "romeu-zema": 3.0
+        "ronaldo-caiado": 4.0,
+        "romeu-zema": 2.0
       }
     },
     {
       "date": "2026-03-10",
-      "institute": "06/03-10/03 Ideia Inteligência 1.500 Telefonica (CATI) 2,5p.p. 95%",
-      "sample": 2000,
+      "institute": "Ideia Inteligência",
+      "sample": 1500,
+      "method": "Telefonica (CATI)",
       "registration": "BR-00386/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -278,22 +304,9 @@
     },
     {
       "date": "2026-03-11",
-      "institute": "05/03-11/03 Quaest 1.500 Presencial (Domiciliar) 3,0p.p. 95%",
-      "sample": 2000,
-      "registration": "BR-02944/2026",
-      "verifiedTse": false,
-      "round": "1º turno",
-      "candidates": {
-        "lula": 36.0,
-        "flavio-bolsonaro": 34.0,
-        "renan-santos": 2.0,
-        "ronaldo-caiado": 4.0
-      }
-    },
-    {
-      "date": "2026-03-11",
-      "institute": "06/03-11/03 Alfa Inteligência 1.000 Telefonica (CATI) 3,1p.p. 95%",
-      "sample": 2000,
+      "institute": "Alfa Inteligência",
+      "sample": 1000,
+      "method": "Telefonica (CATI)",
       "registration": "BR-03165/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -306,23 +319,41 @@
       }
     },
     {
+      "date": "2026-03-11",
+      "institute": "Quaest",
+      "sample": 1500,
+      "method": "Presencial (Domiciliar)",
+      "registration": "BR-02944/2026",
+      "verifiedTse": false,
+      "round": "1º turno",
+      "candidates": {
+        "lula": 36.0,
+        "flavio-bolsonaro": 34.0,
+        "renan-santos": 2.0,
+        "ronaldo-caiado": 4.0
+      }
+    },
+    {
       "date": "2026-03-18",
-      "institute": "17/03-18/03 Real Time Big Data 1.500 Presencial (Domiciliar) 2,0p.p. 95%",
-      "sample": 2000,
+      "institute": "Real Time Big Data",
+      "sample": 1500,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-04103/2026",
       "verifiedTse": false,
       "round": "1º turno",
       "candidates": {
         "lula": 40.0,
-        "flavio-bolsonaro": 41.0,
+        "flavio-bolsonaro": 42.0,
         "renan-santos": 1.0,
+        "ronaldo-caiado": 4.0,
         "romeu-zema": 1.0
       }
     },
     {
       "date": "2026-03-23",
-      "institute": "18/03-23/03 AtlasIntel 5.000 Online 1,0p.p. 95%",
-      "sample": 2000,
+      "institute": "AtlasIntel",
+      "sample": 5000,
+      "method": "Online",
       "registration": "BR-04227/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -336,8 +367,9 @@
     },
     {
       "date": "2026-03-27",
-      "institute": "21/03-27/03 GERP 2.000 Presencial (Domiciliar) 2,24p.p. 95%",
+      "institute": "GERP",
       "sample": 2000,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-02846/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -351,8 +383,9 @@
     },
     {
       "date": "2026-03-28",
-      "institute": "25/03-28/03 Paraná Pesquisas 2.080 Presencial (Domiciliar) 2,2p.p. 95%",
-      "sample": 2000,
+      "institute": "Paraná Pesquisas",
+      "sample": 2080,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-00873/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -366,8 +399,9 @@
     },
     {
       "date": "2026-03-29",
-      "institute": "27/03-29/03 Nexus 2.000 Telefonica (CATI) 2,0p.p. 95%",
+      "institute": "Nexus",
       "sample": 2000,
+      "method": "Telefonica (CATI)",
       "registration": "BR-07875/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -381,8 +415,9 @@
     },
     {
       "date": "2026-04-04",
-      "institute": "13/03-04/04 Veritá 40.500 Telefonica (IVR) 1,0p.p. 95%",
-      "sample": 2000,
+      "institute": "Veritá",
+      "sample": 40500,
+      "method": "Telefonica (IVR)",
       "registration": "BR-02476/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -397,8 +432,9 @@
     },
     {
       "date": "2026-04-07",
-      "institute": "03/04-07/04 Ideia Inteligência 1.500 Telefonica (CATI) 2,5p.p. 95%",
-      "sample": 2000,
+      "institute": "Ideia Inteligência",
+      "sample": 1500,
+      "method": "Telefonica (CATI)",
       "registration": "BR-00605/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -412,8 +448,9 @@
     },
     {
       "date": "2026-04-09",
-      "institute": "07/04-09/04 Datafolha 2.004 Presencial (Ponto de fluxo) 2,0p.p. 95%",
-      "sample": 2000,
+      "institute": "Datafolha",
+      "sample": 2004,
+      "method": "Presencial (Ponto de fluxo)",
       "registration": "BR-03770/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -427,8 +464,9 @@
     },
     {
       "date": "2026-04-11",
-      "institute": "07/04-11/04 Futura 2.000 Telefonica (CATI) 2,2p.p. 95%",
+      "institute": "Futura",
       "sample": 2000,
+      "method": "Telefonica (CATI)",
       "registration": "BR-08282/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -443,8 +481,9 @@
     },
     {
       "date": "2026-04-12",
-      "institute": "08/04-12/04 MDA Pesquisas 2.002 Presencial (Domiciliar) 2,2p.p. 95%",
-      "sample": 2000,
+      "institute": "MDA Pesquisas",
+      "sample": 2002,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-02847/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -458,8 +497,9 @@
     },
     {
       "date": "2026-04-13",
-      "institute": "10/04-13/04 Quaest 2.004 Presencial (Domiciliar) 2,0p.p. 95%",
-      "sample": 2000,
+      "institute": "Quaest",
+      "sample": 2004,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-09285/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -474,8 +514,9 @@
     },
     {
       "date": "2026-04-26",
-      "institute": "24/04-26/04 Nexus 2.000 Telefonica (CATI) 2,0p.p. 95%",
+      "institute": "Nexus",
       "sample": 2000,
+      "method": "Telefonica (CATI)",
       "registration": "BR-01075/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -490,8 +531,9 @@
     },
     {
       "date": "2026-04-27",
-      "institute": "22/04-27/04 AtlasIntel 5.000 Online 1,0p.p. 95%",
-      "sample": 2000,
+      "institute": "AtlasIntel",
+      "sample": 5000,
+      "method": "Online",
       "registration": "BR-07992/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -506,8 +548,9 @@
     },
     {
       "date": "2026-05-04",
-      "institute": "02/05-04/05 Real Time Big Data 2.000 Presencial (Domiciliar) 2,0p.p. 95%",
+      "institute": "Real Time Big Data",
       "sample": 2000,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-03627/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -522,8 +565,9 @@
     },
     {
       "date": "2026-05-05",
-      "institute": "01/05-05/05 Ideia Inteligência 1.500 Telefonica (CATI) 2,5p.p. 95%",
-      "sample": 2000,
+      "institute": "Ideia Inteligência",
+      "sample": 1500,
+      "method": "Telefonica (CATI)",
       "registration": "BR-05356/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -538,8 +582,9 @@
     },
     {
       "date": "2026-05-08",
-      "institute": "04/05-08/05 Futura 2.000 Telefonica (CATI) 2,2p.p. 95%",
+      "institute": "Futura",
       "sample": 2000,
+      "method": "Telefonica (CATI)",
       "registration": "BR-03678/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -554,8 +599,9 @@
     },
     {
       "date": "2026-05-11",
-      "institute": "07/05-11/05 GERP 2.000 Presencial (Domiciliar) 2,2p.p. 95%",
+      "institute": "GERP",
       "sample": 2000,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-03369/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -571,8 +617,9 @@
     },
     {
       "date": "2026-05-11",
-      "institute": "08/05-11/05 Quaest 2.004 Presencial (Domiciliar) 2,0p.p. 95%",
-      "sample": 2000,
+      "institute": "Quaest",
+      "sample": 2004,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-03598/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -587,8 +634,9 @@
     },
     {
       "date": "2026-05-12",
-      "institute": "09/05-12/05 Vox Brasil 2.100 Presencial (Domiciliar) 2,2p.p. 95%",
-      "sample": 2000,
+      "institute": "Vox Brasil",
+      "sample": 2100,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-02423/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -603,8 +651,9 @@
     },
     {
       "date": "2026-05-14",
-      "institute": "12/05-14/05 Datafolha 2.004 Presencial (Ponto de fluxo) 2,0p.p. 95%",
-      "sample": 2000,
+      "institute": "Datafolha",
+      "sample": 2004,
+      "method": "Presencial (Ponto de fluxo)",
       "registration": "BR-00290/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -619,8 +668,9 @@
     },
     {
       "date": "2026-05-15",
-      "institute": "11/05-15/05 Veritá 3.330 Telefonica (IVR) 2,0p.p. 95%",
-      "sample": 2000,
+      "institute": "Veritá",
+      "sample": 3330,
+      "method": "Telefonica (IVR)",
       "registration": "BR-05888/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -635,24 +685,9 @@
     },
     {
       "date": "2026-05-19",
-      "institute": "17/05-19/05 Vox Brasil 2.100 Presencial (Domiciliar) 2,2p.p. 95%",
-      "sample": 2000,
-      "registration": "BR-02416/2026",
-      "verifiedTse": false,
-      "round": "1º turno",
-      "candidates": {
-        "lula": 41.5,
-        "flavio-bolsonaro": 32.1,
-        "augusto-cury": 0.3,
-        "renan-santos": 1.5,
-        "ronaldo-caiado": 5.9,
-        "romeu-zema": 4.1
-      }
-    },
-    {
-      "date": "2026-05-19",
-      "institute": "15/05-19/05 Vetor Arrow 9.000 Telefonica (IVR) 1,0p.p. 95%",
-      "sample": 2000,
+      "institute": "Vetor Arrow",
+      "sample": 9000,
+      "method": "Telefonica (IVR)",
       "registration": "BR-09301/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -666,9 +701,27 @@
       }
     },
     {
+      "date": "2026-05-19",
+      "institute": "Vox Brasil",
+      "sample": 2100,
+      "method": "Presencial (Domiciliar)",
+      "registration": "BR-02416/2026",
+      "verifiedTse": false,
+      "round": "1º turno",
+      "candidates": {
+        "lula": 41.5,
+        "flavio-bolsonaro": 32.1,
+        "augusto-cury": 0.3,
+        "renan-santos": 1.5,
+        "ronaldo-caiado": 5.9,
+        "romeu-zema": 4.1
+      }
+    },
+    {
       "date": "2026-05-21",
-      "institute": "15/05-21/05 Futura 2.000 Telefonica (CATI) 2,2p.p. 95%",
+      "institute": "Futura",
       "sample": 2000,
+      "method": "Telefonica (CATI)",
       "registration": "BR-06529/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -683,24 +736,9 @@
     },
     {
       "date": "2026-05-22",
-      "institute": "19/05-22/05 GERP 2.000 Presencial (Domiciliar) 2,2p.p. 95%",
-      "sample": 2000,
-      "registration": "BR-07971/2026",
-      "verifiedTse": false,
-      "round": "1º turno",
-      "candidates": {
-        "lula": 38.0,
-        "flavio-bolsonaro": 38.0,
-        "augusto-cury": 1.0,
-        "renan-santos": 3.0,
-        "ronaldo-caiado": 2.0,
-        "romeu-zema": 3.0
-      }
-    },
-    {
-      "date": "2026-05-22",
-      "institute": "20/05-22/05 Datafolha 2.004 Presencial (Ponto de fluxo) 2,0p.p. 95%",
-      "sample": 2000,
+      "institute": "Datafolha",
+      "sample": 2004,
+      "method": "Presencial (Ponto de fluxo)",
       "registration": "BR-07489/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -714,9 +752,27 @@
       }
     },
     {
-      "date": "2026-05-24",
-      "institute": "22/05-24/05 Indexa 2.000 Telefonica (CATI) 2,2p.p. 95%",
+      "date": "2026-05-22",
+      "institute": "GERP",
       "sample": 2000,
+      "method": "Presencial (Domiciliar)",
+      "registration": "BR-07971/2026",
+      "verifiedTse": false,
+      "round": "1º turno",
+      "candidates": {
+        "lula": 38.0,
+        "flavio-bolsonaro": 38.0,
+        "augusto-cury": 1.0,
+        "renan-santos": 3.0,
+        "ronaldo-caiado": 2.0,
+        "romeu-zema": 3.0
+      }
+    },
+    {
+      "date": "2026-05-24",
+      "institute": "Indexa",
+      "sample": 2000,
+      "method": "Telefonica (CATI)",
       "registration": "BR-02154/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -731,8 +787,9 @@
     },
     {
       "date": "2026-05-24",
-      "institute": "22/05-24/05 Nexus 2.000 Telefonica (CATI) 2,0p.p. 95%",
+      "institute": "Nexus",
       "sample": 2000,
+      "method": "Telefonica (CATI)",
       "registration": "BR-04193/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -747,8 +804,9 @@
     },
     {
       "date": "2026-05-27",
-      "institute": "23/05-27/05 Ideia Inteligência 1.500 Telefonica (CATI) 2,5p.p. 95%",
-      "sample": 2000,
+      "institute": "Ideia Inteligência",
+      "sample": 1500,
+      "method": "Telefonica (CATI)",
       "registration": "BR-02918/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -762,8 +820,9 @@
     },
     {
       "date": "2026-05-28",
-      "institute": "25/05-28/05 PoderData 2.400 Telefonica (IVR) 2,0p.p. 95%",
-      "sample": 2000,
+      "institute": "PoderData",
+      "sample": 2400,
+      "method": "Telefonica (IVR)",
       "registration": "BR-04882/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -778,8 +837,9 @@
     },
     {
       "date": "2026-05-30",
-      "institute": "29/05-30/05 Real Time Big Data 2.000 Presencial (Domiciliar) 2,0p.p. 95%",
+      "institute": "Real Time Big Data",
       "sample": 2000,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-05864/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -794,8 +854,9 @@
     },
     {
       "date": "2026-06-03",
-      "institute": "01/06-03/06 Vox Brasil 2.100 Presencial (Domiciliar) 2,2p.p. 95%",
-      "sample": 2000,
+      "institute": "Vox Brasil",
+      "sample": 2100,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-08016/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -810,8 +871,9 @@
     },
     {
       "date": "2026-06-05",
-      "institute": "01/06-05/06 GERP 2.000 Presencial (Domiciliar) 2,2p.p. 96%",
+      "institute": "GERP",
       "sample": 2000,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-01792/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -826,8 +888,9 @@
     },
     {
       "date": "2026-06-08",
-      "institute": "05/06-08/06 Quaest 2.004 Presencial (Domiciliar) 2,0p.p. 95%",
-      "sample": 2000,
+      "institute": "Quaest",
+      "sample": 2004,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-07661/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -842,8 +905,9 @@
     },
     {
       "date": "2026-06-10",
-      "institute": "05/06-10/06 Alfa Inteligência 1.400 Telefonica (CATI) 2,6p.p. 95%",
-      "sample": 2000,
+      "institute": "Alfa Inteligência",
+      "sample": 1400,
+      "method": "Telefonica (CATI)",
       "registration": "BR-03496/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -857,8 +921,9 @@
     },
     {
       "date": "2026-06-12",
-      "institute": "08/06-12/06 Futura 2.000 Telefonica (CATI) 2,2p.p. 95%",
+      "institute": "Futura",
       "sample": 2000,
+      "method": "Telefonica (CATI)",
       "registration": "BR-01461/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -873,8 +938,9 @@
     },
     {
       "date": "2026-06-14",
-      "institute": "10/06-14/06 MDA Pesquisas 2.002 Presencial (Domiciliar) 2,2p.p. 95%",
-      "sample": 2000,
+      "institute": "MDA Pesquisas",
+      "sample": 2002,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-04256/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -889,8 +955,9 @@
     },
     {
       "date": "2026-06-14",
-      "institute": "12/06-14/06 Nexus 2.000 Telefonica (CATI) 2,0p.p. 95%",
+      "institute": "Nexus",
       "sample": 2000,
+      "method": "Telefonica (CATI)",
       "registration": "BR-06645/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -905,8 +972,9 @@
     },
     {
       "date": "2026-06-15",
-      "institute": "11/06-15/06 American Analytics 2.000 Presencial (Domiciliar) 2,2p.p. 95%",
+      "institute": "American Analytics",
       "sample": 2000,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-09521/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -920,24 +988,9 @@
     },
     {
       "date": "2026-06-19",
-      "institute": "15/06-19/06 GERP 2.000 Presencial (Domiciliar) 2,2p.p. 95%",
-      "sample": 2000,
-      "registration": "BR-09657/2026",
-      "verifiedTse": false,
-      "round": "1º turno",
-      "candidates": {
-        "lula": 37.0,
-        "flavio-bolsonaro": 34.0,
-        "augusto-cury": 1.0,
-        "renan-santos": 3.0,
-        "ronaldo-caiado": 4.0,
-        "romeu-zema": 3.0
-      }
-    },
-    {
-      "date": "2026-06-19",
-      "institute": "17/06-19/06 Datafolha 2.004 Presencial (Ponto de fluxo) 2,0p.p. 95%",
-      "sample": 2000,
+      "institute": "Datafolha",
+      "sample": 2004,
+      "method": "Presencial (Ponto de fluxo)",
       "registration": "BR-09956/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -951,9 +1004,27 @@
       }
     },
     {
-      "date": "2026-06-20",
-      "institute": "18/06-20/06 Indexa 2.000 Telefonica (CATI) 2,2p.p. 95%",
+      "date": "2026-06-19",
+      "institute": "GERP",
       "sample": 2000,
+      "method": "Presencial (Domiciliar)",
+      "registration": "BR-09657/2026",
+      "verifiedTse": false,
+      "round": "1º turno",
+      "candidates": {
+        "lula": 37.0,
+        "flavio-bolsonaro": 34.0,
+        "augusto-cury": 1.0,
+        "renan-santos": 3.0,
+        "ronaldo-caiado": 4.0,
+        "romeu-zema": 3.0
+      }
+    },
+    {
+      "date": "2026-06-20",
+      "institute": "Indexa",
+      "sample": 2000,
+      "method": "Telefonica (CATI)",
       "registration": "BR-08944/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -968,8 +1039,9 @@
     },
     {
       "date": "2026-06-24",
-      "institute": "21/06-24/06 PoderData 2.400 Telefonica (IVR) 2,0p.p. 95%",
-      "sample": 2000,
+      "institute": "PoderData",
+      "sample": 2400,
+      "method": "Telefonica (IVR)",
       "registration": "BR-05722/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -984,8 +1056,9 @@
     },
     {
       "date": "2026-06-25",
-      "institute": "23/06-25/06 Vox Brasil 2.100 Presencial (Domiciliar) 2,2p.p. 95%",
-      "sample": 2000,
+      "institute": "Vox Brasil",
+      "sample": 2100,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-06630/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -1000,8 +1073,9 @@
     },
     {
       "date": "2026-06-28",
-      "institute": "26/06-28/06 Nexus 2.000 Telefonica (CATI) 2,0p.p. 95%",
+      "institute": "Nexus",
       "sample": 2000,
+      "method": "Telefonica (CATI)",
       "registration": "BR-08521/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -1016,8 +1090,9 @@
     },
     {
       "date": "2026-06-30",
-      "institute": "25/06-30/06 AtlasIntel 5.000 Online 1,0p.p. 95%",
-      "sample": 2000,
+      "institute": "AtlasIntel",
+      "sample": 5000,
+      "method": "Online",
       "registration": "BR-04582/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -1032,8 +1107,9 @@
     },
     {
       "date": "2026-07-06",
-      "institute": "03/07-06/07 Ideia Inteligência 1.500 Telefonica (CATI) 2,5p.p. 95%",
-      "sample": 2000,
+      "institute": "Ideia Inteligência",
+      "sample": 1500,
+      "method": "Telefonica (CATI)",
       "registration": "BR-05628/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -1048,8 +1124,9 @@
     },
     {
       "date": "2026-07-07",
-      "institute": "03/07-07/07 GERP 2.000 Presencial (Domiciliar) 2,2p.p. 95%",
+      "institute": "GERP",
       "sample": 2000,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-03067/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -1064,8 +1141,9 @@
     },
     {
       "date": "2026-07-11",
-      "institute": "07/07-11/07 Futura 2.000 Telefonica (CATI) 2,2p.p. 95%",
+      "institute": "Futura",
       "sample": 2000,
+      "method": "Telefonica (CATI)",
       "registration": "BR-07294/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -1080,8 +1158,9 @@
     },
     {
       "date": "2026-07-12",
-      "institute": "10/07-12/07 Nexus 2.000 Telefonica (CATI) 2,0p.p. 95%",
+      "institute": "Nexus",
       "sample": 2000,
+      "method": "Telefonica (CATI)",
       "registration": "BR-07981/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -1096,8 +1175,9 @@
     },
     {
       "date": "2026-07-13",
-      "institute": "10/07-13/07 Quaest 2.004 Presencial (Domiciliar) 2,0p.p. 95%",
-      "sample": 2000,
+      "institute": "Quaest",
+      "sample": 2004,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-07181/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -1112,8 +1192,9 @@
     },
     {
       "date": "2026-07-15",
-      "institute": "12/07-15/07 PoderData 2.400 Telefonica (IVR) 2,0p.p. 95%",
-      "sample": 2000,
+      "institute": "PoderData",
+      "sample": 2400,
+      "method": "Telefonica (IVR)",
       "registration": "BR-00059/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -1128,8 +1209,9 @@
     },
     {
       "date": "2026-07-19",
-      "institute": "16/07-19/07 Indexa 2.000 Telefonica (CATI) 2,2p.p. 95%",
+      "institute": "Indexa",
       "sample": 2000,
+      "method": "Telefonica (CATI)",
       "registration": "BR-02904/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -1144,8 +1226,9 @@
     },
     {
       "date": "2026-07-20",
-      "institute": "15/07-20/07 GERP 2.000 Presencial (Domiciliar) 2,2p.p. 95%",
+      "institute": "GERP",
       "sample": 2000,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-05026/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -1160,8 +1243,9 @@
     },
     {
       "date": "2026-07-20",
-      "institute": "18/07-20/07 Real Time Big Data 2.000 Presencial (Domiciliar) 2,0p.p. 95%",
+      "institute": "Real Time Big Data",
       "sample": 2000,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-09247/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -1176,8 +1260,9 @@
     },
     {
       "date": "2026-07-24",
-      "institute": "22/07-24/07 Datafolha 2.004 Presencial (Ponto de fluxo) 2,0p.p. 95%",
-      "sample": 2000,
+      "institute": "Datafolha",
+      "sample": 2004,
+      "method": "Presencial (Ponto de fluxo)",
       "registration": "BR-01166/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -1192,8 +1277,9 @@
     },
     {
       "date": "2026-07-26",
-      "institute": "24/07-26/07 Nexus 2.000 Telefonica (CATI) 2,0p.p. 95%",
+      "institute": "Nexus",
       "sample": 2000,
+      "method": "Telefonica (CATI)",
       "registration": "BR-01489/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -1208,8 +1294,9 @@
     },
     {
       "date": "2026-07-27",
-      "institute": "22/07-27/07 AtlasIntel 5.000 Online 1,0p.p. 95%",
-      "sample": 2000,
+      "institute": "AtlasIntel",
+      "sample": 5000,
+      "method": "Online",
       "registration": "BR-08602/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -1224,24 +1311,9 @@
     },
     {
       "date": "2026-07-28",
-      "institute": "26/07-28/07 Vox Brasil 2.100 Presencial (Domiciliar) 2,2p.p. 95%",
-      "sample": 2000,
-      "registration": "BR-01084/2026",
-      "verifiedTse": false,
-      "round": "1º turno",
-      "candidates": {
-        "lula": 40.5,
-        "flavio-bolsonaro": 31.2,
-        "augusto-cury": 1.1,
-        "renan-santos": 3.0,
-        "ronaldo-caiado": 5.5,
-        "romeu-zema": 3.2
-      }
-    },
-    {
-      "date": "2026-07-28",
-      "institute": "23/07-28/07 Alfa Inteligência 2.700 Telefonica (CATI) 1,8p.p. 95%",
-      "sample": 2000,
+      "institute": "Alfa Inteligência",
+      "sample": 2700,
+      "method": "Telefonica (CATI)",
       "registration": "BR-04488/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -1255,9 +1327,27 @@
       }
     },
     {
+      "date": "2026-07-28",
+      "institute": "Vox Brasil",
+      "sample": 2100,
+      "method": "Presencial (Domiciliar)",
+      "registration": "BR-01084/2026",
+      "verifiedTse": false,
+      "round": "1º turno",
+      "candidates": {
+        "lula": 40.5,
+        "flavio-bolsonaro": 31.2,
+        "augusto-cury": 1.1,
+        "renan-santos": 3.0,
+        "ronaldo-caiado": 5.5,
+        "romeu-zema": 3.2
+      }
+    },
+    {
       "date": "2026-07-29",
-      "institute": "26/07-29/07 PoderData 2.400 Telefonica (IVR) 2,0p.p. 95%",
-      "sample": 2000,
+      "institute": "PoderData",
+      "sample": 2400,
+      "method": "Telefonica (IVR)",
       "registration": "BR-07845/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -1272,8 +1362,9 @@
     },
     {
       "date": "2026-08-02",
-      "institute": "31/07-02/08 Nexus 2.000 Telefonica (CATI) 2,0p.p. 95%",
+      "institute": "Nexus",
       "sample": 2000,
+      "method": "Telefonica (CATI)",
       "registration": "BR-02874/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -1288,8 +1379,9 @@
     },
     {
       "date": "2026-08-03",
-      "institute": "31/07-03/08 Ideia Inteligência 1.500 Telefonica (CATI) 2,5p.p. 95%",
-      "sample": 2000,
+      "institute": "Ideia Inteligência",
+      "sample": 1500,
+      "method": "Telefonica (CATI)",
       "registration": "BR-04579/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -1304,8 +1396,9 @@
     },
     {
       "date": "2026-08-03",
-      "institute": "31/07-03/08 Quaest 2.004 Presencial (Domiciliar) 2,0p.p. 95%",
-      "sample": 2000,
+      "institute": "Quaest",
+      "sample": 2004,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-06591/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -1320,8 +1413,9 @@
     },
     {
       "date": "2026-08-06",
-      "institute": "03/08-06/08 Futura 2.000 Telefonica (CATI) 2,2p.p. 95%",
+      "institute": "Futura",
       "sample": 2000,
+      "method": "Telefonica (CATI)",
       "registration": "BR-08109/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -1336,24 +1430,9 @@
     },
     {
       "date": "2026-08-09",
-      "institute": "03/08-09/08 Palver 5.000 Online 4,0p.p. 95%",
-      "sample": 2000,
-      "registration": "BR-06596/2026",
-      "verifiedTse": false,
-      "round": "1º turno",
-      "candidates": {
-        "lula": 44.0,
-        "flavio-bolsonaro": 40.0,
-        "augusto-cury": 0.0,
-        "renan-santos": 10.0,
-        "ronaldo-caiado": 2.0,
-        "romeu-zema": 1.0
-      }
-    },
-    {
-      "date": "2026-08-09",
-      "institute": "05/08-09/08 MDA 2.002 Presencial (Domiciliar) 2,2p.p. 95%",
-      "sample": 2000,
+      "institute": "MDA",
+      "sample": 2002,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-06935/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -1368,8 +1447,9 @@
     },
     {
       "date": "2026-08-09",
-      "institute": "07/08-09/08 Nexus 2.000 Telefonica (CATI) 2,0p.p. 95%",
+      "institute": "Nexus",
       "sample": 2000,
+      "method": "Telefonica (CATI)",
       "registration": "BR-08428/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -1383,9 +1463,27 @@
       }
     },
     {
+      "date": "2026-08-09",
+      "institute": "Palver",
+      "sample": 5000,
+      "method": "Online",
+      "registration": "BR-06596/2026",
+      "verifiedTse": false,
+      "round": "1º turno",
+      "candidates": {
+        "lula": 44.0,
+        "flavio-bolsonaro": 40.0,
+        "augusto-cury": 0.0,
+        "renan-santos": 10.0,
+        "ronaldo-caiado": 2.0,
+        "romeu-zema": 1.0
+      }
+    },
+    {
       "date": "2026-08-10",
-      "institute": "06/08-10/08 GERP 2.400 Presencial (Domiciliar) 2,0p.p. 96%",
-      "sample": 2000,
+      "institute": "GERP",
+      "sample": 2400,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-08045/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -1400,8 +1498,9 @@
     },
     {
       "date": "2026-08-12",
-      "institute": "09/08-12/08 PoderData 2.400 Telefonica (IVR) 2,0p.p. 95%",
-      "sample": 2000,
+      "institute": "PoderData",
+      "sample": 2400,
+      "method": "Telefonica (IVR)",
       "registration": "BR-06868/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -1416,8 +1515,9 @@
     },
     {
       "date": "2026-08-13",
-      "institute": "10/08-13/08 Quaest 2.004 Presencial (Domiciliar) 2,0p.p. 95%",
-      "sample": 2000,
+      "institute": "Quaest",
+      "sample": 2004,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-06773/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -1432,8 +1532,9 @@
     },
     {
       "date": "2026-08-16",
-      "institute": "14/08-16/08 Nexus 2.000 Telefonica (CATI) 2,0p.p. 95%",
+      "institute": "Nexus",
       "sample": 2000,
+      "method": "Telefonica (CATI)",
       "registration": "BR-03317/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -1448,25 +1549,9 @@
     },
     {
       "date": "2026-08-20",
-      "institute": "16/08-20/08 Veritá 3.840 Telefonica (IVR) 2,0p.p. 95%",
-      "sample": 2000,
-      "registration": "BR-04006/2026",
-      "verifiedTse": false,
-      "round": "1º turno",
-      "candidates": {
-        "lula": 39.3,
-        "flavio-bolsonaro": 39.1,
-        "augusto-cury": 2.2,
-        "renan-santos": 3.8,
-        "ronaldo-caiado": 3.3,
-        "romeu-zema": 1.3,
-        "pablo-marcal": 5.2
-      }
-    },
-    {
-      "date": "2026-08-20",
-      "institute": "18/08-20/08 Datafolha 2.058 Presencial (Ponto de fluxo) 2,0p.p. 95%",
-      "sample": 2000,
+      "institute": "Datafolha",
+      "sample": 2058,
+      "method": "Presencial (Ponto de fluxo)",
       "registration": "BR-04496/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -1481,9 +1566,28 @@
       }
     },
     {
+      "date": "2026-08-20",
+      "institute": "Veritá",
+      "sample": 3840,
+      "method": "Telefonica (IVR)",
+      "registration": "BR-04006/2026",
+      "verifiedTse": false,
+      "round": "1º turno",
+      "candidates": {
+        "lula": 39.3,
+        "flavio-bolsonaro": 39.1,
+        "augusto-cury": 2.2,
+        "renan-santos": 3.8,
+        "ronaldo-caiado": 3.3,
+        "romeu-zema": 1.3,
+        "pablo-marcal": 5.2
+      }
+    },
+    {
       "date": "2026-08-23",
-      "institute": "20/08-23/08 GERP 2.400 Presencial (Domiciliar) 2,0p.p. 96%",
-      "sample": 2000,
+      "institute": "GERP",
+      "sample": 2400,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-03547/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -1499,40 +1603,45 @@
     },
     {
       "date": "2026-08-23",
-      "institute": "20/08-23/08 Indexa 2.000 Telefonica (CATI) 2,2p.p. 95%",
+      "institute": "Indexa",
       "sample": 2000,
+      "method": "Telefonica (CATI)",
       "registration": "BR-06366/2026",
       "verifiedTse": false,
       "round": "1º turno",
       "candidates": {
         "lula": 39.0,
-        "flavio-bolsonaro": 34.0,
-        "augusto-cury": 1.0,
+        "flavio-bolsonaro": 33.0,
+        "augusto-cury": 0.0,
         "renan-santos": 4.0,
         "ronaldo-caiado": 5.0,
-        "romeu-zema": 1.0
+        "romeu-zema": 1.0,
+        "pablo-marcal": 2.0
       }
     },
     {
       "date": "2026-08-23",
-      "institute": "21/08-23/08 Nexus 2.000 Telefonica (CATI) 2,0p.p. 95%",
+      "institute": "Nexus",
       "sample": 2000,
+      "method": "Telefonica (CATI)",
       "registration": "BR-09028/2026",
       "verifiedTse": false,
       "round": "1º turno",
       "candidates": {
-        "lula": 41.0,
-        "flavio-bolsonaro": 37.0,
+        "lula": 40.0,
+        "flavio-bolsonaro": 34.0,
         "augusto-cury": 2.0,
         "renan-santos": 3.0,
         "ronaldo-caiado": 5.0,
-        "romeu-zema": 3.0
+        "romeu-zema": 2.0,
+        "pablo-marcal": 4.0
       }
     },
     {
       "date": "2026-08-26",
-      "institute": "23/08-26/08 PoderData 2.400 Telefonica (IVR) 2,0p.p. 95%",
-      "sample": 2000,
+      "institute": "PoderData",
+      "sample": 2400,
+      "method": "Telefonica (IVR)",
       "registration": "BR-04974/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -1548,8 +1657,9 @@
     },
     {
       "date": "2026-08-27",
-      "institute": "25/08-27/08 Vox Brasil 2.100 Presencial (Domiciliar) 2,2p.p. 95%",
-      "sample": 2000,
+      "institute": "Vox Brasil",
+      "sample": 2100,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-05519/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -1565,8 +1675,9 @@
     },
     {
       "date": "2026-08-30",
-      "institute": "25/08-30/08 AtlasIntel 5.000 Online 1,0p.p. 95%",
-      "sample": 2000,
+      "institute": "AtlasIntel",
+      "sample": 5000,
+      "method": "Online",
       "registration": "BR-07972/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -1582,24 +1693,27 @@
     },
     {
       "date": "2026-08-30",
-      "institute": "28/08-30/08 Nexus 2.000 Telefonica (CATI) 2,0p.p. 95%",
+      "institute": "Nexus",
       "sample": 2000,
+      "method": "Telefonica (CATI)",
       "registration": "BR-08900/2026",
       "verifiedTse": false,
       "round": "1º turno",
       "candidates": {
-        "lula": 39.0,
-        "flavio-bolsonaro": 33.0,
+        "lula": 37.0,
+        "flavio-bolsonaro": 31.0,
         "augusto-cury": 11.0,
         "renan-santos": 3.0,
-        "ronaldo-caiado": 5.0,
-        "romeu-zema": 1.0
+        "ronaldo-caiado": 6.0,
+        "romeu-zema": 2.0,
+        "pablo-marcal": 3.0
       }
     },
     {
       "date": "2026-08-31",
-      "institute": "27/08-31/08 Real Time Big Data 2.000 Presencial (Domiciliar) 2,0p.p. 95%",
+      "institute": "Real Time Big Data",
       "sample": 2000,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-03490/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -1615,8 +1729,9 @@
     },
     {
       "date": "2026-09-01",
-      "institute": "28/08-01/09 Futura 2.000 Telefonica (CATI) 2,2p.p. 95%",
+      "institute": "Futura",
       "sample": 2000,
+      "method": "Telefonica (CATI)",
       "registration": "BR-02793/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -1632,8 +1747,9 @@
     },
     {
       "date": "2026-09-01",
-      "institute": "30/08-01/09 Quaest 2.004 Presencial (Domiciliar) 2,0p.p. 95%",
-      "sample": 2000,
+      "institute": "Quaest",
+      "sample": 2004,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-07065/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -1649,8 +1765,9 @@
     },
     {
       "date": "2026-09-02",
-      "institute": "30/08-02/09 PoderData 3.000 Telefonica (IVR) 2,0p.p. 95%",
-      "sample": 2000,
+      "institute": "PoderData",
+      "sample": 3000,
+      "method": "Telefonica (IVR)",
       "registration": "BR-07561/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -1666,24 +1783,27 @@
     },
     {
       "date": "2026-09-03",
-      "institute": "01/09-03/09 Datafolha 2.002 Presencial (Ponto de fluxo) 2,0p.p. 95%",
-      "sample": 2000,
+      "institute": "Datafolha",
+      "sample": 2002,
+      "method": "Presencial (Ponto de fluxo)",
       "registration": "BR-03669/2026",
       "verifiedTse": false,
       "round": "1º turno",
       "candidates": {
-        "lula": 38.0,
-        "flavio-bolsonaro": 33.0,
-        "augusto-cury": 8.0,
-        "renan-santos": 3.0,
+        "lula": 39.0,
+        "flavio-bolsonaro": 32.0,
+        "augusto-cury": 7.0,
+        "renan-santos": 4.0,
         "ronaldo-caiado": 4.0,
-        "romeu-zema": 2.0
+        "romeu-zema": 2.0,
+        "pablo-marcal": 2.0
       }
     },
     {
       "date": "2026-09-04",
-      "institute": "01/09-04/09 Veritá 3.840 Telefonica (IVR) 1,6p.p. 95%",
-      "sample": 2000,
+      "institute": "Veritá",
+      "sample": 3840,
+      "method": "Telefonica (IVR)",
       "registration": "BR-09426/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -1699,8 +1819,9 @@
     },
     {
       "date": "2026-09-06",
-      "institute": "03/09-06/09 Quaest 2.004 Presencial (Domiciliar) 2,0p.p. 95%",
-      "sample": 2000,
+      "institute": "Quaest",
+      "sample": 2004,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-01720/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -1716,24 +1837,9 @@
     },
     {
       "date": "2026-09-07",
-      "institute": "04/09-07/09 Nexus 2.000 Telefonica (CATI) 2,0p.p. 95%",
-      "sample": 2000,
-      "registration": "BR-06790/2026",
-      "verifiedTse": false,
-      "round": "1º turno",
-      "candidates": {
-        "lula": 39.0,
-        "flavio-bolsonaro": 35.0,
-        "augusto-cury": 9.0,
-        "renan-santos": 4.0,
-        "ronaldo-caiado": 4.0,
-        "romeu-zema": 1.0
-      }
-    },
-    {
-      "date": "2026-09-07",
-      "institute": "04/09-07/09 Ideia Inteligência 1.500 Telefonica (CATI) 2,5p.p. 95%",
-      "sample": 2000,
+      "institute": "Ideia Inteligência",
+      "sample": 1500,
+      "method": "Telefonica (CATI)",
       "registration": "BR-07935/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -1748,9 +1854,28 @@
       }
     },
     {
-      "date": "2026-09-08",
-      "institute": "03/09-08/09 GERP 2.400 Presencial (Domiciliar) 2,0p.p. 96%",
+      "date": "2026-09-07",
+      "institute": "Nexus",
       "sample": 2000,
+      "method": "Telefonica (CATI)",
+      "registration": "BR-06790/2026",
+      "verifiedTse": false,
+      "round": "1º turno",
+      "candidates": {
+        "lula": 39.0,
+        "flavio-bolsonaro": 34.0,
+        "augusto-cury": 9.0,
+        "renan-santos": 4.0,
+        "ronaldo-caiado": 4.0,
+        "romeu-zema": 2.0,
+        "pablo-marcal": 3.0
+      }
+    },
+    {
+      "date": "2026-09-08",
+      "institute": "GERP",
+      "sample": 2400,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-00251/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -1766,8 +1891,9 @@
     },
     {
       "date": "2026-09-08",
-      "institute": "04/09-08/09 Palver 5.000 Online 4,0p.p. 95%",
-      "sample": 2000,
+      "institute": "Palver",
+      "sample": 5000,
+      "method": "Online",
       "registration": "BR-05420/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -1783,8 +1909,9 @@
     },
     {
       "date": "2026-09-09",
-      "institute": "04/09-09/09 AtlasIntel 5.000 Online 1,0p.p. 95%",
-      "sample": 2000,
+      "institute": "AtlasIntel",
+      "sample": 5000,
+      "method": "Online",
       "registration": "BR-01452/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -1800,8 +1927,9 @@
     },
     {
       "date": "2026-09-09",
-      "institute": "04/09-09/09 Futura 2.000 Telefonica (CATI) 2,2p.p. 95%",
+      "institute": "Futura",
       "sample": 2000,
+      "method": "Telefonica (CATI)",
       "registration": "BR-02322/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -1817,8 +1945,9 @@
     },
     {
       "date": "2026-09-09",
-      "institute": "06/09-09/09 PoderData 3.000 Telefonica (IVR) 2,0p.p. 95%",
-      "sample": 2000,
+      "institute": "PoderData",
+      "sample": 3000,
+      "method": "Telefonica (IVR)",
       "registration": "BR-04914/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -1834,24 +1963,27 @@
     },
     {
       "date": "2026-09-11",
-      "institute": "08/09-11/09 Datafolha 2.002 Presencial (Ponto de fluxo) 2,0p.p. 95%",
-      "sample": 2000,
+      "institute": "Datafolha",
+      "sample": 2002,
+      "method": "Presencial (Ponto de fluxo)",
       "registration": "BR-01833/2026",
       "verifiedTse": false,
       "round": "1º turno",
       "candidates": {
         "lula": 39.0,
-        "flavio-bolsonaro": 35.0,
-        "augusto-cury": 6.0,
+        "flavio-bolsonaro": 33.0,
+        "augusto-cury": 5.0,
         "renan-santos": 3.0,
         "ronaldo-caiado": 4.0,
-        "romeu-zema": 2.0
+        "romeu-zema": 2.0,
+        "pablo-marcal": 2.0
       }
     },
     {
       "date": "2026-09-13",
-      "institute": "10/09-13/09 Indexa 2.000 Telefonica (CATI) 2,2p.p. 95%",
+      "institute": "Indexa",
       "sample": 2000,
+      "method": "Telefonica (CATI)",
       "registration": "BR-03482/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -1866,40 +1998,9 @@
     },
     {
       "date": "2026-09-13",
-      "institute": "10/09-13/09 Quaest 2.004 Presencial (Domiciliar) 2,0p.p. 95%",
-      "sample": 2000,
-      "registration": "BR-03607/2026",
-      "verifiedTse": false,
-      "round": "1º turno",
-      "candidates": {
-        "lula": 36.0,
-        "flavio-bolsonaro": 31.0,
-        "augusto-cury": 7.0,
-        "renan-santos": 4.0,
-        "ronaldo-caiado": 4.0,
-        "romeu-zema": 1.0
-      }
-    },
-    {
-      "date": "2026-09-13",
-      "institute": "11/09-13/09 Nexus 2.000 Telefonica (CATI) 2,0p.p. 95%",
-      "sample": 2000,
-      "registration": "BR-04076/2026",
-      "verifiedTse": false,
-      "round": "1º turno",
-      "candidates": {
-        "lula": 42.0,
-        "flavio-bolsonaro": 37.0,
-        "augusto-cury": 6.0,
-        "renan-santos": 2.0,
-        "ronaldo-caiado": 5.0,
-        "romeu-zema": 1.0
-      }
-    },
-    {
-      "date": "2026-09-13",
-      "institute": "09/09-13/09 MDA 2.002 Presencial (Domiciliar) 2,2p.p. 95%",
-      "sample": 2000,
+      "institute": "MDA",
+      "sample": 2002,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-06902/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -1914,9 +2015,45 @@
       }
     },
     {
-      "date": "2026-09-14",
-      "institute": "12/09-14/09 DataTrends 2.000 Telefonica (IVR) 2,2p.p. 95%",
+      "date": "2026-09-13",
+      "institute": "Nexus",
       "sample": 2000,
+      "method": "Telefonica (CATI)",
+      "registration": "BR-04076/2026",
+      "verifiedTse": false,
+      "round": "1º turno",
+      "candidates": {
+        "lula": 40.0,
+        "flavio-bolsonaro": 36.0,
+        "augusto-cury": 7.0,
+        "renan-santos": 3.0,
+        "ronaldo-caiado": 4.0,
+        "romeu-zema": 1.0,
+        "pablo-marcal": 2.0
+      }
+    },
+    {
+      "date": "2026-09-13",
+      "institute": "Quaest",
+      "sample": 2004,
+      "method": "Presencial (Domiciliar)",
+      "registration": "BR-03607/2026",
+      "verifiedTse": false,
+      "round": "1º turno",
+      "candidates": {
+        "lula": 36.0,
+        "flavio-bolsonaro": 31.0,
+        "augusto-cury": 7.0,
+        "renan-santos": 4.0,
+        "ronaldo-caiado": 4.0,
+        "romeu-zema": 1.0
+      }
+    },
+    {
+      "date": "2026-09-14",
+      "institute": "DataTrends",
+      "sample": 2000,
+      "method": "Telefonica (IVR)",
       "registration": "BR-08691/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -1931,24 +2068,26 @@
     },
     {
       "date": "2026-09-16",
-      "institute": "13/09-16/09 PoderData 3.000 Telefonica (IVR) 2,0p.p. 95%",
-      "sample": 2000,
-      "registration": "BR-00360/2026",
+      "institute": "AtlasIntel",
+      "sample": 5000,
+      "method": "Online",
+      "registration": "BR-06221/2026",
       "verifiedTse": false,
       "round": "1º turno",
       "candidates": {
-        "lula": 37.0,
-        "flavio-bolsonaro": 36.0,
-        "augusto-cury": 8.0,
-        "renan-santos": 3.0,
-        "ronaldo-caiado": 3.0,
-        "romeu-zema": 1.0
+        "lula": 44.1,
+        "flavio-bolsonaro": 41.7,
+        "augusto-cury": 3.5,
+        "renan-santos": 5.1,
+        "ronaldo-caiado": 1.7,
+        "romeu-zema": 1.1
       }
     },
     {
       "date": "2026-09-16",
-      "institute": "14/09-16/09 GERP 2.400 Presencial (Domiciliar) 2,0p.p. 95%",
-      "sample": 2000,
+      "institute": "GERP",
+      "sample": 2400,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-00535/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -1964,24 +2103,43 @@
     },
     {
       "date": "2026-09-16",
-      "institute": "11/09-16/09 AtlasIntel 5.000 Online 1,0p.p. 95%",
-      "sample": 2000,
-      "registration": "BR-06221/2026",
+      "institute": "PoderData",
+      "sample": 3000,
+      "method": "Telefonica (IVR)",
+      "registration": "BR-00360/2026",
       "verifiedTse": false,
       "round": "1º turno",
       "candidates": {
-        "lula": 44.1,
-        "flavio-bolsonaro": 41.7,
-        "augusto-cury": 3.5,
-        "renan-santos": 5.1,
-        "ronaldo-caiado": 1.7,
-        "romeu-zema": 1.1
+        "lula": 37.0,
+        "flavio-bolsonaro": 36.0,
+        "augusto-cury": 8.0,
+        "renan-santos": 3.0,
+        "ronaldo-caiado": 3.0,
+        "romeu-zema": 1.0
       }
     },
     {
       "date": "2026-09-17",
-      "institute": "11/09-17/09 Futura 2.000 Telefonica (CATI) 2,2p.p. 95%",
+      "institute": "Datafolha",
+      "sample": 2002,
+      "method": "Presencial (Ponto de fluxo)",
+      "registration": "BR-04029/2026",
+      "verifiedTse": false,
+      "round": "1º turno",
+      "candidates": {
+        "lula": 39.0,
+        "flavio-bolsonaro": 36.0,
+        "augusto-cury": 6.0,
+        "renan-santos": 3.0,
+        "ronaldo-caiado": 4.0,
+        "romeu-zema": 2.0
+      }
+    },
+    {
+      "date": "2026-09-17",
+      "institute": "Futura",
       "sample": 2000,
+      "method": "Telefonica (CATI)",
       "registration": "BR-00749/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -1996,25 +2154,10 @@
       }
     },
     {
-      "date": "2026-09-17",
-      "institute": "15/09-17/09 Datafolha 2.002 Presencial (Ponto de fluxo) 2,0p.p. 95%",
-      "sample": 2000,
-      "registration": "BR-04029/2026",
-      "verifiedTse": false,
-      "round": "1º turno",
-      "candidates": {
-        "lula": 39.0,
-        "flavio-bolsonaro": 36.0,
-        "augusto-cury": 6.0,
-        "renan-santos": 3.0,
-        "ronaldo-caiado": 4.0,
-        "romeu-zema": 2.0
-      }
-    },
-    {
       "date": "2026-09-20",
-      "institute": "18/09-20/09 Nexus 2.000 Telefonica (CATI) 2,0p.p. 95%",
+      "institute": "Nexus",
       "sample": 2000,
+      "method": "Telefonica (CATI)",
       "registration": "BR-00485/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -2029,8 +2172,9 @@
     },
     {
       "date": "2026-09-20",
-      "institute": "15/09-20/09 Palver 5.000 Online 4,0p.p. 95%",
-      "sample": 2000,
+      "institute": "Palver",
+      "sample": 5000,
+      "method": "Online",
       "registration": "BR-00860/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -2045,8 +2189,9 @@
     },
     {
       "date": "2026-09-20",
-      "institute": "17/09-20/09 Quaest 2.004 Presencial (Domiciliar) 2,0p.p. 95%",
-      "sample": 2000,
+      "institute": "Quaest",
+      "sample": 2004,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-06004/2026",
       "verifiedTse": false,
       "round": "1º turno",
@@ -2063,8 +2208,9 @@
   "runoff": [
     {
       "date": "2026-01-11",
-      "institute": "08/01-11/01 Quaest 2.004 Presencial (Domiciliar) 2,0p.p. 95%",
-      "sample": 2000,
+      "institute": "Quaest",
+      "sample": 2004,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-00835/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -2075,8 +2221,9 @@
     },
     {
       "date": "2026-01-12",
-      "institute": "08/01-12/01 Ideia Inteligência 2.000 Telefonica (CATI) 2,2p.p. 95%",
+      "institute": "Ideia Inteligência",
       "sample": 2000,
+      "method": "Telefonica (CATI)",
       "registration": "BR-06731/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -2087,8 +2234,9 @@
     },
     {
       "date": "2026-01-19",
-      "institute": "15/01-19/01 Futura 2.000 Telefonica (CATI) 2,2p.p. 95%",
+      "institute": "Futura",
       "sample": 2000,
+      "method": "Telefonica (CATI)",
       "registration": "BR-08233/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -2099,8 +2247,9 @@
     },
     {
       "date": "2026-01-20",
-      "institute": "15/01-20/01 AtlasIntel 5.000 Online 1,0p.p. 95%",
-      "sample": 2000,
+      "institute": "AtlasIntel",
+      "sample": 5000,
+      "method": "Online",
       "registration": "BR-02804/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -2111,8 +2260,9 @@
     },
     {
       "date": "2026-01-28",
-      "institute": "25/01-28/01 Paraná Pesquisas 2.080 Presencial (Domiciliar) 2,2p.p. 95%",
-      "sample": 2000,
+      "institute": "Paraná Pesquisas",
+      "sample": 2080,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-08254/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -2123,8 +2273,9 @@
     },
     {
       "date": "2026-01-30",
-      "institute": "26/01-30/01 GERP 2.000 Presencial (Domiciliar) 2,2p.p. 95%",
+      "institute": "GERP",
       "sample": 2000,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-04519/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -2135,8 +2286,9 @@
     },
     {
       "date": "2026-02-02",
-      "institute": "30/01-02/02 Ideia Inteligência 1.500 Telefonica (CATI) 2,5p.p. 95%",
-      "sample": 2000,
+      "institute": "Ideia Inteligência",
+      "sample": 1500,
+      "method": "Telefonica (CATI)",
       "registration": "BR-08425/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -2147,8 +2299,9 @@
     },
     {
       "date": "2026-02-07",
-      "institute": "03/02-07/02 Futura 2.000 Telefonica (CATI) 2,2p.p. 95%",
+      "institute": "Futura",
       "sample": 2000,
+      "method": "Telefonica (CATI)",
       "registration": "BR-02276/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -2159,20 +2312,9 @@
     },
     {
       "date": "2026-02-09",
-      "institute": "05/02-09/02 Quaest 2.004 Presencial (Domiciliar) 2,0p.p. 95%",
-      "sample": 2000,
-      "registration": "BR-00249/2026",
-      "verifiedTse": false,
-      "round": "2º turno 1",
-      "candidates": {
-        "flavio-bolsonaro": 38.0,
-        "lula": 43.0
-      }
-    },
-    {
-      "date": "2026-02-09",
-      "institute": "05/02-09/02 Colectta 2.004 Presencial (Domiciliar) 2,0p.p. 95%",
-      "sample": 2000,
+      "institute": "Colectta",
+      "sample": 2004,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-04291/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -2182,9 +2324,23 @@
       }
     },
     {
+      "date": "2026-02-09",
+      "institute": "Quaest",
+      "sample": 2004,
+      "method": "Presencial (Domiciliar)",
+      "registration": "BR-00249/2026",
+      "verifiedTse": false,
+      "round": "2º turno 1",
+      "candidates": {
+        "flavio-bolsonaro": 38.0,
+        "lula": 43.0
+      }
+    },
+    {
       "date": "2026-02-24",
-      "institute": "19/02-24/02 AtlasIntel 5.000 Online 1,0p.p. 95%",
-      "sample": 2000,
+      "institute": "AtlasIntel",
+      "sample": 5000,
+      "method": "Online",
       "registration": "BR-07600/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -2195,8 +2351,9 @@
     },
     {
       "date": "2026-02-25",
-      "institute": "22/02-25/02 Paraná Pesquisas 2.080 Presencial (Domiciliar) 2,2p.p. 95%",
-      "sample": 2000,
+      "institute": "Paraná Pesquisas",
+      "sample": 2080,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-07974/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -2207,8 +2364,9 @@
     },
     {
       "date": "2026-03-02",
-      "institute": "28/02-02/03 Real Time Big Data 2.000 Presencial (Domiciliar) 2,0p.p. 95%",
+      "institute": "Real Time Big Data",
       "sample": 2000,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-09353/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -2219,8 +2377,9 @@
     },
     {
       "date": "2026-03-03",
-      "institute": "27/02-03/03 Vetor Arrow 9.000 Telefonica (CATI) 2,5p.p. 95%",
-      "sample": 2000,
+      "institute": "Vetor Arrow",
+      "sample": 9000,
+      "method": "Telefonica (CATI)",
       "registration": "BR-03742/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -2231,8 +2390,9 @@
     },
     {
       "date": "2026-03-05",
-      "institute": "03/03-05/03 Datafolha 2.004 Presencial (Ponto de fluxo) 2,0p.p. 95%",
-      "sample": 2000,
+      "institute": "Datafolha",
+      "sample": 2004,
+      "method": "Presencial (Ponto de fluxo)",
       "registration": "BR-03715/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -2243,8 +2403,9 @@
     },
     {
       "date": "2026-03-06",
-      "institute": "02/03-06/03 Futura 2.000 Telefonica (CATI) 2,2p.p. 95%",
+      "institute": "Futura",
       "sample": 2000,
+      "method": "Telefonica (CATI)",
       "registration": "BR-06607/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -2255,8 +2416,9 @@
     },
     {
       "date": "2026-03-09",
-      "institute": "06/03-09/03 Quaest 2.004 Presencial (Domiciliar) 2,0p.p. 95%",
-      "sample": 2000,
+      "institute": "Quaest",
+      "sample": 2004,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-05809/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -2267,8 +2429,9 @@
     },
     {
       "date": "2026-03-10",
-      "institute": "06/03-10/03 Ideia Inteligência 1.500 Telefonica (CATI) 2,5p.p. 95%",
-      "sample": 2000,
+      "institute": "Ideia Inteligência",
+      "sample": 1500,
+      "method": "Telefonica (CATI)",
       "registration": "BR-00386/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -2279,8 +2442,9 @@
     },
     {
       "date": "2026-03-11",
-      "institute": "05/03-11/03 Quaest 1.500 Presencial (Domiciliar) 3,0p.p. 95%",
-      "sample": 2000,
+      "institute": "Quaest",
+      "sample": 1500,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-02944/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -2291,8 +2455,9 @@
     },
     {
       "date": "2026-03-23",
-      "institute": "18/03-23/03 AtlasIntel 5.000 Online 1,0p.p. 95%",
-      "sample": 2000,
+      "institute": "AtlasIntel",
+      "sample": 5000,
+      "method": "Online",
       "registration": "BR-04227/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -2303,8 +2468,9 @@
     },
     {
       "date": "2026-03-27",
-      "institute": "21/03-27/03 GERP 2.000 Presencial (Domiciliar) 2,24p.p. 95%",
+      "institute": "GERP",
       "sample": 2000,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-02846/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -2315,8 +2481,9 @@
     },
     {
       "date": "2026-03-28",
-      "institute": "25/03-28/03 Paraná Pesquisas 2.080 Presencial (Domiciliar) 2,2p.p. 95%",
-      "sample": 2000,
+      "institute": "Paraná Pesquisas",
+      "sample": 2080,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-00873/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -2327,8 +2494,9 @@
     },
     {
       "date": "2026-03-29",
-      "institute": "27/03-29/03 Nexus 2.000 Telefonica (CATI) 2,0p.p. 95%",
+      "institute": "Nexus",
       "sample": 2000,
+      "method": "Telefonica (CATI)",
       "registration": "BR-07875/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -2339,8 +2507,9 @@
     },
     {
       "date": "2026-04-04",
-      "institute": "13/03-04/04 Veritá 40.500 Telefonica (IVR) 1,0p.p. 95%",
-      "sample": 2000,
+      "institute": "Veritá",
+      "sample": 40500,
+      "method": "Telefonica (IVR)",
       "registration": "BR-02476/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -2351,8 +2520,9 @@
     },
     {
       "date": "2026-04-07",
-      "institute": "03/04-07/04 Ideia Inteligência 1.500 Telefonica (CATI) 2,5p.p. 95%",
-      "sample": 2000,
+      "institute": "Ideia Inteligência",
+      "sample": 1500,
+      "method": "Telefonica (CATI)",
       "registration": "BR-00605/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -2363,8 +2533,9 @@
     },
     {
       "date": "2026-04-11",
-      "institute": "07/04-11/04 Futura 2.000 Telefonica (CATI) 2,2p.p. 95%",
+      "institute": "Futura",
       "sample": 2000,
+      "method": "Telefonica (CATI)",
       "registration": "BR-08282/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -2375,8 +2546,9 @@
     },
     {
       "date": "2026-04-12",
-      "institute": "08/04-12/04 MDA Pesquisas 2.002 Presencial (Domiciliar) 2,2p.p. 95%",
-      "sample": 2000,
+      "institute": "MDA Pesquisas",
+      "sample": 2002,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-02847/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -2387,8 +2559,9 @@
     },
     {
       "date": "2026-04-13",
-      "institute": "10/04-13/04 Quaest 2.004 Presencial (Domiciliar) 2,0p.p. 95%",
-      "sample": 2000,
+      "institute": "Quaest",
+      "sample": 2004,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-09285/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -2399,8 +2572,9 @@
     },
     {
       "date": "2026-04-26",
-      "institute": "24/04-26/04 Nexus 2.000 Telefonica (CATI) 2,0p.p. 95%",
+      "institute": "Nexus",
       "sample": 2000,
+      "method": "Telefonica (CATI)",
       "registration": "BR-01075/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -2411,8 +2585,9 @@
     },
     {
       "date": "2026-04-27",
-      "institute": "22/04-27/04 AtlasIntel 5.000 Online 1,0p.p. 95%",
-      "sample": 2000,
+      "institute": "AtlasIntel",
+      "sample": 5000,
+      "method": "Online",
       "registration": "BR-07992/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -2423,8 +2598,9 @@
     },
     {
       "date": "2026-05-04",
-      "institute": "02/05-04/05 Real Time Big Data 2.000 Presencial (Domiciliar) 2,0p.p. 95%",
+      "institute": "Real Time Big Data",
       "sample": 2000,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-03627/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -2435,8 +2611,9 @@
     },
     {
       "date": "2026-05-05",
-      "institute": "01/05-05/05 Ideia Inteligência 1.500 Telefonica (CATI) 2,5p.p. 95%",
-      "sample": 2000,
+      "institute": "Ideia Inteligência",
+      "sample": 1500,
+      "method": "Telefonica (CATI)",
       "registration": "BR-05356/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -2447,8 +2624,9 @@
     },
     {
       "date": "2026-05-08",
-      "institute": "04/05-08/05 Futura 2.000 Telefonica (CATI) 2,2p.p. 95%",
+      "institute": "Futura",
       "sample": 2000,
+      "method": "Telefonica (CATI)",
       "registration": "BR-03678/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -2459,8 +2637,9 @@
     },
     {
       "date": "2026-05-11",
-      "institute": "07/05-11/05 GERP 2.000 Presencial (Domiciliar) 2,2p.p. 95%",
+      "institute": "GERP",
       "sample": 2000,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-03369/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -2471,8 +2650,9 @@
     },
     {
       "date": "2026-05-11",
-      "institute": "08/05-11/05 Quaest 2.004 Presencial (Domiciliar) 2,0p.p. 95%",
-      "sample": 2000,
+      "institute": "Quaest",
+      "sample": 2004,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-03598/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -2483,8 +2663,9 @@
     },
     {
       "date": "2026-05-12",
-      "institute": "09/05-12/05 Vox Brasil 2.100 Presencial (Domiciliar) 2,2p.p. 95%",
-      "sample": 2000,
+      "institute": "Vox Brasil",
+      "sample": 2100,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-02423/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -2495,8 +2676,9 @@
     },
     {
       "date": "2026-05-14",
-      "institute": "12/05-14/05 Datafolha 2.004 Presencial (Ponto de fluxo) 2,0p.p. 95%",
-      "sample": 2000,
+      "institute": "Datafolha",
+      "sample": 2004,
+      "method": "Presencial (Ponto de fluxo)",
       "registration": "BR-00290/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -2507,20 +2689,9 @@
     },
     {
       "date": "2026-05-19",
-      "institute": "17/05-19/05 Vox Brasil 2.100 Presencial (Domiciliar) 2,2p.p. 95%",
-      "sample": 2000,
-      "registration": "BR-02416/2026",
-      "verifiedTse": false,
-      "round": "2º turno 1",
-      "candidates": {
-        "flavio-bolsonaro": 38.1,
-        "lula": 46.8
-      }
-    },
-    {
-      "date": "2026-05-19",
-      "institute": "15/05-19/05 Vetor Arrow 9.000 Telefonica (IVR) 1,0p.p. 95%",
-      "sample": 2000,
+      "institute": "Vetor Arrow",
+      "sample": 9000,
+      "method": "Telefonica (IVR)",
       "registration": "BR-09301/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -2530,9 +2701,23 @@
       }
     },
     {
+      "date": "2026-05-19",
+      "institute": "Vox Brasil",
+      "sample": 2100,
+      "method": "Presencial (Domiciliar)",
+      "registration": "BR-02416/2026",
+      "verifiedTse": false,
+      "round": "2º turno 1",
+      "candidates": {
+        "flavio-bolsonaro": 38.1,
+        "lula": 46.8
+      }
+    },
+    {
       "date": "2026-05-21",
-      "institute": "15/05-21/05 Futura 2.000 Telefonica (CATI) 2,2p.p. 95%",
+      "institute": "Futura",
       "sample": 2000,
+      "method": "Telefonica (CATI)",
       "registration": "BR-06529/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -2543,20 +2728,9 @@
     },
     {
       "date": "2026-05-22",
-      "institute": "19/05-22/05 GERP 2.000 Presencial (Domiciliar) 2,2p.p. 95%",
-      "sample": 2000,
-      "registration": "BR-07971/2026",
-      "verifiedTse": false,
-      "round": "2º turno 1",
-      "candidates": {
-        "flavio-bolsonaro": 47.0,
-        "lula": 44.0
-      }
-    },
-    {
-      "date": "2026-05-22",
-      "institute": "20/05-22/05 Datafolha 2.004 Presencial (Ponto de fluxo) 2,0p.p. 95%",
-      "sample": 2000,
+      "institute": "Datafolha",
+      "sample": 2004,
+      "method": "Presencial (Ponto de fluxo)",
       "registration": "BR-07489/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -2566,9 +2740,23 @@
       }
     },
     {
-      "date": "2026-05-24",
-      "institute": "22/05-24/05 Indexa 2.000 Telefonica (CATI) 2,2p.p. 95%",
+      "date": "2026-05-22",
+      "institute": "GERP",
       "sample": 2000,
+      "method": "Presencial (Domiciliar)",
+      "registration": "BR-07971/2026",
+      "verifiedTse": false,
+      "round": "2º turno 1",
+      "candidates": {
+        "flavio-bolsonaro": 47.0,
+        "lula": 44.0
+      }
+    },
+    {
+      "date": "2026-05-24",
+      "institute": "Indexa",
+      "sample": 2000,
+      "method": "Telefonica (CATI)",
       "registration": "BR-02154/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -2579,8 +2767,9 @@
     },
     {
       "date": "2026-05-24",
-      "institute": "22/05-24/05 Nexus 2.000 Telefonica (CATI) 2,0p.p. 95%",
+      "institute": "Nexus",
       "sample": 2000,
+      "method": "Telefonica (CATI)",
       "registration": "BR-04193/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -2591,8 +2780,9 @@
     },
     {
       "date": "2026-05-27",
-      "institute": "23/05-27/05 Ideia Inteligência 1.500 Telefonica (CATI) 2,5p.p. 95%",
-      "sample": 2000,
+      "institute": "Ideia Inteligência",
+      "sample": 1500,
+      "method": "Telefonica (CATI)",
       "registration": "BR-02918/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -2603,8 +2793,9 @@
     },
     {
       "date": "2026-05-28",
-      "institute": "25/05-28/05 PoderData 2.400 Telefonica (IVR) 2,0p.p. 95%",
-      "sample": 2000,
+      "institute": "PoderData",
+      "sample": 2400,
+      "method": "Telefonica (IVR)",
       "registration": "BR-04882/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -2615,8 +2806,9 @@
     },
     {
       "date": "2026-05-30",
-      "institute": "29/05-30/05 Real Time Big Data 2.000 Presencial (Domiciliar) 2,0p.p. 95%",
+      "institute": "Real Time Big Data",
       "sample": 2000,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-05864/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -2627,8 +2819,9 @@
     },
     {
       "date": "2026-06-03",
-      "institute": "01/06-03/06 Vox Brasil 2.100 Presencial (Domiciliar) 2,2p.p. 95%",
-      "sample": 2000,
+      "institute": "Vox Brasil",
+      "sample": 2100,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-08016/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -2639,8 +2832,9 @@
     },
     {
       "date": "2026-06-05",
-      "institute": "01/06-05/06 GERP 2.000 Presencial (Domiciliar) 2,2p.p. 96%",
+      "institute": "GERP",
       "sample": 2000,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-01792/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -2651,8 +2845,9 @@
     },
     {
       "date": "2026-06-08",
-      "institute": "05/06-08/06 Quaest 2.004 Presencial (Domiciliar) 2,0p.p. 95%",
-      "sample": 2000,
+      "institute": "Quaest",
+      "sample": 2004,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-07661/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -2663,8 +2858,9 @@
     },
     {
       "date": "2026-06-10",
-      "institute": "05/06-10/06 Alfa Inteligência 1.400 Telefonica (CATI) 2,6p.p. 95%",
-      "sample": 2000,
+      "institute": "Alfa Inteligência",
+      "sample": 1400,
+      "method": "Telefonica (CATI)",
       "registration": "BR-03496/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -2675,8 +2871,9 @@
     },
     {
       "date": "2026-06-12",
-      "institute": "08/06-12/06 Futura 2.000 Telefonica (CATI) 2,2p.p. 95%",
+      "institute": "Futura",
       "sample": 2000,
+      "method": "Telefonica (CATI)",
       "registration": "BR-01461/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -2687,8 +2884,9 @@
     },
     {
       "date": "2026-06-14",
-      "institute": "10/06-14/06 MDA Pesquisas 2.002 Presencial (Domiciliar) 2,2p.p. 95%",
-      "sample": 2000,
+      "institute": "MDA Pesquisas",
+      "sample": 2002,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-04256/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -2699,8 +2897,9 @@
     },
     {
       "date": "2026-06-14",
-      "institute": "12/06-14/06 Nexus 2.000 Telefonica (CATI) 2,0p.p. 95%",
+      "institute": "Nexus",
       "sample": 2000,
+      "method": "Telefonica (CATI)",
       "registration": "BR-06645/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -2711,20 +2910,9 @@
     },
     {
       "date": "2026-06-19",
-      "institute": "15/06-19/06 GERP 2.000 Presencial (Domiciliar) 2,2p.p. 95%",
-      "sample": 2000,
-      "registration": "BR-09657/2026",
-      "verifiedTse": false,
-      "round": "2º turno 1",
-      "candidates": {
-        "flavio-bolsonaro": 42.0,
-        "lula": 40.0
-      }
-    },
-    {
-      "date": "2026-06-19",
-      "institute": "17/06-19/06 Datafolha 2.004 Presencial (Ponto de fluxo) 2,0p.p. 95%",
-      "sample": 2000,
+      "institute": "Datafolha",
+      "sample": 2004,
+      "method": "Presencial (Ponto de fluxo)",
       "registration": "BR-09956/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -2734,9 +2922,23 @@
       }
     },
     {
-      "date": "2026-06-20",
-      "institute": "18/06-20/06 Indexa 2.000 Telefonica (CATI) 2,2p.p. 95%",
+      "date": "2026-06-19",
+      "institute": "GERP",
       "sample": 2000,
+      "method": "Presencial (Domiciliar)",
+      "registration": "BR-09657/2026",
+      "verifiedTse": false,
+      "round": "2º turno 1",
+      "candidates": {
+        "flavio-bolsonaro": 42.0,
+        "lula": 40.0
+      }
+    },
+    {
+      "date": "2026-06-20",
+      "institute": "Indexa",
+      "sample": 2000,
+      "method": "Telefonica (CATI)",
       "registration": "BR-08944/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -2747,8 +2949,9 @@
     },
     {
       "date": "2026-06-24",
-      "institute": "21/06-24/06 PoderData 2.400 Telefonica (IVR) 2,0p.p. 95%",
-      "sample": 2000,
+      "institute": "PoderData",
+      "sample": 2400,
+      "method": "Telefonica (IVR)",
       "registration": "BR-05722/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -2759,8 +2962,9 @@
     },
     {
       "date": "2026-06-25",
-      "institute": "23/06-25/06 Vox Brasil 2.100 Presencial (Domiciliar) 2,2p.p. 95%",
-      "sample": 2000,
+      "institute": "Vox Brasil",
+      "sample": 2100,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-06630/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -2771,8 +2975,9 @@
     },
     {
       "date": "2026-06-28",
-      "institute": "26/06-28/06 Nexus 2.000 Telefonica (CATI) 2,0p.p. 95%",
+      "institute": "Nexus",
       "sample": 2000,
+      "method": "Telefonica (CATI)",
       "registration": "BR-08521/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -2783,8 +2988,9 @@
     },
     {
       "date": "2026-06-30",
-      "institute": "25/06-30/06 AtlasIntel 5.000 Online 1,0p.p. 95%",
-      "sample": 2000,
+      "institute": "AtlasIntel",
+      "sample": 5000,
+      "method": "Online",
       "registration": "BR-04582/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -2795,8 +3001,9 @@
     },
     {
       "date": "2026-07-06",
-      "institute": "03/07-06/07 Ideia Inteligência 1.500 Telefonica (CATI) 2,5p.p. 95%",
-      "sample": 2000,
+      "institute": "Ideia Inteligência",
+      "sample": 1500,
+      "method": "Telefonica (CATI)",
       "registration": "BR-05628/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -2807,8 +3014,9 @@
     },
     {
       "date": "2026-07-07",
-      "institute": "03/07-07/07 GERP 2.000 Presencial (Domiciliar) 2,2p.p. 95%",
+      "institute": "GERP",
       "sample": 2000,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-03067/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -2819,8 +3027,9 @@
     },
     {
       "date": "2026-07-11",
-      "institute": "07/07-11/07 Futura 2.000 Telefonica (CATI) 2,2p.p. 95%",
+      "institute": "Futura",
       "sample": 2000,
+      "method": "Telefonica (CATI)",
       "registration": "BR-07294/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -2831,8 +3040,9 @@
     },
     {
       "date": "2026-07-12",
-      "institute": "10/07-12/07 Nexus 2.000 Telefonica (CATI) 2,0p.p. 95%",
+      "institute": "Nexus",
       "sample": 2000,
+      "method": "Telefonica (CATI)",
       "registration": "BR-07981/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -2843,8 +3053,9 @@
     },
     {
       "date": "2026-07-13",
-      "institute": "10/07-13/07 Quaest 2.004 Presencial (Domiciliar) 2,0p.p. 95%",
-      "sample": 2000,
+      "institute": "Quaest",
+      "sample": 2004,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-07181/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -2855,8 +3066,9 @@
     },
     {
       "date": "2026-07-15",
-      "institute": "12/07-15/07 PoderData 2.400 Telefonica (IVR) 2,0p.p. 95%",
-      "sample": 2000,
+      "institute": "PoderData",
+      "sample": 2400,
+      "method": "Telefonica (IVR)",
       "registration": "BR-00059/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -2867,8 +3079,9 @@
     },
     {
       "date": "2026-07-19",
-      "institute": "16/07-19/07 Indexa 2.000 Telefonica (CATI) 2,2p.p. 95%",
+      "institute": "Indexa",
       "sample": 2000,
+      "method": "Telefonica (CATI)",
       "registration": "BR-02904/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -2879,8 +3092,9 @@
     },
     {
       "date": "2026-07-20",
-      "institute": "15/07-20/07 GERP 2.000 Presencial (Domiciliar) 2,2p.p. 95%",
+      "institute": "GERP",
       "sample": 2000,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-05026/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -2891,8 +3105,9 @@
     },
     {
       "date": "2026-07-20",
-      "institute": "18/07-20/07 Real Time Big Data 2.000 Presencial (Domiciliar) 2,0p.p. 95%",
+      "institute": "Real Time Big Data",
       "sample": 2000,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-09247/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -2903,8 +3118,9 @@
     },
     {
       "date": "2026-07-24",
-      "institute": "22/07-24/07 Datafolha 2.004 Presencial (Ponto de fluxo) 2,0p.p. 95%",
-      "sample": 2000,
+      "institute": "Datafolha",
+      "sample": 2004,
+      "method": "Presencial (Ponto de fluxo)",
       "registration": "BR-01166/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -2915,8 +3131,9 @@
     },
     {
       "date": "2026-07-26",
-      "institute": "24/07-26/07 Nexus 2.000 Telefonica (CATI) 2,0p.p. 95%",
+      "institute": "Nexus",
       "sample": 2000,
+      "method": "Telefonica (CATI)",
       "registration": "BR-01489/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -2927,8 +3144,9 @@
     },
     {
       "date": "2026-07-27",
-      "institute": "22/07-27/07 AtlasIntel 5.000 Online 1,0p.p. 95%",
-      "sample": 2000,
+      "institute": "AtlasIntel",
+      "sample": 5000,
+      "method": "Online",
       "registration": "BR-08602/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -2939,20 +3157,9 @@
     },
     {
       "date": "2026-07-28",
-      "institute": "26/07-28/07 Vox Brasil 2.100 Presencial (Domiciliar) 2,2p.p. 95%",
-      "sample": 2000,
-      "registration": "BR-01084/2026",
-      "verifiedTse": false,
-      "round": "2º turno 1",
-      "candidates": {
-        "flavio-bolsonaro": 41.1,
-        "lula": 47.5
-      }
-    },
-    {
-      "date": "2026-07-28",
-      "institute": "23/07-28/07 Alfa Inteligência 2.700 Telefonica (CATI) 1,8p.p. 95%",
-      "sample": 2000,
+      "institute": "Alfa Inteligência",
+      "sample": 2700,
+      "method": "Telefonica (CATI)",
       "registration": "BR-04488/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -2962,9 +3169,23 @@
       }
     },
     {
+      "date": "2026-07-28",
+      "institute": "Vox Brasil",
+      "sample": 2100,
+      "method": "Presencial (Domiciliar)",
+      "registration": "BR-01084/2026",
+      "verifiedTse": false,
+      "round": "2º turno 1",
+      "candidates": {
+        "flavio-bolsonaro": 41.1,
+        "lula": 47.5
+      }
+    },
+    {
       "date": "2026-07-29",
-      "institute": "26/07-29/07 PoderData 2.400 Telefonica (IVR) 2,0p.p. 95%",
-      "sample": 2000,
+      "institute": "PoderData",
+      "sample": 2400,
+      "method": "Telefonica (IVR)",
       "registration": "BR-07845/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -2975,8 +3196,9 @@
     },
     {
       "date": "2026-08-02",
-      "institute": "31/07-02/08 Nexus 2.000 Telefonica (CATI) 2,0p.p. 95%",
+      "institute": "Nexus",
       "sample": 2000,
+      "method": "Telefonica (CATI)",
       "registration": "BR-02874/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -2987,8 +3209,9 @@
     },
     {
       "date": "2026-08-03",
-      "institute": "31/07-03/08 Ideia Inteligência 1.500 Telefonica (CATI) 2,5p.p. 95%",
-      "sample": 2000,
+      "institute": "Ideia Inteligência",
+      "sample": 1500,
+      "method": "Telefonica (CATI)",
       "registration": "BR-04579/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -2999,8 +3222,9 @@
     },
     {
       "date": "2026-08-03",
-      "institute": "31/07-03/08 Quaest 2.004 Presencial (Domiciliar) 2,0p.p. 95%",
-      "sample": 2000,
+      "institute": "Quaest",
+      "sample": 2004,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-06591/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -3011,8 +3235,9 @@
     },
     {
       "date": "2026-08-06",
-      "institute": "03/08-06/08 Futura 2.000 Telefonica (CATI) 2,2p.p. 95%",
+      "institute": "Futura",
       "sample": 2000,
+      "method": "Telefonica (CATI)",
       "registration": "BR-08109/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -3023,20 +3248,9 @@
     },
     {
       "date": "2026-08-09",
-      "institute": "03/08-09/08 Palver 5.000 Online 4,0p.p. 95%",
-      "sample": 2000,
-      "registration": "BR-06596/2026",
-      "verifiedTse": false,
-      "round": "2º turno 1",
-      "candidates": {
-        "flavio-bolsonaro": 46.0,
-        "lula": 46.0
-      }
-    },
-    {
-      "date": "2026-08-09",
-      "institute": "05/08-09/08 MDA 2.002 Presencial (Domiciliar) 2,2p.p. 95%",
-      "sample": 2000,
+      "institute": "MDA",
+      "sample": 2002,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-06935/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -3047,8 +3261,9 @@
     },
     {
       "date": "2026-08-09",
-      "institute": "07/08-09/08 Nexus 2.000 Telefonica (CATI) 2,0p.p. 95%",
+      "institute": "Nexus",
       "sample": 2000,
+      "method": "Telefonica (CATI)",
       "registration": "BR-08428/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -3058,9 +3273,23 @@
       }
     },
     {
+      "date": "2026-08-09",
+      "institute": "Palver",
+      "sample": 5000,
+      "method": "Online",
+      "registration": "BR-06596/2026",
+      "verifiedTse": false,
+      "round": "2º turno 1",
+      "candidates": {
+        "flavio-bolsonaro": 46.0,
+        "lula": 46.0
+      }
+    },
+    {
       "date": "2026-08-10",
-      "institute": "06/08-10/08 GERP 2.400 Presencial (Domiciliar) 2,0p.p. 96%",
-      "sample": 2000,
+      "institute": "GERP",
+      "sample": 2400,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-08045/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -3071,8 +3300,9 @@
     },
     {
       "date": "2026-08-12",
-      "institute": "09/08-12/08 PoderData 2.400 Telefonica (IVR) 2,0p.p. 95%",
-      "sample": 2000,
+      "institute": "PoderData",
+      "sample": 2400,
+      "method": "Telefonica (IVR)",
       "registration": "BR-06868/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -3083,8 +3313,9 @@
     },
     {
       "date": "2026-08-13",
-      "institute": "10/08-13/08 Quaest 2.004 Presencial (Domiciliar) 2,0p.p. 95%",
-      "sample": 2000,
+      "institute": "Quaest",
+      "sample": 2004,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-06773/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -3095,8 +3326,9 @@
     },
     {
       "date": "2026-08-16",
-      "institute": "14/08-16/08 Nexus 2.000 Telefonica (CATI) 2,0p.p. 95%",
+      "institute": "Nexus",
       "sample": 2000,
+      "method": "Telefonica (CATI)",
       "registration": "BR-03317/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -3107,20 +3339,9 @@
     },
     {
       "date": "2026-08-20",
-      "institute": "16/08-20/08 Veritá 3.840 Telefonica (IVR) 2,0p.p. 95%",
-      "sample": 2000,
-      "registration": "BR-04006/2026",
-      "verifiedTse": false,
-      "round": "2º turno 1",
-      "candidates": {
-        "flavio-bolsonaro": 47.3,
-        "lula": 42.0
-      }
-    },
-    {
-      "date": "2026-08-20",
-      "institute": "18/08-20/08 Datafolha 2.058 Presencial (Ponto de fluxo) 2,0p.p. 95%",
-      "sample": 2000,
+      "institute": "Datafolha",
+      "sample": 2058,
+      "method": "Presencial (Ponto de fluxo)",
       "registration": "BR-04496/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -3130,9 +3351,23 @@
       }
     },
     {
+      "date": "2026-08-20",
+      "institute": "Veritá",
+      "sample": 3840,
+      "method": "Telefonica (IVR)",
+      "registration": "BR-04006/2026",
+      "verifiedTse": false,
+      "round": "2º turno 1",
+      "candidates": {
+        "flavio-bolsonaro": 47.3,
+        "lula": 42.0
+      }
+    },
+    {
       "date": "2026-08-23",
-      "institute": "20/08-23/08 GERP 2.400 Presencial (Domiciliar) 2,0p.p. 96%",
-      "sample": 2000,
+      "institute": "GERP",
+      "sample": 2400,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-03547/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -3143,8 +3378,9 @@
     },
     {
       "date": "2026-08-23",
-      "institute": "20/08-23/08 Indexa 2.000 Telefonica (CATI) 2,2p.p. 95%",
+      "institute": "Indexa",
       "sample": 2000,
+      "method": "Telefonica (CATI)",
       "registration": "BR-06366/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -3155,8 +3391,9 @@
     },
     {
       "date": "2026-08-23",
-      "institute": "21/08-23/08 Nexus 2.000 Telefonica (CATI) 2,0p.p. 95%",
+      "institute": "Nexus",
       "sample": 2000,
+      "method": "Telefonica (CATI)",
       "registration": "BR-09028/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -3167,8 +3404,9 @@
     },
     {
       "date": "2026-08-26",
-      "institute": "23/08-26/08 PoderData 2.400 Telefonica (IVR) 2,0p.p. 95%",
-      "sample": 2000,
+      "institute": "PoderData",
+      "sample": 2400,
+      "method": "Telefonica (IVR)",
       "registration": "BR-04974/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -3179,8 +3417,9 @@
     },
     {
       "date": "2026-08-27",
-      "institute": "25/08-27/08 Vox Brasil 2.100 Presencial (Domiciliar) 2,2p.p. 95%",
-      "sample": 2000,
+      "institute": "Vox Brasil",
+      "sample": 2100,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-05519/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -3191,8 +3430,9 @@
     },
     {
       "date": "2026-08-30",
-      "institute": "25/08-30/08 AtlasIntel 5.000 Online 1,0p.p. 95%",
-      "sample": 2000,
+      "institute": "AtlasIntel",
+      "sample": 5000,
+      "method": "Online",
       "registration": "BR-07972/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -3203,8 +3443,9 @@
     },
     {
       "date": "2026-08-30",
-      "institute": "28/08-30/08 Nexus 2.000 Telefonica (CATI) 2,0p.p. 95%",
+      "institute": "Nexus",
       "sample": 2000,
+      "method": "Telefonica (CATI)",
       "registration": "BR-08900/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -3215,8 +3456,9 @@
     },
     {
       "date": "2026-08-31",
-      "institute": "27/08-31/08 Real Time Big Data 2.000 Presencial (Domiciliar) 2,0p.p. 95%",
+      "institute": "Real Time Big Data",
       "sample": 2000,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-03490/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -3227,8 +3469,9 @@
     },
     {
       "date": "2026-09-01",
-      "institute": "28/08-01/09 Futura 2.000 Telefonica (CATI) 2,2p.p. 95%",
+      "institute": "Futura",
       "sample": 2000,
+      "method": "Telefonica (CATI)",
       "registration": "BR-02793/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -3239,8 +3482,9 @@
     },
     {
       "date": "2026-09-01",
-      "institute": "30/08-01/09 Quaest 2.004 Presencial (Domiciliar) 2,0p.p. 95%",
-      "sample": 2000,
+      "institute": "Quaest",
+      "sample": 2004,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-07065/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -3251,8 +3495,9 @@
     },
     {
       "date": "2026-09-02",
-      "institute": "30/08-02/09 PoderData 3.000 Telefonica (IVR) 2,0p.p. 95%",
-      "sample": 2000,
+      "institute": "PoderData",
+      "sample": 3000,
+      "method": "Telefonica (IVR)",
       "registration": "BR-07561/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -3263,8 +3508,9 @@
     },
     {
       "date": "2026-09-03",
-      "institute": "01/09-03/09 Datafolha 2.002 Presencial (Ponto de fluxo) 2,0p.p. 95%",
-      "sample": 2000,
+      "institute": "Datafolha",
+      "sample": 2002,
+      "method": "Presencial (Ponto de fluxo)",
       "registration": "BR-03669/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -3275,8 +3521,9 @@
     },
     {
       "date": "2026-09-04",
-      "institute": "01/09-04/09 Veritá 3.840 Telefonica (IVR) 1,6p.p. 95%",
-      "sample": 2000,
+      "institute": "Veritá",
+      "sample": 3840,
+      "method": "Telefonica (IVR)",
       "registration": "BR-09426/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -3287,8 +3534,9 @@
     },
     {
       "date": "2026-09-06",
-      "institute": "03/09-06/09 Quaest 2.004 Presencial (Domiciliar) 2,0p.p. 95%",
-      "sample": 2000,
+      "institute": "Quaest",
+      "sample": 2004,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-01720/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -3299,20 +3547,9 @@
     },
     {
       "date": "2026-09-07",
-      "institute": "04/09-07/09 Nexus 2.000 Telefonica (CATI) 2,0p.p. 95%",
-      "sample": 2000,
-      "registration": "BR-06790/2026",
-      "verifiedTse": false,
-      "round": "2º turno 1",
-      "candidates": {
-        "flavio-bolsonaro": 46.0,
-        "lula": 45.0
-      }
-    },
-    {
-      "date": "2026-09-07",
-      "institute": "04/09-07/09 Ideia Inteligência 1.500 Telefonica (CATI) 2,5p.p. 95%",
-      "sample": 2000,
+      "institute": "Ideia Inteligência",
+      "sample": 1500,
+      "method": "Telefonica (CATI)",
       "registration": "BR-07935/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -3322,9 +3559,23 @@
       }
     },
     {
-      "date": "2026-09-08",
-      "institute": "03/09-08/09 GERP 2.400 Presencial (Domiciliar) 2,0p.p. 96%",
+      "date": "2026-09-07",
+      "institute": "Nexus",
       "sample": 2000,
+      "method": "Telefonica (CATI)",
+      "registration": "BR-06790/2026",
+      "verifiedTse": false,
+      "round": "2º turno 1",
+      "candidates": {
+        "flavio-bolsonaro": 46.0,
+        "lula": 45.0
+      }
+    },
+    {
+      "date": "2026-09-08",
+      "institute": "GERP",
+      "sample": 2400,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-00251/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -3335,8 +3586,9 @@
     },
     {
       "date": "2026-09-08",
-      "institute": "04/09-08/09 Palver 5.000 Online 4,0p.p. 95%",
-      "sample": 2000,
+      "institute": "Palver",
+      "sample": 5000,
+      "method": "Online",
       "registration": "BR-05420/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -3347,8 +3599,9 @@
     },
     {
       "date": "2026-09-09",
-      "institute": "04/09-09/09 AtlasIntel 5.000 Online 1,0p.p. 95%",
-      "sample": 2000,
+      "institute": "AtlasIntel",
+      "sample": 5000,
+      "method": "Online",
       "registration": "BR-01452/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -3359,8 +3612,9 @@
     },
     {
       "date": "2026-09-09",
-      "institute": "04/09-09/09 Futura 2.000 Telefonica (CATI) 2,2p.p. 95%",
+      "institute": "Futura",
       "sample": 2000,
+      "method": "Telefonica (CATI)",
       "registration": "BR-02322/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -3371,8 +3625,9 @@
     },
     {
       "date": "2026-09-09",
-      "institute": "06/09-09/09 PoderData 3.000 Telefonica (IVR) 2,0p.p. 95%",
-      "sample": 2000,
+      "institute": "PoderData",
+      "sample": 3000,
+      "method": "Telefonica (IVR)",
       "registration": "BR-04914/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -3383,8 +3638,9 @@
     },
     {
       "date": "2026-09-11",
-      "institute": "08/09-11/09 Datafolha 2.002 Presencial (Ponto de fluxo) 2,0p.p. 95%",
-      "sample": 2000,
+      "institute": "Datafolha",
+      "sample": 2002,
+      "method": "Presencial (Ponto de fluxo)",
       "registration": "BR-01833/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -3395,8 +3651,9 @@
     },
     {
       "date": "2026-09-13",
-      "institute": "10/09-13/09 Indexa 2.000 Telefonica (CATI) 2,2p.p. 95%",
+      "institute": "Indexa",
       "sample": 2000,
+      "method": "Telefonica (CATI)",
       "registration": "BR-03482/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -3407,20 +3664,22 @@
     },
     {
       "date": "2026-09-13",
-      "institute": "10/09-13/09 Quaest 2.004 Presencial (Domiciliar) 2,0p.p. 95%",
-      "sample": 2000,
-      "registration": "BR-03607/2026",
+      "institute": "MDA",
+      "sample": 2002,
+      "method": "Presencial (Domiciliar)",
+      "registration": "BR-06902/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
       "candidates": {
-        "flavio-bolsonaro": 42.0,
-        "lula": 40.0
+        "flavio-bolsonaro": 40.0,
+        "lula": 47.3
       }
     },
     {
       "date": "2026-09-13",
-      "institute": "11/09-13/09 Nexus 2.000 Telefonica (CATI) 2,0p.p. 95%",
+      "institute": "Nexus",
       "sample": 2000,
+      "method": "Telefonica (CATI)",
       "registration": "BR-04076/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -3431,20 +3690,22 @@
     },
     {
       "date": "2026-09-13",
-      "institute": "09/09-13/09 MDA 2.002 Presencial (Domiciliar) 2,2p.p. 95%",
-      "sample": 2000,
-      "registration": "BR-06902/2026",
+      "institute": "Quaest",
+      "sample": 2004,
+      "method": "Presencial (Domiciliar)",
+      "registration": "BR-03607/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
       "candidates": {
-        "flavio-bolsonaro": 40.0,
-        "lula": 47.3
+        "flavio-bolsonaro": 42.0,
+        "lula": 40.0
       }
     },
     {
       "date": "2026-09-14",
-      "institute": "12/09-14/09 DataTrends 2.000 Telefonica (IVR) 2,2p.p. 95%",
+      "institute": "DataTrends",
       "sample": 2000,
+      "method": "Telefonica (IVR)",
       "registration": "BR-08691/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -3455,20 +3716,22 @@
     },
     {
       "date": "2026-09-16",
-      "institute": "13/09-16/09 PoderData 3.000 Telefonica (IVR) 2,0p.p. 95%",
-      "sample": 2000,
-      "registration": "BR-00360/2026",
+      "institute": "AtlasIntel",
+      "sample": 5000,
+      "method": "Online",
+      "registration": "BR-06221/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
       "candidates": {
-        "flavio-bolsonaro": 46.0,
-        "lula": 44.0
+        "flavio-bolsonaro": 47.2,
+        "lula": 46.8
       }
     },
     {
       "date": "2026-09-16",
-      "institute": "14/09-16/09 GERP 2.400 Presencial (Domiciliar) 2,0p.p. 95%",
-      "sample": 2000,
+      "institute": "GERP",
+      "sample": 2400,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-00535/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -3479,32 +3742,22 @@
     },
     {
       "date": "2026-09-16",
-      "institute": "11/09-16/09 AtlasIntel 5.000 Online 1,0p.p. 95%",
-      "sample": 2000,
-      "registration": "BR-06221/2026",
+      "institute": "PoderData",
+      "sample": 3000,
+      "method": "Telefonica (IVR)",
+      "registration": "BR-00360/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
       "candidates": {
-        "flavio-bolsonaro": 47.2,
-        "lula": 46.8
+        "flavio-bolsonaro": 46.0,
+        "lula": 44.0
       }
     },
     {
       "date": "2026-09-17",
-      "institute": "11/09-17/09 Futura 2.000 Telefonica (CATI) 2,2p.p. 95%",
-      "sample": 2000,
-      "registration": "BR-00749/2026",
-      "verifiedTse": false,
-      "round": "2º turno 1",
-      "candidates": {
-        "flavio-bolsonaro": 48.1,
-        "lula": 43.7
-      }
-    },
-    {
-      "date": "2026-09-17",
-      "institute": "15/09-17/09 Datafolha 2.002 Presencial (Ponto de fluxo) 2,0p.p. 95%",
-      "sample": 2000,
+      "institute": "Datafolha",
+      "sample": 2002,
+      "method": "Presencial (Ponto de fluxo)",
       "registration": "BR-04029/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -3514,9 +3767,23 @@
       }
     },
     {
-      "date": "2026-09-20",
-      "institute": "18/09-20/09 Nexus 2.000 Telefonica (CATI) 2,0p.p. 95%",
+      "date": "2026-09-17",
+      "institute": "Futura",
       "sample": 2000,
+      "method": "Telefonica (CATI)",
+      "registration": "BR-00749/2026",
+      "verifiedTse": false,
+      "round": "2º turno 1",
+      "candidates": {
+        "flavio-bolsonaro": 48.1,
+        "lula": 43.7
+      }
+    },
+    {
+      "date": "2026-09-20",
+      "institute": "Nexus",
+      "sample": 2000,
+      "method": "Telefonica (CATI)",
       "registration": "BR-00485/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -3527,8 +3794,9 @@
     },
     {
       "date": "2026-09-20",
-      "institute": "15/09-20/09 Palver 5.000 Online 4,0p.p. 95%",
-      "sample": 2000,
+      "institute": "Palver",
+      "sample": 5000,
+      "method": "Online",
       "registration": "BR-00860/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
@@ -3539,8 +3807,9 @@
     },
     {
       "date": "2026-09-20",
-      "institute": "17/09-20/09 Quaest 2.004 Presencial (Domiciliar) 2,0p.p. 95%",
-      "sample": 2000,
+      "institute": "Quaest",
+      "sample": 2004,
+      "method": "Presencial (Domiciliar)",
       "registration": "BR-06004/2026",
       "verifiedTse": false,
       "round": "2º turno 1",
