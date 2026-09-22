@@ -2,7 +2,7 @@
 
 Aplicativo Android público e experimental para acompanhar **pesquisas presidenciais de 2026**, sua evolução no tempo, incerteza e diferenças entre fontes.
 
-## O que a v0.5.1 faz
+## O que a v0.6.0 faz
 
 - trabalha com **pesquisas individuais** como unidade principal, em vez de somar agregadores;
 - deduplica levantamentos pelo número de registro TSE e, quando necessário, por uma chave de conteúdo;
@@ -76,7 +76,7 @@ Se os testes ou a validação estrutural falharem, os novos dados não são publ
 
 O workflow **Build e publicar APK** compila e assina o APK com a mesma identidade de desenvolvimento estável adotada desde a v0.2.0, permitindo atualização sobre versões posteriores à transição de assinatura.
 
-A release atual é v0.5.1.
+A release atual é v0.6.0.
 
 ## Aviso
 
@@ -130,3 +130,17 @@ O diagnóstico de influência mede quanto o agregado muda quando uma pesquisa é
 Separadamente, cada levantamento é comparado a pesquisas contemporâneas de outros institutos em uma janela de ±10 dias. Um limiar robusto baseado na distribuição dos desvios da própria janela pode marcar um "sinal atípico". Esse sinal não afirma que a pesquisa está errada, enviesada ou irregular; ele apenas indica distância estatística em relação aos pares disponíveis.
 
 Nenhum desses diagnósticos é usado automaticamente para excluir pesquisas, reduzir peso de institutos ou alterar a leitura principal. O schema de data/analytics.json é v5.
+
+## Incerteza avançada v0.6.0
+
+A faixa principal exibida no primeiro turno passa a combinar três componentes independentes:
+
+1. intervalo analítico do agregador, baseado em erro amostral aproximado e heterogeneidade entre pesquisas;
+2. bootstrap determinístico das pesquisas da janela corrente, com percentis de reamostragem;
+3. piso empírico baseado no percentil 80 do erro absoluto observado na validação retrospectiva contra a próxima pesquisa publicada.
+
+O aplicativo preserva os três componentes separadamente para auditoria. A faixa avançada usa o componente mais conservador e nunca fica artificialmente mais estreita que o intervalo analítico anterior.
+
+O bootstrap mede sensibilidade da estimativa de apoio atual à composição da amostra de pesquisas. O piso empírico mede capacidade de reprodução observada em leituras passadas. Nenhum dos dois representa chance de vitória, probabilidade eleitoral ou previsão de resultado futuro.
+
+O schema de data/analytics.json passa a ser v6.
