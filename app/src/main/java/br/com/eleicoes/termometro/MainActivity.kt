@@ -496,6 +496,15 @@ private fun RollingValidationCard(validation: RollingValidation) {
                 validation.medianAbsoluteError?.let {
                     MetricRowLight("Erro absoluto mediano", "${it.one()} p.p.")
                 }
+                validation.simpleMeanAbsoluteError?.let {
+                    MetricRowLight("MAE da média simples", "${it.one()} p.p.")
+                }
+                validation.errorDifferenceVsSimple?.let {
+                    MetricRowLight(
+                        "Diferença de erro vs média simples",
+                        "${signed(it)} p.p."
+                    )
+                }
                 validation.intervalCoverage?.let {
                     MetricRowLight("Cobertura dos intervalos", "${it.one()}%")
                 }
