@@ -1003,6 +1003,7 @@ def advanced_uncertainty(
     bootstrap = bootstrap_current_support(polls, target)
     empirical_q80 = validation.get("absoluteErrorQuantiles", {}).get("q80")
     empirical_q90 = validation.get("absoluteErrorQuantiles", {}).get("q90")
+    band_quantiles = validation.get("absoluteErrorQuantilesBySupportBand", {})
 
     candidates = {}
     for cid, values in aggregate.get("candidates", {}).items():
@@ -1020,10 +1021,16 @@ def advanced_uncertainty(
             bootstrap_low = bootstrap_high = None
             bootstrap_half = 0.0
 
-        # O erro empírico usa a distribuição de erro absoluto contra a próxima
-        # pesquisa publicada. Ele funciona como piso de reprodução, não como
-        # probabilidade de resultado eleitoral.
-        empirical_half = float(empirical_q80) if empirical_q80 is not None else 0.0
+        # Usa erro empírico calibrado por faixa de apoio quando houver volume
+        # mínimo suficiente; caso contrário, recua para o quantil global.
+        support_band = "low" if support < 10.0 else "medium" if support < 30.0 else "high"
+        band_info = band_quantiles.get(support_band, {})
+        use_band = int(band_info.get("count", 0)) >= 20 and band_info.get("q80") is not None
+        empirical_half = (
+            float(band_info["q80"])
+            if use_band
+            else float(empirical_q80) if empirical_q80 is not None else 0.0
+        )
         advanced_half = max(model_half, bootstrap_half, empirical_half, 0.6)
 
         candidates[cid] = {
@@ -1033,7 +1040,10 @@ def advanced_uncertainty(
             "bootstrapP10": round(bootstrap_low, 2) if bootstrap_low is not None else None,
             "bootstrapP50": round(float(boot["p50"]), 2) if boot else None,
             "bootstrapP90": round(bootstrap_high, 2) if bootstrap_high is not None else None,
-            "empiricalErrorQ80": round(empirical_half, 2) if empirical_q80 is not None else None,
+            "empiricalErrorQ80": round(empirical_half, 2) if empirical_half > 0 else None,
+            "empiricalSupportBand": support_band,
+            "empiricalSupportBandCount": int(band_info.get("count", 0)),
+            "empiricalSupportBandUsed": use_band,
             "advancedLow": round(max(0.0, support - advanced_half), 2),
             "advancedHigh": round(min(100.0, support + advanced_half), 2),
             "advancedHalfWidth": round(advanced_half, 2),
@@ -1045,10 +1055,11 @@ def advanced_uncertainty(
         "empiricalErrorQuantileUsed": "q80",
         "empiricalErrorQ80": round(float(empirical_q80), 2) if empirical_q80 is not None else None,
         "empiricalErrorQ90": round(float(empirical_q90), 2) if empirical_q90 is not None else None,
+        "supportBandCalibration": band_quantiles,
         "candidates": candidates,
         "note": (
             "Faixa avançada combina a incerteza analítica existente, a variabilidade "
-            "de reamostragem das pesquisas e um piso baseado no erro absoluto empírico "
+            "de reamostragem das pesquisas e um piso de erro empírico calibrado por faixa de apoio quando houver amostra suficiente "
             "contra a próxima pesquisa publicada. É uma faixa de incerteza da leitura atual, "
             "não probabilidade de vitória nem previsão do resultado da eleição."
         ),
@@ -1063,6 +1074,7 @@ def rolling_validation(polls: List[dict], minimum_training_polls: int = 4) -> di
     """
     weighted_errors = []
     simple_errors = []
+    errors_by_support_band: Dict[str, List[float]] = {"low": [], "medium": [], "high": []}
     covered = 0
     cases = 0
     ordered = sorted(polls, key=lambda p: (p["date"], norm(p.get("institute", ""))))
@@ -1083,10 +1095,13 @@ def rolling_validation(polls: List[dict], minimum_training_polls: int = 4) -> di
             simple_estimate = simple["candidates"].get(cid)
             if estimate is None or simple_estimate is None:
                 continue
-            weighted_error = abs(float(observed) - float(estimate["support"]))
+            predicted_support = float(estimate["support"])
+            weighted_error = abs(float(observed) - predicted_support)
             simple_error = abs(float(observed) - float(simple_estimate))
             weighted_errors.append(weighted_error)
             simple_errors.append(simple_error)
+            support_band = "low" if predicted_support < 10.0 else "medium" if predicted_support < 30.0 else "high"
+            errors_by_support_band[support_band].append(weighted_error)
             comparable += 1
             if estimate["low"] <= float(observed) <= estimate["high"]:
                 covered += 1
@@ -1104,6 +1119,7 @@ def rolling_validation(polls: List[dict], minimum_training_polls: int = 4) -> di
             "errorDifferenceVsSimple": None,
             "intervalCoverage": None,
             "absoluteErrorQuantiles": {},
+            "absoluteErrorQuantilesBySupportBand": {},
         }
 
     sorted_errors = sorted(weighted_errors)
@@ -1122,6 +1138,16 @@ def rolling_validation(polls: List[dict], minimum_training_polls: int = 4) -> di
         "q90": round(percentile(weighted_errors, 0.90), 2),
         "q95": round(percentile(weighted_errors, 0.95), 2),
     }
+    band_quantiles = {}
+    for band, errors in errors_by_support_band.items():
+        if not errors:
+            continue
+        band_quantiles[band] = {
+            "count": len(errors),
+            "q50": round(percentile(errors, 0.50), 2),
+            "q80": round(percentile(errors, 0.80), 2),
+            "q90": round(percentile(errors, 0.90), 2),
+        }
 
     return {
         "status": "ok",
@@ -1133,6 +1159,7 @@ def rolling_validation(polls: List[dict], minimum_training_polls: int = 4) -> di
         "errorDifferenceVsSimple": round(weighted_mae - simple_mae, 2),
         "intervalCoverage": round(100.0 * covered / len(weighted_errors), 1),
         "absoluteErrorQuantiles": absolute_error_quantiles,
+        "absoluteErrorQuantilesBySupportBand": band_quantiles,
         "target": "próxima pesquisa publicada",
         "note": "Validação interna do agregador; não mede acerto do resultado eleitoral.",
     }
