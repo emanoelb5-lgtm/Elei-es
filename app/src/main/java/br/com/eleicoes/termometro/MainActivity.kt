@@ -425,6 +425,15 @@ private fun DiagnosticsScreen(data: DashboardData?, loading: Boolean) {
 
             item {
                 SectionTitle(
+                    "Mudança de patamar",
+                    "Compara pesquisas dos últimos 7 dias com o bloco de 8 a 30 dias"
+                )
+            }
+            item { RegimeShiftCard(data.snapshot.regimeShift, data.snapshot.candidates) }
+            item { RegimeShadowValidationCard(data.calibration.regimeShadowValidation) }
+
+            item {
+                SectionTitle(
                     "Incerteza avançada",
                     "Intervalo analítico, bootstrap e erro empírico observados separadamente"
                 )
@@ -997,6 +1006,122 @@ private fun HistoryChart(history: List<HistoryPoint>, candidates: List<Candidate
                     }
                 }
             }
+        }
+    }
+}
+
+@Composable
+private fun RegimeShiftCard(regime: RegimeShiftData, candidates: List<Candidate>) {
+    Card(
+        shape = RoundedCornerShape(22.dp),
+        colors = CardDefaults.cardColors(containerColor = Color(0xFFEFF3F8))
+    ) {
+        Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(9.dp)) {
+            Text("Leitura recente × anterior", fontWeight = FontWeight.ExtraBold, fontSize = 18.sp)
+            if (regime.status == "ok") {
+                Text(
+                    regimeLevelLabel(regime.overall),
+                    color = BrazilBlue,
+                    fontWeight = FontWeight.Bold
+                )
+                Text(
+                    "Recente: ${regime.recentPollCount} pesquisas / ${regime.recentInstituteCount} institutos · " +
+                        "Anterior: ${regime.previousPollCount} pesquisas / ${regime.previousInstituteCount} institutos",
+                    color = Muted,
+                    fontSize = 11.sp,
+                    lineHeight = 16.sp
+                )
+                candidates.forEach { candidate ->
+                    regime.candidates[candidate.id]?.let { row ->
+                        Column(verticalArrangement = Arrangement.spacedBy(3.dp)) {
+                            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                                Text(candidate.name, fontWeight = FontWeight.SemiBold, fontSize = 13.sp)
+                                Text(regimeCandidateLevelLabel(row.level), color = Muted, fontSize = 11.sp)
+                            }
+                            Text(
+                                "Últimos ${regime.recentDays}d: ${row.recentSupport.one()}% · " +
+                                    "8–30d: ${row.previousSupport.one()}% · Δ ${signed(row.differenceRecentVsPrevious)} p.p.",
+                                color = Muted,
+                                fontSize = 11.sp,
+                                lineHeight = 16.sp
+                            )
+                            Text(
+                                "Consistência entre institutos: ${(row.instituteConsistency * 100.0).one()}% · " +
+                                    "razão sinal/ruído: ${row.signalRatio.one()}",
+                                color = Muted,
+                                fontSize = 10.sp
+                            )
+                            if (row.level != "stable") {
+                                Text(
+                                    "Leitura adaptativa em sombra: ${row.shadowAdaptiveSupport.one()}% " +
+                                        "(peso recente ${(row.shadowRecentWeight * 100.0).one()}%)",
+                                    color = BrazilBlue,
+                                    fontSize = 10.sp,
+                                    fontWeight = FontWeight.Bold
+                                )
+                            }
+                            HorizontalDivider(color = Color(0xFFDDE5E1))
+                        }
+                    }
+                }
+            } else {
+                Text(
+                    "Ainda não há diversidade suficiente entre os blocos recente e anterior.",
+                    color = Muted
+                )
+            }
+            Text(regime.note, color = Muted, fontSize = 11.sp, lineHeight = 16.sp)
+            Text(
+                if (regime.adaptiveApplied) {
+                    "A leitura adaptativa está aplicada."
+                } else {
+                    "A leitura adaptativa permanece somente em sombra."
+                },
+                color = if (regime.adaptiveApplied) Color(0xFF9A6700) else BrazilGreen,
+                fontSize = 12.sp,
+                fontWeight = FontWeight.Bold
+            )
+        }
+    }
+}
+
+@Composable
+private fun RegimeShadowValidationCard(validation: RegimeShadowValidation) {
+    Card(
+        shape = RoundedCornerShape(22.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.White)
+    ) {
+        Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            Text("Validação da adaptação em sombra", fontWeight = FontWeight.ExtraBold, fontSize = 17.sp)
+            if (validation.status == "ok") {
+                MetricRow("Casos retrospectivos com sinal", validation.signalCaseCount.toString())
+                MetricRow("Comparações candidato/pesquisa", validation.comparisonCount.toString())
+                validation.baselineMeanAbsoluteError?.let {
+                    MetricRow("MAE · modelo atual", "${it.one()} p.p.")
+                }
+                validation.shadowMeanAbsoluteError?.let {
+                    MetricRow("MAE · adaptação em sombra", "${it.one()} p.p.")
+                }
+                validation.differenceShadowVsBaseline?.let {
+                    MetricRow("Δ sombra vs atual", "${signed(it)} p.p.")
+                }
+                Text(
+                    if (validation.promotionEligible) {
+                        "O critério técnico mínimo para revisão foi atingido; a mudança ainda não é automática."
+                    } else {
+                        "O critério técnico para alterar o modelo principal ainda não foi atingido."
+                    },
+                    color = if (validation.promotionEligible) BrazilBlue else Muted,
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.Bold
+                )
+            } else {
+                Text(
+                    "Ainda não há casos retrospectivos suficientes para julgar a adaptação.",
+                    color = Muted
+                )
+            }
+            Text(validation.note, color = Muted, fontSize = 11.sp, lineHeight = 16.sp)
         }
     }
 }
@@ -1585,6 +1710,19 @@ private fun refreshFeedback(before: DashboardData?, fresh: DashboardData): Strin
     } else {
         "Fontes verificadas e nova leitura recebida, sem mudança relevante nos percentuais."
     }
+}
+
+private fun regimeLevelLabel(level: String?): String = when (level) {
+    "consistent" -> "Há deslocamento consistente entre as duas janelas"
+    "watch" -> "Há deslocamento em observação"
+    "stable" -> "Sem mudança de patamar detectada"
+    else -> "Diagnóstico não disponível"
+}
+
+private fun regimeCandidateLevelLabel(level: String): String = when (level) {
+    "consistent" -> "consistente"
+    "watch" -> "em observação"
+    else -> "estável"
 }
 
 private fun uncertaintyComponentLabel(key: String): String = when (key) {
