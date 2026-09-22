@@ -66,6 +66,41 @@ data class SensitivityData(
     val note: String
 )
 
+data class PollInfluence(
+    val date: String,
+    val institute: String,
+    val sample: Int,
+    val method: String,
+    val registration: String?,
+    val verifiedTse: Boolean,
+    val maxAbsoluteShift: Double,
+    val meanAbsoluteShift: Double,
+    val candidateShifts: Map<String, Double>,
+    val peerComparisonCount: Int,
+    val meanPeerDeviation: Double?,
+    val atypicalSignal: Boolean
+)
+
+data class InstituteInfluence(
+    val institute: String,
+    val pollCount: Int,
+    val maxAbsoluteShift: Double,
+    val meanAbsoluteShift: Double,
+    val candidateShifts: Map<String, Double>
+)
+
+data class InfluenceData(
+    val status: String,
+    val pollCount: Int,
+    val instituteCount: Int,
+    val peerWindowDays: Int,
+    val atypicalThreshold: Double?,
+    val polls: List<PollInfluence>,
+    val institutes: List<InstituteInfluence>,
+    val correctionApplied: Boolean,
+    val note: String
+)
+
 data class RunoffScenario(
     val id: String,
     val label: String,
@@ -87,6 +122,7 @@ data class Snapshot(
     val runoffScenarios: List<RunoffScenario>,
     val responseComposition: ResponseComposition,
     val sensitivity: SensitivityData,
+    val influence: InfluenceData,
     val note: String
 )
 
