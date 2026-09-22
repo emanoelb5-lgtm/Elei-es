@@ -3,8 +3,12 @@ name: Build e publicar APK
 on:
   push:
     branches: [main]
-    paths-ignore:
-      - 'data/**'
+    paths:
+      - 'app/**'
+      - 'build.gradle.kts'
+      - 'settings.gradle.kts'
+      - 'gradle.properties'
+      - '.github/workflows/build-apk.yml'
   workflow_dispatch:
 
 permissions:
