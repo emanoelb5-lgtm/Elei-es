@@ -95,31 +95,35 @@ def candidate_col(cols: List[str], aliases: List[str]) -> str | None:
 
 def parse_end_date(value, year: int) -> date | None:
     text = str(value).replace("–", "-").replace("—", "-").replace("−", "-")
-    # Captura pares dia/mês; o último par representa o fim do campo.
-    hits = re.findall(r"(\d{1,2})\s*([A-Za-z]{3,9})?", text)
+    year_match = re.findall(r"\b(20\d{2})\b", text)
+    parsed_year = int(year_match[-1]) if year_match else year
+
+    # Remove o ano antes de procurar dias. Sem isso, "2018" poderia ser
+    # interpretado como um dia 18 pertencente ao último mês da string.
+    date_text = re.sub(r"\b20\d{2}\b", "", text)
+    hits = re.findall(r"(?<!\d)(\d{1,2})(?!\d)\s*([A-Za-z]{3,9})?", date_text)
     if not hits:
         return None
 
-    explicit_months = []
-    for _, mon in hits:
-        if mon:
-            explicit_months.append(mon[:3].lower())
+    explicit_months = [
+        mon[:3].lower()
+        for _, mon in hits
+        if mon and mon[:3].lower() in MONTHS
+    ]
 
-    day_s, mon_s = hits[-1]
-    if mon_s:
-        month = MONTHS.get(mon_s[:3].lower())
-    else:
-        month = MONTHS.get(explicit_months[-1]) if explicit_months else None
-
-    if not month:
-        return None
-
-    year_match = re.findall(r"(20\d{2})", text)
-    parsed_year = int(year_match[-1]) if year_match else year
-    try:
-        return date(parsed_year, month, int(day_s))
-    except ValueError:
-        return None
+    # Percorre de trás para frente e escolhe o último dia plausível. Se o
+    # último número não trouxer mês, herda o último mês explícito do período.
+    inherited_month = explicit_months[-1] if explicit_months else None
+    for day_s, mon_s in reversed(hits):
+        month_key = mon_s[:3].lower() if mon_s else inherited_month
+        month = MONTHS.get(month_key or "")
+        if not month:
+            continue
+        try:
+            return date(parsed_year, month, int(day_s))
+        except ValueError:
+            continue
+    return None
 
 def pct(value) -> float | None:
     m = re.search(r"(\d+(?:[\.,]\d+)?)", str(value))
@@ -188,7 +192,16 @@ def load_polls(study: dict) -> List[dict]:
 
             institute = str(row.get(pollster, "")).strip()
             institute = re.sub(r"\[[^\]]+\]", "", institute).strip()
-            if not institute or institute.lower() == "nan" or norm(institute) in {"results", "2018 election", "2022 election"}:
+            institute_norm = norm(institute)
+            if (
+                not institute
+                or institute.lower() == "nan"
+                or institute_norm in {"results", "2018 election", "2022 election"}
+                or len(institute) > 90
+                or "was stabbed" in institute_norm
+                or "withdrew" in institute_norm
+                or "candidacy" in institute_norm
+            ):
                 continue
 
             polls.append({
@@ -198,24 +211,6 @@ def load_polls(study: dict) -> List[dict]:
                 "method": "histórico não padronizado",
                 "values": values,
             })
-
-    if study["year"] == 2018:
-        raw_dates = sorted({p["date"] for p in polls})
-        print(
-            "DEBUG 2018 parsed:",
-            "polls=", len(polls),
-            "min=", raw_dates[0].isoformat() if raw_dates else None,
-            "max=", raw_dates[-1].isoformat() if raw_dates else None,
-            "dates=", [d.isoformat() for d in raw_dates[-20:]],
-        )
-        for p in sorted(polls, key=lambda item: item["date"])[-20:]:
-            print(
-                "DEBUG 2018 poll:",
-                p["date"].isoformat(),
-                p["institute"],
-                p["sample"],
-                p["values"],
-            )
 
     seen = {}
     for poll in polls:
