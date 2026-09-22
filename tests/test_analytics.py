@@ -144,6 +144,8 @@ class AnalyticsParserTests(unittest.TestCase):
         self.assertEqual(result["status"], "ok")
         self.assertGreater(result["caseCount"], 0)
         self.assertIsNotNone(result["meanAbsoluteError"])
+        self.assertIsNotNone(result["simpleMeanAbsoluteError"])
+        self.assertIsNotNone(result["errorDifferenceVsSimple"])
         self.assertGreaterEqual(result["intervalCoverage"], 0.0)
         self.assertLessEqual(result["intervalCoverage"], 100.0)
 
