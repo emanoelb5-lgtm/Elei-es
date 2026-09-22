@@ -186,7 +186,11 @@ class ElectionRepository {
                 recentInstituteCount = item.optInt("recentInstituteCount", 0),
                 level = item.optString("level", "stable"),
                 shadowAdaptiveSupport = item.optDouble("shadowAdaptiveSupport", item.optDouble("currentSupport", 0.0)),
-                shadowRecentWeight = item.optDouble("shadowRecentWeight", 0.0)
+                shadowRecentWeight = item.optDouble("shadowRecentWeight", 0.0),
+                persistenceStreak = item.optInt("persistenceStreak", 0),
+                persistenceStatus = item.optString("persistenceStatus", "stable"),
+                persistentSignal = item.optBoolean("persistentSignal", false),
+                persistenceDirection = item.optString("persistenceDirection", "flat")
             )
         }
         return RegimeShiftData(
@@ -199,6 +203,13 @@ class ElectionRepository {
             previousInstituteCount = root.optInt("previousInstituteCount", 0),
             candidates = candidates,
             adaptiveApplied = root.optBoolean("adaptiveApplied", false),
+            evidenceFingerprint = root.optString("evidenceFingerprint"),
+            evidenceChanged = root.optBoolean("evidenceChanged", false),
+            evidenceStateCount = root.optInt("evidenceStateCount", 0),
+            persistentCandidateCount = root.optInt("persistentCandidateCount", 0),
+            buildingCandidateCount = root.optInt("buildingCandidateCount", 0),
+            persistenceApplied = root.optBoolean("persistenceApplied", false),
+            persistenceNote = root.optString("persistenceNote"),
             note = root.optString("note")
         )
     }
