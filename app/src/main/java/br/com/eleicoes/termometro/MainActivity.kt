@@ -28,6 +28,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.time.Instant
+import java.time.LocalDate
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import kotlin.math.abs
@@ -106,7 +107,8 @@ private fun DashboardHost() {
         Box(Modifier.weight(1f).fillMaxWidth()) {
             when (tab) {
                 0 -> HomeScreen(data, loading, error, notice) { refresh(true) }
-                else -> TrendScreen(data, loading)
+                1 -> TrendScreen(data, loading)
+                else -> PollsScreen(data, loading)
             }
         }
         NavigationBar(containerColor = Color.White) {
@@ -121,6 +123,12 @@ private fun DashboardHost() {
                 onClick = { tab = 1 },
                 icon = { Text("↗", fontSize = 21.sp, fontWeight = FontWeight.Bold) },
                 label = { Text("Tendência") }
+            )
+            NavigationBarItem(
+                selected = tab == 2,
+                onClick = { tab = 2 },
+                icon = { Text("≡", fontSize = 21.sp, fontWeight = FontWeight.Bold) },
+                label = { Text("Pesquisas") }
             )
         }
     }
@@ -225,6 +233,149 @@ private fun TrendScreen(data: DashboardData?, loading: Boolean) {
             item { TrendMethodCard(analysis) }
         } else if (loading) {
             item { LoadingBlock() }
+        }
+    }
+}
+
+@Composable
+private fun PollsScreen(data: DashboardData?, loading: Boolean) {
+    var periodDays by remember { mutableIntStateOf(30) }
+
+    val filtered = remember(data, periodDays) {
+        if (data == null) {
+            emptyList()
+        } else {
+            val reference = runCatching {
+                Instant.parse(data.snapshot.generatedAt)
+                    .atZone(ZoneId.of("America/Sao_Paulo"))
+                    .toLocalDate()
+            }.getOrElse { LocalDate.now() }
+            val cutoff = reference.minusDays(periodDays.toLong())
+            data.polls.filter { poll ->
+                runCatching { !LocalDate.parse(poll.date).isBefore(cutoff) }.getOrDefault(false)
+            }
+        }
+    }
+
+    LazyColumn(
+        modifier = Modifier.fillMaxSize(),
+        contentPadding = PaddingValues(18.dp, 22.dp, 18.dp, 34.dp),
+        verticalArrangement = Arrangement.spacedBy(14.dp)
+    ) {
+        item {
+            Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                Text("BANCO DE PESQUISAS", color = BrazilGreen, fontWeight = FontWeight.Bold, fontSize = 13.sp)
+                Text("Matéria-prima\ndo agregador", fontSize = 36.sp, lineHeight = 38.sp, fontWeight = FontWeight.ExtraBold)
+                Text(
+                    "Consulte os levantamentos que alimentam a curva: data, instituto, amostra, método, registro e resultados publicados.",
+                    color = Muted,
+                    lineHeight = 21.sp
+                )
+            }
+        }
+
+        item {
+            LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                items(listOf(7, 30, 90, 365)) { days ->
+                    FilterChip(
+                        selected = periodDays == days,
+                        onClick = { periodDays = days },
+                        label = { Text(if (days == 365) "Ano" else "${days} dias") }
+                    )
+                }
+            }
+        }
+
+        if (data != null) {
+            item { PollDatabaseSummary(filtered) }
+            items(
+                filtered,
+                key = { it.registration ?: "${it.date}-${it.institute}-${it.sample}" }
+            ) { poll ->
+                PollRecordCard(poll, data.snapshot.candidates)
+            }
+            if (filtered.isEmpty()) {
+                item {
+                    Card(shape = RoundedCornerShape(20.dp), colors = CardDefaults.cardColors(containerColor = Color.White)) {
+                        Text(
+                            "Não há pesquisas no período selecionado.",
+                            Modifier.padding(18.dp),
+                            color = Muted
+                        )
+                    }
+                }
+            }
+        } else if (loading) {
+            item { LoadingBlock() }
+        }
+    }
+}
+
+@Composable
+private fun PollDatabaseSummary(polls: List<PollRecord>) {
+    val institutes = polls.map { it.institute }.distinct().size
+    val methods = polls.map { it.method }.distinct().size
+    val registrations = polls.count { !it.registration.isNullOrBlank() }
+
+    Card(shape = RoundedCornerShape(22.dp), colors = CardDefaults.cardColors(containerColor = BrazilBlue)) {
+        Column(Modifier.padding(17.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            Text("RECORTE SELECIONADO", color = Color(0xFFBFD3EF), fontSize = 12.sp, fontWeight = FontWeight.Bold)
+            Text("${polls.size} pesquisas", color = Color.White, fontSize = 25.sp, fontWeight = FontWeight.ExtraBold)
+            Text(
+                "${institutes} institutos · ${methods} métodos de coleta · ${registrations} com número de registro",
+                color = Color.White.copy(alpha = .9f),
+                lineHeight = 19.sp
+            )
+        }
+    }
+}
+
+@Composable
+private fun PollRecordCard(poll: PollRecord, candidates: List<Candidate>) {
+    Card(shape = RoundedCornerShape(20.dp), colors = CardDefaults.cardColors(containerColor = Color.White)) {
+        Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            Row(
+                Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.Top
+            ) {
+                Column(Modifier.weight(1f)) {
+                    Text(poll.institute, fontWeight = FontWeight.ExtraBold, fontSize = 17.sp)
+                    Text(formatPollDate(poll.date), color = Muted, fontSize = 12.sp)
+                }
+                Surface(color = Color(0xFFEAF2ED), shape = RoundedCornerShape(50)) {
+                    Text(
+                        poll.sample.toString(),
+                        Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
+                        color = BrazilGreen,
+                        fontSize = 11.sp,
+                        fontWeight = FontWeight.ExtraBold
+                    )
+                }
+            }
+
+            MetricRow("Método", poll.method)
+            poll.registration?.let { registration ->
+                MetricRow(
+                    if (poll.verifiedTse) "Registro TSE validado" else "Registro TSE informado",
+                    registration
+                )
+            }
+
+            HorizontalDivider(color = Color(0xFFE8ECE9))
+
+            candidates.forEach { candidate ->
+                poll.candidates[candidate.id]?.let { value ->
+                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Box(Modifier.size(7.dp).background(candidateColor(candidate.id), CircleShape))
+                            Spacer(Modifier.width(6.dp))
+                            Text(candidate.name, fontSize = 13.sp)
+                        }
+                        Text("${value.one()}%", fontWeight = FontWeight.Bold, fontSize = 13.sp)
+                    }
+                }
+            }
         }
     }
 }
@@ -639,6 +790,10 @@ private fun deltaText(value: Double): String = when {
 private fun formatDate(raw: String): String = runCatching {
     val instant = Instant.parse(raw)
     DateTimeFormatter.ofPattern("dd/MM · HH:mm").withZone(ZoneId.of("America/Sao_Paulo")).format(instant)
+}.getOrElse { raw }
+
+private fun formatPollDate(raw: String): String = runCatching {
+    LocalDate.parse(raw).format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
 }.getOrElse { raw }
 
 private fun formatDay(instant: Instant): String =
