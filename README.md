@@ -2,7 +2,7 @@
 
 Aplicativo Android público e experimental para acompanhar **pesquisas presidenciais de 2026**, sua evolução no tempo, incerteza e diferenças entre fontes.
 
-## O que a v0.4.2 faz
+## O que a v0.5.0 faz
 
 - trabalha com **pesquisas individuais** como unidade principal, em vez de somar agregadores;
 - deduplica levantamentos pelo número de registro TSE e, quando necessário, por uma chave de conteúdo;
@@ -76,7 +76,7 @@ Se os testes ou a validação estrutural falharem, os novos dados não são publ
 
 O workflow **Build e publicar APK** compila e assina o APK com a mesma identidade de desenvolvimento estável adotada desde a v0.2.0, permitindo atualização sobre versões posteriores à transição de assinatura.
 
-A release atual é v0.4.2.
+A release atual é v0.5.0.
 
 ## Aviso
 
@@ -112,3 +112,13 @@ O laboratório compara fórmulas pré-definidas sem alterar automaticamente o mo
 Uma variante só é sinalizada para revisão quando reduz o erro histórico e o erro da validação corrente por margem mínima pré-definida, sem regressão relevante em nenhum ciclo histórico. Promoção automática permanece desabilitada.
 
 Na primeira execução, nenhuma variante atingiu simultaneamente todos os critérios. Por isso o modelo de produção foi mantido sem mudanças.
+
+## Robustez e composição v0.5.0
+
+A leitura corrente agora publica uma análise de sensibilidade leave-one-out. Para cada candidato, o sistema recalcula o agregado retirando uma pesquisa por vez e registra a faixa resultante, a maior alteração observada e a diferença entre janelas de 14 e 30 dias. Esse diagnóstico não altera automaticamente o agregado.
+
+A composição das respostas também passou a ser tratada explicitamente. Colunas como brancos, nulos, indecisos, nenhum e outros candidatos são armazenadas quando a fonte as identifica. Qualquer parcela restante é chamada de residual não classificado e não é interpretada automaticamente como indecisão.
+
+Nos cenários de segundo turno, os percentuais brutos permanecem a leitura principal. Uma normalização adicional entre os dois nomes pode ser exibida como transformação matemática auxiliar, acompanhada de aviso explícito de que ela não é projeção de votos válidos.
+
+O schema de data/analytics.json é v4.
