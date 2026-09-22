@@ -91,7 +91,7 @@ jobs:
           VERSION: ${{ steps.meta.outputs.version }}
         run: |
           set -euo pipefail
-          NOTES='v0.4.0 adiciona diagnóstico de instituto e método, comparação contra pesquisas contemporâneas de outros institutos, validação retrospectiva do agregador contra a próxima pesquisa publicada e uma nova aba Diagnóstico. Nenhuma correção por fonte é aplicada automaticamente à média atual; o backtest eleitoral histórico permanece separado até existir base reproduzível validada. Mantém a assinatura estável introduzida na v0.2.0.'
+          NOTES='v0.4.1 adiciona backtest histórico separado da eleição de 2022, com comparação do modelo ponderado e da média simples em horizontes de 30, 21, 14, 7, 3 e 1 dia antes da eleição. O resultado oficial é usado apenas como referência retrospectiva; nenhum ajuste histórico altera automaticamente a leitura de 2026. Mantém diagnóstico de fontes e assinatura estável desde a v0.2.0.'
           APK="dist/Termometro-Eleicoes-2026-v${VERSION}.apk"
           TAG="v${VERSION}"
           RELEASE_OK=0
