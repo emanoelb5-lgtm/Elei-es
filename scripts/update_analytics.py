@@ -232,6 +232,164 @@ def sensitivity_analysis(polls: List[dict], target: date) -> dict:
     }
 
 
+def influence_analysis(polls: List[dict], target: date, peer_window_days: int = 10) -> dict:
+    """Mede influência mecânica e desvio entre pesquisas contemporâneas.
+
+    Influência = quanto o agregado muda ao remover uma observação ou um instituto.
+    Desvio entre pares = distância da pesquisa para levantamentos próximos de outros
+    institutos. Nenhum desses diagnósticos altera automaticamente o agregado.
+    """
+    eligible = [
+        p for p in polls
+        if p["date"] <= target and (target - p["date"]).days <= LIVE_WINDOW_DAYS
+    ]
+    baseline = aggregate_first_round(eligible, target)
+    if len(eligible) < 3 or not baseline["candidates"]:
+        return {
+            "status": "insufficient-data",
+            "pollCount": len(eligible),
+            "instituteCount": len({norm(p.get("institute", "")) for p in eligible}),
+            "polls": [],
+            "institutes": [],
+            "atypicalThreshold": None,
+            "note": "Dados insuficientes para diagnóstico de influência.",
+        }
+
+    baseline_support = {
+        cid: float(values["support"])
+        for cid, values in baseline["candidates"].items()
+    }
+
+    def summarize_shift(alternative: dict) -> tuple[dict, float, float]:
+        deltas = {}
+        for cid, base in baseline_support.items():
+            alt = alternative.get("candidates", {}).get(cid)
+            if alt is None:
+                continue
+            deltas[cid] = float(alt["support"]) - base
+        absolute = [abs(value) for value in deltas.values()]
+        return (
+            {cid: round(value, 2) for cid, value in deltas.items()},
+            round(max(absolute), 2) if absolute else 0.0,
+            round(sum(absolute) / len(absolute), 2) if absolute else 0.0,
+        )
+
+    poll_rows = []
+    raw_peer_deviations = []
+    for index, poll in enumerate(eligible):
+        reduced = eligible[:index] + eligible[index + 1:]
+        alternative = aggregate_first_round(reduced, target)
+        deltas, max_shift, mean_shift = summarize_shift(alternative)
+
+        peer_deviations = []
+        peer_comparisons = 0
+        for cid, observed in poll.get("values", {}).items():
+            peers = [
+                other for j, other in enumerate(eligible)
+                if j != index
+                and norm(other.get("institute", "")) != norm(poll.get("institute", ""))
+                and abs((other["date"] - poll["date"]).days) <= peer_window_days
+                and cid in other.get("values", {})
+            ]
+            peer_institutes = {norm(p.get("institute", "")) for p in peers}
+            if len(peers) < 2 or len(peer_institutes) < 2:
+                continue
+
+            weighted_values = []
+            for peer in peers:
+                distance = abs((peer["date"] - poll["date"]).days)
+                recency = math.exp(-distance / 5.0)
+                sample_factor = min(
+                    max(math.sqrt(max(peer.get("sample", 300), 300) / 2000.0), 0.65),
+                    1.60,
+                )
+                weighted_values.append((float(peer["values"][cid]), recency * sample_factor))
+
+            total_weight = sum(weight for _, weight in weighted_values)
+            if total_weight <= 0:
+                continue
+            peer_mean = sum(value * weight for value, weight in weighted_values) / total_weight
+            peer_deviations.append(abs(float(observed) - peer_mean))
+            peer_comparisons += 1
+
+        mean_peer_deviation = (
+            sum(peer_deviations) / len(peer_deviations)
+            if peer_deviations else None
+        )
+        if mean_peer_deviation is not None:
+            raw_peer_deviations.append(mean_peer_deviation)
+
+        poll_rows.append({
+            "date": poll["date"].isoformat(),
+            "institute": poll.get("institute", "Instituto não identificado"),
+            "sample": poll.get("sample", 0),
+            "method": poll.get("method", "não identificado"),
+            "registration": poll.get("registration"),
+            "verifiedTse": bool(poll.get("verifiedTse")),
+            "maxAbsoluteShift": max_shift,
+            "meanAbsoluteShift": mean_shift,
+            "candidateShifts": deltas,
+            "peerComparisonCount": peer_comparisons,
+            "meanPeerDeviation": round(mean_peer_deviation, 2) if mean_peer_deviation is not None else None,
+        })
+
+    threshold = None
+    if len(raw_peer_deviations) >= 5:
+        ordered = sorted(raw_peer_deviations)
+        middle = len(ordered) // 2
+        med = ordered[middle] if len(ordered) % 2 else (ordered[middle - 1] + ordered[middle]) / 2.0
+        deviations = sorted(abs(value - med) for value in raw_peer_deviations)
+        middle_dev = len(deviations) // 2
+        mad = (
+            deviations[middle_dev]
+            if len(deviations) % 2
+            else (deviations[middle_dev - 1] + deviations[middle_dev]) / 2.0
+        )
+        threshold = med + max(2.5 * mad, 1.0)
+
+    for row in poll_rows:
+        peer_value = row["meanPeerDeviation"]
+        row["atypicalSignal"] = bool(
+            threshold is not None
+            and peer_value is not None
+            and row["peerComparisonCount"] >= 2
+            and float(peer_value) >= threshold
+        )
+
+    institutes = []
+    institute_names = sorted({p.get("institute", "Instituto não identificado") for p in eligible}, key=norm)
+    for institute in institute_names:
+        reduced = [
+            poll for poll in eligible
+            if norm(poll.get("institute", "")) != norm(institute)
+        ]
+        alternative = aggregate_first_round(reduced, target)
+        deltas, max_shift, mean_shift = summarize_shift(alternative)
+        members = [p for p in eligible if norm(p.get("institute", "")) == norm(institute)]
+        institutes.append({
+            "institute": institute,
+            "pollCount": len(members),
+            "maxAbsoluteShift": max_shift,
+            "meanAbsoluteShift": mean_shift,
+            "candidateShifts": deltas,
+        })
+
+    return {
+        "status": "ok",
+        "pollCount": len(eligible),
+        "instituteCount": len(institutes),
+        "peerWindowDays": peer_window_days,
+        "atypicalThreshold": round(threshold, 2) if threshold is not None else None,
+        "polls": poll_rows,
+        "institutes": institutes,
+        "correctionApplied": False,
+        "note": (
+            "Influência mede mudança mecânica do agregado ao retirar dados. "
+            "Sinal atípico usa desvio robusto entre pesquisas contemporâneas e não implica erro, viés ou fraude."
+        ),
+    }
+
+
 def parse_pct(text: str) -> float | None:
     m = re.search(r"(\d{1,2}(?:[\.,]\d{1,2})?)\s*%", text or "")
     return float(m.group(1).replace(",", ".")) if m else None
@@ -943,6 +1101,7 @@ def main() -> None:
     calibration = build_calibration_payload(first_round, now)
     composition = response_composition(first_round, now.date())
     sensitivity = sensitivity_analysis(first_round, now.date())
+    influence = influence_analysis(first_round, now.date())
     (DATA / "calibration.json").write_text(
         json.dumps(calibration, ensure_ascii=False, indent=2) + "\n",
         "utf-8",
@@ -990,7 +1149,7 @@ def main() -> None:
     }
 
     snapshot = {
-        "schemaVersion": 4,
+        "schemaVersion": 5,
         "generatedAt": now.isoformat().replace("+00:00", "Z"),
         "electionDate": ELECTION_DATE.isoformat(),
         "daysToElection": max((ELECTION_DATE - now.date()).days, 0),
@@ -1000,6 +1159,7 @@ def main() -> None:
         "runoffScenarios": runoff,
         "responseComposition": composition,
         "sensitivity": sensitivity,
+        "influence": influence,
         "methodology": {
             "primaryUnit": "pesquisa individual",
             "windowDays": LIVE_WINDOW_DAYS,
@@ -1009,6 +1169,7 @@ def main() -> None:
             "marketUse": "informativo; não entra na média de pesquisas",
             "responseComposition": "categorias não candidatas somente quando identificadas pela fonte; residual não classificado não é indecisão",
             "sensitivity": "leave-one-out por pesquisa + comparação de janelas de 14 e 30 dias; informativo, sem ajuste automático",
+            "influence": "remoção de uma pesquisa ou de um instituto + desvio robusto entre pares contemporâneos; diagnóstico apenas",
         },
         "note": "Leitura estatística de pesquisas públicas. Intervalos e testes de sensibilidade expressam incerteza do agregador e não garantem resultado eleitoral.",
     }
