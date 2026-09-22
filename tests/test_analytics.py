@@ -1,3 +1,4 @@
+# v0.4 pipeline: inclui calibration.json na publicação.
 # Testes determinísticos: sem chamadas de rede.
 import unittest
 from datetime import date, timedelta
