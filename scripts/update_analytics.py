@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import io
 import json
+import hashlib
 import math
 import random
 import re
@@ -849,6 +850,164 @@ def regime_shift_analysis(
     }
 
 
+def regime_evidence_fingerprint(polls: List[dict], target: date) -> str:
+    eligible = [
+        p for p in polls
+        if p["date"] <= target and 0 <= (target - p["date"]).days <= LIVE_WINDOW_DAYS
+    ]
+    rows = []
+    for poll in sorted(
+        eligible,
+        key=lambda p: (
+            p["date"],
+            norm(p.get("institute", "")),
+            p.get("registration") or "",
+            p.get("sample", 0),
+        ),
+    ):
+        rows.append({
+            "date": poll["date"].isoformat(),
+            "institute": norm(poll.get("institute", "")),
+            "registration": poll.get("registration"),
+            "sample": int(poll.get("sample", 0)),
+            "method": norm(poll.get("method", "")),
+            "values": {
+                key: round(float(value), 3)
+                for key, value in sorted(poll.get("values", {}).items())
+            },
+        })
+    payload = json.dumps(rows, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+    return hashlib.sha256(payload.encode("utf-8")).hexdigest()[:20]
+
+
+def apply_regime_persistence(
+    regime: dict,
+    history: List[dict],
+    generated_at: str,
+    max_states: int = 120,
+) -> tuple[dict, List[dict]]:
+    result = json.loads(json.dumps(regime))
+    fingerprint = result.get("evidenceFingerprint") or "unknown"
+    compact_candidates = {}
+
+    for cid, row in result.get("candidates", {}).items():
+        delta = float(row.get("differenceRecentVsPrevious", 0.0))
+        direction = "up" if delta > 0.05 else "down" if delta < -0.05 else "flat"
+        compact_candidates[cid] = {
+            "level": row.get("level", "stable"),
+            "direction": direction,
+            "differenceRecentVsPrevious": round(delta, 2),
+        }
+
+    record = {
+        "generatedAt": generated_at,
+        "evidenceFingerprint": fingerprint,
+        "status": result.get("status", "insufficient-data"),
+        "overall": result.get("overall"),
+        "candidates": compact_candidates,
+    }
+
+    cleaned_history = [
+        item for item in history
+        if isinstance(item, dict) and item.get("evidenceFingerprint")
+    ][-max_states:]
+
+    evidence_changed = (
+        not cleaned_history
+        or cleaned_history[-1].get("evidenceFingerprint") != fingerprint
+    )
+    if evidence_changed:
+        cleaned_history.append(record)
+        cleaned_history = cleaned_history[-max_states:]
+
+    enriched_candidates = {}
+    persistent_count = 0
+    building_count = 0
+
+    for cid, row in result.get("candidates", {}).items():
+        enriched = dict(row)
+        level = row.get("level", "stable")
+        delta = float(row.get("differenceRecentVsPrevious", 0.0))
+        direction = "up" if delta > 0.05 else "down" if delta < -0.05 else "flat"
+        streak = 0
+
+        if level in ("watch", "consistent") and direction != "flat":
+            for state in reversed(cleaned_history):
+                state_row = state.get("candidates", {}).get(cid)
+                if not state_row:
+                    break
+                if state_row.get("level") not in ("watch", "consistent"):
+                    break
+                if state_row.get("direction") != direction:
+                    break
+                streak += 1
+
+        if streak >= 3:
+            persistence_status = "persistent"
+            persistent_signal = True
+            persistent_count += 1
+        elif streak == 2:
+            persistence_status = "building"
+            persistent_signal = False
+            building_count += 1
+        elif streak == 1:
+            persistence_status = "unconfirmed"
+            persistent_signal = False
+        else:
+            persistence_status = "stable"
+            persistent_signal = False
+
+        enriched.update({
+            "persistenceStreak": streak,
+            "persistenceStatus": persistence_status,
+            "persistentSignal": persistent_signal,
+            "persistenceDirection": direction,
+        })
+        enriched_candidates[cid] = enriched
+
+    result["candidates"] = enriched_candidates
+    result["evidenceFingerprint"] = fingerprint
+    result["evidenceChanged"] = evidence_changed
+    result["evidenceStateCount"] = len(cleaned_history)
+    result["persistentCandidateCount"] = persistent_count
+    result["buildingCandidateCount"] = building_count
+    result["persistenceApplied"] = False
+    result["persistenceNote"] = (
+        "Persistência conta apenas conjuntos distintos de pesquisas. Execuções repetidas "
+        "sem nova evidência não avançam o contador. Três estados de evidência consecutivos "
+        "na mesma direção são necessários para marcar um sinal como persistente."
+    )
+    return result, cleaned_history
+
+
+def update_regime_persistence(
+    regime: dict,
+    polls: List[dict],
+    now: datetime,
+) -> dict:
+    path = DATA / "regime-history.json"
+    history = []
+    if path.exists():
+        try:
+            loaded = json.loads(path.read_text("utf-8"))
+            if isinstance(loaded, list):
+                history = loaded
+        except Exception:
+            history = []
+
+    regime["evidenceFingerprint"] = regime_evidence_fingerprint(polls, now.date())
+    enriched, updated_history = apply_regime_persistence(
+        regime,
+        history,
+        now.isoformat().replace("+00:00", "Z"),
+    )
+    path.write_text(
+        json.dumps(updated_history, ensure_ascii=False, indent=2) + "\n",
+        "utf-8",
+    )
+    return enriched
+
+
 def regime_shadow_validation(
     polls: List[dict],
     minimum_training_polls: int = 12,
@@ -1638,6 +1797,7 @@ def main() -> None:
     sensitivity = sensitivity_analysis(first_round, now.date())
     influence = influence_analysis(first_round, now.date())
     regime_shift = regime_shift_analysis(first_round, now.date())
+    regime_shift = update_regime_persistence(regime_shift, first_round, now)
     (DATA / "calibration.json").write_text(
         json.dumps(calibration, ensure_ascii=False, indent=2) + "\n",
         "utf-8",
@@ -1688,7 +1848,7 @@ def main() -> None:
     }
 
     snapshot = {
-        "schemaVersion": 8,
+        "schemaVersion": 9,
         "generatedAt": now.isoformat().replace("+00:00", "Z"),
         "electionDate": ELECTION_DATE.isoformat(),
         "daysToElection": max((ELECTION_DATE - now.date()).days, 0),
@@ -1711,7 +1871,7 @@ def main() -> None:
             "responseComposition": "categorias não candidatas somente quando identificadas pela fonte; residual não classificado não é indecisão",
             "sensitivity": "leave-one-out por pesquisa + comparação de janelas de 14 e 30 dias; informativo, sem ajuste automático",
             "influence": "remoção de uma pesquisa ou de um instituto + desvio robusto entre pares contemporâneos; diagnóstico apenas",
-            "regimeShift": "comparação entre últimos 7 dias e bloco de 8 a 30 dias; leitura adaptativa apenas em sombra, sem aplicação automática",
+            "regimeShift": "comparação entre últimos 7 dias e bloco de 8 a 30 dias + persistência por estados distintos de evidência; leitura adaptativa apenas em sombra, sem aplicação automática",
         },
         "note": "Leitura estatística de pesquisas públicas. Intervalos e testes de sensibilidade expressam incerteza do agregador e não garantem resultado eleitoral.",
     }
