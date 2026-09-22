@@ -38,7 +38,9 @@ data class RunoffCandidate(
     val name: String,
     val support: Double,
     val intervalLow: Double,
-    val intervalHigh: Double
+    val intervalHigh: Double,
+    val modelIntervalLow: Double,
+    val modelIntervalHigh: Double
 )
 
 data class ResponseComposition(
@@ -110,6 +112,11 @@ data class CandidateUncertainty(
     val bootstrapP10: Double?,
     val bootstrapP50: Double?,
     val bootstrapP90: Double?,
+    val instituteBootstrapP10: Double?,
+    val instituteBootstrapP50: Double?,
+    val instituteBootstrapP90: Double?,
+    val instituteBootstrapHalfWidth: Double,
+    val dominantComponent: String,
     val empiricalErrorQ80: Double?,
     val empiricalSupportBand: String,
     val empiricalSupportBandCount: Int,
@@ -122,6 +129,9 @@ data class CandidateUncertainty(
 data class UncertaintyData(
     val status: String,
     val bootstrapDraws: Int,
+    val instituteBootstrapDraws: Int,
+    val instituteClusterCount: Int,
+    val empiricalCalibrationApplied: Boolean,
     val empiricalErrorQuantileUsed: String,
     val empiricalErrorQ80: Double?,
     val empiricalErrorQ90: Double?,
@@ -137,6 +147,7 @@ data class RunoffScenario(
     val instituteCount: Int,
     val responseComposition: ResponseComposition,
     val pairNormalized: Map<String, Double>,
+    val uncertainty: UncertaintyData,
     val pairNormalizationNote: String
 )
 
