@@ -476,6 +476,185 @@ def fetch_polymarket_signal() -> tuple[dict, dict]:
         return {}, source
 
 
+def _weighted_peer_mean(peers: List[dict], cid: str, reference_date: date) -> tuple[float, int] | None:
+    usable = []
+    institutes = set()
+    for peer in peers:
+        if cid not in peer.get("values", {}):
+            continue
+        distance = abs((peer["date"] - reference_date).days)
+        recency = math.exp(-distance / 5.0)
+        sample_factor = min(max(math.sqrt(max(peer.get("sample", 300), 300) / 2000.0), 0.65), 1.60)
+        weight = recency * sample_factor
+        usable.append((float(peer["values"][cid]), weight))
+        institutes.add(norm(peer.get("institute", "")))
+    if len(usable) < 2 or len(institutes) < 2:
+        return None
+    total = sum(weight for _, weight in usable)
+    if total <= 0:
+        return None
+    return sum(value * weight for value, weight in usable) / total, len(institutes)
+
+
+def build_source_diagnostics(polls: List[dict], peer_window_days: int = 10) -> dict:
+    """Compara cada levantamento com pesquisas contemporâneas de OUTROS institutos.
+
+    É um diagnóstico descritivo. Os resíduos não alteram automaticamente o peso
+    nem corrigem a média corrente.
+    """
+    residuals = []
+    ordered = sorted(polls, key=lambda p: (p["date"], norm(p.get("institute", ""))))
+    for index, poll in enumerate(ordered):
+        peers = [
+            other
+            for j, other in enumerate(ordered)
+            if j != index
+            and norm(other.get("institute", "")) != norm(poll.get("institute", ""))
+            and abs((other["date"] - poll["date"]).days) <= peer_window_days
+        ]
+        for cid, value in poll.get("values", {}).items():
+            peer = _weighted_peer_mean(peers, cid, poll["date"])
+            if peer is None:
+                continue
+            baseline, peer_institutes = peer
+            residuals.append({
+                "institute": poll.get("institute", "Instituto não identificado"),
+                "method": poll.get("method", "não identificado"),
+                "candidateId": cid,
+                "candidateName": NAMES.get(cid, cid.replace("-", " ").title()),
+                "date": poll["date"].isoformat(),
+                "registration": poll.get("registration"),
+                "residual": float(value) - baseline,
+                "absoluteResidual": abs(float(value) - baseline),
+                "peerInstitutes": peer_institutes,
+            })
+
+    def summarize(field: str) -> List[dict]:
+        grouped: Dict[str, List[dict]] = {}
+        for row in residuals:
+            grouped.setdefault(str(row[field]), []).append(row)
+
+        summaries = []
+        for label in sorted(grouped, key=lambda s: norm(s)):
+            rows = grouped[label]
+            registrations = {r["registration"] for r in rows if r.get("registration")}
+            dates = {r["date"] for r in rows}
+            mean_abs = sum(r["absoluteResidual"] for r in rows) / len(rows)
+            mean_signed = sum(r["residual"] for r in rows) / len(rows)
+            variance = sum((r["residual"] - mean_signed) ** 2 for r in rows) / max(len(rows), 1)
+            candidate_offsets = {}
+            by_candidate: Dict[str, List[dict]] = {}
+            for row in rows:
+                by_candidate.setdefault(row["candidateId"], []).append(row)
+            for cid in sorted(by_candidate, key=lambda key: NAMES.get(key, key).lower()):
+                cr = by_candidate[cid]
+                if len(cr) < 2:
+                    continue
+                candidate_offsets[cid] = {
+                    "name": NAMES.get(cid, cid.replace("-", " ").title()),
+                    "comparisons": len(cr),
+                    "meanOffset": round(sum(x["residual"] for x in cr) / len(cr), 2),
+                    "meanAbsoluteDeviation": round(sum(x["absoluteResidual"] for x in cr) / len(cr), 2),
+                }
+            summaries.append({
+                "label": label,
+                "pollCount": len(registrations) if registrations else len(dates),
+                "comparisonCount": len(rows),
+                "meanOffset": round(mean_signed, 2),
+                "meanAbsoluteDeviation": round(mean_abs, 2),
+                "residualSd": round(math.sqrt(max(variance, 0.0)), 2),
+                "candidateOffsets": candidate_offsets,
+            })
+        return summaries
+
+    return {
+        "peerWindowDays": peer_window_days,
+        "comparisonCount": len(residuals),
+        "institutes": summarize("institute"),
+        "methods": summarize("method"),
+    }
+
+
+def rolling_validation(polls: List[dict], minimum_training_polls: int = 4) -> dict:
+    """Valida retrospectivamente o agregado contra a próxima pesquisa publicada.
+
+    O alvo é a própria pesquisa seguinte, não o resultado da eleição. Isso mede
+    estabilidade/erro operacional do agregador, sem produzir previsão eleitoral.
+    """
+    errors = []
+    covered = 0
+    cases = 0
+    ordered = sorted(polls, key=lambda p: (p["date"], norm(p.get("institute", ""))))
+
+    for heldout in ordered:
+        training = [p for p in ordered if p["date"] < heldout["date"]]
+        if not training:
+            continue
+        target = heldout["date"] - timedelta(days=1)
+        aggregate = aggregate_first_round(training, target)
+        if aggregate["pollCount"] < minimum_training_polls or aggregate["instituteCount"] < 2:
+            continue
+
+        comparable = 0
+        for cid, observed in heldout.get("values", {}).items():
+            estimate = aggregate["candidates"].get(cid)
+            if estimate is None:
+                continue
+            error = float(observed) - float(estimate["support"])
+            errors.append(abs(error))
+            comparable += 1
+            if estimate["low"] <= float(observed) <= estimate["high"]:
+                covered += 1
+        if comparable >= 2:
+            cases += 1
+
+    if not errors:
+        return {
+            "status": "insufficient-data",
+            "caseCount": 0,
+            "comparisonCount": 0,
+            "meanAbsoluteError": None,
+            "medianAbsoluteError": None,
+            "intervalCoverage": None,
+        }
+
+    sorted_errors = sorted(errors)
+    middle = len(sorted_errors) // 2
+    if len(sorted_errors) % 2:
+        median = sorted_errors[middle]
+    else:
+        median = (sorted_errors[middle - 1] + sorted_errors[middle]) / 2.0
+
+    return {
+        "status": "ok",
+        "caseCount": cases,
+        "comparisonCount": len(errors),
+        "meanAbsoluteError": round(sum(errors) / len(errors), 2),
+        "medianAbsoluteError": round(median, 2),
+        "intervalCoverage": round(100.0 * covered / len(errors), 1),
+        "target": "próxima pesquisa publicada",
+        "note": "Validação interna do agregador; não mede acerto do resultado eleitoral.",
+    }
+
+
+def build_calibration_payload(polls: List[dict], now: datetime) -> dict:
+    source_diagnostics = build_source_diagnostics(polls)
+    validation = rolling_validation(polls)
+    return {
+        "schemaVersion": 1,
+        "generatedAt": now.isoformat().replace("+00:00", "Z"),
+        "correctionApplied": False,
+        "correctionPolicy": "diagnóstico somente; nenhum ajuste por instituto ou método altera a média atual",
+        "sourceDiagnostics": source_diagnostics,
+        "rollingValidation": validation,
+        "historicalElectionBacktest": {
+            "status": "not-applied",
+            "correctionApplied": False,
+            "note": "Ajustes históricos só serão considerados após existir uma base histórica reproduzível e validada separadamente.",
+        },
+    }
+
+
 def quality_label(stats: dict) -> str:
     polls = stats["pollCount"]
     institutes = stats["instituteCount"]
@@ -555,6 +734,12 @@ def main() -> None:
     agg = aggregate_first_round(first_round, now.date())
     if not agg["candidates"]:
         raise SystemExit("Nenhuma pesquisa de primeiro turno disponível para a leitura.")
+
+    calibration = build_calibration_payload(first_round, now)
+    (DATA / "calibration.json").write_text(
+        json.dumps(calibration, ensure_ascii=False, indent=2) + "\n",
+        "utf-8",
+    )
 
     history_path = DATA / "analytics-history.json"
     previous_history = json.loads(history_path.read_text("utf-8")) if history_path.exists() else []
