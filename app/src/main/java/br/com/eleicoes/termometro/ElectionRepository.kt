@@ -80,6 +80,53 @@ class ElectionRepository {
         )
     }
 
+    private fun parseInfluence(obj: JSONObject?): InfluenceData {
+        val root = obj ?: JSONObject()
+        val pollsArray = root.optJSONArray("polls") ?: JSONArray()
+        val institutesArray = root.optJSONArray("institutes") ?: JSONArray()
+
+        val polls = List(pollsArray.length()) { i ->
+            val item = pollsArray.getJSONObject(i)
+            PollInfluence(
+                date = item.optString("date"),
+                institute = item.optString("institute", "Instituto não identificado"),
+                sample = item.optInt("sample", 0),
+                method = item.optString("method", "não identificado"),
+                registration = item.optString("registration").takeIf { it.isNotBlank() && it != "null" },
+                verifiedTse = item.optBoolean("verifiedTse", false),
+                maxAbsoluteShift = item.optDouble("maxAbsoluteShift", 0.0),
+                meanAbsoluteShift = item.optDouble("meanAbsoluteShift", 0.0),
+                candidateShifts = readDoubleMap(item.optJSONObject("candidateShifts")),
+                peerComparisonCount = item.optInt("peerComparisonCount", 0),
+                meanPeerDeviation = if (item.isNull("meanPeerDeviation")) null else item.optDouble("meanPeerDeviation"),
+                atypicalSignal = item.optBoolean("atypicalSignal", false)
+            )
+        }
+
+        val institutes = List(institutesArray.length()) { i ->
+            val item = institutesArray.getJSONObject(i)
+            InstituteInfluence(
+                institute = item.optString("institute", "Instituto não identificado"),
+                pollCount = item.optInt("pollCount", 0),
+                maxAbsoluteShift = item.optDouble("maxAbsoluteShift", 0.0),
+                meanAbsoluteShift = item.optDouble("meanAbsoluteShift", 0.0),
+                candidateShifts = readDoubleMap(item.optJSONObject("candidateShifts"))
+            )
+        }
+
+        return InfluenceData(
+            status = root.optString("status", "insufficient-data"),
+            pollCount = root.optInt("pollCount", 0),
+            instituteCount = root.optInt("instituteCount", 0),
+            peerWindowDays = root.optInt("peerWindowDays", 10),
+            atypicalThreshold = if (root.isNull("atypicalThreshold")) null else root.optDouble("atypicalThreshold"),
+            polls = polls,
+            institutes = institutes,
+            correctionApplied = root.optBoolean("correctionApplied", false),
+            note = root.optString("note")
+        )
+    }
+
     private fun parseSnapshot(root: JSONObject): Snapshot {
         val q = root.optJSONObject("quality") ?: JSONObject()
         val quality = QualityInfo(
@@ -159,6 +206,7 @@ class ElectionRepository {
             runoffScenarios = runoff,
             responseComposition = parseResponseComposition(root.optJSONObject("responseComposition")),
             sensitivity = parseSensitivity(root.optJSONObject("sensitivity")),
+            influence = parseInfluence(root.optJSONObject("influence")),
             note = root.optString("note", "Leitura estatística de pesquisas públicas.")
         )
     }
