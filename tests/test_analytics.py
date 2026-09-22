@@ -1,3 +1,4 @@
+# schema v8: regime shift shadow model.
 # pipeline schema v7 final.
 # schema v7: institute-cluster bootstrap.
 # pipeline schema v6 final.
@@ -26,6 +27,8 @@ from scripts.update_analytics import (
     bootstrap_current_support,
     cluster_bootstrap_current_support,
     aggregate_runoff_table,
+    regime_shift_analysis,
+    regime_shadow_validation,
     percentile,
 )
 
@@ -413,6 +416,93 @@ class AnalyticsParserTests(unittest.TestCase):
         self.assertIsNotNone(scenario)
         self.assertFalse(scenario["uncertainty"]["empiricalCalibrationApplied"])
         self.assertEqual(scenario["uncertainty"]["empiricalErrorQuantileUsed"], "none")
+
+
+    def test_regime_shift_stable_series_does_not_trigger(self):
+        polls = []
+        start = date(2026, 8, 25)
+        for idx in range(16):
+            polls.append({
+                "date": start + timedelta(days=idx * 2),
+                "institute": ["A", "B", "C", "D"][idx % 4],
+                "sample": 2000,
+                "method": "Presencial",
+                "registration": f"BR-39{idx:03d}/2026",
+                "verifiedTse": False,
+                "values": {
+                    "lula": 40.0 + (idx % 3 - 1) * 0.2,
+                    "flavio-bolsonaro": 35.0 + (idx % 2) * 0.2,
+                },
+                "nonCandidate": {},
+            })
+        result = regime_shift_analysis(polls, date(2026, 9, 22))
+        self.assertEqual(result["status"], "ok")
+        self.assertEqual(result["overall"], "stable")
+        self.assertFalse(result["adaptiveApplied"])
+        self.assertTrue(all(row["level"] == "stable" for row in result["candidates"].values()))
+
+    def test_regime_shift_detects_consistent_recent_level_change(self):
+        polls = []
+        older_start = date(2026, 8, 24)
+        for idx in range(10):
+            polls.append({
+                "date": older_start + timedelta(days=idx * 2),
+                "institute": ["A", "B", "C", "D", "E"][idx % 5],
+                "sample": 2000,
+                "method": "Presencial",
+                "registration": f"BR-40{idx:03d}/2026",
+                "verifiedTse": False,
+                "values": {"lula": 39.0, "flavio-bolsonaro": 36.0},
+                "nonCandidate": {},
+            })
+        for idx, institute in enumerate(["A", "B", "C", "D", "E"]):
+            polls.append({
+                "date": date(2026, 9, 17 + idx),
+                "institute": institute,
+                "sample": 2200,
+                "method": "Presencial",
+                "registration": f"BR-41{idx:03d}/2026",
+                "verifiedTse": False,
+                "values": {"lula": 42.0 + idx * 0.1, "flavio-bolsonaro": 33.0 - idx * 0.1},
+                "nonCandidate": {},
+            })
+        result = regime_shift_analysis(polls, date(2026, 9, 22))
+        self.assertEqual(result["status"], "ok")
+        self.assertIn(result["overall"], {"watch", "consistent"})
+        self.assertFalse(result["adaptiveApplied"])
+        self.assertGreater(result["candidates"]["lula"]["differenceRecentVsPrevious"], 1.5)
+        self.assertGreaterEqual(result["candidates"]["lula"]["instituteConsistency"], 0.7)
+        self.assertGreater(
+            result["candidates"]["lula"]["shadowAdaptiveSupport"],
+            result["candidates"]["lula"]["currentSupport"],
+        )
+
+    def test_regime_shadow_validation_never_auto_applies(self):
+        polls = []
+        start = date(2026, 7, 1)
+        for idx in range(45):
+            phase = idx // 15
+            lula = [38.0, 40.0, 42.0][phase]
+            flavio = [37.0, 35.5, 34.0][phase]
+            polls.append({
+                "date": start + timedelta(days=idx * 2),
+                "institute": ["A", "B", "C", "D", "E"][idx % 5],
+                "sample": 2000,
+                "method": "Online",
+                "registration": f"BR-42{idx:03d}/2026",
+                "verifiedTse": False,
+                "values": {
+                    "lula": lula + (idx % 3 - 1) * 0.2,
+                    "flavio-bolsonaro": flavio + (idx % 2) * 0.2,
+                },
+                "nonCandidate": {},
+            })
+        result = regime_shadow_validation(polls)
+        self.assertFalse(result["adaptiveApplied"])
+        self.assertIn(result["status"], {"ok", "insufficient-data"})
+        if result["status"] == "ok":
+            self.assertIsNotNone(result["baselineMeanAbsoluteError"])
+            self.assertIsNotNone(result["shadowMeanAbsoluteError"])
 
 
 if __name__ == "__main__":
