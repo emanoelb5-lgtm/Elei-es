@@ -15,12 +15,14 @@ class ElectionRepository {
         val polls = getJson("$base/polls.json?t=$nonce")
         val calibration = getJson("$base/calibration.json?t=$nonce")
         val historicalBacktest = getJson("$base/historical-backtest.json?t=$nonce")
+        val modelLab = runCatching { getJson("$base/model-lab.json?t=$nonce") }.getOrNull()
         return DashboardData(
             snapshot = parseSnapshot(JSONObject(latest)),
             history = parseHistory(JSONArray(history)),
             polls = parsePolls(JSONObject(polls)),
             calibration = parseCalibration(JSONObject(calibration)),
-            historicalBacktests = parseHistoricalBacktests(JSONObject(historicalBacktest))
+            historicalBacktests = parseHistoricalBacktests(JSONObject(historicalBacktest)),
+            modelLab = modelLab?.let { parseModelLab(JSONObject(it)) }
         )
     }
 
@@ -232,6 +234,54 @@ class ElectionRepository {
                 }
             )
         }
+    }
+
+    private fun parseModelLab(root: JSONObject): ModelLabData {
+        val variantsArray = root.optJSONArray("variants") ?: JSONArray()
+        val variants = List(variantsArray.length()) { i ->
+            val item = variantsArray.getJSONObject(i)
+            val params = item.optJSONObject("parameters") ?: JSONObject()
+            val historical = item.optJSONObject("historical") ?: JSONObject()
+            val studiesArray = historical.optJSONArray("studies") ?: JSONArray()
+            val current = item.optJSONObject("currentRolling") ?: JSONObject()
+            val delta = item.optJSONObject("deltaVsProduction") ?: JSONObject()
+
+            ModelVariantDiagnostic(
+                id = item.optString("id"),
+                label = item.optString("label"),
+                decayDays = if (params.isNull("decayDays")) null else params.optDouble("decayDays"),
+                sampleWeight = params.optBoolean("sampleWeight", false),
+                repeatPenalty = params.optBoolean("repeatPenalty", false),
+                historicalComparisonCount = historical.optInt("comparisonCount", 0),
+                historicalMae = if (historical.isNull("pooledMeanAbsoluteError")) null else historical.optDouble("pooledMeanAbsoluteError"),
+                historicalStudies = List(studiesArray.length()) { j ->
+                    val study = studiesArray.getJSONObject(j)
+                    ModelStudyMetric(
+                        year = study.optInt("year", 0),
+                        comparisonCount = study.optInt("comparisonCount", 0),
+                        meanAbsoluteError = if (study.isNull("meanAbsoluteError")) null else study.optDouble("meanAbsoluteError")
+                    )
+                },
+                currentCaseCount = current.optInt("caseCount", 0),
+                currentComparisonCount = current.optInt("comparisonCount", 0),
+                currentMae = if (current.isNull("meanAbsoluteError")) null else current.optDouble("meanAbsoluteError"),
+                historicalDeltaVsProduction = if (delta.isNull("historicalMae")) null else delta.optDouble("historicalMae"),
+                currentDeltaVsProduction = if (delta.isNull("currentRollingMae")) null else delta.optDouble("currentRollingMae"),
+                promotionCandidate = item.optBoolean("promotionCandidate", false)
+            )
+        }
+
+        val candidatesArray = root.optJSONArray("promotionCandidates") ?: JSONArray()
+        val promotionCandidates = List(candidatesArray.length()) { i -> candidatesArray.optString(i) }
+
+        return ModelLabData(
+            productionModelId = root.optString("productionModelId", "current-v04"),
+            automaticPromotion = root.optBoolean("automaticPromotion", false),
+            promotionPolicy = root.optString("promotionPolicy"),
+            promotionCandidates = promotionCandidates,
+            variants = variants,
+            note = root.optString("note")
+        )
     }
 
     private fun readDoubleMap(obj: JSONObject?): Map<String, Double> {
