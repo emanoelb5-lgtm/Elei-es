@@ -1,6 +1,6 @@
 # Testes determinísticos: sem chamadas de rede.
 import unittest
-from datetime import date
+from datetime import date, timedelta
 
 from scripts.update_analytics import (
     parse_metadata,
@@ -125,9 +125,10 @@ class AnalyticsParserTests(unittest.TestCase):
 
     def test_rolling_validation_reports_error_metrics(self):
         polls = []
+        base_date = date(2026, 8, 1)
         for idx in range(8):
             polls.append({
-                "date": date(2026, 8, 1 + idx * 5),
+                "date": base_date + timedelta(days=idx * 5),
                 "institute": ["A", "B", "C", "D"][idx % 4],
                 "sample": 2000,
                 "method": "Presencial",
