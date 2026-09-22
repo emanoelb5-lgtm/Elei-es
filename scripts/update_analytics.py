@@ -35,7 +35,8 @@ TSE_PACKAGE_API = "https://dadosabertos.tse.jus.br/api/3/action/package_show?id=
 TSE_RESOURCE_ID = "769a663e-12c5-489e-a9c8-04633c2d57a3"
 POLY_EVENT = "https://gamma-api.polymarket.com/events/slug/brazil-presidential-election"
 LIVE_WINDOW_DAYS = 30
-HISTORY_DAYS = 90\n# Alterações neste arquivo disparam a coleta v3 pelo GitHub Actions.
+HISTORY_DAYS = 90
+# Alterações neste arquivo disparam a coleta v3 pelo GitHub Actions.
 
 ALIASES = {
     "lula": ["lula", "luiz inácio lula da silva", "luiz inacio lula da silva"],
