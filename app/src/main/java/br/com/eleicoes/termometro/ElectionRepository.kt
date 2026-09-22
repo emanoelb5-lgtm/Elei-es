@@ -141,6 +141,11 @@ class ElectionRepository {
                 bootstrapP10 = if (item.isNull("bootstrapP10")) null else item.optDouble("bootstrapP10"),
                 bootstrapP50 = if (item.isNull("bootstrapP50")) null else item.optDouble("bootstrapP50"),
                 bootstrapP90 = if (item.isNull("bootstrapP90")) null else item.optDouble("bootstrapP90"),
+                instituteBootstrapP10 = if (item.isNull("instituteBootstrapP10")) null else item.optDouble("instituteBootstrapP10"),
+                instituteBootstrapP50 = if (item.isNull("instituteBootstrapP50")) null else item.optDouble("instituteBootstrapP50"),
+                instituteBootstrapP90 = if (item.isNull("instituteBootstrapP90")) null else item.optDouble("instituteBootstrapP90"),
+                instituteBootstrapHalfWidth = item.optDouble("instituteBootstrapHalfWidth", 0.0),
+                dominantComponent = item.optString("dominantComponent"),
                 empiricalErrorQ80 = if (item.isNull("empiricalErrorQ80")) null else item.optDouble("empiricalErrorQ80"),
                 empiricalSupportBand = item.optString("empiricalSupportBand"),
                 empiricalSupportBandCount = item.optInt("empiricalSupportBandCount", 0),
@@ -154,6 +159,9 @@ class ElectionRepository {
         return UncertaintyData(
             status = root.optString("status", "insufficient-data"),
             bootstrapDraws = root.optInt("bootstrapDraws", 0),
+            instituteBootstrapDraws = root.optInt("instituteBootstrapDraws", 0),
+            instituteClusterCount = root.optInt("instituteClusterCount", 0),
+            empiricalCalibrationApplied = root.optBoolean("empiricalCalibrationApplied", false),
             empiricalErrorQuantileUsed = root.optString("empiricalErrorQuantileUsed"),
             empiricalErrorQ80 = if (root.isNull("empiricalErrorQ80")) null else root.optDouble("empiricalErrorQ80"),
             empiricalErrorQ90 = if (root.isNull("empiricalErrorQ90")) null else root.optDouble("empiricalErrorQ90"),
@@ -221,13 +229,16 @@ class ElectionRepository {
                             name = c.optString("name"),
                             support = c.optDouble("support", 0.0),
                             intervalLow = c.optDouble("intervalLow", 0.0),
-                            intervalHigh = c.optDouble("intervalHigh", 0.0)
+                            intervalHigh = c.optDouble("intervalHigh", 0.0),
+                            modelIntervalLow = c.optDouble("modelIntervalLow", c.optDouble("intervalLow", 0.0)),
+                            modelIntervalHigh = c.optDouble("modelIntervalHigh", c.optDouble("intervalHigh", 0.0))
                         )
                     },
                     pollCount = scenario.optInt("pollCount", 0),
                     instituteCount = scenario.optInt("instituteCount", 0),
                     responseComposition = parseResponseComposition(scenario.optJSONObject("responseComposition")),
                     pairNormalized = readDoubleMap(scenario.optJSONObject("pairNormalized")),
+                    uncertainty = parseUncertainty(scenario.optJSONObject("uncertainty")),
                     pairNormalizationNote = scenario.optString("pairNormalizationNote")
                 )
             }
