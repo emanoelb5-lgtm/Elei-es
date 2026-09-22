@@ -86,7 +86,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           VERSION: ${{ steps.meta.outputs.version }}
         run: |
-          NOTES='v0.3.0 amplia o aplicativo com agregação de pesquisas individuais, deduplicação por registro, ponderação por recência e amostra, intervalos de incerteza, histórico de até 90 dias, tendência observada em 5/15/30/60/90 dias, cenários de segundo turno separados, painel de qualidade e mercado de previsão exibido apenas como sinal externo. Mantém a mesma assinatura estável da v0.2.0.'
+          NOTES='v0.4.0 adiciona diagnóstico de instituto e método, comparação contra pesquisas contemporâneas de outros institutos, validação retrospectiva do agregador contra a próxima pesquisa publicada e uma nova aba Diagnóstico. Nenhuma correção por fonte é aplicada automaticamente à média atual; o backtest eleitoral histórico permanece separado até existir base reproduzível validada. Mantém a assinatura estável introduzida na v0.2.0.'
           APK="dist/Termometro-Eleicoes-2026-v${VERSION}.apk"
           TAG="v${VERSION}"
           if gh release view "$TAG" >/dev/null 2>&1; then
