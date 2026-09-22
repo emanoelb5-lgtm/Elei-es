@@ -14,11 +14,13 @@ class ElectionRepository {
         val history = getJson("$base/analytics-history.json?t=$nonce")
         val polls = getJson("$base/polls.json?t=$nonce")
         val calibration = getJson("$base/calibration.json?t=$nonce")
+        val historicalBacktest = getJson("$base/historical-backtest.json?t=$nonce")
         return DashboardData(
             snapshot = parseSnapshot(JSONObject(latest)),
             history = parseHistory(JSONArray(history)),
             polls = parsePolls(JSONObject(polls)),
-            calibration = parseCalibration(JSONObject(calibration))
+            calibration = parseCalibration(JSONObject(calibration)),
+            historicalBacktests = parseHistoricalBacktests(JSONObject(historicalBacktest))
         )
     }
 
@@ -202,6 +204,34 @@ class ElectionRepository {
             historicalBacktestStatus = historical.optString("status", "not-applied"),
             historicalBacktestNote = historical.optString("note")
         )
+    }
+
+    private fun parseHistoricalBacktests(root: JSONObject): List<HistoricalBacktestStudy> {
+        val array = root.optJSONArray("studies") ?: JSONArray()
+        return List(array.length()) { i ->
+            val item = array.getJSONObject(i)
+            val hs = item.optJSONArray("horizons") ?: JSONArray()
+            HistoricalBacktestStudy(
+                year = item.optInt("year", 0),
+                round = item.optString("round"),
+                status = item.optString("status"),
+                pollCountTotal = item.optInt("pollCountTotal", 0),
+                averageWeightedMae = if (item.isNull("averageWeightedMae")) null else item.optDouble("averageWeightedMae"),
+                averageSimpleMae = if (item.isNull("averageSimpleMae")) null else item.optDouble("averageSimpleMae"),
+                correctionApplied = item.optBoolean("correctionApplied", false),
+                note = item.optString("note"),
+                horizons = List(hs.length()) { j ->
+                    val h = hs.getJSONObject(j)
+                    HistoricalHorizon(
+                        daysBeforeElection = h.optInt("daysBeforeElection", 0),
+                        pollCount = h.optInt("pollCount", 0),
+                        instituteCount = h.optInt("instituteCount", 0),
+                        weightedMae = if (h.isNull("weightedMae")) null else h.optDouble("weightedMae"),
+                        simpleMae = if (h.isNull("simpleMae")) null else h.optDouble("simpleMae")
+                    )
+                }
+            )
+        }
     }
 
     private fun readDoubleMap(obj: JSONObject?): Map<String, Double> {
