@@ -399,6 +399,7 @@ private fun PollRecordCard(poll: PollRecord, candidates: List<Candidate>) {
 @Composable
 private fun DiagnosticsScreen(data: DashboardData?, loading: Boolean) {
     var mode by remember { mutableIntStateOf(0) }
+    var influenceMode by remember { mutableIntStateOf(0) }
 
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
@@ -428,6 +429,43 @@ private fun DiagnosticsScreen(data: DashboardData?, loading: Boolean) {
                 )
             }
             item { SensitivityCard(data.snapshot.sensitivity, data.snapshot.candidates) }
+
+            item {
+                SectionTitle(
+                    "Influência e sinais atípicos",
+                    "Impacto mecânico no agregado e distância de pesquisas contemporâneas"
+                )
+            }
+            item { InfluenceSummaryCard(data.snapshot.influence) }
+            item {
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    FilterChip(
+                        selected = influenceMode == 0,
+                        onClick = { influenceMode = 0 },
+                        label = { Text("Pesquisas") }
+                    )
+                    FilterChip(
+                        selected = influenceMode == 1,
+                        onClick = { influenceMode = 1 },
+                        label = { Text("Institutos") }
+                    )
+                }
+            }
+            if (influenceMode == 0) {
+                items(
+                    data.snapshot.influence.polls,
+                    key = { "poll-influence-${it.registration ?: "${it.date}-${it.institute}-${it.sample}"}" }
+                ) { row ->
+                    PollInfluenceCard(row, data.snapshot.candidates)
+                }
+            } else {
+                items(
+                    data.snapshot.influence.institutes,
+                    key = { "institute-influence-${it.institute}" }
+                ) { row ->
+                    InstituteInfluenceCard(row, data.snapshot.candidates)
+                }
+            }
 
             item {
                 SectionTitle(
@@ -1014,6 +1052,145 @@ private fun SensitivityCard(sensitivity: SensitivityData, candidates: List<Candi
                 Text("Ainda não há pesquisas suficientes para este teste.", color = Muted)
             }
             Text(sensitivity.note, color = Muted, fontSize = 11.sp, lineHeight = 16.sp)
+        }
+    }
+}
+
+@Composable
+private fun InfluenceSummaryCard(influence: InfluenceData) {
+    Card(
+        shape = RoundedCornerShape(22.dp),
+        colors = CardDefaults.cardColors(containerColor = Color(0xFFFFF8E7))
+    ) {
+        Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            Text("Como interpretar", fontWeight = FontWeight.ExtraBold, fontSize = 18.sp)
+            if (influence.status == "ok") {
+                Text(
+                    "${influence.pollCount} pesquisas · ${influence.instituteCount} institutos · pares em ±${influence.peerWindowDays} dias",
+                    color = BrazilBlue,
+                    fontWeight = FontWeight.Bold
+                )
+                influence.atypicalThreshold?.let {
+                    MetricRow("Limiar robusto de desvio nesta janela", "${it.one()} p.p.")
+                }
+            } else {
+                Text("Ainda não há dados suficientes para esse diagnóstico.", color = Muted)
+            }
+            Text(
+                influence.note,
+                color = Muted,
+                fontSize = 11.sp,
+                lineHeight = 16.sp
+            )
+            Text(
+                if (influence.correctionApplied) {
+                    "Há correção automática ativa."
+                } else {
+                    "Nenhum desses sinais altera automaticamente a média."
+                },
+                color = if (influence.correctionApplied) Color(0xFF9A6700) else BrazilGreen,
+                fontSize = 12.sp,
+                fontWeight = FontWeight.Bold
+            )
+        }
+    }
+}
+
+@Composable
+private fun PollInfluenceCard(row: PollInfluence, candidates: List<Candidate>) {
+    Card(
+        shape = RoundedCornerShape(20.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = if (row.atypicalSignal) Color(0xFFFFF8E7) else Color.White
+        )
+    ) {
+        Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            Row(
+                Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.Top
+            ) {
+                Column(Modifier.weight(1f)) {
+                    Text(row.institute, fontWeight = FontWeight.ExtraBold, fontSize = 16.sp)
+                    Text(
+                        "${formatPollDate(row.date)} · amostra ${row.sample}",
+                        color = Muted,
+                        fontSize = 12.sp
+                    )
+                }
+                if (row.atypicalSignal) {
+                    Surface(
+                        color = Color(0xFFFFE8B3),
+                        shape = RoundedCornerShape(50)
+                    ) {
+                        Text(
+                            "SINAL ATÍPICO",
+                            Modifier.padding(horizontal = 9.dp, vertical = 5.dp),
+                            color = Color(0xFF8A5A00),
+                            fontSize = 10.sp,
+                            fontWeight = FontWeight.ExtraBold
+                        )
+                    }
+                }
+            }
+
+            MetricRow("Maior mudança sem esta pesquisa", "${row.maxAbsoluteShift.one()} p.p.")
+            MetricRow("Mudança média entre candidatos", "${row.meanAbsoluteShift.one()} p.p.")
+            row.meanPeerDeviation?.let {
+                MetricRow("Desvio médio vs pares contemporâneos", "${it.one()} p.p.")
+            }
+
+            val shifts = candidates.mapNotNull { candidate ->
+                row.candidateShifts[candidate.id]?.let { candidate to it }
+            }
+            if (shifts.isNotEmpty()) {
+                HorizontalDivider(color = Color(0xFFE8ECE9))
+                shifts.forEach { (candidate, shift) ->
+                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                        Text(candidate.name, color = Muted, fontSize = 12.sp)
+                        Text("${signed(shift)} p.p.", fontWeight = FontWeight.Bold, fontSize = 12.sp)
+                    }
+                }
+            }
+
+            Text(
+                "O sinal atípico descreve distância estatística nesta janela; não significa que a pesquisa esteja errada.",
+                color = Muted,
+                fontSize = 10.sp,
+                lineHeight = 15.sp
+            )
+        }
+    }
+}
+
+@Composable
+private fun InstituteInfluenceCard(row: InstituteInfluence, candidates: List<Candidate>) {
+    Card(
+        shape = RoundedCornerShape(20.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.White)
+    ) {
+        Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            Text(row.institute, fontWeight = FontWeight.ExtraBold, fontSize = 16.sp)
+            Text(
+                "${row.pollCount} pesquisa(s) na janela atual",
+                color = Muted,
+                fontSize = 12.sp
+            )
+            MetricRow("Maior mudança sem o instituto", "${row.maxAbsoluteShift.one()} p.p.")
+            MetricRow("Mudança média entre candidatos", "${row.meanAbsoluteShift.one()} p.p.")
+
+            val shifts = candidates.mapNotNull { candidate ->
+                row.candidateShifts[candidate.id]?.let { candidate to it }
+            }
+            if (shifts.isNotEmpty()) {
+                HorizontalDivider(color = Color(0xFFE8ECE9))
+                shifts.forEach { (candidate, shift) ->
+                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                        Text(candidate.name, color = Muted, fontSize = 12.sp)
+                        Text("${signed(shift)} p.p.", fontWeight = FontWeight.Bold, fontSize = 12.sp)
+                    }
+                }
+            }
         }
     }
 }
