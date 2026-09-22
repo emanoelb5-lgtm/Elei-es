@@ -115,14 +115,21 @@ def response_composition(polls: List[dict], target: date) -> dict:
     category_sums: Dict[str, float] = {}
     category_weights: Dict[str, float] = {}
     candidate_totals = []
+    residual_totals = []
 
     for poll, weight in weighted:
         candidate_total = sum(float(v) for v in poll.get("values", {}).values())
+        non_candidate = {
+            key: float(value)
+            for key, value in poll.get("nonCandidate", {}).items()
+        }
         if 0 <= candidate_total <= 100:
             candidate_totals.append((candidate_total, weight))
+            classified = sum(non_candidate.values())
+            residual_totals.append((max(0.0, 100.0 - candidate_total - classified), weight))
 
-        for key, value in poll.get("nonCandidate", {}).items():
-            category_sums[key] = category_sums.get(key, 0.0) + float(value) * weight
+        for key, value in non_candidate.items():
+            category_sums[key] = category_sums.get(key, 0.0) + value * weight
             category_weights[key] = category_weights.get(key, 0.0) + weight
 
     total_weight = sum(weight for _, weight in candidate_totals)
@@ -135,10 +142,11 @@ def response_composition(polls: List[dict], target: date) -> dict:
         for key in category_sums
         if category_weights.get(key, 0.0) > 0
     }
-    classified_non_candidate = sum(categories.values())
-    residual = None
-    if candidate_share is not None:
-        residual = max(0.0, 100.0 - candidate_share - classified_non_candidate)
+    residual_weight = sum(weight for _, weight in residual_totals)
+    residual = (
+        sum(value * weight for value, weight in residual_totals) / residual_weight
+        if residual_weight > 0 else None
+    )
 
     return {
         "available": bool(categories) or candidate_share is not None,
