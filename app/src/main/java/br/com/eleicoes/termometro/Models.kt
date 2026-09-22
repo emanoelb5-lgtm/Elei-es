@@ -23,6 +23,8 @@ data class SourceInfo(
 data class QualityInfo(
     val pollCount: Int,
     val instituteCount: Int,
+    val methodCount: Int,
+    val registrationCount: Int,
     val verifiedTseCount: Int,
     val averageAgeDays: Double,
     val effectivePolls: Double,
