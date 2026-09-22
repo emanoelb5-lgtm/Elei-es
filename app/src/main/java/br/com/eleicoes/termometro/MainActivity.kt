@@ -444,7 +444,27 @@ private fun DiagnosticsScreen(data: DashboardData?, loading: Boolean) {
                 SourceDiagnosticCard(diagnostic)
             }
 
-            item { HistoricalBacktestCard(data.calibration) }
+            item {
+                SectionTitle(
+                    "Backtest histórico",
+                    "Eleições anteriores usadas apenas como conjunto separado de validação"
+                )
+            }
+            if (data.historicalBacktests.isEmpty()) {
+                item {
+                    Card(shape = RoundedCornerShape(22.dp), colors = CardDefaults.cardColors(containerColor = Color(0xFFFFF8E7))) {
+                        Text(
+                            "Nenhum estudo histórico disponível nesta leitura.",
+                            Modifier.padding(17.dp),
+                            color = Muted
+                        )
+                    }
+                }
+            } else {
+                items(data.historicalBacktests, key = { "historical-${it.year}-${it.round}" }) {
+                    HistoricalBacktestCard(it)
+                }
+            }
         } else if (loading) {
             item { LoadingBlock() }
         }
@@ -567,25 +587,51 @@ private fun SourceDiagnosticCard(diagnostic: SourceDiagnostic) {
 }
 
 @Composable
-private fun HistoricalBacktestCard(calibration: CalibrationData) {
+private fun HistoricalBacktestCard(study: HistoricalBacktestStudy) {
     Card(shape = RoundedCornerShape(22.dp), colors = CardDefaults.cardColors(containerColor = Color(0xFFFFF8E7))) {
-        Column(Modifier.padding(17.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            Text("Backtest eleitoral histórico", fontWeight = FontWeight.ExtraBold, fontSize = 18.sp)
+        Column(Modifier.padding(17.dp), verticalArrangement = Arrangement.spacedBy(9.dp)) {
+            Text("${study.year} · ${study.round}", fontWeight = FontWeight.ExtraBold, fontSize = 18.sp)
             Text(
-                "Status: ${calibration.historicalBacktestStatus}",
-                color = BrazilBlue,
-                fontWeight = FontWeight.Bold
-            )
-            Text(
-                calibration.historicalBacktestNote,
+                "${study.pollCountTotal} pesquisas históricas indexadas",
                 color = Muted,
-                lineHeight = 19.sp
+                fontSize = 12.sp
             )
+            if (study.status == "ok") {
+                study.averageWeightedMae?.let {
+                    MetricRow("MAE médio · ponderado", "${it.one()} p.p.")
+                }
+                study.averageSimpleMae?.let {
+                    MetricRow("MAE médio · média simples", "${it.one()} p.p.")
+                }
+                HorizontalDivider(color = Color(0xFFE8DDBD))
+                Text("Erro por distância da eleição", fontWeight = FontWeight.Bold, fontSize = 13.sp)
+                study.horizons.forEach { horizon ->
+                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                        Text(
+                            "${horizon.daysBeforeElection} dias · ${horizon.pollCount} pesquisas / ${horizon.instituteCount} institutos",
+                            color = Muted,
+                            fontSize = 12.sp,
+                            modifier = Modifier.weight(1f)
+                        )
+                        horizon.weightedMae?.let {
+                            Text("${it.one()} p.p.", fontWeight = FontWeight.Bold, fontSize = 12.sp)
+                        }
+                    }
+                }
+            } else {
+                Text("Dados históricos insuficientes para este estudo.", color = Muted)
+            }
             Text(
-                "Nenhum ajuste derivado de eleições anteriores é aplicado à leitura de 2026 nesta versão.",
+                study.note,
                 color = Muted,
                 fontSize = 12.sp,
                 lineHeight = 17.sp
+            )
+            Text(
+                if (study.correctionApplied) "Há correção histórica ativa." else "Nenhuma correção histórica é aplicada à leitura de 2026.",
+                color = if (study.correctionApplied) Color(0xFF9A6700) else BrazilGreen,
+                fontSize = 12.sp,
+                fontWeight = FontWeight.Bold
             )
         }
     }
