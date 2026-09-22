@@ -1,3 +1,4 @@
+# pipeline schema v6 final.
 # schema v6: advanced uncertainty.
 # schema v5: influence diagnostics.
 # schema v4: composition + sensitivity validation.
