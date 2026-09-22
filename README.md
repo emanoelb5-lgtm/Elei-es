@@ -2,7 +2,7 @@
 
 Aplicativo Android público e experimental para acompanhar **pesquisas presidenciais de 2026**, sua evolução no tempo, incerteza e diferenças entre fontes.
 
-## O que a v0.6.1 faz
+## O que a v0.7.0 faz
 
 - trabalha com **pesquisas individuais** como unidade principal, em vez de somar agregadores;
 - deduplica levantamentos pelo número de registro TSE e, quando necessário, por uma chave de conteúdo;
@@ -76,7 +76,7 @@ Se os testes ou a validação estrutural falharem, os novos dados não são publ
 
 O workflow **Build e publicar APK** compila e assina o APK com a mesma identidade de desenvolvimento estável adotada desde a v0.2.0, permitindo atualização sobre versões posteriores à transição de assinatura.
 
-A release atual é v0.6.1.
+A release atual é v0.7.0.
 
 ## Aviso
 
@@ -159,3 +159,21 @@ O segundo processo reduz a hipótese de independência entre levantamentos do me
 Nos cenários de segundo turno, o aplicativo também usa intervalo analítico, bootstrap por pesquisa e bootstrap por instituto. O piso empírico calibrado no primeiro turno não é reaproveitado nos confrontos, porque a distribuição de erro pode ser diferente.
 
 O schema de data/analytics.json passa a ser v7. Nenhum componente calcula chance de vitória ou previsão própria de resultado eleitoral.
+
+## Mudança de regime v0.7.0
+
+O agregador ganhou um detector de mudança de patamar que compara duas janelas independentes: os últimos 7 dias e o bloco anterior de 8 a 30 dias.
+
+O diagnóstico só é executado quando existem pelo menos 4 pesquisas recentes de 3 institutos e pelo menos 6 pesquisas anteriores de 3 institutos. Para cada candidatura são calculados:
+
+- apoio agregado no bloco recente;
+- apoio agregado no bloco anterior;
+- diferença em pontos percentuais;
+- razão entre o deslocamento e a incerteza combinada das duas janelas;
+- consistência da direção entre os institutos recentes.
+
+O detector classifica cada série como estável, em observação ou com deslocamento consistente. Essa classificação descreve mudança entre blocos de pesquisas e não é uma previsão de resultado eleitoral.
+
+Uma leitura adaptativa é calculada apenas em sombra. Quando há sinal, ela dá peso adicional ao bloco recente, mas não substitui o agregado exibido. Uma validação retrospectiva compara essa versão em sombra com o modelo normal contra a pesquisa seguinte. A adaptação só fica tecnicamente elegível para revisão se houver volume mínimo de casos e redução de pelo menos 0,10 p.p. no erro absoluto médio. Mesmo assim, nenhuma promoção é automática.
+
+O schema de data/analytics.json passa a ser v8.
