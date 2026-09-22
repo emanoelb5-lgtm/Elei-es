@@ -1,0 +1,233 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-22T18:05:43.418275Z",
+  "productionModelId": "current-v04",
+  "automaticPromotion": false,
+  "promotionPolicy": "Uma variante só é sinalizada para revisão se reduzir o MAE em pelo menos 0,10 p.p. no conjunto histórico e na validação corrente, sem piorar nenhum ciclo histórico em mais de 0,10 p.p. Nenhuma promoção é automática.",
+  "promotionCandidates": [],
+  "variants": [
+    {
+      "id": "current-v04",
+      "label": "Modelo atual",
+      "parameters": {
+        "windowDays": 30,
+        "decayDays": 10.0,
+        "sampleWeight": true,
+        "repeatPenalty": true
+      },
+      "historical": {
+        "comparisonCount": 12,
+        "pooledMeanAbsoluteError": 5.05,
+        "studies": [
+          {
+            "year": 2022,
+            "comparisonCount": 6,
+            "meanAbsoluteError": 4.19
+          },
+          {
+            "year": 2018,
+            "comparisonCount": 6,
+            "meanAbsoluteError": 5.92
+          }
+        ]
+      },
+      "currentRolling": {
+        "caseCount": 126,
+        "comparisonCount": 748,
+        "meanAbsoluteError": 1.48,
+        "target": "próxima pesquisa publicada"
+      },
+      "deltaVsProduction": {
+        "historicalMae": 0.0,
+        "currentRollingMae": 0.0
+      },
+      "promotionCandidate": false
+    },
+    {
+      "id": "fast-decay-7",
+      "label": "Recência mais rápida · 7 dias",
+      "parameters": {
+        "windowDays": 30,
+        "decayDays": 7.0,
+        "sampleWeight": true,
+        "repeatPenalty": true
+      },
+      "historical": {
+        "comparisonCount": 12,
+        "pooledMeanAbsoluteError": 4.9,
+        "studies": [
+          {
+            "year": 2022,
+            "comparisonCount": 6,
+            "meanAbsoluteError": 4.09
+          },
+          {
+            "year": 2018,
+            "comparisonCount": 6,
+            "meanAbsoluteError": 5.7
+          }
+        ]
+      },
+      "currentRolling": {
+        "caseCount": 126,
+        "comparisonCount": 748,
+        "meanAbsoluteError": 1.49,
+        "target": "próxima pesquisa publicada"
+      },
+      "deltaVsProduction": {
+        "historicalMae": -0.15,
+        "currentRollingMae": 0.01
+      },
+      "promotionCandidate": false
+    },
+    {
+      "id": "slow-decay-14",
+      "label": "Recência mais lenta · 14 dias",
+      "parameters": {
+        "windowDays": 30,
+        "decayDays": 14.0,
+        "sampleWeight": true,
+        "repeatPenalty": true
+      },
+      "historical": {
+        "comparisonCount": 12,
+        "pooledMeanAbsoluteError": 5.2,
+        "studies": [
+          {
+            "year": 2022,
+            "comparisonCount": 6,
+            "meanAbsoluteError": 4.3
+          },
+          {
+            "year": 2018,
+            "comparisonCount": 6,
+            "meanAbsoluteError": 6.11
+          }
+        ]
+      },
+      "currentRolling": {
+        "caseCount": 126,
+        "comparisonCount": 748,
+        "meanAbsoluteError": 1.47,
+        "target": "próxima pesquisa publicada"
+      },
+      "deltaVsProduction": {
+        "historicalMae": 0.15,
+        "currentRollingMae": -0.01
+      },
+      "promotionCandidate": false
+    },
+    {
+      "id": "no-sample-weight",
+      "label": "Sem peso por amostra",
+      "parameters": {
+        "windowDays": 30,
+        "decayDays": 10.0,
+        "sampleWeight": false,
+        "repeatPenalty": true
+      },
+      "historical": {
+        "comparisonCount": 12,
+        "pooledMeanAbsoluteError": 5.09,
+        "studies": [
+          {
+            "year": 2022,
+            "comparisonCount": 6,
+            "meanAbsoluteError": 4.35
+          },
+          {
+            "year": 2018,
+            "comparisonCount": 6,
+            "meanAbsoluteError": 5.83
+          }
+        ]
+      },
+      "currentRolling": {
+        "caseCount": 126,
+        "comparisonCount": 748,
+        "meanAbsoluteError": 1.45,
+        "target": "próxima pesquisa publicada"
+      },
+      "deltaVsProduction": {
+        "historicalMae": 0.04,
+        "currentRollingMae": -0.03
+      },
+      "promotionCandidate": false
+    },
+    {
+      "id": "no-repeat-penalty",
+      "label": "Sem controle de repetição",
+      "parameters": {
+        "windowDays": 30,
+        "decayDays": 10.0,
+        "sampleWeight": true,
+        "repeatPenalty": false
+      },
+      "historical": {
+        "comparisonCount": 12,
+        "pooledMeanAbsoluteError": 4.99,
+        "studies": [
+          {
+            "year": 2022,
+            "comparisonCount": 6,
+            "meanAbsoluteError": 3.91
+          },
+          {
+            "year": 2018,
+            "comparisonCount": 6,
+            "meanAbsoluteError": 6.08
+          }
+        ]
+      },
+      "currentRolling": {
+        "caseCount": 126,
+        "comparisonCount": 748,
+        "meanAbsoluteError": 1.47,
+        "target": "próxima pesquisa publicada"
+      },
+      "deltaVsProduction": {
+        "historicalMae": -0.06,
+        "currentRollingMae": -0.01
+      },
+      "promotionCandidate": false
+    },
+    {
+      "id": "simple-mean",
+      "label": "Média simples",
+      "parameters": {
+        "windowDays": 30,
+        "decayDays": null,
+        "sampleWeight": false,
+        "repeatPenalty": false
+      },
+      "historical": {
+        "comparisonCount": 12,
+        "pooledMeanAbsoluteError": 5.77,
+        "studies": [
+          {
+            "year": 2022,
+            "comparisonCount": 6,
+            "meanAbsoluteError": 4.57
+          },
+          {
+            "year": 2018,
+            "comparisonCount": 6,
+            "meanAbsoluteError": 6.97
+          }
+        ]
+      },
+      "currentRolling": {
+        "caseCount": 126,
+        "comparisonCount": 748,
+        "meanAbsoluteError": 1.46,
+        "target": "próxima pesquisa publicada"
+      },
+      "deltaVsProduction": {
+        "historicalMae": 0.72,
+        "currentRollingMae": -0.02
+      },
+      "promotionCandidate": false
+    }
+  ],
+  "note": "Laboratório técnico de fórmulas. Os resultados avaliam o agregador; não classificam candidatos e não alteram a leitura de 2026 automaticamente."
+}
