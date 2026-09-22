@@ -511,6 +511,12 @@ private fun ModelLabPolicyCard(lab: ModelLabData) {
             )
             Text(lab.promotionPolicy, color = Muted, lineHeight = 19.sp)
             Text(
+                "Nos cartões abaixo, Δ negativo = menor erro que o modelo em produção; Δ positivo = erro maior.",
+                color = Muted,
+                fontSize = 12.sp,
+                lineHeight = 17.sp
+            )
+            Text(
                 if (lab.promotionCandidates.isEmpty()) {
                     "Nenhuma variante atingiu simultaneamente todos os critérios de revisão."
                 } else {
