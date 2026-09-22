@@ -52,6 +52,13 @@ ALIASES = {
     "romeu-zema": ["romeu zema", "zema"],
     "pablo-marcal": ["pablo marçal", "pablo marcal"],
 }
+NON_CANDIDATE_ALIASES = {
+    "blank": ["branco", "brancos", "blank"],
+    "null": ["nulo", "nulos", "null"],
+    "undecided": ["não sabe", "nao sabe", "indeciso", "indecisos", "undecided", "não respondeu", "nao respondeu"],
+    "none": ["nenhum", "nenhuma", "nenhum deles", "nenhuma delas", "none"],
+}
+
 NAMES = {
     "lula": "Lula",
     "flavio-bolsonaro": "Flávio Bolsonaro",
@@ -78,6 +85,135 @@ def candidate_for_label(label: str) -> str | None:
         if norm(alias) in low:
             return cid
     return None
+
+
+def non_candidate_for_label(label: str) -> str | None:
+    low = norm(label)
+    ordered = sorted(
+        ((key, alias) for key, aliases in NON_CANDIDATE_ALIASES.items() for alias in aliases),
+        key=lambda item: len(item[1]),
+        reverse=True,
+    )
+    for key, alias in ordered:
+        if norm(alias) in low:
+            return key
+    return None
+
+
+def response_composition(polls: List[dict], target: date) -> dict:
+    weighted = poll_weights(polls, target)
+    if not weighted:
+        return {
+            "available": False,
+            "candidateShare": None,
+            "categories": {},
+            "residualUnclassified": None,
+            "pollCount": 0,
+            "note": "Sem pesquisas elegíveis para compor respostas não atribuídas a candidatos.",
+        }
+
+    category_sums: Dict[str, float] = {}
+    category_weights: Dict[str, float] = {}
+    candidate_totals = []
+
+    for poll, weight in weighted:
+        candidate_total = sum(float(v) for v in poll.get("values", {}).values())
+        if 0 <= candidate_total <= 100:
+            candidate_totals.append((candidate_total, weight))
+
+        for key, value in poll.get("nonCandidate", {}).items():
+            category_sums[key] = category_sums.get(key, 0.0) + float(value) * weight
+            category_weights[key] = category_weights.get(key, 0.0) + weight
+
+    total_weight = sum(weight for _, weight in candidate_totals)
+    candidate_share = (
+        sum(value * weight for value, weight in candidate_totals) / total_weight
+        if total_weight > 0 else None
+    )
+    categories = {
+        key: round(category_sums[key] / category_weights[key], 2)
+        for key in category_sums
+        if category_weights.get(key, 0.0) > 0
+    }
+    classified_non_candidate = sum(categories.values())
+    residual = None
+    if candidate_share is not None:
+        residual = max(0.0, 100.0 - candidate_share - classified_non_candidate)
+
+    return {
+        "available": bool(categories) or candidate_share is not None,
+        "candidateShare": round(candidate_share, 2) if candidate_share is not None else None,
+        "categories": categories,
+        "residualUnclassified": round(residual, 2) if residual is not None else None,
+        "pollCount": len(weighted),
+        "note": (
+            "Categorias não candidatas são agregadas apenas quando a fonte as identifica. "
+            "Residual não classificado não é tratado como indecisão."
+        ),
+    }
+
+
+def sensitivity_analysis(polls: List[dict], target: date) -> dict:
+    baseline = aggregate_first_round(polls, target)
+    eligible = [
+        p for p in polls
+        if p["date"] <= target and (target - p["date"]).days <= LIVE_WINDOW_DAYS
+    ]
+    if not baseline["candidates"] or len(eligible) < 2:
+        return {
+            "status": "insufficient-data",
+            "pollCount": len(eligible),
+            "maxLeaveOneOutShift": None,
+            "candidates": {},
+            "note": "Dados insuficientes para análise de sensibilidade.",
+        }
+
+    by_candidate: Dict[str, dict] = {}
+    global_max = 0.0
+    for cid, values in baseline["candidates"].items():
+        base = float(values["support"])
+        variants = []
+        for index in range(len(eligible)):
+            reduced = eligible[:index] + eligible[index + 1:]
+            alt = aggregate_first_round(reduced, target)["candidates"].get(cid)
+            if alt is not None:
+                variants.append(float(alt["support"]))
+
+        recent14 = aggregate_first_round(
+            [p for p in polls if p["date"] <= target and (target - p["date"]).days <= 14],
+            target,
+        )["candidates"].get(cid)
+
+        if variants:
+            low = min(variants)
+            high = max(variants)
+            max_shift = max(abs(v - base) for v in variants)
+        else:
+            low = high = base
+            max_shift = 0.0
+
+        global_max = max(global_max, max_shift)
+        by_candidate[cid] = {
+            "baseline": round(base, 2),
+            "leaveOneOutLow": round(low, 2),
+            "leaveOneOutHigh": round(high, 2),
+            "maxLeaveOneOutShift": round(max_shift, 2),
+            "support14Days": round(float(recent14["support"]), 2) if recent14 else None,
+            "difference14Vs30": round(float(recent14["support"]) - base, 2) if recent14 else None,
+        }
+
+    level = "alta" if global_max <= 0.5 else "moderada" if global_max <= 1.5 else "baixa"
+    return {
+        "status": "ok",
+        "pollCount": len(eligible),
+        "maxLeaveOneOutShift": round(global_max, 2),
+        "stability": level,
+        "candidates": by_candidate,
+        "note": (
+            "Teste de robustez: mede a mudança do agregado ao retirar uma pesquisa por vez "
+            "e ao comparar janelas de 14 e 30 dias. Não é previsão de resultado."
+        ),
+    }
 
 
 def parse_pct(text: str) -> float | None:
@@ -209,6 +345,7 @@ def fetch_poll_tables() -> tuple[List[dict], List[List[dict]], dict]:
             continue
         headers = [c.get_text(" ", strip=True) for c in rows[0].find_all(["th", "td"])]
         candidate_columns: Dict[int, str] = {}
+        non_candidate_columns: Dict[int, str] = {}
         sample_index = institute_index = registration_index = None
         for i, label in enumerate(headers):
             low = norm(label)
@@ -221,6 +358,10 @@ def fetch_poll_tables() -> tuple[List[dict], List[List[dict]], dict]:
             cid = candidate_for_label(label)
             if cid:
                 candidate_columns[i] = cid
+            else:
+                response_key = non_candidate_for_label(label)
+                if response_key:
+                    non_candidate_columns[i] = response_key
         if len(set(candidate_columns.values())) < 2:
             continue
 
@@ -233,11 +374,17 @@ def fetch_poll_tables() -> tuple[List[dict], List[List[dict]], dict]:
             if end_date is None:
                 continue
             values: Dict[str, float] = {}
+            non_candidate: Dict[str, float] = {}
             for i, cid in candidate_columns.items():
                 if i < len(cells):
                     value = parse_pct(cells[i])
                     if value is not None:
                         values[cid] = value
+            for i, response_key in non_candidate_columns.items():
+                if i < len(cells):
+                    response_value = parse_pct(cells[i])
+                    if response_value is not None:
+                        non_candidate[response_key] = response_value
             if len(values) < 2:
                 continue
             registration = None
@@ -256,6 +403,7 @@ def fetch_poll_tables() -> tuple[List[dict], List[List[dict]], dict]:
                 "method": method,
                 "registration": registration,
                 "values": values,
+                "nonCandidate": non_candidate,
             })
         if polls:
             parsed_tables.append(polls)
@@ -294,6 +442,7 @@ def dedupe_polls(polls: Iterable[dict], tse_ids: set[str]) -> List[dict]:
                 poll["date"].isoformat(),
                 poll.get("sample", 0),
                 tuple(sorted((k, round(v, 2)) for k, v in poll["values"].items())),
+                tuple(sorted((k, round(v, 2)) for k, v in poll.get("nonCandidate", {}).items())),
             )
 
         current = chosen.get(key)
@@ -395,12 +544,21 @@ def aggregate_runoff_table(polls: List[dict], target: date) -> dict | None:
     if len(candidates) != 2:
         return None
     used = [p for p, _ in weighted]
+    composition = response_composition(polls, target)
+    decided_total = sum(c["support"] for c in candidates)
+    normalized = {
+        c["id"]: round(100.0 * c["support"] / decided_total, 2)
+        for c in candidates
+    } if decided_total > 0 else {}
     return {
         "id": "-vs-".join(sorted(ids)),
         "label": f"{NAMES.get(ids[0], ids[0])} × {NAMES.get(ids[1], ids[1])}",
         "candidates": candidates,
         "pollCount": len(used),
         "instituteCount": len({norm(p["institute"]) for p in used}),
+        "responseComposition": composition,
+        "pairNormalized": normalized,
+        "pairNormalizationNote": "Normalização apenas entre os dois candidatos exibidos; não é projeção de votos válidos.",
     }
 
 
@@ -706,6 +864,7 @@ def serialize_poll(poll: dict, round_name: str) -> dict:
         "verifiedTse": bool(poll.get("verifiedTse")),
         "round": round_name,
         "candidates": {k: round(v, 2) for k, v in poll["values"].items()},
+        "nonCandidate": {k: round(v, 2) for k, v in poll.get("nonCandidate", {}).items()},
     }
 
 
@@ -766,6 +925,8 @@ def main() -> None:
         raise SystemExit("Nenhuma pesquisa de primeiro turno disponível para a leitura.")
 
     calibration = build_calibration_payload(first_round, now)
+    composition = response_composition(first_round, now.date())
+    sensitivity = sensitivity_analysis(first_round, now.date())
     (DATA / "calibration.json").write_text(
         json.dumps(calibration, ensure_ascii=False, indent=2) + "\n",
         "utf-8",
@@ -821,6 +982,8 @@ def main() -> None:
         "sources": [polling_source, tse_source, *reference_sources, market_source],
         "candidates": candidates,
         "runoffScenarios": runoff,
+        "responseComposition": composition,
+        "sensitivity": sensitivity,
         "methodology": {
             "primaryUnit": "pesquisa individual",
             "windowDays": LIVE_WINDOW_DAYS,
@@ -828,8 +991,10 @@ def main() -> None:
             "weighting": "decaimento temporal + tamanho amostral + controle de repetição por instituto",
             "uncertainty": "erro amostral aproximado + heterogeneidade entre pesquisas",
             "marketUse": "informativo; não entra na média de pesquisas",
+            "responseComposition": "categorias não candidatas somente quando identificadas pela fonte; residual não classificado não é indecisão",
+            "sensitivity": "leave-one-out por pesquisa + comparação de janelas de 14 e 30 dias; informativo, sem ajuste automático",
         },
-        "note": "Leitura estatística de pesquisas públicas. Os intervalos expressam incerteza do agregador e não garantem resultado eleitoral.",
+        "note": "Leitura estatística de pesquisas públicas. Intervalos e testes de sensibilidade expressam incerteza do agregador e não garantem resultado eleitoral.",
     }
     (DATA / "analytics.json").write_text(json.dumps(snapshot, ensure_ascii=False, indent=2) + "\n", "utf-8")
 
