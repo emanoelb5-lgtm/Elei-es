@@ -9,6 +9,7 @@ on:
     paths:
       - 'scripts/**'
       - 'requirements.txt'
+      - 'tests/**'
 
 permissions:
   contents: write
@@ -30,6 +31,9 @@ jobs:
           python-version: '3.12'
 
       - run: pip install -r requirements.txt
+
+      - name: Testar parser e agregador
+        run: python -m unittest discover -s tests -v
 
       - name: Atualizar analytics auditáveis
         run: python scripts/update_analytics.py
