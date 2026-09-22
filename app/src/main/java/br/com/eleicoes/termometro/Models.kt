@@ -139,6 +139,44 @@ data class UncertaintyData(
     val note: String
 )
 
+data class RegimeCandidateDiagnostic(
+    val recentSupport: Double,
+    val previousSupport: Double,
+    val currentSupport: Double,
+    val differenceRecentVsPrevious: Double,
+    val signalRatio: Double,
+    val instituteConsistency: Double,
+    val recentInstituteCount: Int,
+    val level: String,
+    val shadowAdaptiveSupport: Double,
+    val shadowRecentWeight: Double
+)
+
+data class RegimeShiftData(
+    val status: String,
+    val overall: String?,
+    val recentDays: Int,
+    val recentPollCount: Int,
+    val recentInstituteCount: Int,
+    val previousPollCount: Int,
+    val previousInstituteCount: Int,
+    val candidates: Map<String, RegimeCandidateDiagnostic>,
+    val adaptiveApplied: Boolean,
+    val note: String
+)
+
+data class RegimeShadowValidation(
+    val status: String,
+    val signalCaseCount: Int,
+    val comparisonCount: Int,
+    val baselineMeanAbsoluteError: Double?,
+    val shadowMeanAbsoluteError: Double?,
+    val differenceShadowVsBaseline: Double?,
+    val promotionEligible: Boolean,
+    val adaptiveApplied: Boolean,
+    val note: String
+)
+
 data class RunoffScenario(
     val id: String,
     val label: String,
@@ -163,6 +201,7 @@ data class Snapshot(
     val sensitivity: SensitivityData,
     val influence: InfluenceData,
     val uncertainty: UncertaintyData,
+    val regimeShift: RegimeShiftData,
     val note: String
 )
 
@@ -234,6 +273,7 @@ data class CalibrationData(
     val instituteDiagnostics: List<SourceDiagnostic>,
     val methodDiagnostics: List<SourceDiagnostic>,
     val rollingValidation: RollingValidation,
+    val regimeShadowValidation: RegimeShadowValidation,
     val historicalBacktestStatus: String,
     val historicalBacktestNote: String
 )
