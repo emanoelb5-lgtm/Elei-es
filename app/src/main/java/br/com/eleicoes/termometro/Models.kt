@@ -39,12 +39,42 @@ data class RunoffCandidate(
     val intervalHigh: Double
 )
 
+data class ResponseComposition(
+    val available: Boolean,
+    val candidateShare: Double?,
+    val categories: Map<String, Double>,
+    val residualUnclassified: Double?,
+    val pollCount: Int,
+    val note: String
+)
+
+data class CandidateSensitivity(
+    val baseline: Double,
+    val leaveOneOutLow: Double,
+    val leaveOneOutHigh: Double,
+    val maxLeaveOneOutShift: Double,
+    val support14Days: Double?,
+    val difference14Vs30: Double?
+)
+
+data class SensitivityData(
+    val status: String,
+    val pollCount: Int,
+    val maxLeaveOneOutShift: Double?,
+    val stability: String?,
+    val candidates: Map<String, CandidateSensitivity>,
+    val note: String
+)
+
 data class RunoffScenario(
     val id: String,
     val label: String,
     val candidates: List<RunoffCandidate>,
     val pollCount: Int,
-    val instituteCount: Int
+    val instituteCount: Int,
+    val responseComposition: ResponseComposition,
+    val pairNormalized: Map<String, Double>,
+    val pairNormalizationNote: String
 )
 
 data class Snapshot(
@@ -55,6 +85,8 @@ data class Snapshot(
     val candidates: List<Candidate>,
     val sources: List<SourceInfo>,
     val runoffScenarios: List<RunoffScenario>,
+    val responseComposition: ResponseComposition,
+    val sensitivity: SensitivityData,
     val note: String
 )
 
@@ -80,7 +112,8 @@ data class PollRecord(
     val method: String,
     val registration: String?,
     val verifiedTse: Boolean,
-    val candidates: Map<String, Double>
+    val candidates: Map<String, Double>,
+    val nonCandidate: Map<String, Double>
 )
 
 data class CandidateOffsetDiagnostic(
