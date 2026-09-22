@@ -1,3 +1,4 @@
+# schema v7: institute-cluster bootstrap.
 # pipeline schema v6 final.
 # schema v6: advanced uncertainty.
 # schema v5: influence diagnostics.
@@ -22,6 +23,8 @@ from scripts.update_analytics import (
     influence_analysis,
     advanced_uncertainty,
     bootstrap_current_support,
+    cluster_bootstrap_current_support,
+    aggregate_runoff_table,
     percentile,
 )
 
@@ -325,6 +328,90 @@ class AnalyticsParserTests(unittest.TestCase):
             )
             self.assertGreaterEqual(row["advancedHalfWidth"] + 1e-9, model_half)
             self.assertGreaterEqual(row["advancedHalfWidth"], 2.5)
+
+
+    def test_cluster_bootstrap_is_deterministic_and_uses_institutes(self):
+        polls = []
+        values = {
+            "A": [(40.0, 35.0), (41.0, 34.0), (42.0, 33.0)],
+            "B": [(37.0, 37.0)],
+            "C": [(39.0, 36.0)],
+        }
+        day = 17
+        for institute, rows in values.items():
+            for lula, flavio in rows:
+                polls.append({
+                    "date": date(2026, 9, day),
+                    "institute": institute,
+                    "sample": 2000,
+                    "method": "Presencial",
+                    "registration": f"BR-36{day:03d}/2026",
+                    "verifiedTse": False,
+                    "values": {"lula": lula, "flavio-bolsonaro": flavio},
+                    "nonCandidate": {},
+                })
+                day += 1
+
+        a = cluster_bootstrap_current_support(polls, date(2026, 9, 22), draws=120)
+        b = cluster_bootstrap_current_support(polls, date(2026, 9, 22), draws=120)
+        self.assertEqual(a, b)
+        self.assertEqual(a["status"], "ok")
+        self.assertEqual(a["clusterCount"], 3)
+        self.assertEqual(a["draws"], 120)
+        self.assertIn("lula", a["candidates"])
+        self.assertLessEqual(a["candidates"]["lula"]["p10"], a["candidates"]["lula"]["p90"])
+
+    def test_advanced_uncertainty_contains_cluster_component(self):
+        polls = [
+            {
+                "date": date(2026, 9, 18 + idx),
+                "institute": ["A", "A", "B", "C"][idx],
+                "sample": 1800 + idx * 100,
+                "method": "Online",
+                "registration": f"BR-37{idx:03d}/2026",
+                "verifiedTse": False,
+                "values": {"lula": 39.0 + idx, "flavio-bolsonaro": 36.0 - idx * 0.4},
+                "nonCandidate": {},
+            }
+            for idx in range(4)
+        ]
+        agg = aggregate_first_round(polls, date(2026, 9, 22))
+        validation = {
+            "absoluteErrorQuantiles": {"q80": 2.0, "q90": 3.0},
+            "absoluteErrorQuantilesBySupportBand": {
+                "high": {"count": 30, "q80": 2.5, "q90": 3.5}
+            },
+        }
+        result = advanced_uncertainty(polls, date(2026, 9, 22), agg, validation)
+        self.assertEqual(result["status"], "ok")
+        self.assertEqual(result["instituteClusterCount"], 3)
+        self.assertGreater(result["instituteBootstrapDraws"], 0)
+        row = result["candidates"]["lula"]
+        self.assertIsNotNone(row["instituteBootstrapP10"])
+        self.assertIsNotNone(row["instituteBootstrapP90"])
+        self.assertIn(
+            row["dominantComponent"],
+            {"analytical", "pollBootstrap", "instituteBootstrap", "empirical"},
+        )
+
+    def test_runoff_advanced_uncertainty_does_not_use_first_round_empirical_floor(self):
+        polls = [
+            {
+                "date": date(2026, 9, 18 + idx),
+                "institute": ["A", "B", "C", "D"][idx],
+                "sample": 2000,
+                "method": "Presencial",
+                "registration": f"BR-38{idx:03d}/2026",
+                "verifiedTse": False,
+                "values": {"lula": 48.0 + idx * 0.2, "flavio-bolsonaro": 45.0 - idx * 0.2},
+                "nonCandidate": {},
+            }
+            for idx in range(4)
+        ]
+        scenario = aggregate_runoff_table(polls, date(2026, 9, 22))
+        self.assertIsNotNone(scenario)
+        self.assertFalse(scenario["uncertainty"]["empiricalCalibrationApplied"])
+        self.assertEqual(scenario["uncertainty"]["empiricalErrorQuantileUsed"], "none")
 
 
 if __name__ == "__main__":
