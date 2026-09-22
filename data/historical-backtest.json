@@ -1,15 +1,15 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-22T17:51:17.460868Z",
+  "generatedAt": "2026-09-22T17:52:18.301294Z",
   "studies": [
     {
-      "status": "insufficient-data",
+      "status": "ok",
       "year": 2022,
       "round": "1º turno",
       "electionDate": "2022-10-02",
       "pollSource": "https://en.wikipedia.org/wiki/Opinion_polling_for_the_2022_Brazilian_presidential_election",
       "resultSource": "https://www.tse.jus.br/comunicacao/noticias/2022/Outubro/100-das-secoes-totalizadas-confira-como-ficou-o-quadro-eleitoral-apos-o-1o-turno",
-      "pollCountTotal": 0,
+      "pollCountTotal": 79,
       "resultComparisonBasis": "votos dos quatro candidatos comuns normalizados para 100%",
       "officialResultCommonSet": {
         "lula": 49.0,
@@ -21,66 +21,126 @@
         {
           "daysBeforeElection": 30,
           "cutoff": "2022-09-02",
-          "pollCount": 0,
-          "instituteCount": 0,
-          "weightedMae": null,
-          "simpleMae": null,
-          "weightedEstimate": {},
-          "simpleEstimate": {}
+          "pollCount": 24,
+          "instituteCount": 16,
+          "weightedMae": 5.87,
+          "simpleMae": 7.71,
+          "weightedEstimate": {
+            "lula": 44.85,
+            "bolsonaro": 36.13,
+            "tebet": 7.51,
+            "gomes": 11.52
+          },
+          "simpleEstimate": {
+            "lula": 42.44,
+            "bolsonaro": 34.86,
+            "tebet": 9.51,
+            "gomes": 13.19
+          }
         },
         {
           "daysBeforeElection": 21,
           "cutoff": "2022-09-11",
-          "pollCount": 0,
-          "instituteCount": 0,
-          "weightedMae": null,
-          "simpleMae": null,
-          "weightedEstimate": {},
-          "simpleEstimate": {}
+          "pollCount": 28,
+          "instituteCount": 16,
+          "weightedMae": 4.42,
+          "simpleMae": 4.17,
+          "weightedEstimate": {
+            "lula": 47.1,
+            "bolsonaro": 36.76,
+            "tebet": 6.26,
+            "gomes": 9.87
+          },
+          "simpleEstimate": {
+            "lula": 47.16,
+            "bolsonaro": 37.22,
+            "tebet": 5.71,
+            "gomes": 9.92
+          }
         },
         {
           "daysBeforeElection": 14,
           "cutoff": "2022-09-18",
-          "pollCount": 0,
-          "instituteCount": 0,
-          "weightedMae": null,
-          "simpleMae": null,
-          "weightedEstimate": {},
-          "simpleEstimate": {}
+          "pollCount": 29,
+          "instituteCount": 14,
+          "weightedMae": 3.83,
+          "simpleMae": 4.35,
+          "weightedEstimate": {
+            "lula": 48.5,
+            "bolsonaro": 36.54,
+            "tebet": 5.63,
+            "gomes": 9.32
+          },
+          "simpleEstimate": {
+            "lula": 47.03,
+            "bolsonaro": 36.99,
+            "tebet": 6.08,
+            "gomes": 9.9
+          }
         },
         {
           "daysBeforeElection": 7,
           "cutoff": "2022-09-25",
-          "pollCount": 0,
-          "instituteCount": 0,
-          "weightedMae": null,
-          "simpleMae": null,
-          "weightedEstimate": {},
-          "simpleEstimate": {}
+          "pollCount": 36,
+          "instituteCount": 16,
+          "weightedMae": 4.81,
+          "simpleMae": 4.55,
+          "weightedEstimate": {
+            "lula": 47.39,
+            "bolsonaro": 35.7,
+            "tebet": 6.69,
+            "gomes": 10.23
+          },
+          "simpleEstimate": {
+            "lula": 47.38,
+            "bolsonaro": 36.22,
+            "tebet": 6.29,
+            "gomes": 10.1
+          }
         },
         {
           "daysBeforeElection": 3,
           "cutoff": "2022-09-29",
-          "pollCount": 0,
-          "instituteCount": 0,
-          "weightedMae": null,
-          "simpleMae": null,
-          "weightedEstimate": {},
-          "simpleEstimate": {}
+          "pollCount": 38,
+          "instituteCount": 15,
+          "weightedMae": 3.2,
+          "simpleMae": 3.32,
+          "weightedEstimate": {
+            "lula": 49.53,
+            "bolsonaro": 37.31,
+            "tebet": 5.24,
+            "gomes": 7.91
+          },
+          "simpleEstimate": {
+            "lula": 49.42,
+            "bolsonaro": 37.07,
+            "tebet": 5.04,
+            "gomes": 8.47
+          }
         },
         {
           "daysBeforeElection": 1,
           "cutoff": "2022-10-01",
-          "pollCount": 0,
-          "instituteCount": 0,
-          "weightedMae": null,
-          "simpleMae": null,
-          "weightedEstimate": {},
-          "simpleEstimate": {}
+          "pollCount": 41,
+          "instituteCount": 15,
+          "weightedMae": 2.99,
+          "simpleMae": 3.31,
+          "weightedEstimate": {
+            "lula": 49.82,
+            "bolsonaro": 37.73,
+            "tebet": 5.2,
+            "gomes": 7.24
+          },
+          "simpleEstimate": {
+            "lula": 49.7,
+            "bolsonaro": 37.09,
+            "tebet": 5.13,
+            "gomes": 8.08
+          }
         }
       ],
-      "averageWeightedMae": null,
-      "averageSimpleMae": null,
+      "averageWeightedMae": 4.19,
+      "averageSimpleMae": 4.57,
       "correctionApplied": false,
       "note": "Backtest histórico separado. Não altera pesos, médias ou candidatos de 2026."
     }
