@@ -6,6 +6,8 @@ data class Candidate(
     val pollingSupport: Double,
     val intervalLow: Double,
     val intervalHigh: Double,
+    val modelIntervalLow: Double,
+    val modelIntervalHigh: Double,
     val marketSignal: Double?,
     val change: Double,
     val trend: String
@@ -101,6 +103,29 @@ data class InfluenceData(
     val note: String
 )
 
+data class CandidateUncertainty(
+    val support: Double,
+    val modelLow: Double,
+    val modelHigh: Double,
+    val bootstrapP10: Double?,
+    val bootstrapP50: Double?,
+    val bootstrapP90: Double?,
+    val empiricalErrorQ80: Double?,
+    val advancedLow: Double,
+    val advancedHigh: Double,
+    val advancedHalfWidth: Double
+)
+
+data class UncertaintyData(
+    val status: String,
+    val bootstrapDraws: Int,
+    val empiricalErrorQuantileUsed: String,
+    val empiricalErrorQ80: Double?,
+    val empiricalErrorQ90: Double?,
+    val candidates: Map<String, CandidateUncertainty>,
+    val note: String
+)
+
 data class RunoffScenario(
     val id: String,
     val label: String,
@@ -123,6 +148,7 @@ data class Snapshot(
     val responseComposition: ResponseComposition,
     val sensitivity: SensitivityData,
     val influence: InfluenceData,
+    val uncertainty: UncertaintyData,
     val note: String
 )
 
@@ -179,6 +205,7 @@ data class RollingValidation(
     val simpleMeanAbsoluteError: Double?,
     val errorDifferenceVsSimple: Double?,
     val intervalCoverage: Double?,
+    val absoluteErrorQuantiles: Map<String, Double>,
     val target: String?,
     val note: String?
 )
