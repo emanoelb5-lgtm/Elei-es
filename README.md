@@ -2,7 +2,7 @@
 
 Aplicativo Android público e experimental para acompanhar **pesquisas presidenciais de 2026**, sua evolução no tempo, incerteza e diferenças entre fontes.
 
-## O que a v0.7.0 faz
+## O que a v0.7.1 faz
 
 - trabalha com **pesquisas individuais** como unidade principal, em vez de somar agregadores;
 - deduplica levantamentos pelo número de registro TSE e, quando necessário, por uma chave de conteúdo;
@@ -76,7 +76,7 @@ Se os testes ou a validação estrutural falharem, os novos dados não são publ
 
 O workflow **Build e publicar APK** compila e assina o APK com a mesma identidade de desenvolvimento estável adotada desde a v0.2.0, permitindo atualização sobre versões posteriores à transição de assinatura.
 
-A release atual é v0.7.0.
+A release atual é v0.7.1.
 
 ## Aviso
 
@@ -177,3 +177,21 @@ O detector classifica cada série como estável, em observação ou com deslocam
 Uma leitura adaptativa é calculada apenas em sombra. Quando há sinal, ela dá peso adicional ao bloco recente, mas não substitui o agregado exibido. Uma validação retrospectiva compara essa versão em sombra com o modelo normal contra a pesquisa seguinte. A adaptação só fica tecnicamente elegível para revisão se houver volume mínimo de casos e redução de pelo menos 0,10 p.p. no erro absoluto médio. Mesmo assim, nenhuma promoção é automática.
 
 O schema de data/analytics.json passa a ser v8.
+
+## Persistência temporal v0.7.1
+
+O detector de mudança de regime passou a exigir persistência entre conjuntos distintos de pesquisas.
+
+Cada conjunto de evidências recebe um fingerprint determinístico construído a partir das pesquisas da janela corrente, incluindo data, instituto, amostra, método, registro e resultados. Uma nova execução do pipeline com exatamente os mesmos dados mantém o mesmo fingerprint e não aumenta o contador de persistência.
+
+Para cada candidatura com sinal de mudança:
+
+- 1 estado distinto na mesma direção: não confirmado;
+- 2 estados distintos consecutivos: ganhando persistência;
+- 3 ou mais estados distintos consecutivos: persistente.
+
+Se a direção se inverter ou o detector voltar a estável, a sequência é interrompida. O histórico compacto dessas evidências fica em data/regime-history.json.
+
+A persistência continua exclusivamente diagnóstica. Ela não altera pesos, médias, intervalos ou a leitura adaptativa em sombra.
+
+O schema de data/analytics.json passa a ser v9.
