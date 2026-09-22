@@ -1,3 +1,4 @@
+# schema v9: regime persistence by distinct evidence.
 # pipeline schema v8 final.
 # schema v8: regime shift shadow model.
 # pipeline schema v7 final.
@@ -30,6 +31,8 @@ from scripts.update_analytics import (
     aggregate_runoff_table,
     regime_shift_analysis,
     regime_shadow_validation,
+    regime_evidence_fingerprint,
+    apply_regime_persistence,
     percentile,
 )
 
@@ -504,6 +507,85 @@ class AnalyticsParserTests(unittest.TestCase):
         if result["status"] == "ok":
             self.assertIsNotNone(result["baselineMeanAbsoluteError"])
             self.assertIsNotNone(result["shadowMeanAbsoluteError"])
+
+
+    def test_regime_persistence_does_not_advance_without_new_evidence(self):
+        regime = {
+            "status": "ok",
+            "overall": "consistent",
+            "evidenceFingerprint": "same",
+            "candidates": {
+                "x": {
+                    "level": "consistent",
+                    "differenceRecentVsPrevious": 2.0,
+                }
+            },
+        }
+        first, history = apply_regime_persistence(regime, [], "2026-09-22T10:00:00Z")
+        second, history2 = apply_regime_persistence(regime, history, "2026-09-22T10:15:00Z")
+        self.assertEqual(first["candidates"]["x"]["persistenceStreak"], 1)
+        self.assertEqual(second["candidates"]["x"]["persistenceStreak"], 1)
+        self.assertFalse(second["evidenceChanged"])
+        self.assertEqual(len(history2), 1)
+
+    def test_regime_persistence_requires_three_distinct_same_direction_states(self):
+        history = []
+        for idx, fp in enumerate(["a", "b", "c"]):
+            regime = {
+                "status": "ok",
+                "overall": "consistent",
+                "evidenceFingerprint": fp,
+                "candidates": {
+                    "x": {
+                        "level": "consistent",
+                        "differenceRecentVsPrevious": 1.5 + idx * 0.1,
+                    }
+                },
+            }
+            current, history = apply_regime_persistence(
+                regime, history, f"2026-09-22T1{idx}:00:00Z"
+            )
+        self.assertEqual(current["candidates"]["x"]["persistenceStreak"], 3)
+        self.assertTrue(current["candidates"]["x"]["persistentSignal"])
+        self.assertEqual(current["persistentCandidateCount"], 1)
+        self.assertFalse(current["persistenceApplied"])
+
+    def test_regime_persistence_resets_on_direction_change(self):
+        history = []
+        for fp, delta in [("a", 2.0), ("b", 2.2), ("c", -2.1)]:
+            regime = {
+                "status": "ok",
+                "overall": "consistent",
+                "evidenceFingerprint": fp,
+                "candidates": {
+                    "x": {
+                        "level": "consistent",
+                        "differenceRecentVsPrevious": delta,
+                    }
+                },
+            }
+            current, history = apply_regime_persistence(
+                regime, history, f"2026-09-22T{10+len(history):02d}:00:00Z"
+            )
+        self.assertEqual(current["candidates"]["x"]["persistenceStreak"], 1)
+        self.assertFalse(current["candidates"]["x"]["persistentSignal"])
+
+    def test_regime_fingerprint_ignores_execution_time_and_tracks_poll_evidence(self):
+        polls = [{
+            "date": date(2026, 9, 20),
+            "institute": "A",
+            "sample": 2000,
+            "method": "Online",
+            "registration": "BR-43000/2026",
+            "values": {"lula": 40.0, "flavio-bolsonaro": 35.0},
+            "nonCandidate": {},
+        }]
+        a = regime_evidence_fingerprint(polls, date(2026, 9, 22))
+        b = regime_evidence_fingerprint(polls, date(2026, 9, 22))
+        self.assertEqual(a, b)
+        polls[0]["values"]["lula"] = 41.0
+        c = regime_evidence_fingerprint(polls, date(2026, 9, 22))
+        self.assertNotEqual(a, c)
 
 
 if __name__ == "__main__":
