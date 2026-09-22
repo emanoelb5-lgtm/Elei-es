@@ -1,11 +1,13 @@
 {
   "schemaVersion": 3,
-  "generatedAt": "2026-09-22T17:13:03.882401Z",
+  "generatedAt": "2026-09-22T17:14:28.626615Z",
   "electionDate": "2026-10-04",
   "daysToElection": 12,
   "quality": {
     "pollCount": 35,
     "instituteCount": 15,
+    "methodCount": 5,
+    "registrationCount": 35,
     "verifiedTseCount": 0,
     "averageAgeDays": 14.6,
     "effectivePolls": 21.0,
@@ -17,7 +19,7 @@
       "label": "BBC / PollingData",
       "type": "base de pesquisas individuais",
       "status": "ok",
-      "updatedAt": "2026-09-22T17:13:06.545533Z",
+      "updatedAt": "2026-09-22T17:14:30.933232Z",
       "url": "https://news.files.bbci.co.uk/include/vjamericas/1561-poll-tracker-brazil-2026/table/portuguese/app/amp",
       "tablesFound": 2
     },
@@ -35,7 +37,7 @@
       "label": "Polymarket",
       "type": "mercado de previsão · sinal externo",
       "status": "ok",
-      "updatedAt": "2026-09-22T17:13:06.622115Z",
+      "updatedAt": "2026-09-22T17:14:31.067372Z",
       "url": "https://polymarket.com/event/brazil-presidential-election"
     }
   ],
@@ -46,8 +48,8 @@
       "pollingSupport": 5.98,
       "intervalLow": 4.93,
       "intervalHigh": 7.02,
-      "change": -0.26,
-      "trend": "caindo",
+      "change": -0.0,
+      "trend": "estável",
       "marketSignal": 0.05
     },
     {
@@ -56,8 +58,8 @@
       "pollingSupport": 36.42,
       "intervalLow": 34.79,
       "intervalHigh": 38.06,
-      "change": 0.33,
-      "trend": "subindo",
+      "change": 0.0,
+      "trend": "estável",
       "marketSignal": 59.55
     },
     {
@@ -66,8 +68,8 @@
       "pollingSupport": 39.23,
       "intervalLow": 38.22,
       "intervalHigh": 40.24,
-      "change": 0.25,
-      "trend": "subindo",
+      "change": -0.0,
+      "trend": "estável",
       "marketSignal": 40.5
     },
     {
@@ -76,7 +78,7 @@
       "pollingSupport": 1.77,
       "intervalLow": 1.17,
       "intervalHigh": 2.37,
-      "change": 0.08,
+      "change": -0.0,
       "trend": "estável",
       "marketSignal": 0.05
     },
@@ -86,8 +88,8 @@
       "pollingSupport": 4.76,
       "intervalLow": 3.52,
       "intervalHigh": 6.0,
-      "change": 0.6,
-      "trend": "subindo",
+      "change": 0.0,
+      "trend": "estável",
       "marketSignal": 0.75
     },
     {
@@ -106,8 +108,8 @@
       "pollingSupport": 3.04,
       "intervalLow": 2.44,
       "intervalHigh": 3.64,
-      "change": -0.33,
-      "trend": "caindo",
+      "change": -0.0,
+      "trend": "estável",
       "marketSignal": 0.05
     }
   ],
