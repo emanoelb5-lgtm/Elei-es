@@ -162,6 +162,9 @@ class AnalyticsParserTests(unittest.TestCase):
         self.assertIsNotNone(result["errorDifferenceVsSimple"])
         self.assertGreaterEqual(result["intervalCoverage"], 0.0)
         self.assertLessEqual(result["intervalCoverage"], 100.0)
+        self.assertGreaterEqual(result["empiricalQ80Coverage"], 0.0)
+        self.assertLessEqual(result["empiricalQ80Coverage"], 100.0)
+        self.assertGreaterEqual(result["empiricalQ90Coverage"], result["empiricalQ80Coverage"])
 
 
     def test_non_candidate_header_classification(self):
