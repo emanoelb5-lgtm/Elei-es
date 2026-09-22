@@ -12,7 +12,12 @@ class ElectionRepository {
         val nonce = System.currentTimeMillis()
         val latest = getJson("$base/analytics.json?t=$nonce")
         val history = getJson("$base/analytics-history.json?t=$nonce")
-        return DashboardData(parseSnapshot(JSONObject(latest)), parseHistory(JSONArray(history)))
+        val polls = getJson("$base/polls.json?t=$nonce")
+        return DashboardData(
+            snapshot = parseSnapshot(JSONObject(latest)),
+            history = parseHistory(JSONArray(history)),
+            polls = parsePolls(JSONObject(polls))
+        )
     }
 
     private fun getJson(address: String): String {
@@ -123,6 +128,22 @@ class ElectionRepository {
                 origin = item.optString("origin", "live")
             )
         }.sortedBy { it.generatedAt }
+
+    private fun parsePolls(root: JSONObject): List<PollRecord> {
+        val array = root.optJSONArray("firstRound") ?: JSONArray()
+        return List(array.length()) { i ->
+            val item = array.getJSONObject(i)
+            PollRecord(
+                date = item.optString("date"),
+                institute = item.optString("institute", "Instituto não identificado"),
+                sample = item.optInt("sample", 0),
+                method = item.optString("method", "não identificado"),
+                registration = item.optString("registration").takeIf { it.isNotBlank() && it != "null" },
+                verifiedTse = item.optBoolean("verifiedTse", false),
+                candidates = readDoubleMap(item.optJSONObject("candidates"))
+            )
+        }.sortedByDescending { it.date }
+    }
 
     private fun readDoubleMap(obj: JSONObject?): Map<String, Double> {
         if (obj == null) return emptyMap()
