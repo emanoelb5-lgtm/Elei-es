@@ -53,6 +53,14 @@ ALIASES = {
     "pablo-marcal": ["pablo marçal", "pablo marcal"],
 }
 NON_CANDIDATE_ALIASES = {
+    "blankNullUndecided": [
+        "branco/nulo/não sabe",
+        "branco / nulo / não sabe",
+        "brancos/nulos/indecisos",
+        "brancos / nulos / indecisos",
+        "blank/null/undecided",
+    ],
+    "otherCandidates": ["outros candidatos", "outras candidaturas", "outros", "others"],
     "blank": ["branco", "brancos", "blank"],
     "null": ["nulo", "nulos", "null"],
     "undecided": ["não sabe", "nao sabe", "indeciso", "indecisos", "undecided", "não respondeu", "nao respondeu"],
