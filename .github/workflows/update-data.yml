@@ -48,6 +48,8 @@ jobs:
           assert len(a.get('candidates', [])) >= 2
           assert a['quality']['pollCount'] >= 1
           assert a['quality']['instituteCount'] >= 1
+          assert a['quality']['methodCount'] >= 1
+          assert a['quality']['registrationCount'] >= 1
           assert len(h) >= 2
           assert len(p.get('firstRound', [])) >= 1
 
