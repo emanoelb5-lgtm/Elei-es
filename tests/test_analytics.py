@@ -1,3 +1,4 @@
+# pipeline corrente separado do backtest histórico.
 # v0.4.1 multi-cycle historical validation.
 # v0.4.1: dispara backtest histórico no pipeline completo.
 # v0.4 pipeline: inclui calibration.json na publicação.
