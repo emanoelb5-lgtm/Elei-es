@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-09-22T17:03:40.091885Z",
+  "generatedAt": "2026-09-22T17:08:08.352053Z",
   "electionDate": "2026-10-04",
   "daysToElection": 12,
   "confidence": "média",
@@ -15,7 +15,7 @@
       "label": "ElectioLab",
       "type": "agregador de pesquisas",
       "status": "ok",
-      "updatedAt": "2026-09-22T17:03:40.091885Z",
+      "updatedAt": "2026-09-22T17:08:08.352053Z",
       "url": "https://electiolab.com/pesquisas-presidenciais-2026"
     },
     {
@@ -23,7 +23,7 @@
       "label": "BBC / PollingData",
       "type": "agregador de pesquisas",
       "status": "ok",
-      "updatedAt": "2026-09-22T17:03:40.091885Z",
+      "updatedAt": "2026-09-22T17:08:08.352053Z",
       "url": "https://news.files.bbci.co.uk/include/vjamericas/1561-poll-tracker-brazil-2026/range-chart/portuguese/app/embed"
     },
     {
@@ -40,7 +40,7 @@
       "label": "Polymarket",
       "type": "mercado de previsão",
       "status": "ok",
-      "updatedAt": "2026-09-22T17:03:40.091885Z",
+      "updatedAt": "2026-09-22T17:08:08.352053Z",
       "url": "https://polymarket.com/event/brazil-presidential-election"
     }
   ],
@@ -51,7 +51,7 @@
       "pollingSupport": 38.5,
       "marketProbability": 40.1,
       "winProbability": 57.86,
-      "change": 0.01,
+      "change": 0.0,
       "trend": "estável"
     },
     {
@@ -60,7 +60,7 @@
       "pollingSupport": 34.85,
       "marketProbability": 58.96,
       "winProbability": 41.69,
-      "change": -0.02,
+      "change": 0.0,
       "trend": "estável"
     },
     {
