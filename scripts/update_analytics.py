@@ -700,6 +700,229 @@ def aggregate_first_round(polls: List[dict], target: date) -> dict:
     }
 
 
+def regime_shift_analysis(
+    polls: List[dict],
+    target: date,
+    recent_days: int = 7,
+) -> dict:
+    recent = [
+        p for p in polls
+        if p["date"] <= target and 0 <= (target - p["date"]).days <= recent_days
+    ]
+    previous = [
+        p for p in polls
+        if p["date"] <= target and recent_days < (target - p["date"]).days <= LIVE_WINDOW_DAYS
+    ]
+
+    recent_institutes = {norm(p.get("institute", "")) for p in recent}
+    previous_institutes = {norm(p.get("institute", "")) for p in previous}
+    enough_data = (
+        len(recent) >= 4
+        and len(recent_institutes) >= 3
+        and len(previous) >= 6
+        and len(previous_institutes) >= 3
+    )
+    if not enough_data:
+        return {
+            "status": "insufficient-data",
+            "recentDays": recent_days,
+            "recentPollCount": len(recent),
+            "recentInstituteCount": len(recent_institutes),
+            "previousPollCount": len(previous),
+            "previousInstituteCount": len(previous_institutes),
+            "candidates": {},
+            "adaptiveApplied": False,
+            "note": (
+                "O diagnóstico exige diversidade mínima de pesquisas e institutos "
+                "nos blocos recente e anterior."
+            ),
+        }
+
+    recent_agg = aggregate_first_round(recent, target)
+    previous_agg = aggregate_first_round(previous, target)
+    full_agg = aggregate_first_round(polls, target)
+    common = sorted(
+        set(recent_agg.get("candidates", {}))
+        & set(previous_agg.get("candidates", {}))
+        & set(full_agg.get("candidates", {}))
+    )
+
+    candidates = {}
+    levels = []
+    for cid in common:
+        r = recent_agg["candidates"][cid]
+        p = previous_agg["candidates"][cid]
+        current = full_agg["candidates"][cid]
+        recent_support = float(r["support"])
+        previous_support = float(p["support"])
+        delta = recent_support - previous_support
+
+        recent_se = max((float(r["high"]) - float(r["low"])) / 3.92, 0.15)
+        previous_se = max((float(p["high"]) - float(p["low"])) / 3.92, 0.15)
+        combined_noise = math.sqrt(recent_se * recent_se + previous_se * previous_se)
+        signal_ratio = abs(delta) / max(combined_noise, 0.35)
+
+        institute_values = {}
+        for poll in recent:
+            if cid not in poll.get("values", {}):
+                continue
+            key = norm(poll.get("institute", "")) or "instituto-nao-identificado"
+            institute_values.setdefault(key, []).append(float(poll["values"][cid]))
+
+        institute_means = [
+            sum(values) / len(values)
+            for values in institute_values.values()
+            if values
+        ]
+        if institute_means and abs(delta) >= 1e-9:
+            direction = 1.0 if delta > 0 else -1.0
+            consistent = sum(
+                1
+                for value in institute_means
+                if (value - previous_support) * direction > 0
+            )
+            consistency = consistent / len(institute_means)
+        else:
+            consistency = 0.0
+
+        if (
+            abs(delta) >= 1.50
+            and signal_ratio >= 1.20
+            and consistency >= 0.70
+            and len(institute_means) >= 3
+        ):
+            level = "consistent"
+            blend_recent = 0.65
+        elif (
+            abs(delta) >= 0.80
+            and signal_ratio >= 0.75
+            and consistency >= 0.60
+            and len(institute_means) >= 3
+        ):
+            level = "watch"
+            blend_recent = 0.50
+        else:
+            level = "stable"
+            blend_recent = 0.0
+
+        current_support = float(current["support"])
+        shadow_support = (
+            blend_recent * recent_support + (1.0 - blend_recent) * current_support
+            if blend_recent > 0
+            else current_support
+        )
+        candidates[cid] = {
+            "recentSupport": round(recent_support, 2),
+            "previousSupport": round(previous_support, 2),
+            "currentSupport": round(current_support, 2),
+            "differenceRecentVsPrevious": round(delta, 2),
+            "signalRatio": round(signal_ratio, 2),
+            "instituteConsistency": round(consistency, 2),
+            "recentInstituteCount": len(institute_means),
+            "level": level,
+            "shadowAdaptiveSupport": round(shadow_support, 2),
+            "shadowRecentWeight": round(blend_recent, 2),
+        }
+        levels.append(level)
+
+    overall = (
+        "consistent"
+        if "consistent" in levels
+        else "watch"
+        if "watch" in levels
+        else "stable"
+    )
+    return {
+        "status": "ok",
+        "overall": overall,
+        "recentDays": recent_days,
+        "recentPollCount": len(recent),
+        "recentInstituteCount": len(recent_institutes),
+        "previousPollCount": len(previous),
+        "previousInstituteCount": len(previous_institutes),
+        "candidates": candidates,
+        "adaptiveApplied": False,
+        "note": (
+            "Compara o bloco recente com pesquisas de 8 a 30 dias. A leitura adaptativa "
+            "é calculada apenas em sombra para validação e não substitui o agregado principal."
+        ),
+    }
+
+
+def regime_shadow_validation(
+    polls: List[dict],
+    minimum_training_polls: int = 12,
+) -> dict:
+    ordered = sorted(polls, key=lambda p: (p["date"], norm(p.get("institute", ""))))
+    baseline_errors = []
+    shadow_errors = []
+    signal_cases = 0
+    candidate_comparisons = 0
+
+    for heldout in ordered:
+        training = [p for p in ordered if p["date"] < heldout["date"]]
+        if len(training) < minimum_training_polls:
+            continue
+        target = heldout["date"] - timedelta(days=1)
+        baseline = aggregate_first_round(training, target)
+        if baseline.get("pollCount", 0) < minimum_training_polls:
+            continue
+        regime = regime_shift_analysis(training, target)
+        if regime.get("status") != "ok" or regime.get("overall") == "stable":
+            continue
+
+        comparable = 0
+        for cid, observed in heldout.get("values", {}).items():
+            base = baseline.get("candidates", {}).get(cid)
+            shadow = regime.get("candidates", {}).get(cid)
+            if base is None or shadow is None:
+                continue
+            baseline_errors.append(abs(float(observed) - float(base["support"])))
+            shadow_errors.append(abs(float(observed) - float(shadow["shadowAdaptiveSupport"])))
+            comparable += 1
+            candidate_comparisons += 1
+        if comparable >= 2:
+            signal_cases += 1
+
+    if not baseline_errors:
+        return {
+            "status": "insufficient-data",
+            "signalCaseCount": 0,
+            "comparisonCount": 0,
+            "baselineMeanAbsoluteError": None,
+            "shadowMeanAbsoluteError": None,
+            "differenceShadowVsBaseline": None,
+            "promotionEligible": False,
+            "adaptiveApplied": False,
+            "note": "Ainda não há casos retrospectivos suficientes com sinal de mudança.",
+        }
+
+    baseline_mae = sum(baseline_errors) / len(baseline_errors)
+    shadow_mae = sum(shadow_errors) / len(shadow_errors)
+    difference = shadow_mae - baseline_mae
+    # Critério deliberadamente conservador: só fica elegível para revisão com
+    # volume mínimo e melhora de pelo menos 0,10 p.p. na média absoluta.
+    promotion_eligible = (
+        signal_cases >= 8
+        and candidate_comparisons >= 40
+        and difference <= -0.10
+    )
+    return {
+        "status": "ok",
+        "signalCaseCount": signal_cases,
+        "comparisonCount": candidate_comparisons,
+        "baselineMeanAbsoluteError": round(baseline_mae, 2),
+        "shadowMeanAbsoluteError": round(shadow_mae, 2),
+        "differenceShadowVsBaseline": round(difference, 2),
+        "promotionEligible": promotion_eligible,
+        "adaptiveApplied": False,
+        "note": (
+            "Validação da leitura adaptativa em sombra apenas nos casos em que o detector "
+            "identificou mudança. Nenhuma promoção é automática."
+        ),
+    }
+
+
 def aggregate_runoff_table(polls: List[dict], target: date) -> dict | None:
     weighted = poll_weights(polls, target)
     ids = sorted(set().union(*(p["values"].keys() for p, _ in weighted))) if weighted else []
@@ -1306,6 +1529,7 @@ def rolling_validation(polls: List[dict], minimum_training_polls: int = 4) -> di
 def build_calibration_payload(polls: List[dict], now: datetime) -> dict:
     source_diagnostics = build_source_diagnostics(polls)
     validation = rolling_validation(polls)
+    regime_validation = regime_shadow_validation(polls)
     return {
         "schemaVersion": 1,
         "generatedAt": now.isoformat().replace("+00:00", "Z"),
@@ -1313,6 +1537,7 @@ def build_calibration_payload(polls: List[dict], now: datetime) -> dict:
         "correctionPolicy": "diagnóstico somente; nenhum ajuste por instituto ou método altera a média atual",
         "sourceDiagnostics": source_diagnostics,
         "rollingValidation": validation,
+        "regimeShadowValidation": regime_validation,
         "historicalElectionBacktest": {
             "status": "not-applied",
             "correctionApplied": False,
@@ -1412,6 +1637,7 @@ def main() -> None:
     composition = response_composition(first_round, now.date())
     sensitivity = sensitivity_analysis(first_round, now.date())
     influence = influence_analysis(first_round, now.date())
+    regime_shift = regime_shift_analysis(first_round, now.date())
     (DATA / "calibration.json").write_text(
         json.dumps(calibration, ensure_ascii=False, indent=2) + "\n",
         "utf-8",
@@ -1462,7 +1688,7 @@ def main() -> None:
     }
 
     snapshot = {
-        "schemaVersion": 7,
+        "schemaVersion": 8,
         "generatedAt": now.isoformat().replace("+00:00", "Z"),
         "electionDate": ELECTION_DATE.isoformat(),
         "daysToElection": max((ELECTION_DATE - now.date()).days, 0),
@@ -1474,6 +1700,7 @@ def main() -> None:
         "sensitivity": sensitivity,
         "influence": influence,
         "uncertainty": uncertainty,
+        "regimeShift": regime_shift,
         "methodology": {
             "primaryUnit": "pesquisa individual",
             "windowDays": LIVE_WINDOW_DAYS,
@@ -1484,6 +1711,7 @@ def main() -> None:
             "responseComposition": "categorias não candidatas somente quando identificadas pela fonte; residual não classificado não é indecisão",
             "sensitivity": "leave-one-out por pesquisa + comparação de janelas de 14 e 30 dias; informativo, sem ajuste automático",
             "influence": "remoção de uma pesquisa ou de um instituto + desvio robusto entre pares contemporâneos; diagnóstico apenas",
+            "regimeShift": "comparação entre últimos 7 dias e bloco de 8 a 30 dias; leitura adaptativa apenas em sombra, sem aplicação automática",
         },
         "note": "Leitura estatística de pesquisas públicas. Intervalos e testes de sensibilidade expressam incerteza do agregador e não garantem resultado eleitoral.",
     }
