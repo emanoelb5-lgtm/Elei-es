@@ -990,7 +990,7 @@ def main() -> None:
     }
 
     snapshot = {
-        "schemaVersion": 3,
+        "schemaVersion": 4,
         "generatedAt": now.isoformat().replace("+00:00", "Z"),
         "electionDate": ELECTION_DATE.isoformat(),
         "daysToElection": max((ELECTION_DATE - now.date()).days, 0),
