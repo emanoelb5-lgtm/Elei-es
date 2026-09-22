@@ -1,3 +1,4 @@
+# schema v5: influence diagnostics.
 # schema v4: composition + sensitivity validation.
 # pipeline corrente separado do backtest histórico.
 # v0.4.1 multi-cycle historical validation.
@@ -16,6 +17,7 @@ from scripts.update_analytics import (
     non_candidate_for_label,
     response_composition,
     sensitivity_analysis,
+    influence_analysis,
 )
 
 
@@ -218,6 +220,51 @@ class AnalyticsParserTests(unittest.TestCase):
         row = result["candidates"]["lula"]
         self.assertLessEqual(row["leaveOneOutLow"], row["baseline"] + 5.0)
         self.assertGreaterEqual(row["leaveOneOutHigh"], row["baseline"] - 5.0)
+
+
+    def test_influence_analysis_reports_poll_and_institute_removal(self):
+        polls = [
+            {
+                "date": date(2026, 9, 18 + idx),
+                "institute": ["A", "B", "C", "D"][idx],
+                "sample": 2000,
+                "method": "Presencial",
+                "registration": f"BR-32{idx:03d}/2026",
+                "verifiedTse": False,
+                "values": {
+                    "lula": [39.0, 40.0, 41.0, 48.0][idx],
+                    "flavio-bolsonaro": [36.0, 35.0, 34.0, 29.0][idx],
+                },
+                "nonCandidate": {},
+            }
+            for idx in range(4)
+        ]
+        result = influence_analysis(polls, date(2026, 9, 22), peer_window_days=10)
+        self.assertEqual(result["status"], "ok")
+        self.assertEqual(result["pollCount"], 4)
+        self.assertEqual(result["instituteCount"], 4)
+        self.assertEqual(len(result["polls"]), 4)
+        self.assertEqual(len(result["institutes"]), 4)
+        self.assertFalse(result["correctionApplied"])
+        self.assertGreaterEqual(max(row["maxAbsoluteShift"] for row in result["polls"]), 0.0)
+
+    def test_influence_analysis_does_not_label_small_sample_as_atypical(self):
+        polls = [
+            {
+                "date": date(2026, 9, 20 + idx),
+                "institute": chr(ord("A") + idx),
+                "sample": 1500,
+                "method": "Online",
+                "registration": f"BR-33{idx:03d}/2026",
+                "verifiedTse": False,
+                "values": {"lula": 40.0 + idx, "flavio-bolsonaro": 35.0 - idx},
+                "nonCandidate": {},
+            }
+            for idx in range(3)
+        ]
+        result = influence_analysis(polls, date(2026, 9, 22))
+        self.assertIsNone(result["atypicalThreshold"])
+        self.assertTrue(all(not row["atypicalSignal"] for row in result["polls"]))
 
 
 if __name__ == "__main__":
