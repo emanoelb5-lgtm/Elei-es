@@ -1,3 +1,4 @@
+# Testes determinísticos: sem chamadas de rede.
 import unittest
 from datetime import date
 
