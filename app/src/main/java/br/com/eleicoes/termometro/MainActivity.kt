@@ -716,7 +716,13 @@ private fun RollingValidationCard(validation: RollingValidation) {
                     )
                 }
                 validation.intervalCoverage?.let {
-                    MetricRowLight("Cobertura dos intervalos", "${it.one()}%")
+                    MetricRowLight("Cobertura do intervalo analítico antigo", "${it.one()}%")
+                }
+                validation.empiricalQ80Coverage?.let {
+                    MetricRowLight("Cobertura retrospectiva · faixa q80", "${it.one()}%")
+                }
+                validation.empiricalQ90Coverage?.let {
+                    MetricRowLight("Cobertura retrospectiva · faixa q90", "${it.one()}%")
                 }
                 Text(
                     "O alvo é a próxima pesquisa publicada, não o resultado da eleição.",
