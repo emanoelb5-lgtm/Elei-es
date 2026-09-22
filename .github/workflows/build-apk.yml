@@ -91,13 +91,13 @@ jobs:
           VERSION: ${{ steps.meta.outputs.version }}
         run: |
           set -euo pipefail
-          NOTES='v0.4.1 adiciona backtest histórico separado da eleição de 2022, com comparação do modelo ponderado e da média simples em horizontes de 30, 21, 14, 7, 3 e 1 dia antes da eleição. O resultado oficial é usado apenas como referência retrospectiva; nenhum ajuste histórico altera automaticamente a leitura de 2026. Mantém diagnóstico de fontes e assinatura estável desde a v0.2.0.'
+          NOTES='v0.4.1 adiciona backtests históricos separados de 2018 e 2022, comparando modelo ponderado e média simples em horizontes de 30, 21, 14, 7, 3 e 1 dia antes da eleição. Os resultados oficiais servem apenas como referência retrospectiva; nenhum ajuste histórico altera automaticamente a leitura de 2026. A aba Diagnóstico exibe os estudos e a validação corrente. Mantém a assinatura estável desde a v0.2.0.'
           APK="dist/Termometro-Eleicoes-2026-v${VERSION}.apk"
           TAG="v${VERSION}"
           RELEASE_OK=0
 
           if gh release view "$TAG" >/dev/null 2>&1; then
-            if gh release upload "$TAG" "$APK" --clobber; then
+            if gh release upload "$TAG" "$APK" --clobber && gh release edit "$TAG" --notes "$NOTES"; then
               RELEASE_OK=1
             fi
           else
