@@ -1854,6 +1854,219 @@ def advanced_uncertainty(
     }
 
 
+def estimate_house_effects(
+    polls: List[dict],
+    target: date,
+    lookback_days: int = 90,
+    prior_strength: float = 6.0,
+    min_candidate_comparisons: int = 4,
+    max_absolute_adjustment: float = 3.0,
+) -> dict:
+    eligible = [
+        p for p in polls
+        if p["date"] <= target
+        and 0 <= (target - p["date"]).days <= lookback_days
+    ]
+    diagnostics = build_source_diagnostics(eligible)
+    effects = {}
+    for row in diagnostics.get("institutes", []):
+        institute = row.get("label", "Instituto não identificado")
+        candidate_effects = {}
+        for cid, item in row.get("candidateOffsets", {}).items():
+            comparisons = int(item.get("comparisons", 0))
+            raw = float(item.get("meanOffset", 0.0))
+            if comparisons < min_candidate_comparisons:
+                continue
+            shrink = comparisons / (comparisons + prior_strength)
+            adjusted = max(
+                -max_absolute_adjustment,
+                min(max_absolute_adjustment, raw * shrink),
+            )
+            candidate_effects[cid] = {
+                "rawOffset": round(raw, 2),
+                "shrunkenOffset": round(adjusted, 2),
+                "comparisons": comparisons,
+                "shrinkageFactor": round(shrink, 3),
+            }
+
+        if candidate_effects:
+            effects[norm(institute)] = {
+                "label": institute,
+                "pollCount": int(row.get("pollCount", 0)),
+                "comparisonCount": int(row.get("comparisonCount", 0)),
+                "candidateEffects": candidate_effects,
+            }
+
+    return {
+        "status": "ok" if effects else "insufficient-data",
+        "lookbackDays": lookback_days,
+        "priorStrength": prior_strength,
+        "minCandidateComparisons": min_candidate_comparisons,
+        "maxAbsoluteAdjustment": max_absolute_adjustment,
+        "instituteCount": len(effects),
+        "effects": effects,
+        "correctionApplied": False,
+        "note": (
+            "Offsets por instituto são estimados contra pesquisas contemporâneas de outros "
+            "institutos, encolhidos para zero e limitados. Permanecem apenas em sombra."
+        ),
+    }
+
+
+def apply_house_effect_shadow(
+    polls: List[dict],
+    target: date,
+    effects_payload: dict,
+) -> List[dict]:
+    effects = effects_payload.get("effects", {})
+    adjusted = []
+    for poll in polls:
+        clone = dict(poll)
+        clone_values = dict(poll.get("values", {}))
+        institute_effect = effects.get(norm(poll.get("institute", "")), {})
+        candidate_effects = institute_effect.get("candidateEffects", {})
+        for cid, value in list(clone_values.items()):
+            effect = candidate_effects.get(cid)
+            if effect is None:
+                continue
+            correction = float(effect.get("shrunkenOffset", 0.0))
+            clone_values[cid] = min(100.0, max(0.0, float(value) - correction))
+        clone["values"] = clone_values
+        adjusted.append(clone)
+    return adjusted
+
+
+def current_house_effect_shadow(polls: List[dict], target: date) -> dict:
+    effects = estimate_house_effects(polls, target)
+    baseline = aggregate_first_round(polls, target)
+    if effects.get("status") != "ok" or not baseline.get("candidates"):
+        return {
+            "status": "insufficient-data",
+            "instituteCount": effects.get("instituteCount", 0),
+            "candidates": {},
+            "effects": effects.get("effects", {}),
+            "correctionApplied": False,
+            "note": "Dados insuficientes para calcular leitura corrigida em sombra.",
+        }
+
+    adjusted_polls = apply_house_effect_shadow(polls, target, effects)
+    shadow = aggregate_first_round(adjusted_polls, target)
+    candidates = {}
+    for cid, base in baseline.get("candidates", {}).items():
+        shadow_row = shadow.get("candidates", {}).get(cid)
+        if shadow_row is None:
+            continue
+        base_support = float(base["support"])
+        shadow_support = float(shadow_row["support"])
+        candidates[cid] = {
+            "baselineSupport": round(base_support, 2),
+            "shadowSupport": round(shadow_support, 2),
+            "difference": round(shadow_support - base_support, 2),
+        }
+
+    return {
+        "status": "ok" if candidates else "insufficient-data",
+        "instituteCount": effects.get("instituteCount", 0),
+        "lookbackDays": effects.get("lookbackDays", 90),
+        "priorStrength": effects.get("priorStrength", 6.0),
+        "maxAbsoluteAdjustment": effects.get("maxAbsoluteAdjustment", 3.0),
+        "candidates": candidates,
+        "effects": effects.get("effects", {}),
+        "correctionApplied": False,
+        "note": (
+            "Leitura em sombra remove offsets estimados por instituto antes da agregação. "
+            "Ela não altera a leitura principal."
+        ),
+    }
+
+
+def house_effect_shadow_validation(
+    polls: List[dict],
+    minimum_training_polls: int = 12,
+) -> dict:
+    ordered = sorted(polls, key=lambda p: (p["date"], norm(p.get("institute", ""))))
+    baseline_errors = []
+    shadow_errors = []
+    cases = 0
+    comparisons = 0
+    adjusted_comparisons = 0
+
+    for heldout in ordered:
+        training = [p for p in ordered if p["date"] < heldout["date"]]
+        if len(training) < minimum_training_polls:
+            continue
+
+        target = heldout["date"] - timedelta(days=1)
+        baseline = aggregate_first_round(training, target)
+        if baseline.get("pollCount", 0) < minimum_training_polls or baseline.get("instituteCount", 0) < 3:
+            continue
+
+        effects = estimate_house_effects(training, target)
+        adjusted_training = apply_house_effect_shadow(training, target, effects)
+        shadow = aggregate_first_round(adjusted_training, target)
+        comparable = 0
+
+        for cid, observed in heldout.get("values", {}).items():
+            base = baseline.get("candidates", {}).get(cid)
+            shadow_row = shadow.get("candidates", {}).get(cid)
+            if base is None or shadow_row is None:
+                continue
+
+            baseline_errors.append(abs(float(observed) - float(base["support"])))
+            shadow_errors.append(abs(float(observed) - float(shadow_row["support"])))
+            comparisons += 1
+            comparable += 1
+
+            institute_effect = effects.get("effects", {}).get(
+                norm(heldout.get("institute", "")), {}
+            )
+            if cid in institute_effect.get("candidateEffects", {}):
+                adjusted_comparisons += 1
+
+        if comparable >= 2:
+            cases += 1
+
+    if not baseline_errors:
+        return {
+            "status": "insufficient-data",
+            "caseCount": 0,
+            "comparisonCount": 0,
+            "adjustedComparisonCount": 0,
+            "baselineMeanAbsoluteError": None,
+            "shadowMeanAbsoluteError": None,
+            "differenceShadowVsBaseline": None,
+            "promotionEligible": False,
+            "correctionApplied": False,
+            "note": "Ainda não há casos retrospectivos suficientes para validar house effect.",
+        }
+
+    baseline_mae = sum(baseline_errors) / len(baseline_errors)
+    shadow_mae = sum(shadow_errors) / len(shadow_errors)
+    difference = shadow_mae - baseline_mae
+    promotion_eligible = (
+        cases >= 12
+        and comparisons >= 80
+        and adjusted_comparisons >= 30
+        and difference <= -0.10
+    )
+
+    return {
+        "status": "ok",
+        "caseCount": cases,
+        "comparisonCount": comparisons,
+        "adjustedComparisonCount": adjusted_comparisons,
+        "baselineMeanAbsoluteError": round(baseline_mae, 2),
+        "shadowMeanAbsoluteError": round(shadow_mae, 2),
+        "differenceShadowVsBaseline": round(difference, 2),
+        "promotionEligible": promotion_eligible,
+        "correctionApplied": False,
+        "note": (
+            "Validação temporal sem vazamento: offsets são aprendidos apenas com pesquisas "
+            "anteriores à observação avaliada. Nenhuma promoção é automática."
+        ),
+    }
+
+
 def rolling_validation(polls: List[dict], minimum_training_polls: int = 4) -> dict:
     """Valida retrospectivamente o agregado contra a próxima pesquisa publicada.
 
@@ -1982,14 +2195,18 @@ def build_calibration_payload(polls: List[dict], now: datetime) -> dict:
     source_diagnostics = build_source_diagnostics(polls)
     validation = rolling_validation(polls)
     regime_validation = regime_shadow_validation(polls)
+    house_validation = house_effect_shadow_validation(polls)
+    house_shadow = current_house_effect_shadow(polls, now.date())
     return {
         "schemaVersion": 1,
         "generatedAt": now.isoformat().replace("+00:00", "Z"),
         "correctionApplied": False,
-        "correctionPolicy": "diagnóstico somente; nenhum ajuste por instituto ou método altera a média atual",
+        "correctionPolicy": "diagnóstico somente; nenhum ajuste por instituto, método ou house effect altera a média atual",
         "sourceDiagnostics": source_diagnostics,
         "rollingValidation": validation,
         "regimeShadowValidation": regime_validation,
+        "houseEffectShadow": house_shadow,
+        "houseEffectValidation": house_validation,
         "historicalElectionBacktest": {
             "status": "not-applied",
             "correctionApplied": False,
@@ -2142,7 +2359,7 @@ def main() -> None:
     }
 
     snapshot = {
-        "schemaVersion": 11,
+        "schemaVersion": 12,
         "generatedAt": now.isoformat().replace("+00:00", "Z"),
         "electionDate": ELECTION_DATE.isoformat(),
         "daysToElection": max((ELECTION_DATE - now.date()).days, 0),
@@ -2168,6 +2385,7 @@ def main() -> None:
             "responseComposition": "categorias não candidatas somente quando identificadas pela fonte; residual não classificado não é indecisão",
             "sensitivity": "leave-one-out por pesquisa + comparação de janelas de 14 e 30 dias; informativo, sem ajuste automático",
             "influence": "remoção de uma pesquisa ou de um instituto + desvio robusto entre pares contemporâneos; diagnóstico apenas",
+            "houseEffect": "offsets por instituto com shrinkage e limite de magnitude; leitura e validação apenas em sombra, sem correção automática",
             "regimeShift": "comparação entre últimos 7 dias e bloco de 8 a 30 dias + persistência por estados distintos de evidência; leitura adaptativa apenas em sombra, sem aplicação automática",
         },
         "note": "Leitura estatística de pesquisas públicas. Intervalos e testes de sensibilidade expressam incerteza do agregador e não garantem resultado eleitoral.",
