@@ -392,6 +392,46 @@ class ElectionRepository {
         }.sortedByDescending { it.date }
     }
 
+    private fun parseHouseEffectShadow(obj: JSONObject?): HouseEffectShadow {
+        val root = obj ?: JSONObject()
+        val candidatesObj = root.optJSONObject("candidates") ?: JSONObject()
+        val candidates = mutableMapOf<String, HouseEffectCandidateShadow>()
+        candidatesObj.keys().forEach { id ->
+            val item = candidatesObj.optJSONObject(id) ?: return@forEach
+            candidates[id] = HouseEffectCandidateShadow(
+                baselineSupport = item.optDouble("baselineSupport", 0.0),
+                shadowSupport = item.optDouble("shadowSupport", 0.0),
+                difference = item.optDouble("difference", 0.0)
+            )
+        }
+        return HouseEffectShadow(
+            status = root.optString("status", "insufficient-data"),
+            instituteCount = root.optInt("instituteCount", 0),
+            lookbackDays = root.optInt("lookbackDays", 90),
+            priorStrength = root.optDouble("priorStrength", 6.0),
+            maxAbsoluteAdjustment = root.optDouble("maxAbsoluteAdjustment", 3.0),
+            candidates = candidates,
+            correctionApplied = root.optBoolean("correctionApplied", false),
+            note = root.optString("note")
+        )
+    }
+
+    private fun parseHouseEffectValidation(obj: JSONObject?): HouseEffectValidation {
+        val root = obj ?: JSONObject()
+        return HouseEffectValidation(
+            status = root.optString("status", "insufficient-data"),
+            caseCount = root.optInt("caseCount", 0),
+            comparisonCount = root.optInt("comparisonCount", 0),
+            adjustedComparisonCount = root.optInt("adjustedComparisonCount", 0),
+            baselineMeanAbsoluteError = if (root.isNull("baselineMeanAbsoluteError")) null else root.optDouble("baselineMeanAbsoluteError"),
+            shadowMeanAbsoluteError = if (root.isNull("shadowMeanAbsoluteError")) null else root.optDouble("shadowMeanAbsoluteError"),
+            differenceShadowVsBaseline = if (root.isNull("differenceShadowVsBaseline")) null else root.optDouble("differenceShadowVsBaseline"),
+            promotionEligible = root.optBoolean("promotionEligible", false),
+            correctionApplied = root.optBoolean("correctionApplied", false),
+            note = root.optString("note")
+        )
+    }
+
     private fun parseCalibration(root: JSONObject): CalibrationData {
         fun parseDiagnosticArray(array: JSONArray?): List<SourceDiagnostic> {
             if (array == null) return emptyList()
@@ -424,6 +464,8 @@ class ElectionRepository {
         val source = root.optJSONObject("sourceDiagnostics") ?: JSONObject()
         val rolling = root.optJSONObject("rollingValidation") ?: JSONObject()
         val regimeShadow = root.optJSONObject("regimeShadowValidation") ?: JSONObject()
+        val houseShadow = root.optJSONObject("houseEffectShadow") ?: JSONObject()
+        val houseValidation = root.optJSONObject("houseEffectValidation") ?: JSONObject()
         val historical = root.optJSONObject("historicalElectionBacktest") ?: JSONObject()
 
         return CalibrationData(
@@ -449,6 +491,8 @@ class ElectionRepository {
                 note = rolling.optString("note").takeIf { it.isNotBlank() }
             ),
             regimeShadowValidation = parseRegimeShadowValidation(regimeShadow),
+            houseEffectShadow = parseHouseEffectShadow(houseShadow),
+            houseEffectValidation = parseHouseEffectValidation(houseValidation),
             historicalBacktestStatus = historical.optString("status", "not-applied"),
             historicalBacktestNote = historical.optString("note")
         )
