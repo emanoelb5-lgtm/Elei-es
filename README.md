@@ -2,7 +2,7 @@
 
 Aplicativo Android público e experimental para acompanhar **pesquisas presidenciais de 2026**, sua evolução no tempo, incerteza e diferenças entre fontes.
 
-## O que a v0.8.0 faz
+## O que a v0.8.1 faz
 
 - trabalha com **pesquisas individuais** como unidade principal, em vez de somar agregadores;
 - deduplica levantamentos pelo número de registro TSE e, quando necessário, por uma chave de conteúdo;
@@ -76,7 +76,7 @@ Se os testes ou a validação estrutural falharem, os novos dados não são publ
 
 O workflow **Build e publicar APK** compila e assina o APK com a mesma identidade de desenvolvimento estável adotada desde a v0.2.0, permitindo atualização sobre versões posteriores à transição de assinatura.
 
-A release atual é v0.8.0.
+A release atual é v0.8.1.
 
 ## Aviso
 
@@ -214,3 +214,24 @@ O sistema publica:
 A faixa avançada pode ser determinada pelo bootstrap por método se ele for mais conservador que intervalo analítico, bootstrap por pesquisa, bootstrap por instituto e piso empírico. Nenhum método recebe bônus, penalização ou correção automática.
 
 O schema de data/analytics.json passa a ser v10.
+
+## Frescor e cobertura temporal v0.8.1
+
+A leitura corrente passou a medir não apenas quantas pesquisas existem, mas como elas estão distribuídas no tempo.
+
+O diagnóstico calcula:
+
+- idade da pesquisa mais recente;
+- mediana ponderada da idade das pesquisas;
+- idade que concentra 80% do peso acumulado;
+- participação do peso efetivo vindo dos últimos 7 e 14 dias;
+- número de datas distintas com pesquisas;
+- número de dias ativos nos últimos 14 dias;
+- número efetivo de datas após ponderação;
+- maior concentração de peso em uma única data;
+- amplitude temporal da janela;
+- maior lacuna entre datas de levantamentos.
+
+O frescor é classificado como fresco, moderado ou defasado, e a cobertura por data como diversificada, moderada ou concentrada. Essas classificações descrevem a base corrente e não alteram automaticamente o peso temporal das pesquisas.
+
+O schema de data/analytics.json passa a ser v11.
