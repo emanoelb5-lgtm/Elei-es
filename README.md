@@ -2,7 +2,7 @@
 
 Aplicativo Android público e experimental para acompanhar **pesquisas presidenciais de 2026**, sua evolução no tempo, incerteza e diferenças entre fontes.
 
-## O que a v0.8.1 faz
+## O que a v0.9.0 faz
 
 - trabalha com **pesquisas individuais** como unidade principal, em vez de somar agregadores;
 - deduplica levantamentos pelo número de registro TSE e, quando necessário, por uma chave de conteúdo;
@@ -76,7 +76,7 @@ Se os testes ou a validação estrutural falharem, os novos dados não são publ
 
 O workflow **Build e publicar APK** compila e assina o APK com a mesma identidade de desenvolvimento estável adotada desde a v0.2.0, permitindo atualização sobre versões posteriores à transição de assinatura.
 
-A release atual é v0.8.1.
+A release atual é v0.9.0.
 
 ## Aviso
 
@@ -235,3 +235,15 @@ O diagnóstico calcula:
 O frescor é classificado como fresco, moderado ou defasado, e a cobertura por data como diversificada, moderada ou concentrada. Essas classificações descrevem a base corrente e não alteram automaticamente o peso temporal das pesquisas.
 
 O schema de data/analytics.json passa a ser v11.
+
+## House effect em sombra v0.9.0
+
+O aplicativo passa a testar uma correção de efeito de instituto sem alterar a leitura principal.
+
+Para cada instituto e candidatura, o sistema estima diferenças médias em relação a pesquisas contemporâneas de outros institutos. Esses offsets só são considerados quando há comparações mínimas suficientes, recebem shrinkage em direção a zero e têm magnitude máxima limitada.
+
+A leitura corrigida é executada apenas em sombra. A validação é temporal: para avaliar uma pesquisa futura simulada, os offsets são aprendidos exclusivamente com pesquisas anteriores àquela data. Isso evita vazamento de informação futura para o teste.
+
+A validação compara MAE do modelo atual com MAE da versão corrigida em sombra. Uma eventual melhora só torna a técnica elegível para revisão; nenhuma correção é ativada automaticamente.
+
+O schema de data/analytics.json passa a ser v12.
