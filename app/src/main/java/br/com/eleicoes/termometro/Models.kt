@@ -224,6 +224,54 @@ data class TemporalCoverageData(
     val note: String
 )
 
+data class CandidateScenarioCoverage(
+    val name: String,
+    val pollCount: Int,
+    val instituteCount: Int,
+    val methodCount: Int,
+    val weightShare: Double,
+    val coreCandidate: Boolean,
+    val baselineSupport: Double?,
+    val harmonizedSupport: Double?,
+    val difference: Double?
+)
+
+data class ScenarioPattern(
+    val candidateIds: List<String>,
+    val pollCount: Int,
+    val weightShare: Double
+)
+
+data class ScenarioCoverageData(
+    val status: String,
+    val pollCount: Int,
+    val coreThreshold: Double,
+    val coreCandidates: List<String>,
+    val candidates: Map<String, CandidateScenarioCoverage>,
+    val scenarioCount: Int,
+    val scenarios: List<ScenarioPattern>,
+    val dominantScenarioWeightShare: Double?,
+    val harmonizedPollCount: Int,
+    val harmonizedWeightShare: Double?,
+    val maxHarmonizedShift: Double?,
+    val sensitivity: String,
+    val harmonizationApplied: Boolean,
+    val note: String
+)
+
+data class ScenarioCoverageValidation(
+    val status: String,
+    val caseCount: Int,
+    val comparisonCount: Int,
+    val shiftedComparisonCount: Int,
+    val baselineMeanAbsoluteError: Double?,
+    val shadowMeanAbsoluteError: Double?,
+    val differenceShadowVsBaseline: Double?,
+    val promotionEligible: Boolean,
+    val harmonizationApplied: Boolean,
+    val note: String
+)
+
 data class RunoffScenario(
     val id: String,
     val label: String,
@@ -248,6 +296,7 @@ data class Snapshot(
     val sensitivity: SensitivityData,
     val influence: InfluenceData,
     val temporalCoverage: TemporalCoverageData,
+    val scenarioCoverage: ScenarioCoverageData,
     val uncertainty: UncertaintyData,
     val regimeShift: RegimeShiftData,
     val note: String
@@ -354,6 +403,7 @@ data class CalibrationData(
     val regimeShadowValidation: RegimeShadowValidation,
     val houseEffectShadow: HouseEffectShadow,
     val houseEffectValidation: HouseEffectValidation,
+    val scenarioCoverageValidation: ScenarioCoverageValidation,
     val historicalBacktestStatus: String,
     val historicalBacktestNote: String
 )
