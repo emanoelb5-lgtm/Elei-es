@@ -110,6 +110,81 @@ def non_candidate_for_label(label: str) -> str | None:
     return None
 
 
+def method_group(value: str) -> str:
+    text = norm(value)
+    if any(token in text for token in ("presencial", "face a face", "domiciliar")):
+        return "presencial"
+    if any(token in text for token in ("telefone", "telefonica", "telefônica", "cati")):
+        return "telefonica"
+    if any(token in text for token in ("online", "digital", "web")):
+        return "online"
+    if any(token in text for token in ("ura", "ivr", "robocall")):
+        return "ura-ivr"
+    if any(token in text for token in ("hibrida", "híbrida", "mista", "mixed")):
+        return "hibrida"
+    return "outros"
+
+
+def method_diversity_analysis(polls: List[dict], target: date) -> dict:
+    weighted = poll_weights(polls, target)
+    if not weighted:
+        return {
+            "status": "insufficient-data",
+            "methodCount": 0,
+            "effectiveMethodCount": 0.0,
+            "maxWeightShare": None,
+            "concentrationHhi": None,
+            "concentration": "indisponivel",
+            "shares": {},
+            "note": "Sem pesquisas elegíveis para medir diversidade metodológica.",
+        }
+
+    totals: Dict[str, float] = {}
+    total_weight = 0.0
+    for poll, weight in weighted:
+        group = method_group(poll.get("method", ""))
+        totals[group] = totals.get(group, 0.0) + float(weight)
+        total_weight += float(weight)
+
+    if total_weight <= 0:
+        return {
+            "status": "insufficient-data",
+            "methodCount": len(totals),
+            "effectiveMethodCount": 0.0,
+            "maxWeightShare": None,
+            "concentrationHhi": None,
+            "concentration": "indisponivel",
+            "shares": {},
+            "note": "Pesos efetivos inválidos para medir diversidade metodológica.",
+        }
+
+    shares = {key: value / total_weight for key, value in totals.items()}
+    hhi = sum(share * share for share in shares.values())
+    effective = 1.0 / hhi if hhi > 0 else 0.0
+    max_share = max(shares.values()) if shares else 0.0
+
+    if len(shares) >= 3 and max_share <= 0.50 and effective >= 2.5:
+        concentration = "diversificada"
+    elif len(shares) >= 2 and max_share <= 0.70 and effective >= 1.7:
+        concentration = "moderada"
+    else:
+        concentration = "concentrada"
+
+    return {
+        "status": "ok",
+        "methodCount": len(shares),
+        "effectiveMethodCount": round(effective, 2),
+        "maxWeightShare": round(max_share, 4),
+        "concentrationHhi": round(hhi, 4),
+        "concentration": concentration,
+        "shares": {key: round(value, 4) for key, value in sorted(shares.items())},
+        "note": (
+            "Concentração metodológica usa os pesos efetivos da janela corrente. "
+            "Ela descreve composição da base e não classifica um método como melhor ou pior."
+        ),
+    }
+
+
 def response_composition(polls: List[dict], target: date) -> dict:
     weighted = poll_weights(polls, target)
     if not weighted:
@@ -1457,6 +1532,72 @@ def cluster_bootstrap_current_support(
     }
 
 
+def method_bootstrap_current_support(
+    polls: List[dict],
+    target: date,
+    draws: int = 500,
+) -> dict:
+    eligible = [
+        p for p in polls
+        if p["date"] <= target and (target - p["date"]).days <= LIVE_WINDOW_DAYS
+    ]
+    grouped: Dict[str, List[dict]] = {}
+    for poll in eligible:
+        grouped.setdefault(method_group(poll.get("method", "")), []).append(poll)
+
+    cluster_keys = sorted(grouped)
+    if len(cluster_keys) < 2:
+        return {
+            "status": "insufficient-data",
+            "draws": 0,
+            "clusterCount": len(cluster_keys),
+            "candidates": {},
+        }
+
+    fingerprint = sum(
+        int(p["date"].strftime("%Y%m%d"))
+        + int(p.get("sample", 0))
+        + sum(int(round(float(v) * 100)) for v in p.get("values", {}).values())
+        for p in eligible
+    ) + 15485863 * len(cluster_keys)
+    rng = random.Random(fingerprint)
+    series: Dict[str, List[float]] = {}
+
+    for draw_index in range(draws):
+        sampled: List[dict] = []
+        for slot in range(len(cluster_keys)):
+            key = cluster_keys[rng.randrange(len(cluster_keys))]
+            for original in grouped[key]:
+                clone = dict(original)
+                base_institute = norm(original.get("institute", "")) or "instituto-nao-identificado"
+                clone["institute"] = f"{base_institute}::method-bootstrap-{draw_index}-{slot}"
+                sampled.append(clone)
+
+        aggregate = aggregate_first_round(sampled, target)
+        for cid, values in aggregate.get("candidates", {}).items():
+            series.setdefault(cid, []).append(float(values["support"]))
+
+    candidates = {}
+    for cid, values in series.items():
+        if len(values) < max(50, draws // 4):
+            continue
+        candidates[cid] = {
+            "p10": round(percentile(values, 0.10) or 0.0, 2),
+            "p25": round(percentile(values, 0.25) or 0.0, 2),
+            "p50": round(percentile(values, 0.50) or 0.0, 2),
+            "p75": round(percentile(values, 0.75) or 0.0, 2),
+            "p90": round(percentile(values, 0.90) or 0.0, 2),
+            "drawCount": len(values),
+        }
+
+    return {
+        "status": "ok" if candidates else "insufficient-data",
+        "draws": draws,
+        "clusterCount": len(cluster_keys),
+        "candidates": candidates,
+    }
+
+
 def advanced_uncertainty(
     polls: List[dict],
     target: date,
@@ -1466,6 +1607,8 @@ def advanced_uncertainty(
 ) -> dict:
     bootstrap = bootstrap_current_support(polls, target)
     cluster_bootstrap = cluster_bootstrap_current_support(polls, target)
+    method_bootstrap = method_bootstrap_current_support(polls, target)
+    method_diversity = method_diversity_analysis(polls, target)
     empirical_q80 = validation.get("absoluteErrorQuantiles", {}).get("q80") if use_empirical else None
     empirical_q90 = validation.get("absoluteErrorQuantiles", {}).get("q90") if use_empirical else None
     band_quantiles = validation.get("absoluteErrorQuantilesBySupportBand", {}) if use_empirical else {}
@@ -1495,6 +1638,15 @@ def advanced_uncertainty(
             cluster_low = cluster_high = None
             cluster_half = 0.0
 
+        method_boot = method_bootstrap.get("candidates", {}).get(cid)
+        if method_boot:
+            method_low = float(method_boot["p10"])
+            method_high = float(method_boot["p90"])
+            method_half = max(support - method_low, method_high - support, 0.0)
+        else:
+            method_low = method_high = None
+            method_half = 0.0
+
         # Usa erro empírico calibrado por faixa de apoio quando houver volume
         # mínimo suficiente; caso contrário, recua para o quantil global.
         support_band = "low" if support < 10.0 else "medium" if support < 30.0 else "high"
@@ -1514,6 +1666,7 @@ def advanced_uncertainty(
             "analytical": model_half,
             "pollBootstrap": bootstrap_half,
             "instituteBootstrap": cluster_half,
+            "methodBootstrap": method_half,
         }
         if use_empirical:
             components["empirical"] = empirical_half
@@ -1531,6 +1684,10 @@ def advanced_uncertainty(
             "instituteBootstrapP50": round(float(cluster_boot["p50"]), 2) if cluster_boot else None,
             "instituteBootstrapP90": round(cluster_high, 2) if cluster_high is not None else None,
             "instituteBootstrapHalfWidth": round(cluster_half, 2),
+            "methodBootstrapP10": round(method_low, 2) if method_low is not None else None,
+            "methodBootstrapP50": round(float(method_boot["p50"]), 2) if method_boot else None,
+            "methodBootstrapP90": round(method_high, 2) if method_high is not None else None,
+            "methodBootstrapHalfWidth": round(method_half, 2),
             "dominantComponent": dominant_component,
             "empiricalErrorQ80": round(empirical_half, 2) if empirical_half > 0 else None,
             "empiricalSupportBand": support_band,
@@ -1546,6 +1703,9 @@ def advanced_uncertainty(
         "bootstrapDraws": bootstrap.get("draws", 0),
         "instituteBootstrapDraws": cluster_bootstrap.get("draws", 0),
         "instituteClusterCount": cluster_bootstrap.get("clusterCount", 0),
+        "methodBootstrapDraws": method_bootstrap.get("draws", 0),
+        "methodClusterCount": method_bootstrap.get("clusterCount", 0),
+        "methodDiversity": method_diversity,
         "empiricalCalibrationApplied": use_empirical,
         "empiricalErrorQuantileUsed": "q80" if use_empirical else "none",
         "empiricalErrorQ80": round(float(empirical_q80), 2) if empirical_q80 is not None else None,
@@ -1554,7 +1714,7 @@ def advanced_uncertainty(
         "candidates": candidates,
         "note": (
             "Faixa avançada combina a incerteza analítica existente, bootstrap por pesquisa, "
-            "bootstrap em blocos por instituto e, quando aplicável, piso de erro empírico calibrado por faixa de apoio "
+            "bootstrap em blocos por instituto, bootstrap por método de coleta e, quando aplicável, piso de erro empírico calibrado por faixa de apoio "
             "contra a próxima pesquisa publicada. É uma faixa de incerteza da leitura atual, "
             "não probabilidade de vitória nem previsão do resultado da eleição."
         ),
@@ -1848,7 +2008,7 @@ def main() -> None:
     }
 
     snapshot = {
-        "schemaVersion": 9,
+        "schemaVersion": 10,
         "generatedAt": now.isoformat().replace("+00:00", "Z"),
         "electionDate": ELECTION_DATE.isoformat(),
         "daysToElection": max((ELECTION_DATE - now.date()).days, 0),
@@ -1866,7 +2026,8 @@ def main() -> None:
             "windowDays": LIVE_WINDOW_DAYS,
             "deduplication": "registro TSE; fallback por instituto/data/amostra/resultados",
             "weighting": "decaimento temporal + tamanho amostral + controle de repetição por instituto",
-            "uncertainty": "faixa avançada = intervalo analítico + bootstrap individual + bootstrap em blocos por instituto + piso empírico q80 quando aplicável",
+            "uncertainty": "faixa avançada = intervalo analítico + bootstrap individual + bootstrap por instituto + bootstrap por método + piso empírico q80 quando aplicável",
+            "methodDiversity": "concentração dos pesos efetivos por grupo de método; diagnóstico sem correção automática",
             "marketUse": "informativo; não entra na média de pesquisas",
             "responseComposition": "categorias não candidatas somente quando identificadas pela fonte; residual não classificado não é indecisão",
             "sensitivity": "leave-one-out por pesquisa + comparação de janelas de 14 e 30 dias; informativo, sem ajuste automático",
