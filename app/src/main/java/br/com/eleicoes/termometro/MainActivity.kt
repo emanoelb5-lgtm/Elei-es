@@ -159,6 +159,7 @@ private fun HomeScreen(
 
         if (data != null) {
             item { QualityCard(data.snapshot.quality) }
+            item { TemporalCoverageCard(data.snapshot.temporalCoverage) }
             item { AdvancedUncertaintySummary(data.snapshot.uncertainty) }
             item { SectionTitle("Apoio agregado nas pesquisas", "Pesquisas individuais deduplicadas e ponderadas") }
             items(data.snapshot.candidates, key = { it.id }) { CandidateCard(it) }
@@ -431,6 +432,14 @@ private fun DiagnosticsScreen(data: DashboardData?, loading: Boolean) {
             }
             item { RegimeShiftCard(data.snapshot.regimeShift, data.snapshot.candidates) }
             item { RegimeShadowValidationCard(data.calibration.regimeShadowValidation) }
+
+            item {
+                SectionTitle(
+                    "Frescor e cobertura temporal",
+                    "Quanto da leitura vem de pesquisas recentes e quão distribuídas estão as datas"
+                )
+            }
+            item { TemporalCoverageDetailCard(data.snapshot.temporalCoverage) }
 
             item {
                 SectionTitle(
@@ -1163,6 +1172,64 @@ private fun RegimeShadowValidationCard(validation: RegimeShadowValidation) {
 }
 
 @Composable
+private fun TemporalCoverageCard(temporal: TemporalCoverageData) {
+    Card(
+        shape = RoundedCornerShape(22.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.White)
+    ) {
+        Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            Text("Cobertura temporal", fontWeight = FontWeight.ExtraBold, fontSize = 17.sp)
+            if (temporal.status == "ok") {
+                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                    Text("Frescor", color = Muted, fontSize = 13.sp)
+                    Text(
+                        freshnessLabel(temporal.freshness).uppercase(),
+                        color = temporalFreshnessColor(temporal.freshness),
+                        fontWeight = FontWeight.ExtraBold,
+                        fontSize = 11.sp
+                    )
+                }
+                temporal.latestAgeDays?.let { MetricRow("Pesquisa mais recente", "${it} dia(s)") }
+                temporal.weightedMedianAgeDays?.let { MetricRow("Idade mediana ponderada", "${it.one()} dias") }
+                temporal.recent7WeightShare?.let { MetricRow("Peso vindo dos últimos 7 dias", "${(it * 100.0).one()}%") }
+                MetricRow("Datas distintas na janela", temporal.distinctPollDates.toString())
+            } else {
+                Text("Dados insuficientes para medir frescor temporal.", color = Muted)
+            }
+        }
+    }
+}
+
+@Composable
+private fun TemporalCoverageDetailCard(temporal: TemporalCoverageData) {
+    Card(
+        shape = RoundedCornerShape(22.dp),
+        colors = CardDefaults.cardColors(containerColor = Color(0xFFEFF3F8))
+    ) {
+        Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            if (temporal.status == "ok") {
+                MetricRow("Frescor", freshnessLabel(temporal.freshness))
+                MetricRow("Concentração por data", temporalConcentrationLabel(temporal.temporalConcentration))
+                temporal.latestAgeDays?.let { MetricRow("Idade da pesquisa mais recente", "${it} dia(s)") }
+                temporal.weightedMedianAgeDays?.let { MetricRow("Mediana ponderada de idade", "${it.one()} dias") }
+                temporal.weightedP80AgeDays?.let { MetricRow("80% do peso até", "${it.one()} dias") }
+                temporal.recent7WeightShare?.let { MetricRow("Peso dos últimos 7 dias", "${(it * 100.0).one()}%") }
+                temporal.recent14WeightShare?.let { MetricRow("Peso dos últimos 14 dias", "${(it * 100.0).one()}%") }
+                MetricRow("Datas distintas", temporal.distinctPollDates.toString())
+                MetricRow("Dias ativos nos últimos 14", temporal.activeDaysLast14.toString())
+                MetricRow("Datas efetivas", temporal.effectiveDateCount.one())
+                temporal.maxDateWeightShare?.let { MetricRow("Maior peso em uma única data", "${(it * 100.0).one()}%") }
+                MetricRow("Amplitude da cobertura", "${temporal.coverageSpanDays} dias")
+                temporal.longestGapDays?.let { MetricRow("Maior intervalo entre datas", "${it} dia(s)") }
+            } else {
+                Text("Cobertura temporal indisponível nesta leitura.", color = Muted)
+            }
+            Text(temporal.note, color = Muted, fontSize = 11.sp, lineHeight = 16.sp)
+        }
+    }
+}
+
+@Composable
 private fun AdvancedUncertaintySummary(uncertainty: UncertaintyData) {
     Card(
         shape = RoundedCornerShape(22.dp),
@@ -1794,6 +1861,27 @@ private fun regimeCandidateLevelLabel(level: String): String = when (level) {
     "consistent" -> "consistente"
     "watch" -> "em observação"
     else -> "estável"
+}
+
+private fun freshnessLabel(key: String): String = when (key) {
+    "fresca" -> "fresca"
+    "moderada" -> "moderada"
+    "defasada" -> "defasada"
+    else -> "indisponível"
+}
+
+private fun temporalConcentrationLabel(key: String): String = when (key) {
+    "diversificada" -> "diversificada"
+    "moderada" -> "moderada"
+    "concentrada" -> "concentrada"
+    else -> "indisponível"
+}
+
+private fun temporalFreshnessColor(key: String): Color = when (key) {
+    "fresca" -> BrazilGreen
+    "moderada" -> Color(0xFF9A6700)
+    "defasada" -> Negative
+    else -> Muted
 }
 
 private fun methodLabel(key: String): String = when (key) {
