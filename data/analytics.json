@@ -1,6 +1,6 @@
 {
-  "schemaVersion": 12,
-  "generatedAt": "2026-09-23T00:39:48.257442Z",
+  "schemaVersion": 13,
+  "generatedAt": "2026-09-23T00:48:51.861317Z",
   "electionDate": "2026-10-04",
   "daysToElection": 11,
   "quality": {
@@ -19,7 +19,7 @@
       "label": "BBC / PollingData",
       "type": "base de pesquisas individuais",
       "status": "ok",
-      "updatedAt": "2026-09-23T00:39:49.795238Z",
+      "updatedAt": "2026-09-23T00:48:53.141280Z",
       "url": "https://news.files.bbci.co.uk/include/vjamericas/1561-poll-tracker-brazil-2026/table/portuguese/app/amp",
       "tablesFound": 2
     },
@@ -46,7 +46,7 @@
       "label": "ElectioLab",
       "type": "agregador de conferência · sem peso",
       "status": "ok",
-      "updatedAt": "2026-09-23T00:39:51.086996Z",
+      "updatedAt": "2026-09-23T00:48:54.666554Z",
       "url": "https://electiolab.com/pesquisas-presidenciais-2026",
       "pageFreshness": "21 de setembro de 2026"
     },
@@ -64,7 +64,7 @@
       "label": "Polymarket",
       "type": "mercado de previsão · sinal externo",
       "status": "ok",
-      "updatedAt": "2026-09-23T00:39:49.938971Z",
+      "updatedAt": "2026-09-23T00:48:53.326986Z",
       "url": "https://polymarket.com/event/brazil-presidential-election"
     }
   ],
@@ -1305,6 +1305,133 @@
     "temporalConcentration": "diversificada",
     "note": "Frescor e cobertura temporal usam os pesos efetivos da janela. O diagnóstico não altera automaticamente o decaimento temporal nem o agregado."
   },
+  "scenarioCoverage": {
+    "status": "ok",
+    "pollCount": 32,
+    "coreThreshold": 0.8,
+    "coreCandidates": [
+      "augusto-cury",
+      "flavio-bolsonaro",
+      "lula",
+      "renan-santos",
+      "romeu-zema",
+      "ronaldo-caiado"
+    ],
+    "candidates": {
+      "augusto-cury": {
+        "name": "Augusto Cury",
+        "pollCount": 32,
+        "instituteCount": 15,
+        "methodCount": 3,
+        "weightShare": 1.0,
+        "coreCandidate": true,
+        "baselineSupport": 6.06,
+        "harmonizedSupport": 6.06,
+        "difference": 0.0
+      },
+      "flavio-bolsonaro": {
+        "name": "Flávio Bolsonaro",
+        "pollCount": 32,
+        "instituteCount": 15,
+        "methodCount": 3,
+        "weightShare": 1.0,
+        "coreCandidate": true,
+        "baselineSupport": 36.44,
+        "harmonizedSupport": 36.44,
+        "difference": 0.0
+      },
+      "lula": {
+        "name": "Lula",
+        "pollCount": 32,
+        "instituteCount": 15,
+        "methodCount": 3,
+        "weightShare": 1.0,
+        "coreCandidate": true,
+        "baselineSupport": 39.18,
+        "harmonizedSupport": 39.18,
+        "difference": 0.0
+      },
+      "pablo-marcal": {
+        "name": "Pablo Marçal",
+        "pollCount": 23,
+        "instituteCount": 13,
+        "methodCount": 3,
+        "weightShare": 0.496,
+        "coreCandidate": false,
+        "baselineSupport": 1.73,
+        "harmonizedSupport": null,
+        "difference": null
+      },
+      "renan-santos": {
+        "name": "Renan Santos",
+        "pollCount": 32,
+        "instituteCount": 15,
+        "methodCount": 3,
+        "weightShare": 1.0,
+        "coreCandidate": true,
+        "baselineSupport": 4.7,
+        "harmonizedSupport": 4.7,
+        "difference": 0.0
+      },
+      "romeu-zema": {
+        "name": "Romeu Zema",
+        "pollCount": 32,
+        "instituteCount": 15,
+        "methodCount": 3,
+        "weightShare": 1.0,
+        "coreCandidate": true,
+        "baselineSupport": 1.18,
+        "harmonizedSupport": 1.18,
+        "difference": 0.0
+      },
+      "ronaldo-caiado": {
+        "name": "Ronaldo Caiado",
+        "pollCount": 32,
+        "instituteCount": 15,
+        "methodCount": 3,
+        "weightShare": 1.0,
+        "coreCandidate": true,
+        "baselineSupport": 3.06,
+        "harmonizedSupport": 3.06,
+        "difference": 0.0
+      }
+    },
+    "scenarioCount": 2,
+    "scenarios": [
+      {
+        "candidateIds": [
+          "augusto-cury",
+          "flavio-bolsonaro",
+          "lula",
+          "renan-santos",
+          "romeu-zema",
+          "ronaldo-caiado"
+        ],
+        "pollCount": 9,
+        "weightShare": 0.504
+      },
+      {
+        "candidateIds": [
+          "augusto-cury",
+          "flavio-bolsonaro",
+          "lula",
+          "pablo-marcal",
+          "renan-santos",
+          "romeu-zema",
+          "ronaldo-caiado"
+        ],
+        "pollCount": 23,
+        "weightShare": 0.496
+      }
+    ],
+    "dominantScenarioWeightShare": 0.504,
+    "harmonizedPollCount": 32,
+    "harmonizedWeightShare": 1.0,
+    "maxHarmonizedShift": 0.0,
+    "sensitivity": "baixa",
+    "harmonizationApplied": false,
+    "note": "Cobertura mede em que parcela do peso cada candidatura aparece. Ausência em um cenário não é tratada como 0%. A leitura harmonizada é apenas sombra e preserva os pesos originais das pesquisas selecionadas."
+  },
   "uncertainty": {
     "status": "ok",
     "bootstrapDraws": 500,
@@ -1656,6 +1783,7 @@
     "uncertainty": "faixa avançada = intervalo analítico + bootstrap individual + bootstrap por instituto + bootstrap por método + piso empírico q80 quando aplicável",
     "methodDiversity": "concentração dos pesos efetivos por grupo de método; diagnóstico sem correção automática",
     "temporalCoverage": "frescor, concentração por data e participação ponderada de pesquisas recentes; diagnóstico sem ajuste automático",
+    "scenarioCoverage": "cobertura ponderada de candidaturas e harmonização do conjunto comum apenas em sombra; ausência em cenário não equivale a zero",
     "marketUse": "informativo; não entra na média de pesquisas",
     "responseComposition": "categorias não candidatas somente quando identificadas pela fonte; residual não classificado não é indecisão",
     "sensitivity": "leave-one-out por pesquisa + comparação de janelas de 14 e 30 dias; informativo, sem ajuste automático",
