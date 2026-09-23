@@ -304,6 +304,36 @@ data class WeightAuditData(
     val note: String
 )
 
+data class WeightStressCandidate(
+    val name: String,
+    val baselineSupport: Double,
+    val minSupport: Double,
+    val maxSupport: Double,
+    val maxAbsoluteShift: Double,
+    val spread: Double
+)
+
+data class WeightStressVariant(
+    val id: String,
+    val label: String,
+    val decayDays: Double,
+    val sampleExponent: Double,
+    val repeatExponent: Double,
+    val candidateSupport: Map<String, Double>
+)
+
+data class WeightStressData(
+    val status: String,
+    val variantCount: Int,
+    val overallMaxShift: Double?,
+    val sensitivity: String,
+    val productionVariantId: String,
+    val candidates: Map<String, WeightStressCandidate>,
+    val variants: List<WeightStressVariant>,
+    val automaticAdjustment: Boolean,
+    val note: String
+)
+
 data class RunoffScenario(
     val id: String,
     val label: String,
@@ -330,6 +360,7 @@ data class Snapshot(
     val temporalCoverage: TemporalCoverageData,
     val scenarioCoverage: ScenarioCoverageData,
     val weightAudit: WeightAuditData,
+    val weightStress: WeightStressData,
     val uncertainty: UncertaintyData,
     val regimeShift: RegimeShiftData,
     val note: String
