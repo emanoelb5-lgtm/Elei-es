@@ -206,6 +206,24 @@ data class RegimeShadowValidation(
     val note: String
 )
 
+data class TemporalCoverageData(
+    val status: String,
+    val latestAgeDays: Int?,
+    val weightedMedianAgeDays: Double?,
+    val weightedP80AgeDays: Double?,
+    val recent7WeightShare: Double?,
+    val recent14WeightShare: Double?,
+    val distinctPollDates: Int,
+    val activeDaysLast14: Int,
+    val effectiveDateCount: Double,
+    val maxDateWeightShare: Double?,
+    val coverageSpanDays: Int,
+    val longestGapDays: Int?,
+    val freshness: String,
+    val temporalConcentration: String,
+    val note: String
+)
+
 data class RunoffScenario(
     val id: String,
     val label: String,
@@ -229,6 +247,7 @@ data class Snapshot(
     val responseComposition: ResponseComposition,
     val sensitivity: SensitivityData,
     val influence: InfluenceData,
+    val temporalCoverage: TemporalCoverageData,
     val uncertainty: UncertaintyData,
     val regimeShift: RegimeShiftData,
     val note: String
