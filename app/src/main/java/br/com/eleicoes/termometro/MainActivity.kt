@@ -452,6 +452,15 @@ private fun DiagnosticsScreen(data: DashboardData?, loading: Boolean) {
 
             item {
                 SectionTitle(
+                    "Cobertura de candidaturas e cenários",
+                    "Mede em quantas pesquisas cada nome aparece e testa uma leitura harmonizada em sombra"
+                )
+            }
+            item { ScenarioCoverageCard(data.snapshot.scenarioCoverage, data.snapshot.candidates) }
+            item { ScenarioCoverageValidationCard(data.calibration.scenarioCoverageValidation) }
+
+            item {
+                SectionTitle(
                     "Incerteza avançada",
                     "Intervalo analítico, bootstrap e erro empírico observados separadamente"
                 )
@@ -1325,6 +1334,123 @@ private fun TemporalCoverageDetailCard(temporal: TemporalCoverageData) {
 }
 
 @Composable
+private fun ScenarioCoverageCard(
+    coverage: ScenarioCoverageData,
+    candidates: List<Candidate>
+) {
+    Card(
+        shape = RoundedCornerShape(22.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.White)
+    ) {
+        Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            Text("Cobertura dos cenários", fontWeight = FontWeight.ExtraBold, fontSize = 18.sp)
+            if (coverage.status == "ok") {
+                MetricRow("Pesquisas na janela", coverage.pollCount.toString())
+                MetricRow("Combinações de candidaturas", coverage.scenarioCount.toString())
+                coverage.dominantScenarioWeightShare?.let {
+                    MetricRow("Peso do cenário mais frequente", "${(it * 100.0).one()}%")
+                }
+                MetricRow("Conjunto comum", "${coverage.coreCandidates.size} candidatura(s)")
+                coverage.harmonizedWeightShare?.let {
+                    MetricRow("Peso preservado na harmonização", "${(it * 100.0).one()}%")
+                }
+                coverage.maxHarmonizedShift?.let {
+                    MetricRow("Maior deslocamento na sombra", "${it.one()} p.p.")
+                }
+                MetricRow("Sensibilidade à composição do cenário", scenarioSensitivityLabel(coverage.sensitivity))
+
+                HorizontalDivider(color = Color(0xFFE8ECE9))
+                Text(
+                    "Cobertura ponderada por candidatura",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 12.sp
+                )
+                candidates.forEach { candidate ->
+                    coverage.candidates[candidate.id]?.let { row ->
+                        Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
+                            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                                Text(candidate.name, color = Muted, fontSize = 12.sp)
+                                Text(
+                                    "${(row.weightShare * 100.0).one()}%",
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 12.sp
+                                )
+                            }
+                            Text(
+                                "${row.pollCount} pesquisas · ${row.instituteCount} institutos" +
+                                    if (row.coreCandidate) " · conjunto comum" else " · cobertura parcial",
+                                color = Muted,
+                                fontSize = 10.sp
+                            )
+                            if (row.coreCandidate && row.difference != null && row.harmonizedSupport != null) {
+                                Text(
+                                    "Sombra harmonizada: ${row.harmonizedSupport.one()}% (${signed(row.difference)} p.p.)",
+                                    color = BrazilBlue,
+                                    fontSize = 10.sp,
+                                    fontWeight = FontWeight.Bold
+                                )
+                            }
+                        }
+                    }
+                }
+            } else {
+                Text("Dados insuficientes para medir cobertura de cenários.", color = Muted)
+            }
+            Text(coverage.note, color = Muted, fontSize = 11.sp, lineHeight = 16.sp)
+            Text(
+                if (coverage.harmonizationApplied) {
+                    "A harmonização está alterando a leitura principal."
+                } else {
+                    "A harmonização permanece somente em sombra."
+                },
+                color = if (coverage.harmonizationApplied) Color(0xFF9A6700) else BrazilGreen,
+                fontSize = 11.sp,
+                fontWeight = FontWeight.Bold
+            )
+        }
+    }
+}
+
+@Composable
+private fun ScenarioCoverageValidationCard(validation: ScenarioCoverageValidation) {
+    Card(
+        shape = RoundedCornerShape(22.dp),
+        colors = CardDefaults.cardColors(containerColor = Color(0xFFEFF3F8))
+    ) {
+        Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            Text("Validação da harmonização", fontWeight = FontWeight.ExtraBold, fontSize = 17.sp)
+            if (validation.status == "ok") {
+                MetricRow("Pesquisas-alvo", validation.caseCount.toString())
+                MetricRow("Comparações candidato/pesquisa", validation.comparisonCount.toString())
+                MetricRow("Comparações com mudança na sombra", validation.shiftedComparisonCount.toString())
+                validation.baselineMeanAbsoluteError?.let {
+                    MetricRow("MAE · modelo atual", "${it.one()} p.p.")
+                }
+                validation.shadowMeanAbsoluteError?.let {
+                    MetricRow("MAE · harmonização em sombra", "${it.one()} p.p.")
+                }
+                validation.differenceShadowVsBaseline?.let {
+                    MetricRow("Δ sombra vs atual", "${signed(it)} p.p.")
+                }
+                Text(
+                    if (validation.promotionEligible) {
+                        "O critério técnico mínimo para revisão foi atingido; nenhuma harmonização foi ativada automaticamente."
+                    } else {
+                        "O critério técnico para alterar o modelo principal ainda não foi atingido."
+                    },
+                    color = if (validation.promotionEligible) BrazilBlue else Muted,
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.Bold
+                )
+            } else {
+                Text("Ainda não há validação suficiente para a harmonização de cenários.", color = Muted)
+            }
+            Text(validation.note, color = Muted, fontSize = 11.sp, lineHeight = 16.sp)
+        }
+    }
+}
+
+@Composable
 private fun AdvancedUncertaintySummary(uncertainty: UncertaintyData) {
     Card(
         shape = RoundedCornerShape(22.dp),
@@ -1956,6 +2082,13 @@ private fun regimeCandidateLevelLabel(level: String): String = when (level) {
     "consistent" -> "consistente"
     "watch" -> "em observação"
     else -> "estável"
+}
+
+private fun scenarioSensitivityLabel(key: String): String = when (key) {
+    "baixa" -> "baixa"
+    "moderada" -> "moderada"
+    "alta" -> "alta"
+    else -> "indisponível"
 }
 
 private fun freshnessLabel(key: String): String = when (key) {
