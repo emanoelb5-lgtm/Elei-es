@@ -1,3 +1,4 @@
+# pipeline schema v10 final.
 # schema v10: methodological diversity bootstrap.
 # pipeline schema v9 final.
 # schema v9: regime persistence by distinct evidence.
