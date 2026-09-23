@@ -426,6 +426,15 @@ private fun DiagnosticsScreen(data: DashboardData?, loading: Boolean) {
 
             item {
                 SectionTitle(
+                    "Efeito de instituto em sombra",
+                    "Offsets encolhidos e limitados, testados sem alterar a média principal"
+                )
+            }
+            item { HouseEffectShadowCard(data.calibration.houseEffectShadow, data.snapshot.candidates) }
+            item { HouseEffectValidationCard(data.calibration.houseEffectValidation) }
+
+            item {
+                SectionTitle(
                     "Mudança de patamar",
                     "Compara pesquisas dos últimos 7 dias com o bloco de 8 a 30 dias"
                 )
@@ -701,6 +710,92 @@ private fun CalibrationPolicyCard(calibration: CalibrationData) {
                 color = Muted,
                 fontSize = 12.sp
             )
+        }
+    }
+}
+
+@Composable
+private fun HouseEffectShadowCard(
+    shadow: HouseEffectShadow,
+    candidates: List<Candidate>
+) {
+    Card(
+        shape = RoundedCornerShape(22.dp),
+        colors = CardDefaults.cardColors(containerColor = Color(0xFFEFF3F8))
+    ) {
+        Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            Text("Leitura corrigida em sombra", fontWeight = FontWeight.ExtraBold, fontSize = 18.sp)
+            if (shadow.status == "ok") {
+                Text(
+                    "${shadow.instituteCount} institutos com offsets utilizáveis · janela de ${shadow.lookbackDays} dias",
+                    color = BrazilBlue,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 12.sp
+                )
+                candidates.forEach { candidate ->
+                    shadow.candidates[candidate.id]?.let { row ->
+                        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                            Text(candidate.name, color = Muted, fontSize = 12.sp)
+                            Text(
+                                "${row.shadowSupport.one()}% (${signed(row.difference)} p.p.)",
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 12.sp
+                            )
+                        }
+                    }
+                }
+                HorizontalDivider(color = Color(0xFFDDE5E1))
+                MetricRow("Força do shrinkage", shadow.priorStrength.one())
+                MetricRow("Limite absoluto por ajuste", "±${shadow.maxAbsoluteAdjustment.one()} p.p.")
+            } else {
+                Text("Dados insuficientes para calcular o house effect em sombra.", color = Muted)
+            }
+            Text(shadow.note, color = Muted, fontSize = 11.sp, lineHeight = 16.sp)
+            Text(
+                if (shadow.correctionApplied) "Correção aplicada ao agregado." else "A leitura principal permanece sem correção por instituto.",
+                color = if (shadow.correctionApplied) Color(0xFF9A6700) else BrazilGreen,
+                fontSize = 11.sp,
+                fontWeight = FontWeight.Bold
+            )
+        }
+    }
+}
+
+@Composable
+private fun HouseEffectValidationCard(validation: HouseEffectValidation) {
+    Card(
+        shape = RoundedCornerShape(22.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.White)
+    ) {
+        Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            Text("Validação do house effect", fontWeight = FontWeight.ExtraBold, fontSize = 17.sp)
+            if (validation.status == "ok") {
+                MetricRow("Pesquisas-alvo", validation.caseCount.toString())
+                MetricRow("Comparações candidato/pesquisa", validation.comparisonCount.toString())
+                MetricRow("Comparações com offset disponível", validation.adjustedComparisonCount.toString())
+                validation.baselineMeanAbsoluteError?.let {
+                    MetricRow("MAE · modelo atual", "${it.one()} p.p.")
+                }
+                validation.shadowMeanAbsoluteError?.let {
+                    MetricRow("MAE · house effect em sombra", "${it.one()} p.p.")
+                }
+                validation.differenceShadowVsBaseline?.let {
+                    MetricRow("Δ sombra vs atual", "${signed(it)} p.p.")
+                }
+                Text(
+                    if (validation.promotionEligible) {
+                        "O critério técnico mínimo para revisão foi atingido; nenhuma correção foi ativada automaticamente."
+                    } else {
+                        "O critério técnico para alterar o modelo principal ainda não foi atingido."
+                    },
+                    color = if (validation.promotionEligible) BrazilBlue else Muted,
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.Bold
+                )
+            } else {
+                Text("Ainda não há validação suficiente para o house effect.", color = Muted)
+            }
+            Text(validation.note, color = Muted, fontSize = 11.sp, lineHeight = 16.sp)
         }
     }
 }
