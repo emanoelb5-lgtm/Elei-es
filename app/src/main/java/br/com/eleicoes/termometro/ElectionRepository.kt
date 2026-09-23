@@ -371,6 +371,48 @@ class ElectionRepository {
         )
     }
 
+    private fun parseWeightStress(obj: JSONObject?): WeightStressData {
+        val root = obj ?: JSONObject()
+        val candidatesObj = root.optJSONObject("candidates") ?: JSONObject()
+        val candidates = mutableMapOf<String, WeightStressCandidate>()
+        candidatesObj.keys().forEach { id ->
+            val item = candidatesObj.optJSONObject(id) ?: return@forEach
+            candidates[id] = WeightStressCandidate(
+                name = item.optString("name", id),
+                baselineSupport = item.optDouble("baselineSupport", 0.0),
+                minSupport = item.optDouble("minSupport", 0.0),
+                maxSupport = item.optDouble("maxSupport", 0.0),
+                maxAbsoluteShift = item.optDouble("maxAbsoluteShift", 0.0),
+                spread = item.optDouble("spread", 0.0)
+            )
+        }
+
+        val variantsArray = root.optJSONArray("variants") ?: JSONArray()
+        val variants = List(variantsArray.length()) { i ->
+            val item = variantsArray.getJSONObject(i)
+            WeightStressVariant(
+                id = item.optString("id"),
+                label = item.optString("label"),
+                decayDays = item.optDouble("decayDays", 10.0),
+                sampleExponent = item.optDouble("sampleExponent", 0.5),
+                repeatExponent = item.optDouble("repeatExponent", 0.5),
+                candidateSupport = readDoubleMap(item.optJSONObject("candidateSupport"))
+            )
+        }
+
+        return WeightStressData(
+            status = root.optString("status", "insufficient-data"),
+            variantCount = root.optInt("variantCount", 0),
+            overallMaxShift = if (root.isNull("overallMaxShift")) null else root.optDouble("overallMaxShift"),
+            sensitivity = root.optString("sensitivity", "indisponivel"),
+            productionVariantId = root.optString("productionVariantId", "production"),
+            candidates = candidates,
+            variants = variants,
+            automaticAdjustment = root.optBoolean("automaticAdjustment", false),
+            note = root.optString("note")
+        )
+    }
+
     private fun parseSnapshot(root: JSONObject): Snapshot {
         val q = root.optJSONObject("quality") ?: JSONObject()
         val quality = QualityInfo(
@@ -459,6 +501,7 @@ class ElectionRepository {
             temporalCoverage = parseTemporalCoverage(root.optJSONObject("temporalCoverage")),
             scenarioCoverage = parseScenarioCoverage(root.optJSONObject("scenarioCoverage")),
             weightAudit = parseWeightAudit(root.optJSONObject("weightAudit")),
+            weightStress = parseWeightStress(root.optJSONObject("weightStress")),
             uncertainty = parseUncertainty(root.optJSONObject("uncertainty")),
             regimeShift = parseRegimeShift(root.optJSONObject("regimeShift")),
             note = root.optString("note", "Leitura estatística de pesquisas públicas.")
