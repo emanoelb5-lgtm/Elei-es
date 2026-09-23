@@ -1042,18 +1042,136 @@ def dedupe_polls(polls: Iterable[dict], tse_ids: set[str]) -> List[dict]:
     return sorted(chosen.values(), key=lambda p: (p["date"], norm(p.get("institute", ""))))
 
 
+def poll_weight_components(
+    poll: dict,
+    target: date,
+    institute_counts: Counter,
+) -> dict:
+    age = max((target - poll["date"]).days, 0)
+    recency = math.exp(-age / 10.0)
+    sample_factor = min(
+        max(math.sqrt(max(poll["sample"], 300) / 2000.0), 0.65),
+        1.60,
+    )
+    institute_key = norm(poll["institute"])
+    institute_poll_count = max(institute_counts[institute_key], 1)
+    repeat_penalty = 1.0 / math.sqrt(institute_poll_count)
+    verified_factor = 1.05 if poll.get("verifiedTse") else 1.0
+    raw_weight = recency * sample_factor * repeat_penalty * verified_factor
+    return {
+        "ageDays": age,
+        "recencyFactor": recency,
+        "sampleFactor": sample_factor,
+        "institutePollCount": institute_poll_count,
+        "repeatPenalty": repeat_penalty,
+        "verificationFactor": verified_factor,
+        "rawWeight": raw_weight,
+    }
+
+
 def poll_weights(polls: List[dict], target: date) -> List[tuple[dict, float]]:
-    eligible = [p for p in polls if p["date"] <= target and (target - p["date"]).days <= LIVE_WINDOW_DAYS]
+    eligible = [
+        p for p in polls
+        if p["date"] <= target and (target - p["date"]).days <= LIVE_WINDOW_DAYS
+    ]
     institute_counts = Counter(norm(p["institute"]) for p in eligible)
     weighted = []
     for poll in eligible:
-        age = max((target - poll["date"]).days, 0)
-        recency = math.exp(-age / 10.0)
-        sample_factor = min(max(math.sqrt(max(poll["sample"], 300) / 2000.0), 0.65), 1.60)
-        repeat_penalty = 1.0 / math.sqrt(max(institute_counts[norm(poll["institute"])], 1))
-        verified_factor = 1.05 if poll.get("verifiedTse") else 1.0
-        weighted.append((poll, recency * sample_factor * repeat_penalty * verified_factor))
+        components = poll_weight_components(poll, target, institute_counts)
+        weighted.append((poll, float(components["rawWeight"])))
     return weighted
+
+
+def weight_audit_analysis(polls: List[dict], target: date) -> dict:
+    eligible = [
+        p for p in polls
+        if p["date"] <= target and (target - p["date"]).days <= LIVE_WINDOW_DAYS
+    ]
+    if not eligible:
+        return {
+            "status": "insufficient-data",
+            "pollCount": 0,
+            "instituteCount": 0,
+            "effectivePolls": 0.0,
+            "rows": [],
+            "formula": "",
+            "note": "Sem pesquisas elegíveis para auditoria dos pesos.",
+        }
+
+    institute_counts = Counter(norm(p["institute"]) for p in eligible)
+    computed = []
+    for poll in eligible:
+        components = poll_weight_components(poll, target, institute_counts)
+        computed.append((poll, components))
+
+    total_raw = sum(float(components["rawWeight"]) for _, components in computed)
+    candidate_totals: Dict[str, float] = {}
+    for poll, components in computed:
+        raw = float(components["rawWeight"])
+        for cid in poll.get("values", {}):
+            candidate_totals[cid] = candidate_totals.get(cid, 0.0) + raw
+
+    rows = []
+    for poll, components in computed:
+        raw = float(components["rawWeight"])
+        candidate_shares = {
+            cid: round(raw / total, 6)
+            for cid, total in candidate_totals.items()
+            if cid in poll.get("values", {}) and total > 0
+        }
+        rows.append({
+            "date": poll["date"].isoformat(),
+            "institute": poll.get("institute", "Instituto não identificado"),
+            "sample": int(poll.get("sample", 0)),
+            "method": poll.get("method", "não identificado"),
+            "registration": poll.get("registration"),
+            "verifiedTse": bool(poll.get("verifiedTse")),
+            "candidateIds": sorted(poll.get("values", {}).keys()),
+            "ageDays": int(components["ageDays"]),
+            "recencyFactor": round(float(components["recencyFactor"]), 6),
+            "sampleFactor": round(float(components["sampleFactor"]), 6),
+            "institutePollCount": int(components["institutePollCount"]),
+            "repeatPenalty": round(float(components["repeatPenalty"]), 6),
+            "verificationFactor": round(float(components["verificationFactor"]), 6),
+            "rawWeight": round(raw, 8),
+            "windowWeightShare": round(raw / total_raw, 6) if total_raw > 0 else 0.0,
+            "candidateWeightShares": candidate_shares,
+        })
+
+    rows.sort(
+        key=lambda row: (
+            row["date"],
+            norm(row["institute"]),
+            row.get("registration") or "",
+        ),
+        reverse=True,
+    )
+    raw_weights = [float(components["rawWeight"]) for _, components in computed]
+    sw = sum(raw_weights)
+    sw2 = sum(value * value for value in raw_weights)
+    effective = (sw * sw / sw2) if sw2 > 0 else 0.0
+
+    return {
+        "status": "ok",
+        "pollCount": len(rows),
+        "instituteCount": len(institute_counts),
+        "effectivePolls": round(effective, 2),
+        "totalRawWeight": round(total_raw, 8),
+        "rows": rows,
+        "formula": (
+            "peso bruto = recência × fator amostral × penalização por repetição "
+            "× fator de validação TSE"
+        ),
+        "candidateShareMeaning": (
+            "A participação por candidatura é normalizada somente entre pesquisas "
+            "que realmente testaram aquela candidatura."
+        ),
+        "automaticAdjustment": False,
+        "note": (
+            "Auditoria reproduz exatamente a função de peso do agregador. "
+            "A ordem de exibição é cronológica, não por peso."
+        ),
+    }
 
 
 def aggregate_candidate(weighted: List[tuple[dict, float]], cid: str) -> tuple[float, float, float] | None:
@@ -2510,6 +2628,7 @@ def main() -> None:
     influence = influence_analysis(first_round, now.date())
     temporal_coverage = temporal_coverage_analysis(first_round, now.date())
     scenario_coverage = candidate_scenario_coverage_analysis(first_round, now.date())
+    weight_audit = weight_audit_analysis(first_round, now.date())
     regime_shift = regime_shift_analysis(first_round, now.date())
     regime_shift = update_regime_persistence(regime_shift, first_round, now)
     (DATA / "calibration.json").write_text(
@@ -2562,7 +2681,7 @@ def main() -> None:
     }
 
     snapshot = {
-        "schemaVersion": 13,
+        "schemaVersion": 14,
         "generatedAt": now.isoformat().replace("+00:00", "Z"),
         "electionDate": ELECTION_DATE.isoformat(),
         "daysToElection": max((ELECTION_DATE - now.date()).days, 0),
@@ -2575,6 +2694,7 @@ def main() -> None:
         "influence": influence,
         "temporalCoverage": temporal_coverage,
         "scenarioCoverage": scenario_coverage,
+        "weightAudit": weight_audit,
         "uncertainty": uncertainty,
         "regimeShift": regime_shift,
         "methodology": {
@@ -2586,6 +2706,7 @@ def main() -> None:
             "methodDiversity": "concentração dos pesos efetivos por grupo de método; diagnóstico sem correção automática",
             "temporalCoverage": "frescor, concentração por data e participação ponderada de pesquisas recentes; diagnóstico sem ajuste automático",
             "scenarioCoverage": "cobertura ponderada de candidaturas e harmonização do conjunto comum apenas em sombra; ausência em cenário não equivale a zero",
+            "weightAudit": "decomposição exata do peso aplicado: recência × amostra × repetição do instituto × validação TSE; participação por candidatura usa apenas pesquisas que testaram o nome",
             "marketUse": "informativo; não entra na média de pesquisas",
             "responseComposition": "categorias não candidatas somente quando identificadas pela fonte; residual não classificado não é indecisão",
             "sensitivity": "leave-one-out por pesquisa + comparação de janelas de 14 e 30 dias; informativo, sem ajuste automático",
