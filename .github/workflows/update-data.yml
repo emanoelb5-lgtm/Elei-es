@@ -49,7 +49,7 @@ jobs:
           c=json.load(open('data/calibration.json'))
           r=json.load(open('data/regime-history.json'))
 
-          assert a.get('schemaVersion') == 11
+          assert a.get('schemaVersion') == 12
           assert c.get('schemaVersion') == 1
           assert c.get('correctionApplied') is False
           assert len(a.get('candidates', [])) >= 2
@@ -78,6 +78,10 @@ jobs:
           assert isinstance(r, list) and len(r) >= 1
           assert r[-1]['evidenceFingerprint'] == a['regimeShift']['evidenceFingerprint']
           assert c['regimeShadowValidation']['status'] in ('ok', 'insufficient-data')
+          assert c['houseEffectShadow']['status'] in ('ok', 'insufficient-data')
+          assert c['houseEffectValidation']['status'] in ('ok', 'insufficient-data')
+          assert c['houseEffectShadow'].get('correctionApplied', False) is False
+          assert c['houseEffectValidation'].get('correctionApplied', False) is False
           assert c['regimeShadowValidation'].get('adaptiveApplied', False) is False
           if a['uncertainty']['status'] == 'ok':
               assert a['uncertainty']['bootstrapDraws'] >= 100
