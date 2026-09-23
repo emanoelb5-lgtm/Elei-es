@@ -1,6 +1,6 @@
 {
   "schemaVersion": 16,
-  "generatedAt": "2026-09-23T18:36:50.714052Z",
+  "generatedAt": "2026-09-23T21:46:18.468834Z",
   "electionDate": "2026-10-04",
   "daysToElection": 11,
   "quality": {
@@ -19,7 +19,7 @@
       "label": "BBC / PollingData",
       "type": "base de pesquisas individuais",
       "status": "ok",
-      "updatedAt": "2026-09-23T18:36:51.922508Z",
+      "updatedAt": "2026-09-23T21:46:19.867608Z",
       "url": "https://news.files.bbci.co.uk/include/vjamericas/1561-poll-tracker-brazil-2026/table/portuguese/app/amp",
       "tablesFound": 2
     },
@@ -46,7 +46,7 @@
       "label": "ElectioLab",
       "type": "agregador de conferência · sem peso",
       "status": "ok",
-      "updatedAt": "2026-09-23T18:36:52.591651Z",
+      "updatedAt": "2026-09-23T21:46:20.720135Z",
       "url": "https://electiolab.com/pesquisas-presidenciais-2026",
       "pageFreshness": "23 de setembro de 2026"
     },
@@ -64,7 +64,7 @@
       "label": "Polymarket",
       "type": "mercado de previsão · sinal externo",
       "status": "ok",
-      "updatedAt": "2026-09-23T18:36:51.978347Z",
+      "updatedAt": "2026-09-23T21:46:19.956812Z",
       "url": "https://polymarket.com/event/brazil-presidential-election"
     }
   ],
@@ -91,7 +91,7 @@
       "modelIntervalHigh": 38.06,
       "change": -0.0,
       "trend": "estável",
-      "marketSignal": 58.75
+      "marketSignal": 58.15
     },
     {
       "id": "lula",
