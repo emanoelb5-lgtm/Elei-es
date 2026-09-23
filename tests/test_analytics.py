@@ -1,3 +1,4 @@
+# schema v16: parametric weighting uncertainty.
 # pipeline schema v15 final.
 # schema v15: weight stress test.
 # pipeline schema v14 final.
@@ -1061,6 +1062,66 @@ class AnalyticsParserTests(unittest.TestCase):
         self.assertEqual(production["decayDays"], 10.0)
         self.assertEqual(production["sampleExponent"], 0.50)
         self.assertEqual(production["repeatExponent"], 0.50)
+
+
+    def test_advanced_uncertainty_contains_parameter_stress_envelope(self):
+        polls = []
+        for idx in range(10):
+            polls.append({
+                "date": date(2026, 9, 8) + timedelta(days=idx),
+                "institute": ["A", "A", "A", "B", "C"][idx % 5],
+                "sample": [800, 1200, 2000, 3500, 5000][idx % 5],
+                "method": ["Presencial", "Online", "Telefônica"][idx % 3],
+                "registration": f"BR-59{idx:03d}/2026",
+                "verifiedTse": idx % 2 == 0,
+                "values": {
+                    "lula": 37.0 + idx * 0.55,
+                    "flavio-bolsonaro": 38.0 - idx * 0.40,
+                },
+                "nonCandidate": {},
+            })
+        target = date(2026, 9, 22)
+        agg = aggregate_first_round(polls, target)
+        stress = weight_stress_test(polls, target)
+        result = advanced_uncertainty(
+            polls,
+            target,
+            agg,
+            {"absoluteErrorQuantiles": {"q80": 0.5, "q90": 1.0}},
+            weight_stress=stress,
+        )
+        self.assertEqual(result["parameterStressVariantCount"], 7)
+        self.assertFalse(result["parameterStressAutomaticAdjustment"])
+        for cid, row in result["candidates"].items():
+            stress_row = stress["candidates"][cid]
+            self.assertAlmostEqual(row["parameterStressLow"], stress_row["minSupport"], places=2)
+            self.assertAlmostEqual(row["parameterStressHigh"], stress_row["maxSupport"], places=2)
+            self.assertLessEqual(row["advancedLow"], row["parameterStressLow"] + 1e-9)
+            self.assertGreaterEqual(row["advancedHigh"], row["parameterStressHigh"] - 1e-9)
+            self.assertIn(
+                row["dominantComponent"],
+                {"analytical", "pollBootstrap", "instituteBootstrap", "methodBootstrap", "parameterStress", "empirical"},
+            )
+
+    def test_parameter_stress_does_not_shift_central_support(self):
+        polls = [
+            {
+                "date": date(2026, 9, 18 + idx),
+                "institute": ["A", "B", "C", "D"][idx],
+                "sample": [900, 1600, 3000, 5000][idx],
+                "method": "Online",
+                "registration": f"BR-60{idx:03d}/2026",
+                "verifiedTse": False,
+                "values": {"lula": 39.0 + idx, "flavio-bolsonaro": 36.0 - idx * 0.6},
+                "nonCandidate": {},
+            }
+            for idx in range(4)
+        ]
+        target = date(2026, 9, 22)
+        agg = aggregate_first_round(polls, target)
+        result = advanced_uncertainty(polls, target, agg, {"absoluteErrorQuantiles": {}})
+        for cid, row in result["candidates"].items():
+            self.assertAlmostEqual(row["support"], agg["candidates"][cid]["support"], places=2)
 
 
 if __name__ == "__main__":
