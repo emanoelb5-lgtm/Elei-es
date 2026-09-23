@@ -1,3 +1,4 @@
+# pipeline schema v11 final.
 # schema v11: temporal freshness and coverage.
 # pipeline schema v10 final.
 # schema v10: methodological diversity bootstrap.
