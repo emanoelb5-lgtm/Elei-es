@@ -91,7 +91,7 @@ jobs:
           VERSION: ${{ steps.meta.outputs.version }}
         run: |
           set -euo pipefail
-          NOTES='v0.8.0 acrescenta diversidade metodológica e bootstrap por método de coleta à incerteza avançada. Métodos são normalizados em grupos como presencial, telefônico, online/digital, URA/IVR e híbrido. A concentração usa os pesos efetivos da janela e não classifica um método como melhor ou pior. O bootstrap por método entra como componente adicional e só amplia a faixa quando for o mais conservador. Nenhuma correção automática por método é aplicada. Mantém persistência temporal, bootstrap por pesquisa e instituto, backtests e validações retrospectivas. Assinatura estável desde a v0.2.0.'
+          NOTES='v0.8.1 adiciona diagnóstico de frescor e cobertura temporal. A leitura passa a informar idade da pesquisa mais recente, mediana ponderada de idade, participação de peso dos últimos 7 e 14 dias, datas distintas, datas efetivas, concentração por data, amplitude da janela e maior lacuna entre levantamentos. Esses indicadores são apenas diagnósticos e não alteram automaticamente o decaimento temporal nem o agregado. Mantém diversidade metodológica, bootstraps por pesquisa/instituto/método, persistência temporal e validações retrospectivas. Assinatura estável desde a v0.2.0.'
           APK="dist/Termometro-Eleicoes-2026-v${VERSION}.apk"
           TAG="v${VERSION}"
           RELEASE_OK=0
