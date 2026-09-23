@@ -2,7 +2,7 @@
 
 Aplicativo Android público e experimental para acompanhar **pesquisas presidenciais de 2026**, sua evolução no tempo, incerteza e diferenças entre fontes.
 
-## O que a v0.9.3 faz
+## O que a v0.9.4 faz
 
 - trabalha com **pesquisas individuais** como unidade principal, em vez de somar agregadores;
 - deduplica levantamentos pelo número de registro TSE e, quando necessário, por uma chave de conteúdo;
@@ -76,7 +76,7 @@ Se os testes ou a validação estrutural falharem, os novos dados não são publ
 
 O workflow **Build e publicar APK** compila e assina o APK com a mesma identidade de desenvolvimento estável adotada desde a v0.2.0, permitindo atualização sobre versões posteriores à transição de assinatura.
 
-A release atual é v0.9.3.
+A release atual é v0.9.4.
 
 ## Aviso
 
@@ -304,3 +304,22 @@ A configuração chamada Produção usa exatamente os mesmos parâmetros e a mes
 O stress test mede dependência das escolhas paramétricas. Nenhuma variante é considerada vencedora, nenhuma é promovida automaticamente e a ordem de exibição não constitui ranking.
 
 O schema de data/analytics.json passa a ser v15.
+
+## Incerteza paramétrica v0.9.4
+
+O stress test de pesos da v0.9.3 passa a contribuir diretamente para a faixa de incerteza, sem alterar a leitura central.
+
+Para cada candidatura, as sete configurações pré-definidas de ponderação produzem um envelope mínimo–máximo. A distância máxima desse envelope em relação ao valor de produção é tratada como um componente adicional de incerteza.
+
+A faixa avançada passa a considerar, em paralelo:
+
+- intervalo analítico;
+- bootstrap por pesquisa;
+- bootstrap por instituto;
+- bootstrap por método;
+- envelope paramétrico da fórmula de pesos;
+- piso empírico q80, quando aplicável.
+
+O maior desses componentes define a largura final. Nenhuma variante paramétrica é escolhida, ranqueada ou aplicada à estimativa central.
+
+O schema de data/analytics.json passa a ser v16.
