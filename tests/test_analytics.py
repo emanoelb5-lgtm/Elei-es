@@ -1,3 +1,4 @@
+# schema v13: candidate scenario coverage.
 # pipeline schema v12 final.
 # schema v12: house effect shadow validation.
 # pipeline schema v11 final.
@@ -49,6 +50,8 @@ from scripts.update_analytics import (
     apply_house_effect_shadow,
     current_house_effect_shadow,
     house_effect_shadow_validation,
+    candidate_scenario_coverage_analysis,
+    scenario_coverage_shadow_validation,
     percentile,
 )
 
@@ -798,6 +801,106 @@ class AnalyticsParserTests(unittest.TestCase):
             })
         result = house_effect_shadow_validation(polls)
         self.assertFalse(result["correctionApplied"])
+        self.assertIn(result["status"], {"ok", "insufficient-data"})
+        if result["status"] == "ok":
+            self.assertGreater(result["comparisonCount"], 0)
+            self.assertIsNotNone(result["baselineMeanAbsoluteError"])
+            self.assertIsNotNone(result["shadowMeanAbsoluteError"])
+
+
+    def test_scenario_coverage_does_not_treat_absence_as_zero(self):
+        polls = [
+            {
+                "date": date(2026, 9, 20),
+                "institute": "A",
+                "sample": 2000,
+                "method": "Presencial",
+                "registration": "BR-52000/2026",
+                "verifiedTse": False,
+                "values": {"lula": 40.0, "flavio-bolsonaro": 35.0, "augusto-cury": 5.0},
+                "nonCandidate": {},
+            },
+            {
+                "date": date(2026, 9, 21),
+                "institute": "B",
+                "sample": 2000,
+                "method": "Online",
+                "registration": "BR-52001/2026",
+                "verifiedTse": False,
+                "values": {"lula": 41.0, "flavio-bolsonaro": 34.0},
+                "nonCandidate": {},
+            },
+            {
+                "date": date(2026, 9, 22),
+                "institute": "C",
+                "sample": 2000,
+                "method": "Telefônica",
+                "registration": "BR-52002/2026",
+                "verifiedTse": False,
+                "values": {"lula": 39.0, "flavio-bolsonaro": 36.0},
+                "nonCandidate": {},
+            },
+        ]
+        result = candidate_scenario_coverage_analysis(polls, date(2026, 9, 22), core_threshold=0.70)
+        self.assertEqual(result["status"], "ok")
+        self.assertIn("lula", result["coreCandidates"])
+        self.assertIn("flavio-bolsonaro", result["coreCandidates"])
+        self.assertNotIn("augusto-cury", result["coreCandidates"])
+        self.assertGreater(result["candidates"]["augusto-cury"]["baselineSupport"], 0.0)
+        self.assertIsNone(result["candidates"]["augusto-cury"]["harmonizedSupport"])
+        self.assertFalse(result["harmonizationApplied"])
+
+    def test_scenario_coverage_harmonized_shadow_uses_common_set(self):
+        polls = []
+        for idx in range(8):
+            values = {
+                "lula": 40.0 + (idx % 2),
+                "flavio-bolsonaro": 35.0 - (idx % 2),
+                "renan-santos": 5.0,
+            }
+            if idx < 6:
+                values["augusto-cury"] = 6.0
+            polls.append({
+                "date": date(2026, 9, 15 + idx),
+                "institute": ["A","B","C","D"][idx % 4],
+                "sample": 1800,
+                "method": "Presencial",
+                "registration": f"BR-53{idx:03d}/2026",
+                "verifiedTse": False,
+                "values": values,
+                "nonCandidate": {},
+            })
+        result = candidate_scenario_coverage_analysis(polls, date(2026, 9, 22), core_threshold=0.70)
+        self.assertEqual(result["status"], "ok")
+        self.assertGreaterEqual(result["scenarioCount"], 2)
+        self.assertGreater(result["harmonizedPollCount"], 0)
+        self.assertLessEqual(result["harmonizedWeightShare"], 1.0)
+        self.assertIsNotNone(result["maxHarmonizedShift"])
+        self.assertFalse(result["harmonizationApplied"])
+
+    def test_scenario_coverage_validation_never_auto_applies(self):
+        polls = []
+        start = date(2026, 7, 1)
+        for idx in range(45):
+            values = {
+                "lula": 40.0 + (idx % 3 - 1) * 0.2,
+                "flavio-bolsonaro": 35.0 + (idx % 2) * 0.2,
+                "renan-santos": 5.0,
+            }
+            if idx % 4 != 0:
+                values["augusto-cury"] = 6.0
+            polls.append({
+                "date": start + timedelta(days=idx * 2),
+                "institute": ["A","B","C","D","E"][idx % 5],
+                "sample": 1900,
+                "method": "Online",
+                "registration": f"BR-54{idx:03d}/2026",
+                "verifiedTse": False,
+                "values": values,
+                "nonCandidate": {},
+            })
+        result = scenario_coverage_shadow_validation(polls)
+        self.assertFalse(result["harmonizationApplied"])
         self.assertIn(result["status"], {"ok", "insufficient-data"})
         if result["status"] == "ok":
             self.assertGreater(result["comparisonCount"], 0)
