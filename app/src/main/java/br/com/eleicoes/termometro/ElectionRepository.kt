@@ -145,6 +145,10 @@ class ElectionRepository {
                 instituteBootstrapP50 = if (item.isNull("instituteBootstrapP50")) null else item.optDouble("instituteBootstrapP50"),
                 instituteBootstrapP90 = if (item.isNull("instituteBootstrapP90")) null else item.optDouble("instituteBootstrapP90"),
                 instituteBootstrapHalfWidth = item.optDouble("instituteBootstrapHalfWidth", 0.0),
+                methodBootstrapP10 = if (item.isNull("methodBootstrapP10")) null else item.optDouble("methodBootstrapP10"),
+                methodBootstrapP50 = if (item.isNull("methodBootstrapP50")) null else item.optDouble("methodBootstrapP50"),
+                methodBootstrapP90 = if (item.isNull("methodBootstrapP90")) null else item.optDouble("methodBootstrapP90"),
+                methodBootstrapHalfWidth = item.optDouble("methodBootstrapHalfWidth", 0.0),
                 dominantComponent = item.optString("dominantComponent"),
                 empiricalErrorQ80 = if (item.isNull("empiricalErrorQ80")) null else item.optDouble("empiricalErrorQ80"),
                 empiricalSupportBand = item.optString("empiricalSupportBand"),
@@ -156,11 +160,26 @@ class ElectionRepository {
             )
         }
 
+        val methodDiversityObj = root.optJSONObject("methodDiversity") ?: JSONObject()
+        val methodShares = readDoubleMap(methodDiversityObj.optJSONObject("shares"))
+
         return UncertaintyData(
             status = root.optString("status", "insufficient-data"),
             bootstrapDraws = root.optInt("bootstrapDraws", 0),
             instituteBootstrapDraws = root.optInt("instituteBootstrapDraws", 0),
             instituteClusterCount = root.optInt("instituteClusterCount", 0),
+            methodBootstrapDraws = root.optInt("methodBootstrapDraws", 0),
+            methodClusterCount = root.optInt("methodClusterCount", 0),
+            methodDiversity = MethodDiversityData(
+                status = methodDiversityObj.optString("status", "insufficient-data"),
+                methodCount = methodDiversityObj.optInt("methodCount", 0),
+                effectiveMethodCount = methodDiversityObj.optDouble("effectiveMethodCount", 0.0),
+                maxWeightShare = if (methodDiversityObj.isNull("maxWeightShare")) null else methodDiversityObj.optDouble("maxWeightShare"),
+                concentrationHhi = if (methodDiversityObj.isNull("concentrationHhi")) null else methodDiversityObj.optDouble("concentrationHhi"),
+                concentration = methodDiversityObj.optString("concentration", "indisponivel"),
+                shares = methodShares,
+                note = methodDiversityObj.optString("note")
+            ),
             empiricalCalibrationApplied = root.optBoolean("empiricalCalibrationApplied", false),
             empiricalErrorQuantileUsed = root.optString("empiricalErrorQuantileUsed"),
             empiricalErrorQ80 = if (root.isNull("empiricalErrorQ80")) null else root.optDouble("empiricalErrorQ80"),
