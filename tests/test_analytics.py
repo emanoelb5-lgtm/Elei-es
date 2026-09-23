@@ -1,3 +1,4 @@
+# schema v12: house effect shadow validation.
 # pipeline schema v11 final.
 # schema v11: temporal freshness and coverage.
 # pipeline schema v10 final.
@@ -43,6 +44,10 @@ from scripts.update_analytics import (
     method_bootstrap_current_support,
     temporal_coverage_analysis,
     weighted_quantile_pairs,
+    estimate_house_effects,
+    apply_house_effect_shadow,
+    current_house_effect_shadow,
+    house_effect_shadow_validation,
     percentile,
 )
 
@@ -690,6 +695,113 @@ class AnalyticsParserTests(unittest.TestCase):
         result = temporal_coverage_analysis(polls, date(2026, 9, 22))
         self.assertEqual(result["freshness"], "defasada")
         self.assertEqual(result["temporalConcentration"], "concentrada")
+
+
+    def test_house_effect_shrinkage_reduces_small_sample_offset(self):
+        polls = []
+        base_date = date(2026, 9, 1)
+        for idx in range(12):
+            institute = "A" if idx % 2 == 0 else "B"
+            lula = 43.0 if institute == "A" else 39.0
+            flavio = 33.0 if institute == "A" else 37.0
+            polls.append({
+                "date": base_date + timedelta(days=idx),
+                "institute": institute,
+                "sample": 2000,
+                "method": "Presencial",
+                "registration": f"BR-48{idx:03d}/2026",
+                "verifiedTse": False,
+                "values": {"lula": lula, "flavio-bolsonaro": flavio},
+                "nonCandidate": {},
+            })
+        effects = estimate_house_effects(
+            polls,
+            date(2026, 9, 20),
+            prior_strength=6.0,
+            min_candidate_comparisons=4,
+        )
+        self.assertEqual(effects["status"], "ok")
+        a = effects["effects"].get("a")
+        self.assertIsNotNone(a)
+        row = a["candidateEffects"]["lula"]
+        self.assertLess(abs(row["shrunkenOffset"]), abs(row["rawOffset"]))
+        self.assertLessEqual(abs(row["shrunkenOffset"]), 3.0)
+
+    def test_apply_house_effect_shadow_moves_values_opposite_offset(self):
+        polls = [{
+            "date": date(2026, 9, 20),
+            "institute": "A",
+            "sample": 2000,
+            "method": "Online",
+            "registration": "BR-49000/2026",
+            "verifiedTse": False,
+            "values": {"lula": 42.0, "flavio-bolsonaro": 34.0},
+            "nonCandidate": {},
+        }]
+        effects = {
+            "effects": {
+                "a": {
+                    "candidateEffects": {
+                        "lula": {"shrunkenOffset": 2.0},
+                        "flavio-bolsonaro": {"shrunkenOffset": -1.5},
+                    }
+                }
+            }
+        }
+        adjusted = apply_house_effect_shadow(polls, date(2026, 9, 22), effects)
+        self.assertAlmostEqual(adjusted[0]["values"]["lula"], 40.0)
+        self.assertAlmostEqual(adjusted[0]["values"]["flavio-bolsonaro"], 35.5)
+
+    def test_current_house_effect_shadow_never_applies_correction(self):
+        polls = []
+        for idx in range(18):
+            institute = ["A", "B", "C"][idx % 3]
+            offsets = {"A": 1.5, "B": -1.0, "C": 0.0}
+            polls.append({
+                "date": date(2026, 9, 1) + timedelta(days=idx),
+                "institute": institute,
+                "sample": 2000,
+                "method": "Presencial",
+                "registration": f"BR-50{idx:03d}/2026",
+                "verifiedTse": False,
+                "values": {
+                    "lula": 40.0 + offsets[institute],
+                    "flavio-bolsonaro": 35.0 - offsets[institute],
+                },
+                "nonCandidate": {},
+            })
+        result = current_house_effect_shadow(polls, date(2026, 9, 22))
+        self.assertFalse(result["correctionApplied"])
+        self.assertIn(result["status"], {"ok", "insufficient-data"})
+        if result["status"] == "ok":
+            self.assertIn("lula", result["candidates"])
+
+    def test_house_effect_validation_is_leakage_free_and_non_automatic(self):
+        polls = []
+        start = date(2026, 7, 1)
+        for idx in range(50):
+            institute = ["A", "B", "C", "D", "E"][idx % 5]
+            institute_shift = {"A": 1.5, "B": -1.0, "C": 0.8, "D": -0.5, "E": 0.0}[institute]
+            polls.append({
+                "date": start + timedelta(days=idx * 2),
+                "institute": institute,
+                "sample": 1800 + (idx % 4) * 100,
+                "method": "Online",
+                "registration": f"BR-51{idx:03d}/2026",
+                "verifiedTse": False,
+                "values": {
+                    "lula": 40.0 + institute_shift + (idx % 3 - 1) * 0.2,
+                    "flavio-bolsonaro": 35.0 - institute_shift + (idx % 2) * 0.2,
+                },
+                "nonCandidate": {},
+            })
+        result = house_effect_shadow_validation(polls)
+        self.assertFalse(result["correctionApplied"])
+        self.assertIn(result["status"], {"ok", "insufficient-data"})
+        if result["status"] == "ok":
+            self.assertGreater(result["comparisonCount"], 0)
+            self.assertIsNotNone(result["baselineMeanAbsoluteError"])
+            self.assertIsNotNone(result["shadowMeanAbsoluteError"])
 
 
 if __name__ == "__main__":
