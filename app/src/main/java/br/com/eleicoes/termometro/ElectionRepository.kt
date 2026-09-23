@@ -269,6 +269,69 @@ class ElectionRepository {
         )
     }
 
+    private fun parseScenarioCoverage(obj: JSONObject?): ScenarioCoverageData {
+        val root = obj ?: JSONObject()
+        val candidatesObj = root.optJSONObject("candidates") ?: JSONObject()
+        val candidates = mutableMapOf<String, CandidateScenarioCoverage>()
+        candidatesObj.keys().forEach { id ->
+            val item = candidatesObj.optJSONObject(id) ?: return@forEach
+            candidates[id] = CandidateScenarioCoverage(
+                name = item.optString("name", id),
+                pollCount = item.optInt("pollCount", 0),
+                instituteCount = item.optInt("instituteCount", 0),
+                methodCount = item.optInt("methodCount", 0),
+                weightShare = item.optDouble("weightShare", 0.0),
+                coreCandidate = item.optBoolean("coreCandidate", false),
+                baselineSupport = if (item.isNull("baselineSupport")) null else item.optDouble("baselineSupport"),
+                harmonizedSupport = if (item.isNull("harmonizedSupport")) null else item.optDouble("harmonizedSupport"),
+                difference = if (item.isNull("difference")) null else item.optDouble("difference")
+            )
+        }
+        val scenariosArray = root.optJSONArray("scenarios") ?: JSONArray()
+        val scenarios = List(scenariosArray.length()) { i ->
+            val item = scenariosArray.getJSONObject(i)
+            val ids = item.optJSONArray("candidateIds") ?: JSONArray()
+            ScenarioPattern(
+                candidateIds = List(ids.length()) { j -> ids.optString(j) },
+                pollCount = item.optInt("pollCount", 0),
+                weightShare = item.optDouble("weightShare", 0.0)
+            )
+        }
+        val coreArray = root.optJSONArray("coreCandidates") ?: JSONArray()
+        return ScenarioCoverageData(
+            status = root.optString("status", "insufficient-data"),
+            pollCount = root.optInt("pollCount", 0),
+            coreThreshold = root.optDouble("coreThreshold", 0.80),
+            coreCandidates = List(coreArray.length()) { i -> coreArray.optString(i) },
+            candidates = candidates,
+            scenarioCount = root.optInt("scenarioCount", 0),
+            scenarios = scenarios,
+            dominantScenarioWeightShare = if (root.isNull("dominantScenarioWeightShare")) null else root.optDouble("dominantScenarioWeightShare"),
+            harmonizedPollCount = root.optInt("harmonizedPollCount", 0),
+            harmonizedWeightShare = if (root.isNull("harmonizedWeightShare")) null else root.optDouble("harmonizedWeightShare"),
+            maxHarmonizedShift = if (root.isNull("maxHarmonizedShift")) null else root.optDouble("maxHarmonizedShift"),
+            sensitivity = root.optString("sensitivity", "indisponivel"),
+            harmonizationApplied = root.optBoolean("harmonizationApplied", false),
+            note = root.optString("note")
+        )
+    }
+
+    private fun parseScenarioCoverageValidation(obj: JSONObject?): ScenarioCoverageValidation {
+        val root = obj ?: JSONObject()
+        return ScenarioCoverageValidation(
+            status = root.optString("status", "insufficient-data"),
+            caseCount = root.optInt("caseCount", 0),
+            comparisonCount = root.optInt("comparisonCount", 0),
+            shiftedComparisonCount = root.optInt("shiftedComparisonCount", 0),
+            baselineMeanAbsoluteError = if (root.isNull("baselineMeanAbsoluteError")) null else root.optDouble("baselineMeanAbsoluteError"),
+            shadowMeanAbsoluteError = if (root.isNull("shadowMeanAbsoluteError")) null else root.optDouble("shadowMeanAbsoluteError"),
+            differenceShadowVsBaseline = if (root.isNull("differenceShadowVsBaseline")) null else root.optDouble("differenceShadowVsBaseline"),
+            promotionEligible = root.optBoolean("promotionEligible", false),
+            harmonizationApplied = root.optBoolean("harmonizationApplied", false),
+            note = root.optString("note")
+        )
+    }
+
     private fun parseSnapshot(root: JSONObject): Snapshot {
         val q = root.optJSONObject("quality") ?: JSONObject()
         val quality = QualityInfo(
@@ -355,6 +418,7 @@ class ElectionRepository {
             sensitivity = parseSensitivity(root.optJSONObject("sensitivity")),
             influence = parseInfluence(root.optJSONObject("influence")),
             temporalCoverage = parseTemporalCoverage(root.optJSONObject("temporalCoverage")),
+            scenarioCoverage = parseScenarioCoverage(root.optJSONObject("scenarioCoverage")),
             uncertainty = parseUncertainty(root.optJSONObject("uncertainty")),
             regimeShift = parseRegimeShift(root.optJSONObject("regimeShift")),
             note = root.optString("note", "Leitura estatística de pesquisas públicas.")
@@ -466,6 +530,7 @@ class ElectionRepository {
         val regimeShadow = root.optJSONObject("regimeShadowValidation") ?: JSONObject()
         val houseShadow = root.optJSONObject("houseEffectShadow") ?: JSONObject()
         val houseValidation = root.optJSONObject("houseEffectValidation") ?: JSONObject()
+        val scenarioValidation = root.optJSONObject("scenarioCoverageValidation") ?: JSONObject()
         val historical = root.optJSONObject("historicalElectionBacktest") ?: JSONObject()
 
         return CalibrationData(
@@ -493,6 +558,7 @@ class ElectionRepository {
             regimeShadowValidation = parseRegimeShadowValidation(regimeShadow),
             houseEffectShadow = parseHouseEffectShadow(houseShadow),
             houseEffectValidation = parseHouseEffectValidation(houseValidation),
+            scenarioCoverageValidation = parseScenarioCoverageValidation(scenarioValidation),
             historicalBacktestStatus = historical.optString("status", "not-applied"),
             historicalBacktestNote = historical.optString("note")
         )
