@@ -1,46 +1,5 @@
 [
   {
-    "generatedAt": "2026-06-24T18:00:00Z",
-    "pollingSupport": {
-      "augusto-cury": 1.69,
-      "flavio-bolsonaro": 32.26,
-      "lula": 40.19,
-      "renan-santos": 3.14,
-      "romeu-zema": 2.91,
-      "ronaldo-caiado": 4.21
-    },
-    "intervals": {
-      "augusto-cury": {
-        "low": 1.09,
-        "high": 2.29
-      },
-      "flavio-bolsonaro": {
-        "low": 30.64,
-        "high": 33.88
-      },
-      "lula": {
-        "low": 38.84,
-        "high": 41.54
-      },
-      "renan-santos": {
-        "low": 2.54,
-        "high": 3.74
-      },
-      "romeu-zema": {
-        "low": 2.19,
-        "high": 3.63
-      },
-      "ronaldo-caiado": {
-        "low": 3.5,
-        "high": 4.91
-      }
-    },
-    "pollCount": 15,
-    "instituteCount": 13,
-    "verifiedTseCount": 0,
-    "origin": "historical-reconstruction"
-  },
-  {
     "generatedAt": "2026-06-25T18:00:00Z",
     "pollingSupport": {
       "augusto-cury": 1.54,
@@ -3901,6 +3860,52 @@
     "origin": "live"
   },
   {
+    "generatedAt": "2026-09-22T18:00:00Z",
+    "pollingSupport": {
+      "augusto-cury": 5.98,
+      "flavio-bolsonaro": 36.42,
+      "lula": 39.23,
+      "pablo-marcal": 1.77,
+      "renan-santos": 4.76,
+      "romeu-zema": 1.19,
+      "ronaldo-caiado": 3.04
+    },
+    "intervals": {
+      "augusto-cury": {
+        "low": 4.93,
+        "high": 7.02
+      },
+      "flavio-bolsonaro": {
+        "low": 34.79,
+        "high": 38.06
+      },
+      "lula": {
+        "low": 38.22,
+        "high": 40.24
+      },
+      "pablo-marcal": {
+        "low": 1.17,
+        "high": 2.37
+      },
+      "renan-santos": {
+        "low": 3.52,
+        "high": 6.0
+      },
+      "romeu-zema": {
+        "low": 0.59,
+        "high": 1.79
+      },
+      "ronaldo-caiado": {
+        "low": 2.44,
+        "high": 3.64
+      }
+    },
+    "pollCount": 35,
+    "instituteCount": 15,
+    "verifiedTseCount": 0,
+    "origin": "historical-reconstruction"
+  },
+  {
     "generatedAt": "2026-09-22T23:08:31.949091Z",
     "pollingSupport": {
       "augusto-cury": 5.98,
@@ -3942,6 +3947,52 @@
       }
     },
     "pollCount": 35,
+    "instituteCount": 15,
+    "verifiedTseCount": 0,
+    "origin": "live"
+  },
+  {
+    "generatedAt": "2026-09-23T00:11:22.279806Z",
+    "pollingSupport": {
+      "augusto-cury": 6.06,
+      "flavio-bolsonaro": 36.44,
+      "lula": 39.18,
+      "pablo-marcal": 1.73,
+      "renan-santos": 4.7,
+      "romeu-zema": 1.18,
+      "ronaldo-caiado": 3.06
+    },
+    "intervals": {
+      "augusto-cury": {
+        "low": 4.5,
+        "high": 7.62
+      },
+      "flavio-bolsonaro": {
+        "low": 32.58,
+        "high": 40.3
+      },
+      "lula": {
+        "low": 35.32,
+        "high": 43.04
+      },
+      "pablo-marcal": {
+        "low": 0.17,
+        "high": 3.29
+      },
+      "renan-santos": {
+        "low": 2.8,
+        "high": 6.6
+      },
+      "romeu-zema": {
+        "low": 0.0,
+        "high": 2.74
+      },
+      "ronaldo-caiado": {
+        "low": 1.5,
+        "high": 4.62
+      }
+    },
+    "pollCount": 32,
     "instituteCount": 15,
     "verifiedTseCount": 0,
     "origin": "live"
