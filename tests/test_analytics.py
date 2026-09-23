@@ -33,6 +33,7 @@ from scripts.update_analytics import (
     parse_metadata,
     dedupe_polls,
     aggregate_first_round,
+    aggregate_candidate,
     build_source_diagnostics,
     rolling_validation,
     non_candidate_for_label,
