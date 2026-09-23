@@ -2222,11 +2222,13 @@ def advanced_uncertainty(
     aggregate: dict,
     validation: dict,
     use_empirical: bool = True,
+    weight_stress: dict | None = None,
 ) -> dict:
     bootstrap = bootstrap_current_support(polls, target)
     cluster_bootstrap = cluster_bootstrap_current_support(polls, target)
     method_bootstrap = method_bootstrap_current_support(polls, target)
     method_diversity = method_diversity_analysis(polls, target)
+    parameter_stress = weight_stress if weight_stress is not None else weight_stress_test(polls, target)
     empirical_q80 = validation.get("absoluteErrorQuantiles", {}).get("q80") if use_empirical else None
     empirical_q90 = validation.get("absoluteErrorQuantiles", {}).get("q90") if use_empirical else None
     band_quantiles = validation.get("absoluteErrorQuantilesBySupportBand", {}) if use_empirical else {}
@@ -2265,6 +2267,19 @@ def advanced_uncertainty(
             method_low = method_high = None
             method_half = 0.0
 
+        stress_row = parameter_stress.get("candidates", {}).get(cid)
+        if stress_row:
+            parameter_low = float(stress_row["minSupport"])
+            parameter_high = float(stress_row["maxSupport"])
+            parameter_half = max(
+                support - parameter_low,
+                parameter_high - support,
+                0.0,
+            )
+        else:
+            parameter_low = parameter_high = None
+            parameter_half = 0.0
+
         # Usa erro empírico calibrado por faixa de apoio quando houver volume
         # mínimo suficiente; caso contrário, recua para o quantil global.
         support_band = "low" if support < 10.0 else "medium" if support < 30.0 else "high"
@@ -2285,6 +2300,7 @@ def advanced_uncertainty(
             "pollBootstrap": bootstrap_half,
             "instituteBootstrap": cluster_half,
             "methodBootstrap": method_half,
+            "parameterStress": parameter_half,
         }
         if use_empirical:
             components["empirical"] = empirical_half
@@ -2306,6 +2322,9 @@ def advanced_uncertainty(
             "methodBootstrapP50": round(float(method_boot["p50"]), 2) if method_boot else None,
             "methodBootstrapP90": round(method_high, 2) if method_high is not None else None,
             "methodBootstrapHalfWidth": round(method_half, 2),
+            "parameterStressLow": round(parameter_low, 2) if parameter_low is not None else None,
+            "parameterStressHigh": round(parameter_high, 2) if parameter_high is not None else None,
+            "parameterStressHalfWidth": round(parameter_half, 2),
             "dominantComponent": dominant_component,
             "empiricalErrorQ80": round(empirical_half, 2) if empirical_half > 0 else None,
             "empiricalSupportBand": support_band,
@@ -2324,6 +2343,9 @@ def advanced_uncertainty(
         "methodBootstrapDraws": method_bootstrap.get("draws", 0),
         "methodClusterCount": method_bootstrap.get("clusterCount", 0),
         "methodDiversity": method_diversity,
+        "parameterStressVariantCount": parameter_stress.get("variantCount", 0),
+        "parameterStressSensitivity": parameter_stress.get("sensitivity", "indisponivel"),
+        "parameterStressAutomaticAdjustment": parameter_stress.get("automaticAdjustment", False),
         "empiricalCalibrationApplied": use_empirical,
         "empiricalErrorQuantileUsed": "q80" if use_empirical else "none",
         "empiricalErrorQ80": round(float(empirical_q80), 2) if empirical_q80 is not None else None,
@@ -2332,7 +2354,7 @@ def advanced_uncertainty(
         "candidates": candidates,
         "note": (
             "Faixa avançada combina a incerteza analítica existente, bootstrap por pesquisa, "
-            "bootstrap em blocos por instituto, bootstrap por método de coleta e, quando aplicável, piso de erro empírico calibrado por faixa de apoio "
+            "bootstrap em blocos por instituto, bootstrap por método de coleta, envelope do stress test dos pesos e, quando aplicável, piso de erro empírico calibrado por faixa de apoio "
             "contra a próxima pesquisa publicada. É uma faixa de incerteza da leitura atual, "
             "não probabilidade de vitória nem previsão do resultado da eleição."
         ),
@@ -2784,11 +2806,13 @@ def main() -> None:
         raise SystemExit("Nenhuma pesquisa de primeiro turno disponível para a leitura.")
 
     calibration = build_calibration_payload(first_round, now)
+    weight_stress = weight_stress_test(first_round, now.date())
     uncertainty = advanced_uncertainty(
         first_round,
         now.date(),
         agg,
         calibration["rollingValidation"],
+        weight_stress=weight_stress,
     )
     composition = response_composition(first_round, now.date())
     sensitivity = sensitivity_analysis(first_round, now.date())
@@ -2796,7 +2820,6 @@ def main() -> None:
     temporal_coverage = temporal_coverage_analysis(first_round, now.date())
     scenario_coverage = candidate_scenario_coverage_analysis(first_round, now.date())
     weight_audit = weight_audit_analysis(first_round, now.date())
-    weight_stress = weight_stress_test(first_round, now.date())
     regime_shift = regime_shift_analysis(first_round, now.date())
     regime_shift = update_regime_persistence(regime_shift, first_round, now)
     (DATA / "calibration.json").write_text(
@@ -2849,7 +2872,7 @@ def main() -> None:
     }
 
     snapshot = {
-        "schemaVersion": 15,
+        "schemaVersion": 16,
         "generatedAt": now.isoformat().replace("+00:00", "Z"),
         "electionDate": ELECTION_DATE.isoformat(),
         "daysToElection": max((ELECTION_DATE - now.date()).days, 0),
@@ -2871,12 +2894,12 @@ def main() -> None:
             "windowDays": LIVE_WINDOW_DAYS,
             "deduplication": "registro TSE; fallback por instituto/data/amostra/resultados",
             "weighting": "decaimento temporal + tamanho amostral + controle de repetição por instituto",
-            "uncertainty": "faixa avançada = intervalo analítico + bootstrap individual + bootstrap por instituto + bootstrap por método + piso empírico q80 quando aplicável",
+            "uncertainty": "faixa avançada = intervalo analítico + bootstrap individual + bootstrap por instituto + bootstrap por método + envelope paramétrico dos pesos + piso empírico q80 quando aplicável",
             "methodDiversity": "concentração dos pesos efetivos por grupo de método; diagnóstico sem correção automática",
             "temporalCoverage": "frescor, concentração por data e participação ponderada de pesquisas recentes; diagnóstico sem ajuste automático",
             "scenarioCoverage": "cobertura ponderada de candidaturas e harmonização do conjunto comum apenas em sombra; ausência em cenário não equivale a zero",
             "weightAudit": "decomposição exata do peso aplicado: recência × amostra × repetição do instituto × validação TSE; participação por candidatura usa apenas pesquisas que testaram o nome",
-            "weightStress": "stress test paramétrico de recência, força amostral e penalização por repetição; nenhuma variante é aplicada automaticamente",
+            "weightStress": "stress test paramétrico de recência, força amostral e penalização por repetição; o envelope entra apenas como componente de incerteza, sem mudar o valor central",
             "marketUse": "informativo; não entra na média de pesquisas",
             "responseComposition": "categorias não candidatas somente quando identificadas pela fonte; residual não classificado não é indecisão",
             "sensitivity": "leave-one-out por pesquisa + comparação de janelas de 14 e 30 dias; informativo, sem ajuste automático",
