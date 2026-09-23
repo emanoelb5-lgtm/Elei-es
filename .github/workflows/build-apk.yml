@@ -91,7 +91,7 @@ jobs:
           VERSION: ${{ steps.meta.outputs.version }}
         run: |
           set -euo pipefail
-          NOTES='v0.8.1 adiciona diagnóstico de frescor e cobertura temporal. A leitura passa a informar idade da pesquisa mais recente, mediana ponderada de idade, participação de peso dos últimos 7 e 14 dias, datas distintas, datas efetivas, concentração por data, amplitude da janela e maior lacuna entre levantamentos. Esses indicadores são apenas diagnósticos e não alteram automaticamente o decaimento temporal nem o agregado. Mantém diversidade metodológica, bootstraps por pesquisa/instituto/método, persistência temporal e validações retrospectivas. Assinatura estável desde a v0.2.0.'
+          NOTES='v0.9.0 adiciona house effect em sombra com offsets por instituto aprendidos apenas de pesquisas anteriores, shrinkage para zero e limite de magnitude. A leitura corrigida e sua validação retrospectiva são exibidas separadamente; nenhuma correção é aplicada automaticamente ao agregado. A validação é temporal e sem vazamento de dados futuros. Mantém frescor temporal, diversidade metodológica, bootstraps por pesquisa/instituto/método, persistência e demais diagnósticos. Assinatura estável desde a v0.2.0.'
           APK="dist/Termometro-Eleicoes-2026-v${VERSION}.apk"
           TAG="v${VERSION}"
           RELEASE_OK=0
