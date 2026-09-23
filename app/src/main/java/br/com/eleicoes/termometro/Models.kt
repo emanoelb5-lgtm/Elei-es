@@ -116,6 +116,10 @@ data class CandidateUncertainty(
     val instituteBootstrapP50: Double?,
     val instituteBootstrapP90: Double?,
     val instituteBootstrapHalfWidth: Double,
+    val methodBootstrapP10: Double?,
+    val methodBootstrapP50: Double?,
+    val methodBootstrapP90: Double?,
+    val methodBootstrapHalfWidth: Double,
     val dominantComponent: String,
     val empiricalErrorQ80: Double?,
     val empiricalSupportBand: String,
@@ -126,11 +130,25 @@ data class CandidateUncertainty(
     val advancedHalfWidth: Double
 )
 
+data class MethodDiversityData(
+    val status: String,
+    val methodCount: Int,
+    val effectiveMethodCount: Double,
+    val maxWeightShare: Double?,
+    val concentrationHhi: Double?,
+    val concentration: String,
+    val shares: Map<String, Double>,
+    val note: String
+)
+
 data class UncertaintyData(
     val status: String,
     val bootstrapDraws: Int,
     val instituteBootstrapDraws: Int,
     val instituteClusterCount: Int,
+    val methodBootstrapDraws: Int,
+    val methodClusterCount: Int,
+    val methodDiversity: MethodDiversityData,
     val empiricalCalibrationApplied: Boolean,
     val empiricalErrorQuantileUsed: String,
     val empiricalErrorQ80: Double?,
