@@ -2,7 +2,7 @@
 
 Aplicativo Android público e experimental para acompanhar **pesquisas presidenciais de 2026**, sua evolução no tempo, incerteza e diferenças entre fontes.
 
-## O que a v0.7.1 faz
+## O que a v0.8.0 faz
 
 - trabalha com **pesquisas individuais** como unidade principal, em vez de somar agregadores;
 - deduplica levantamentos pelo número de registro TSE e, quando necessário, por uma chave de conteúdo;
@@ -76,7 +76,7 @@ Se os testes ou a validação estrutural falharem, os novos dados não são publ
 
 O workflow **Build e publicar APK** compila e assina o APK com a mesma identidade de desenvolvimento estável adotada desde a v0.2.0, permitindo atualização sobre versões posteriores à transição de assinatura.
 
-A release atual é v0.7.1.
+A release atual é v0.8.0.
 
 ## Aviso
 
@@ -195,3 +195,22 @@ Se a direção se inverter ou o detector voltar a estável, a sequência é inte
 A persistência continua exclusivamente diagnóstica. Ela não altera pesos, médias, intervalos ou a leitura adaptativa em sombra.
 
 O schema de data/analytics.json passa a ser v9.
+
+## Diversidade metodológica v0.8.0
+
+A incerteza avançada passa a considerar também dependência entre pesquisas que usam o mesmo método de coleta.
+
+Os métodos são normalizados em grupos operacionais: presencial, telefônica/CATI, online/digital, URA/IVR, híbrida e outros. A composição metodológica é calculada usando os pesos efetivos das pesquisas da janela, não apenas sua contagem bruta.
+
+O sistema publica:
+
+- número de métodos distintos;
+- número efetivo de métodos, derivado da concentração dos pesos;
+- maior participação de um método na janela;
+- índice de concentração metodológica;
+- participação ponderada de cada grupo;
+- 500 reamostragens bootstrap em blocos por método, quando há diversidade suficiente.
+
+A faixa avançada pode ser determinada pelo bootstrap por método se ele for mais conservador que intervalo analítico, bootstrap por pesquisa, bootstrap por instituto e piso empírico. Nenhum método recebe bônus, penalização ou correção automática.
+
+O schema de data/analytics.json passa a ser v10.
