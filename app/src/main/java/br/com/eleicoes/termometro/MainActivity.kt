@@ -475,6 +475,24 @@ private fun DiagnosticsScreen(data: DashboardData?, loading: Boolean) {
 
             item {
                 SectionTitle(
+                    "Stress test dos pesos",
+                    "Varia parâmetros da fórmula para medir dependência da leitura, sem escolher uma configuração"
+                )
+            }
+            item { WeightStressSummaryCard(data.snapshot.weightStress, data.snapshot.candidates) }
+            items(
+                data.snapshot.weightStress.variants,
+                key = { "weight-stress-${it.id}" }
+            ) { variant ->
+                WeightStressVariantCard(
+                    variant = variant,
+                    candidates = data.snapshot.candidates,
+                    productionVariantId = data.snapshot.weightStress.productionVariantId
+                )
+            }
+
+            item {
+                SectionTitle(
                     "Incerteza avançada",
                     "Intervalo analítico, bootstrap e erro empírico observados separadamente"
                 )
@@ -1563,6 +1581,107 @@ private fun WeightAuditRowCard(row: WeightAuditRow, candidates: List<Candidate>)
 }
 
 @Composable
+private fun WeightStressSummaryCard(
+    stress: WeightStressData,
+    candidates: List<Candidate>
+) {
+    Card(
+        shape = RoundedCornerShape(22.dp),
+        colors = CardDefaults.cardColors(containerColor = Color(0xFFEAF2ED))
+    ) {
+        Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            Text("Sensibilidade à fórmula de peso", fontWeight = FontWeight.ExtraBold, fontSize = 18.sp)
+            if (stress.status == "ok") {
+                MetricRow("Configurações testadas", stress.variantCount.toString())
+                stress.overallMaxShift?.let {
+                    MetricRow("Maior deslocamento observado", "${it.one()} p.p.")
+                }
+                MetricRow("Sensibilidade geral", weightStressSensitivityLabel(stress.sensitivity))
+                HorizontalDivider(color = Color(0xFFDDE5E1))
+                Text("Faixa entre configurações", fontWeight = FontWeight.Bold, fontSize = 12.sp)
+                candidates.forEach { candidate ->
+                    stress.candidates[candidate.id]?.let { row ->
+                        Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
+                            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                                Text(candidate.name, color = Muted, fontSize = 12.sp)
+                                Text(
+                                    "${row.minSupport.one()}% – ${row.maxSupport.one()}%",
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 12.sp
+                                )
+                            }
+                            Text(
+                                "Produção: ${row.baselineSupport.one()}% · deslocamento máximo ±${row.maxAbsoluteShift.one()} p.p.",
+                                color = Muted,
+                                fontSize = 10.sp
+                            )
+                        }
+                    }
+                }
+            } else {
+                Text("Dados insuficientes para o stress test dos pesos.", color = Muted)
+            }
+            Text(stress.note, color = Muted, fontSize = 11.sp, lineHeight = 16.sp)
+            Text(
+                if (stress.automaticAdjustment) {
+                    "Uma configuração alternativa está alterando a leitura."
+                } else {
+                    "Nenhuma configuração alternativa é aplicada automaticamente."
+                },
+                color = if (stress.automaticAdjustment) Color(0xFF9A6700) else BrazilGreen,
+                fontSize = 11.sp,
+                fontWeight = FontWeight.Bold
+            )
+        }
+    }
+}
+
+@Composable
+private fun WeightStressVariantCard(
+    variant: WeightStressVariant,
+    candidates: List<Candidate>,
+    productionVariantId: String
+) {
+    val production = variant.id == productionVariantId
+    Card(
+        shape = RoundedCornerShape(20.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = if (production) Color(0xFFEFF3F8) else Color.White
+        )
+    ) {
+        Column(Modifier.padding(15.dp), verticalArrangement = Arrangement.spacedBy(7.dp)) {
+            Row(
+                Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.Top
+            ) {
+                Column(Modifier.weight(1f)) {
+                    Text(variant.label, fontWeight = FontWeight.ExtraBold, fontSize = 15.sp)
+                    Text(
+                        if (production) "Configuração de produção" else "Cenário técnico de sensibilidade",
+                        color = if (production) BrazilGreen else Muted,
+                        fontSize = 10.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+            }
+            MetricRow("Decaimento temporal", "${variant.decayDays.one()} dias")
+            MetricRow("Expoente da amostra", variant.sampleExponent.two())
+            MetricRow("Expoente de repetição", variant.repeatExponent.two())
+            HorizontalDivider(color = Color(0xFFE8ECE9))
+            candidates.forEach { candidate ->
+                variant.candidateSupport[candidate.id]?.let { value ->
+                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                        Text(candidate.name, color = Muted, fontSize = 11.sp)
+                        Text("${value.one()}%", fontWeight = FontWeight.Bold, fontSize = 11.sp)
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
 private fun AdvancedUncertaintySummary(uncertainty: UncertaintyData) {
     Card(
         shape = RoundedCornerShape(22.dp),
@@ -2224,6 +2343,13 @@ private fun temporalFreshnessColor(key: String): Color = when (key) {
     else -> Muted
 }
 
+private fun weightStressSensitivityLabel(key: String): String = when (key) {
+    "baixa" -> "baixa"
+    "moderada" -> "moderada"
+    "alta" -> "alta"
+    else -> "indisponível"
+}
+
 private fun methodLabel(key: String): String = when (key) {
     "presencial" -> "Presencial"
     "telefonica" -> "Telefônica"
@@ -2271,6 +2397,8 @@ private fun candidateColor(id: String): Color = when (id) {
 }
 
 private fun Double.one() = String.format(java.util.Locale("pt", "BR"), "%.1f", this)
+private fun Double.two(): String = String.format(Locale.US, "%.2f", this).replace('.', ',')
+
 private fun Double.three() = String.format(java.util.Locale("pt", "BR"), "%.3f", this)
 private fun signed(value: Double): String = if (value > 0) "+${value.one()}" else value.one()
 private fun deltaText(value: Double): String = when {
