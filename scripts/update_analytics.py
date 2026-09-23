@@ -318,6 +318,206 @@ def temporal_coverage_analysis(polls: List[dict], target: date) -> dict:
     }
 
 
+def candidate_scenario_coverage_analysis(
+    polls: List[dict],
+    target: date,
+    core_threshold: float = 0.80,
+) -> dict:
+    weighted = poll_weights(polls, target)
+    if not weighted:
+        return {
+            "status": "insufficient-data",
+            "pollCount": 0,
+            "coreThreshold": core_threshold,
+            "coreCandidates": [],
+            "candidates": {},
+            "scenarioCount": 0,
+            "dominantScenarioWeightShare": None,
+            "harmonizedPollCount": 0,
+            "harmonizedWeightShare": None,
+            "maxHarmonizedShift": None,
+            "sensitivity": "indisponivel",
+            "harmonizationApplied": False,
+            "note": "Sem pesquisas elegíveis para medir cobertura de candidaturas.",
+        }
+
+    total_weight = sum(float(weight) for _, weight in weighted)
+    ids = sorted(set().union(*(p.get("values", {}).keys() for p, _ in weighted)))
+    candidates = {}
+    core_candidates = []
+
+    for cid in ids:
+        usable = [(p, w) for p, w in weighted if cid in p.get("values", {})]
+        usable_weight = sum(float(w) for _, w in usable)
+        share = usable_weight / total_weight if total_weight > 0 else 0.0
+        institutes = {norm(p.get("institute", "")) for p, _ in usable}
+        methods = {method_group(p.get("method", "")) for p, _ in usable}
+        if share >= core_threshold:
+            core_candidates.append(cid)
+        candidates[cid] = {
+            "name": NAMES.get(cid, cid.replace("-", " ").title()),
+            "pollCount": len(usable),
+            "instituteCount": len(institutes),
+            "methodCount": len(methods),
+            "weightShare": round(share, 4),
+            "coreCandidate": share >= core_threshold,
+            "baselineSupport": None,
+            "harmonizedSupport": None,
+            "difference": None,
+        }
+
+    scenario_weights: Dict[str, float] = {}
+    scenario_counts: Dict[str, int] = {}
+    for poll, weight in weighted:
+        key = "|".join(sorted(poll.get("values", {}).keys()))
+        scenario_weights[key] = scenario_weights.get(key, 0.0) + float(weight)
+        scenario_counts[key] = scenario_counts.get(key, 0) + 1
+
+    scenario_rows = []
+    for key in scenario_weights:
+        scenario_rows.append({
+            "candidateIds": key.split("|") if key else [],
+            "pollCount": scenario_counts[key],
+            "weightShare": round(scenario_weights[key] / total_weight, 4) if total_weight > 0 else 0.0,
+        })
+    scenario_rows.sort(key=lambda row: (-row["weightShare"], -row["pollCount"], row["candidateIds"]))
+    dominant_share = scenario_rows[0]["weightShare"] if scenario_rows else None
+
+    core_set = set(core_candidates)
+    harmonized_weighted = [
+        (poll, weight)
+        for poll, weight in weighted
+        if core_set.issubset(set(poll.get("values", {}).keys()))
+    ] if core_set else list(weighted)
+    harmonized_weight = sum(float(weight) for _, weight in harmonized_weighted)
+    harmonized_share = harmonized_weight / total_weight if total_weight > 0 else 0.0
+
+    max_shift = 0.0
+    for cid in ids:
+        baseline = aggregate_candidate(weighted, cid)
+        harmonized = (
+            aggregate_candidate(harmonized_weighted, cid)
+            if cid in core_set else None
+        )
+        if baseline is not None:
+            candidates[cid]["baselineSupport"] = round(float(baseline[0]), 2)
+        if harmonized is not None:
+            candidates[cid]["harmonizedSupport"] = round(float(harmonized[0]), 2)
+            diff = float(harmonized[0]) - float(baseline[0])
+            candidates[cid]["difference"] = round(diff, 2)
+            max_shift = max(max_shift, abs(diff))
+
+    if len(core_candidates) < 2 or not harmonized_weighted:
+        sensitivity = "indisponivel"
+        status = "insufficient-data"
+    else:
+        status = "ok"
+        sensitivity = (
+            "baixa" if max_shift <= 0.50
+            else "moderada" if max_shift <= 1.00
+            else "alta"
+        )
+
+    return {
+        "status": status,
+        "pollCount": len(weighted),
+        "coreThreshold": round(core_threshold, 2),
+        "coreCandidates": core_candidates,
+        "candidates": candidates,
+        "scenarioCount": len(scenario_rows),
+        "scenarios": scenario_rows,
+        "dominantScenarioWeightShare": dominant_share,
+        "harmonizedPollCount": len(harmonized_weighted),
+        "harmonizedWeightShare": round(harmonized_share, 4),
+        "maxHarmonizedShift": round(max_shift, 2) if status == "ok" else None,
+        "sensitivity": sensitivity,
+        "harmonizationApplied": False,
+        "note": (
+            "Cobertura mede em que parcela do peso cada candidatura aparece. Ausência em um "
+            "cenário não é tratada como 0%. A leitura harmonizada é apenas sombra e preserva "
+            "os pesos originais das pesquisas selecionadas."
+        ),
+    }
+
+
+def scenario_coverage_shadow_validation(
+    polls: List[dict],
+    minimum_training_polls: int = 12,
+) -> dict:
+    ordered = sorted(polls, key=lambda p: (p["date"], norm(p.get("institute", ""))))
+    baseline_errors = []
+    shadow_errors = []
+    cases = 0
+    comparisons = 0
+    shifted_comparisons = 0
+
+    for heldout in ordered:
+        training = [p for p in ordered if p["date"] < heldout["date"]]
+        if len(training) < minimum_training_polls:
+            continue
+        target = heldout["date"] - timedelta(days=1)
+        analysis = candidate_scenario_coverage_analysis(training, target)
+        if analysis.get("status") != "ok":
+            continue
+
+        comparable = 0
+        for cid, observed in heldout.get("values", {}).items():
+            row = analysis.get("candidates", {}).get(cid)
+            if not row or not row.get("coreCandidate"):
+                continue
+            baseline = row.get("baselineSupport")
+            shadow = row.get("harmonizedSupport")
+            if baseline is None or shadow is None:
+                continue
+            baseline_errors.append(abs(float(observed) - float(baseline)))
+            shadow_errors.append(abs(float(observed) - float(shadow)))
+            comparisons += 1
+            comparable += 1
+            if abs(float(shadow) - float(baseline)) >= 0.05:
+                shifted_comparisons += 1
+        if comparable >= 2:
+            cases += 1
+
+    if not baseline_errors:
+        return {
+            "status": "insufficient-data",
+            "caseCount": 0,
+            "comparisonCount": 0,
+            "shiftedComparisonCount": 0,
+            "baselineMeanAbsoluteError": None,
+            "shadowMeanAbsoluteError": None,
+            "differenceShadowVsBaseline": None,
+            "promotionEligible": False,
+            "harmonizationApplied": False,
+            "note": "Ainda não há casos retrospectivos suficientes para validar harmonização de cenários.",
+        }
+
+    baseline_mae = sum(baseline_errors) / len(baseline_errors)
+    shadow_mae = sum(shadow_errors) / len(shadow_errors)
+    difference = shadow_mae - baseline_mae
+    promotion_eligible = (
+        cases >= 12
+        and comparisons >= 80
+        and shifted_comparisons >= 20
+        and difference <= -0.10
+    )
+    return {
+        "status": "ok",
+        "caseCount": cases,
+        "comparisonCount": comparisons,
+        "shiftedComparisonCount": shifted_comparisons,
+        "baselineMeanAbsoluteError": round(baseline_mae, 2),
+        "shadowMeanAbsoluteError": round(shadow_mae, 2),
+        "differenceShadowVsBaseline": round(difference, 2),
+        "promotionEligible": promotion_eligible,
+        "harmonizationApplied": False,
+        "note": (
+            "Validação temporal da harmonização: o conjunto comum é definido apenas com "
+            "pesquisas anteriores à observação avaliada. Nenhuma exclusão é automática."
+        ),
+    }
+
+
 def response_composition(polls: List[dict], target: date) -> dict:
     weighted = poll_weights(polls, target)
     if not weighted:
@@ -2197,6 +2397,7 @@ def build_calibration_payload(polls: List[dict], now: datetime) -> dict:
     regime_validation = regime_shadow_validation(polls)
     house_validation = house_effect_shadow_validation(polls)
     house_shadow = current_house_effect_shadow(polls, now.date())
+    scenario_validation = scenario_coverage_shadow_validation(polls)
     return {
         "schemaVersion": 1,
         "generatedAt": now.isoformat().replace("+00:00", "Z"),
@@ -2207,6 +2408,7 @@ def build_calibration_payload(polls: List[dict], now: datetime) -> dict:
         "regimeShadowValidation": regime_validation,
         "houseEffectShadow": house_shadow,
         "houseEffectValidation": house_validation,
+        "scenarioCoverageValidation": scenario_validation,
         "historicalElectionBacktest": {
             "status": "not-applied",
             "correctionApplied": False,
@@ -2307,6 +2509,7 @@ def main() -> None:
     sensitivity = sensitivity_analysis(first_round, now.date())
     influence = influence_analysis(first_round, now.date())
     temporal_coverage = temporal_coverage_analysis(first_round, now.date())
+    scenario_coverage = candidate_scenario_coverage_analysis(first_round, now.date())
     regime_shift = regime_shift_analysis(first_round, now.date())
     regime_shift = update_regime_persistence(regime_shift, first_round, now)
     (DATA / "calibration.json").write_text(
@@ -2359,7 +2562,7 @@ def main() -> None:
     }
 
     snapshot = {
-        "schemaVersion": 12,
+        "schemaVersion": 13,
         "generatedAt": now.isoformat().replace("+00:00", "Z"),
         "electionDate": ELECTION_DATE.isoformat(),
         "daysToElection": max((ELECTION_DATE - now.date()).days, 0),
@@ -2371,6 +2574,7 @@ def main() -> None:
         "sensitivity": sensitivity,
         "influence": influence,
         "temporalCoverage": temporal_coverage,
+        "scenarioCoverage": scenario_coverage,
         "uncertainty": uncertainty,
         "regimeShift": regime_shift,
         "methodology": {
@@ -2381,6 +2585,7 @@ def main() -> None:
             "uncertainty": "faixa avançada = intervalo analítico + bootstrap individual + bootstrap por instituto + bootstrap por método + piso empírico q80 quando aplicável",
             "methodDiversity": "concentração dos pesos efetivos por grupo de método; diagnóstico sem correção automática",
             "temporalCoverage": "frescor, concentração por data e participação ponderada de pesquisas recentes; diagnóstico sem ajuste automático",
+            "scenarioCoverage": "cobertura ponderada de candidaturas e harmonização do conjunto comum apenas em sombra; ausência em cenário não equivale a zero",
             "marketUse": "informativo; não entra na média de pesquisas",
             "responseComposition": "categorias não candidatas somente quando identificadas pela fonte; residual não classificado não é indecisão",
             "sensitivity": "leave-one-out por pesquisa + comparação de janelas de 14 e 30 dias; informativo, sem ajuste automático",
