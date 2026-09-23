@@ -1,3 +1,4 @@
+# pipeline schema v12 final.
 # schema v12: house effect shadow validation.
 # pipeline schema v11 final.
 # schema v11: temporal freshness and coverage.
