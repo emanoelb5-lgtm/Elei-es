@@ -2397,7 +2397,7 @@ private fun candidateColor(id: String): Color = when (id) {
 }
 
 private fun Double.one() = String.format(java.util.Locale("pt", "BR"), "%.1f", this)
-private fun Double.two(): String = String.format(Locale.US, "%.2f", this).replace('.', ',')
+private fun Double.two() = String.format(java.util.Locale("pt", "BR"), "%.2f", this)
 
 private fun Double.three() = String.format(java.util.Locale("pt", "BR"), "%.3f", this)
 private fun signed(value: Double): String = if (value > 0) "+${value.one()}" else value.one()
