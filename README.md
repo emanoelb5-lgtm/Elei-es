@@ -2,7 +2,7 @@
 
 Aplicativo Android público e experimental para acompanhar **pesquisas presidenciais de 2026**, sua evolução no tempo, incerteza e diferenças entre fontes.
 
-## O que a v0.9.2 faz
+## O que a v0.9.3 faz
 
 - trabalha com **pesquisas individuais** como unidade principal, em vez de somar agregadores;
 - deduplica levantamentos pelo número de registro TSE e, quando necessário, por uma chave de conteúdo;
@@ -76,7 +76,7 @@ Se os testes ou a validação estrutural falharem, os novos dados não são publ
 
 O workflow **Build e publicar APK** compila e assina o APK com a mesma identidade de desenvolvimento estável adotada desde a v0.2.0, permitindo atualização sobre versões posteriores à transição de assinatura.
 
-A release atual é v0.9.2.
+A release atual é v0.9.3.
 
 ## Aviso
 
@@ -282,3 +282,25 @@ Como nem todas as pesquisas testam exatamente o mesmo conjunto de candidaturas, 
 A lista permanece em ordem cronológica e não é ordenada por peso. A auditoria não adiciona bônus, penalidade ou correção além das regras já existentes no agregador.
 
 O schema de data/analytics.json passa a ser v14.
+
+## Stress test dos pesos v0.9.3
+
+A auditoria exata da v0.9.2 passa a ser complementada por um stress test paramétrico da fórmula de ponderação.
+
+São calculadas sete configurações pré-definidas, sem alterar outros componentes do modelo:
+
+- configuração de produção;
+- recência mais rápida;
+- recência mais lenta;
+- peso amostral mais fraco;
+- peso amostral mais forte;
+- penalização por repetição mais fraca;
+- penalização por repetição mais forte.
+
+Para cada candidatura, o sistema publica a leitura de produção, mínimo e máximo entre as configurações, amplitude total e maior deslocamento em relação à produção.
+
+A configuração chamada Produção usa exatamente os mesmos parâmetros e a mesma lógica do agregador corrente. Os testes automatizados exigem que ela reproduza a leitura principal numericamente.
+
+O stress test mede dependência das escolhas paramétricas. Nenhuma variante é considerada vencedora, nenhuma é promovida automaticamente e a ordem de exibição não constitui ranking.
+
+O schema de data/analytics.json passa a ser v15.
