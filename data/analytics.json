@@ -1,6 +1,6 @@
 {
-  "schemaVersion": 14,
-  "generatedAt": "2026-09-23T09:46:54.230648Z",
+  "schemaVersion": 15,
+  "generatedAt": "2026-09-23T10:55:50.425943Z",
   "electionDate": "2026-10-04",
   "daysToElection": 11,
   "quality": {
@@ -19,7 +19,7 @@
       "label": "BBC / PollingData",
       "type": "base de pesquisas individuais",
       "status": "ok",
-      "updatedAt": "2026-09-23T09:46:55.162970Z",
+      "updatedAt": "2026-09-23T10:55:51.756447Z",
       "url": "https://news.files.bbci.co.uk/include/vjamericas/1561-poll-tracker-brazil-2026/table/portuguese/app/amp",
       "tablesFound": 2
     },
@@ -46,7 +46,7 @@
       "label": "ElectioLab",
       "type": "agregador de conferência · sem peso",
       "status": "ok",
-      "updatedAt": "2026-09-23T09:46:55.792821Z",
+      "updatedAt": "2026-09-23T10:55:52.370453Z",
       "url": "https://electiolab.com/pesquisas-presidenciais-2026",
       "pageFreshness": "21 de setembro de 2026"
     },
@@ -64,7 +64,7 @@
       "label": "Polymarket",
       "type": "mercado de previsão · sinal externo",
       "status": "ok",
-      "updatedAt": "2026-09-23T09:46:55.233460Z",
+      "updatedAt": "2026-09-23T10:55:51.885384Z",
       "url": "https://polymarket.com/event/brazil-presidential-election"
     }
   ],
@@ -2515,6 +2515,187 @@
     "automaticAdjustment": false,
     "note": "Auditoria reproduz exatamente a função de peso do agregador. A ordem de exibição é cronológica, não por peso."
   },
+  "weightStress": {
+    "status": "ok",
+    "variantCount": 7,
+    "overallMaxShift": 0.37,
+    "sensitivity": "moderada",
+    "productionVariantId": "production",
+    "candidates": {
+      "augusto-cury": {
+        "name": "Augusto Cury",
+        "baselineSupport": 6.06,
+        "minSupport": 5.75,
+        "maxSupport": 6.28,
+        "maxAbsoluteShift": 0.3,
+        "spread": 0.52
+      },
+      "flavio-bolsonaro": {
+        "name": "Flávio Bolsonaro",
+        "baselineSupport": 36.44,
+        "minSupport": 36.16,
+        "maxSupport": 36.81,
+        "maxAbsoluteShift": 0.37,
+        "spread": 0.64
+      },
+      "lula": {
+        "name": "Lula",
+        "baselineSupport": 39.18,
+        "minSupport": 39.1,
+        "maxSupport": 39.28,
+        "maxAbsoluteShift": 0.1,
+        "spread": 0.18
+      },
+      "pablo-marcal": {
+        "name": "Pablo Marçal",
+        "baselineSupport": 1.73,
+        "minSupport": 1.69,
+        "maxSupport": 1.76,
+        "maxAbsoluteShift": 0.04,
+        "spread": 0.07
+      },
+      "renan-santos": {
+        "name": "Renan Santos",
+        "baselineSupport": 4.7,
+        "minSupport": 4.57,
+        "maxSupport": 4.83,
+        "maxAbsoluteShift": 0.13,
+        "spread": 0.26
+      },
+      "romeu-zema": {
+        "name": "Romeu Zema",
+        "baselineSupport": 1.18,
+        "minSupport": 1.15,
+        "maxSupport": 1.21,
+        "maxAbsoluteShift": 0.03,
+        "spread": 0.06
+      },
+      "ronaldo-caiado": {
+        "name": "Ronaldo Caiado",
+        "baselineSupport": 3.06,
+        "minSupport": 3.03,
+        "maxSupport": 3.13,
+        "maxAbsoluteShift": 0.07,
+        "spread": 0.1
+      }
+    },
+    "variants": [
+      {
+        "id": "production",
+        "label": "Produção",
+        "decayDays": 10.0,
+        "sampleExponent": 0.5,
+        "repeatExponent": 0.5,
+        "candidateSupport": {
+          "augusto-cury": 6.06,
+          "flavio-bolsonaro": 36.44,
+          "lula": 39.18,
+          "pablo-marcal": 1.73,
+          "renan-santos": 4.7,
+          "romeu-zema": 1.18,
+          "ronaldo-caiado": 3.06
+        }
+      },
+      {
+        "id": "fast-recency",
+        "label": "Recência mais rápida",
+        "decayDays": 7.0,
+        "sampleExponent": 0.5,
+        "repeatExponent": 0.5,
+        "candidateSupport": {
+          "augusto-cury": 5.75,
+          "flavio-bolsonaro": 36.81,
+          "lula": 39.28,
+          "pablo-marcal": 1.69,
+          "renan-santos": 4.83,
+          "romeu-zema": 1.15,
+          "ronaldo-caiado": 3.03
+        }
+      },
+      {
+        "id": "slow-recency",
+        "label": "Recência mais lenta",
+        "decayDays": 14.0,
+        "sampleExponent": 0.5,
+        "repeatExponent": 0.5,
+        "candidateSupport": {
+          "augusto-cury": 6.28,
+          "flavio-bolsonaro": 36.16,
+          "lula": 39.1,
+          "pablo-marcal": 1.76,
+          "renan-santos": 4.63,
+          "romeu-zema": 1.21,
+          "ronaldo-caiado": 3.09
+        }
+      },
+      {
+        "id": "light-sample",
+        "label": "Peso amostral mais fraco",
+        "decayDays": 10.0,
+        "sampleExponent": 0.35,
+        "repeatExponent": 0.5,
+        "candidateSupport": {
+          "augusto-cury": 6.11,
+          "flavio-bolsonaro": 36.28,
+          "lula": 39.1,
+          "pablo-marcal": 1.74,
+          "renan-santos": 4.57,
+          "romeu-zema": 1.19,
+          "ronaldo-caiado": 3.13
+        }
+      },
+      {
+        "id": "strong-sample",
+        "label": "Peso amostral mais forte",
+        "decayDays": 10.0,
+        "sampleExponent": 0.65,
+        "repeatExponent": 0.5,
+        "candidateSupport": {
+          "augusto-cury": 6.08,
+          "flavio-bolsonaro": 36.46,
+          "lula": 39.17,
+          "pablo-marcal": 1.73,
+          "renan-santos": 4.7,
+          "romeu-zema": 1.18,
+          "ronaldo-caiado": 3.05
+        }
+      },
+      {
+        "id": "light-repeat",
+        "label": "Penalização de repetição mais fraca",
+        "decayDays": 10.0,
+        "sampleExponent": 0.5,
+        "repeatExponent": 0.35,
+        "candidateSupport": {
+          "augusto-cury": 6.07,
+          "flavio-bolsonaro": 36.44,
+          "lula": 39.17,
+          "pablo-marcal": 1.74,
+          "renan-santos": 4.68,
+          "romeu-zema": 1.19,
+          "ronaldo-caiado": 3.08
+        }
+      },
+      {
+        "id": "strong-repeat",
+        "label": "Penalização de repetição mais forte",
+        "decayDays": 10.0,
+        "sampleExponent": 0.5,
+        "repeatExponent": 0.65,
+        "candidateSupport": {
+          "augusto-cury": 6.05,
+          "flavio-bolsonaro": 36.42,
+          "lula": 39.18,
+          "pablo-marcal": 1.72,
+          "renan-santos": 4.72,
+          "romeu-zema": 1.18,
+          "ronaldo-caiado": 3.05
+        }
+      }
+    ],
+    "automaticAdjustment": false,
+    "note": "Stress test altera apenas parâmetros já existentes da fórmula de peso. Nenhuma variante é escolhida, ranqueada ou aplicada automaticamente."
+  },
   "uncertainty": {
     "status": "ok",
     "bootstrapDraws": 500,
@@ -2868,6 +3049,7 @@
     "temporalCoverage": "frescor, concentração por data e participação ponderada de pesquisas recentes; diagnóstico sem ajuste automático",
     "scenarioCoverage": "cobertura ponderada de candidaturas e harmonização do conjunto comum apenas em sombra; ausência em cenário não equivale a zero",
     "weightAudit": "decomposição exata do peso aplicado: recência × amostra × repetição do instituto × validação TSE; participação por candidatura usa apenas pesquisas que testaram o nome",
+    "weightStress": "stress test paramétrico de recência, força amostral e penalização por repetição; nenhuma variante é aplicada automaticamente",
     "marketUse": "informativo; não entra na média de pesquisas",
     "responseComposition": "categorias não candidatas somente quando identificadas pela fonte; residual não classificado não é indecisão",
     "sensitivity": "leave-one-out por pesquisa + comparação de janelas de 14 e 30 dias; informativo, sem ajuste automático",
