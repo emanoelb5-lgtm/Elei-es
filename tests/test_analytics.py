@@ -1,3 +1,4 @@
+# pipeline schema v13 final.
 # schema v13: candidate scenario coverage.
 # pipeline schema v12 final.
 # schema v12: house effect shadow validation.
