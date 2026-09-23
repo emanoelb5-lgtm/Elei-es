@@ -701,10 +701,10 @@ class AnalyticsParserTests(unittest.TestCase):
     def test_house_effect_shrinkage_reduces_small_sample_offset(self):
         polls = []
         base_date = date(2026, 9, 1)
-        for idx in range(12):
-            institute = "A" if idx % 2 == 0 else "B"
-            lula = 43.0 if institute == "A" else 39.0
-            flavio = 33.0 if institute == "A" else 37.0
+        for idx in range(18):
+            institute = ["A", "B", "C"][idx % 3]
+            lula = {"A": 43.0, "B": 39.0, "C": 40.0}[institute]
+            flavio = {"A": 33.0, "B": 37.0, "C": 36.0}[institute]
             polls.append({
                 "date": base_date + timedelta(days=idx),
                 "institute": institute,
