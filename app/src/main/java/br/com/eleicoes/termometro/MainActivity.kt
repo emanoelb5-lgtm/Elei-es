@@ -1174,6 +1174,15 @@ private fun AdvancedUncertaintySummary(uncertainty: UncertaintyData) {
                 MetricRow("Bootstrap por pesquisa", uncertainty.bootstrapDraws.toString())
                 MetricRow("Bootstrap por instituto", uncertainty.instituteBootstrapDraws.toString())
                 MetricRow("Institutos na reamostragem", uncertainty.instituteClusterCount.toString())
+                MetricRow("Bootstrap por método", uncertainty.methodBootstrapDraws.toString())
+                MetricRow("Métodos na reamostragem", uncertainty.methodClusterCount.toString())
+                if (uncertainty.methodDiversity.status == "ok") {
+                    MetricRow("Métodos efetivos", uncertainty.methodDiversity.effectiveMethodCount.one())
+                    uncertainty.methodDiversity.maxWeightShare?.let {
+                        MetricRow("Maior participação metodológica", "${(it * 100.0).one()}%")
+                    }
+                    MetricRow("Concentração metodológica", methodConcentrationLabel(uncertainty.methodDiversity.concentration))
+                }
                 uncertainty.empiricalErrorQ80?.let {
                     MetricRow("Erro empírico · percentil 80", "${it.one()} p.p.")
                 }
@@ -1181,7 +1190,7 @@ private fun AdvancedUncertaintySummary(uncertainty: UncertaintyData) {
                     MetricRow("Erro empírico · percentil 90", "${it.one()} p.p.")
                 }
                 Text(
-                    "A faixa exibida usa o componente mais conservador entre intervalo analítico, bootstrap por pesquisa, bootstrap por instituto e piso empírico quando aplicável.",
+                    "A faixa exibida usa o componente mais conservador entre intervalo analítico, bootstrap por pesquisa, por instituto, por método e piso empírico quando aplicável.",
                     color = Muted,
                     fontSize = 11.sp,
                     lineHeight = 16.sp
@@ -1202,10 +1211,23 @@ private fun AdvancedUncertaintyCard(uncertainty: UncertaintyData, candidates: Li
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
             if (uncertainty.status == "ok") {
                 Text(
-                    "${uncertainty.bootstrapDraws} reamostragens individuais + ${uncertainty.instituteBootstrapDraws} por instituto",
+                    "${uncertainty.bootstrapDraws} por pesquisa + ${uncertainty.instituteBootstrapDraws} por instituto + ${uncertainty.methodBootstrapDraws} por método",
                     color = BrazilBlue,
                     fontWeight = FontWeight.Bold
                 )
+                if (uncertainty.methodDiversity.status == "ok" && uncertainty.methodDiversity.shares.isNotEmpty()) {
+                    Text("Composição metodológica efetiva", fontWeight = FontWeight.Bold, fontSize = 12.sp)
+                    uncertainty.methodDiversity.shares.forEach { (method, share) ->
+                        MetricRow(methodLabel(method), "${(share * 100.0).one()}%")
+                    }
+                    Text(
+                        uncertainty.methodDiversity.note,
+                        color = Muted,
+                        fontSize = 10.sp,
+                        lineHeight = 15.sp
+                    )
+                    HorizontalDivider(color = Color(0xFFE8ECE9))
+                }
                 candidates.forEach { candidate ->
                     uncertainty.candidates[candidate.id]?.let { row ->
                         Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
@@ -1228,6 +1250,12 @@ private fun AdvancedUncertaintyCard(uncertainty: UncertaintyData, candidates: Li
                                 MetricRow(
                                     "Bootstrap por instituto · 80%",
                                     "${row.instituteBootstrapP10.one()}% – ${row.instituteBootstrapP90.one()}%"
+                                )
+                            }
+                            if (row.methodBootstrapP10 != null && row.methodBootstrapP90 != null) {
+                                MetricRow(
+                                    "Bootstrap por método · 80%",
+                                    "${row.methodBootstrapP10.one()}% – ${row.methodBootstrapP90.one()}%"
                                 )
                             }
                             row.empiricalErrorQ80?.let {
@@ -1768,10 +1796,27 @@ private fun regimeCandidateLevelLabel(level: String): String = when (level) {
     else -> "estável"
 }
 
+private fun methodLabel(key: String): String = when (key) {
+    "presencial" -> "Presencial"
+    "telefonica" -> "Telefônica"
+    "online" -> "Online / digital"
+    "ura-ivr" -> "URA / IVR"
+    "hibrida" -> "Híbrida"
+    else -> "Outros / não identificado"
+}
+
+private fun methodConcentrationLabel(key: String): String = when (key) {
+    "diversificada" -> "diversificada"
+    "moderada" -> "moderada"
+    "concentrada" -> "concentrada"
+    else -> "indisponível"
+}
+
 private fun uncertaintyComponentLabel(key: String): String = when (key) {
     "analytical" -> "Intervalo analítico"
     "pollBootstrap" -> "Bootstrap por pesquisa"
     "instituteBootstrap" -> "Bootstrap por instituto"
+    "methodBootstrap" -> "Bootstrap por método"
     "empirical" -> "Piso empírico"
     else -> "Não identificado"
 }
