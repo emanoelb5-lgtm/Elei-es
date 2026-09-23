@@ -1,6 +1,6 @@
 {
-  "schemaVersion": 11,
-  "generatedAt": "2026-09-23T00:28:04.933231Z",
+  "schemaVersion": 12,
+  "generatedAt": "2026-09-23T00:39:48.257442Z",
   "electionDate": "2026-10-04",
   "daysToElection": 11,
   "quality": {
@@ -19,7 +19,7 @@
       "label": "BBC / PollingData",
       "type": "base de pesquisas individuais",
       "status": "ok",
-      "updatedAt": "2026-09-23T00:28:06.490364Z",
+      "updatedAt": "2026-09-23T00:39:49.795238Z",
       "url": "https://news.files.bbci.co.uk/include/vjamericas/1561-poll-tracker-brazil-2026/table/portuguese/app/amp",
       "tablesFound": 2
     },
@@ -46,7 +46,7 @@
       "label": "ElectioLab",
       "type": "agregador de conferência · sem peso",
       "status": "ok",
-      "updatedAt": "2026-09-23T00:28:07.058684Z",
+      "updatedAt": "2026-09-23T00:39:51.086996Z",
       "url": "https://electiolab.com/pesquisas-presidenciais-2026",
       "pageFreshness": "21 de setembro de 2026"
     },
@@ -64,7 +64,7 @@
       "label": "Polymarket",
       "type": "mercado de previsão · sinal externo",
       "status": "ok",
-      "updatedAt": "2026-09-23T00:28:06.622269Z",
+      "updatedAt": "2026-09-23T00:39:49.938971Z",
       "url": "https://polymarket.com/event/brazil-presidential-election"
     }
   ],
@@ -1660,6 +1660,7 @@
     "responseComposition": "categorias não candidatas somente quando identificadas pela fonte; residual não classificado não é indecisão",
     "sensitivity": "leave-one-out por pesquisa + comparação de janelas de 14 e 30 dias; informativo, sem ajuste automático",
     "influence": "remoção de uma pesquisa ou de um instituto + desvio robusto entre pares contemporâneos; diagnóstico apenas",
+    "houseEffect": "offsets por instituto com shrinkage e limite de magnitude; leitura e validação apenas em sombra, sem correção automática",
     "regimeShift": "comparação entre últimos 7 dias e bloco de 8 a 30 dias + persistência por estados distintos de evidência; leitura adaptativa apenas em sombra, sem aplicação automática"
   },
   "note": "Leitura estatística de pesquisas públicas. Intervalos e testes de sensibilidade expressam incerteza do agregador e não garantem resultado eleitoral."
