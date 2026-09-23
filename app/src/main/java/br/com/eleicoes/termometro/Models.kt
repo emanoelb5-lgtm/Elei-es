@@ -272,6 +272,38 @@ data class ScenarioCoverageValidation(
     val note: String
 )
 
+data class WeightAuditRow(
+    val date: String,
+    val institute: String,
+    val sample: Int,
+    val method: String,
+    val registration: String?,
+    val verifiedTse: Boolean,
+    val candidateIds: List<String>,
+    val ageDays: Int,
+    val recencyFactor: Double,
+    val sampleFactor: Double,
+    val institutePollCount: Int,
+    val repeatPenalty: Double,
+    val verificationFactor: Double,
+    val rawWeight: Double,
+    val windowWeightShare: Double,
+    val candidateWeightShares: Map<String, Double>
+)
+
+data class WeightAuditData(
+    val status: String,
+    val pollCount: Int,
+    val instituteCount: Int,
+    val effectivePolls: Double,
+    val totalRawWeight: Double?,
+    val rows: List<WeightAuditRow>,
+    val formula: String,
+    val candidateShareMeaning: String,
+    val automaticAdjustment: Boolean,
+    val note: String
+)
+
 data class RunoffScenario(
     val id: String,
     val label: String,
@@ -297,6 +329,7 @@ data class Snapshot(
     val influence: InfluenceData,
     val temporalCoverage: TemporalCoverageData,
     val scenarioCoverage: ScenarioCoverageData,
+    val weightAudit: WeightAuditData,
     val uncertainty: UncertaintyData,
     val regimeShift: RegimeShiftData,
     val note: String
