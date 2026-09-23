@@ -461,6 +461,20 @@ private fun DiagnosticsScreen(data: DashboardData?, loading: Boolean) {
 
             item {
                 SectionTitle(
+                    "Auditoria dos pesos",
+                    "Decompõe exatamente o peso aplicado a cada pesquisa, sem ordenar por maior peso"
+                )
+            }
+            item { WeightAuditSummaryCard(data.snapshot.weightAudit) }
+            items(
+                data.snapshot.weightAudit.rows,
+                key = { "weight-audit-${it.registration ?: "${it.date}-${it.institute}-${it.sample}"}" }
+            ) { row ->
+                WeightAuditRowCard(row, data.snapshot.candidates)
+            }
+
+            item {
+                SectionTitle(
                     "Incerteza avançada",
                     "Intervalo analítico, bootstrap e erro empírico observados separadamente"
                 )
@@ -1446,6 +1460,104 @@ private fun ScenarioCoverageValidationCard(validation: ScenarioCoverageValidatio
                 Text("Ainda não há validação suficiente para a harmonização de cenários.", color = Muted)
             }
             Text(validation.note, color = Muted, fontSize = 11.sp, lineHeight = 16.sp)
+        }
+    }
+}
+
+@Composable
+private fun WeightAuditSummaryCard(audit: WeightAuditData) {
+    Card(
+        shape = RoundedCornerShape(22.dp),
+        colors = CardDefaults.cardColors(containerColor = Color(0xFFFFF8E7))
+    ) {
+        Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            Text("Como o peso é formado", fontWeight = FontWeight.ExtraBold, fontSize = 18.sp)
+            if (audit.status == "ok") {
+                MetricRow("Pesquisas auditadas", audit.pollCount.toString())
+                MetricRow("Institutos na janela", audit.instituteCount.toString())
+                MetricRow("Pesquisas efetivas", audit.effectivePolls.one())
+                Text(audit.formula, color = BrazilBlue, fontWeight = FontWeight.Bold, fontSize = 12.sp)
+                Text(audit.candidateShareMeaning, color = Muted, fontSize = 11.sp, lineHeight = 16.sp)
+            } else {
+                Text("Auditoria indisponível nesta leitura.", color = Muted)
+            }
+            Text(audit.note, color = Muted, fontSize = 11.sp, lineHeight = 16.sp)
+            Text(
+                if (audit.automaticAdjustment) {
+                    "Há ajuste automático adicional nesta camada."
+                } else {
+                    "A auditoria apenas reproduz os pesos já usados pelo agregador."
+                },
+                color = if (audit.automaticAdjustment) Color(0xFF9A6700) else BrazilGreen,
+                fontSize = 11.sp,
+                fontWeight = FontWeight.Bold
+            )
+        }
+    }
+}
+
+@Composable
+private fun WeightAuditRowCard(row: WeightAuditRow, candidates: List<Candidate>) {
+    val candidateNames = remember(candidates) { candidates.associate { it.id to it.name } }
+    Card(
+        shape = RoundedCornerShape(20.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.White)
+    ) {
+        Column(Modifier.padding(15.dp), verticalArrangement = Arrangement.spacedBy(7.dp)) {
+            Row(
+                Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.Top
+            ) {
+                Column(Modifier.weight(1f)) {
+                    Text(row.institute, fontWeight = FontWeight.ExtraBold, fontSize = 15.sp)
+                    Text(
+                        "${formatPollDate(row.date)} · amostra ${row.sample} · ${row.method}",
+                        color = Muted,
+                        fontSize = 11.sp,
+                        lineHeight = 16.sp
+                    )
+                }
+                Text(
+                    "${(row.windowWeightShare * 100.0).one()}%",
+                    color = BrazilBlue,
+                    fontWeight = FontWeight.ExtraBold,
+                    fontSize = 14.sp
+                )
+            }
+
+            Text(
+                "Participação relativa no peso bruto da janela",
+                color = Muted,
+                fontSize = 10.sp
+            )
+            MetricRow("Idade", "${row.ageDays} dia(s)")
+            MetricRow("Fator de recência", row.recencyFactor.three())
+            MetricRow("Fator de amostra", row.sampleFactor.three())
+            MetricRow("Pesquisas do instituto na janela", row.institutePollCount.toString())
+            MetricRow("Penalização por repetição", row.repeatPenalty.three())
+            MetricRow("Fator de validação TSE", row.verificationFactor.three())
+            MetricRow("Peso bruto", row.rawWeight.three())
+
+            row.registration?.let {
+                MetricRow(
+                    if (row.verifiedTse) "Registro TSE validado" else "Registro TSE informado",
+                    it
+                )
+            }
+
+            if (row.candidateWeightShares.isNotEmpty()) {
+                HorizontalDivider(color = Color(0xFFE8ECE9))
+                Text("Participação dentro do agregado de cada candidatura", fontWeight = FontWeight.Bold, fontSize = 11.sp)
+                candidates.forEach { candidate ->
+                    row.candidateWeightShares[candidate.id]?.let { share ->
+                        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                            Text(candidateNames[candidate.id] ?: candidate.id, color = Muted, fontSize = 10.sp)
+                            Text("${(share * 100.0).one()}%", fontWeight = FontWeight.Bold, fontSize = 10.sp)
+                        }
+                    }
+                }
+            }
         }
     }
 }
