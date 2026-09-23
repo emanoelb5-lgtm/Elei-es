@@ -1082,6 +1082,173 @@ def poll_weights(polls: List[dict], target: date) -> List[tuple[dict, float]]:
     return weighted
 
 
+WEIGHT_STRESS_VARIANTS = [
+    {
+        "id": "production",
+        "label": "Produção",
+        "decayDays": 10.0,
+        "sampleExponent": 0.50,
+        "repeatExponent": 0.50,
+    },
+    {
+        "id": "fast-recency",
+        "label": "Recência mais rápida",
+        "decayDays": 7.0,
+        "sampleExponent": 0.50,
+        "repeatExponent": 0.50,
+    },
+    {
+        "id": "slow-recency",
+        "label": "Recência mais lenta",
+        "decayDays": 14.0,
+        "sampleExponent": 0.50,
+        "repeatExponent": 0.50,
+    },
+    {
+        "id": "light-sample",
+        "label": "Peso amostral mais fraco",
+        "decayDays": 10.0,
+        "sampleExponent": 0.35,
+        "repeatExponent": 0.50,
+    },
+    {
+        "id": "strong-sample",
+        "label": "Peso amostral mais forte",
+        "decayDays": 10.0,
+        "sampleExponent": 0.65,
+        "repeatExponent": 0.50,
+    },
+    {
+        "id": "light-repeat",
+        "label": "Penalização de repetição mais fraca",
+        "decayDays": 10.0,
+        "sampleExponent": 0.50,
+        "repeatExponent": 0.35,
+    },
+    {
+        "id": "strong-repeat",
+        "label": "Penalização de repetição mais forte",
+        "decayDays": 10.0,
+        "sampleExponent": 0.50,
+        "repeatExponent": 0.65,
+    },
+]
+
+
+def stress_poll_weights(
+    polls: List[dict],
+    target: date,
+    decay_days: float,
+    sample_exponent: float,
+    repeat_exponent: float,
+) -> List[tuple[dict, float]]:
+    eligible = [
+        p for p in polls
+        if p["date"] <= target and (target - p["date"]).days <= LIVE_WINDOW_DAYS
+    ]
+    institute_counts = Counter(norm(p["institute"]) for p in eligible)
+    weighted = []
+    for poll in eligible:
+        age = max((target - poll["date"]).days, 0)
+        recency = math.exp(-age / max(decay_days, 0.1))
+        sample_ratio = max(poll["sample"], 300) / 2000.0
+        sample_factor = min(max(sample_ratio ** sample_exponent, 0.65), 1.60)
+        institute_count = max(institute_counts[norm(poll["institute"])], 1)
+        repeat_penalty = 1.0 / (institute_count ** repeat_exponent)
+        verified_factor = 1.05 if poll.get("verifiedTse") else 1.0
+        weighted.append((
+            poll,
+            recency * sample_factor * repeat_penalty * verified_factor,
+        ))
+    return weighted
+
+
+def weight_stress_test(polls: List[dict], target: date) -> dict:
+    baseline = aggregate_first_round(polls, target)
+    if not baseline.get("candidates"):
+        return {
+            "status": "insufficient-data",
+            "variantCount": 0,
+            "overallMaxShift": None,
+            "sensitivity": "indisponivel",
+            "candidates": {},
+            "variants": [],
+            "automaticAdjustment": False,
+            "note": "Sem pesquisas elegíveis para stress test dos pesos.",
+        }
+
+    variant_rows = []
+    candidate_values: Dict[str, Dict[str, float]] = {
+        cid: {} for cid in baseline["candidates"]
+    }
+
+    for variant in WEIGHT_STRESS_VARIANTS:
+        weighted = stress_poll_weights(
+            polls,
+            target,
+            decay_days=float(variant["decayDays"]),
+            sample_exponent=float(variant["sampleExponent"]),
+            repeat_exponent=float(variant["repeatExponent"]),
+        )
+        values = {}
+        for cid in baseline["candidates"]:
+            agg = aggregate_candidate(weighted, cid)
+            if agg is None:
+                continue
+            support = float(agg[0])
+            values[cid] = round(support, 2)
+            candidate_values[cid][variant["id"]] = support
+
+        variant_rows.append({
+            "id": variant["id"],
+            "label": variant["label"],
+            "decayDays": variant["decayDays"],
+            "sampleExponent": variant["sampleExponent"],
+            "repeatExponent": variant["repeatExponent"],
+            "candidateSupport": values,
+        })
+
+    candidates = {}
+    overall_max = 0.0
+    for cid, base in baseline["candidates"].items():
+        baseline_support = float(base["support"])
+        values = list(candidate_values.get(cid, {}).values())
+        if not values:
+            continue
+        low = min(values)
+        high = max(values)
+        max_shift = max(abs(value - baseline_support) for value in values)
+        overall_max = max(overall_max, max_shift)
+        candidates[cid] = {
+            "name": NAMES.get(cid, cid.replace("-", " ").title()),
+            "baselineSupport": round(baseline_support, 2),
+            "minSupport": round(low, 2),
+            "maxSupport": round(high, 2),
+            "maxAbsoluteShift": round(max_shift, 2),
+            "spread": round(high - low, 2),
+        }
+
+    sensitivity = (
+        "baixa" if overall_max <= 0.25
+        else "moderada" if overall_max <= 0.75
+        else "alta"
+    )
+    return {
+        "status": "ok" if candidates else "insufficient-data",
+        "variantCount": len(variant_rows),
+        "overallMaxShift": round(overall_max, 2),
+        "sensitivity": sensitivity,
+        "productionVariantId": "production",
+        "candidates": candidates,
+        "variants": variant_rows,
+        "automaticAdjustment": False,
+        "note": (
+            "Stress test altera apenas parâmetros já existentes da fórmula de peso. "
+            "Nenhuma variante é escolhida, ranqueada ou aplicada automaticamente."
+        ),
+    }
+
+
 def weight_audit_analysis(polls: List[dict], target: date) -> dict:
     eligible = [
         p for p in polls
@@ -2629,6 +2796,7 @@ def main() -> None:
     temporal_coverage = temporal_coverage_analysis(first_round, now.date())
     scenario_coverage = candidate_scenario_coverage_analysis(first_round, now.date())
     weight_audit = weight_audit_analysis(first_round, now.date())
+    weight_stress = weight_stress_test(first_round, now.date())
     regime_shift = regime_shift_analysis(first_round, now.date())
     regime_shift = update_regime_persistence(regime_shift, first_round, now)
     (DATA / "calibration.json").write_text(
@@ -2681,7 +2849,7 @@ def main() -> None:
     }
 
     snapshot = {
-        "schemaVersion": 14,
+        "schemaVersion": 15,
         "generatedAt": now.isoformat().replace("+00:00", "Z"),
         "electionDate": ELECTION_DATE.isoformat(),
         "daysToElection": max((ELECTION_DATE - now.date()).days, 0),
@@ -2695,6 +2863,7 @@ def main() -> None:
         "temporalCoverage": temporal_coverage,
         "scenarioCoverage": scenario_coverage,
         "weightAudit": weight_audit,
+        "weightStress": weight_stress,
         "uncertainty": uncertainty,
         "regimeShift": regime_shift,
         "methodology": {
@@ -2707,6 +2876,7 @@ def main() -> None:
             "temporalCoverage": "frescor, concentração por data e participação ponderada de pesquisas recentes; diagnóstico sem ajuste automático",
             "scenarioCoverage": "cobertura ponderada de candidaturas e harmonização do conjunto comum apenas em sombra; ausência em cenário não equivale a zero",
             "weightAudit": "decomposição exata do peso aplicado: recência × amostra × repetição do instituto × validação TSE; participação por candidatura usa apenas pesquisas que testaram o nome",
+            "weightStress": "stress test paramétrico de recência, força amostral e penalização por repetição; nenhuma variante é aplicada automaticamente",
             "marketUse": "informativo; não entra na média de pesquisas",
             "responseComposition": "categorias não candidatas somente quando identificadas pela fonte; residual não classificado não é indecisão",
             "sensitivity": "leave-one-out por pesquisa + comparação de janelas de 14 e 30 dias; informativo, sem ajuste automático",
