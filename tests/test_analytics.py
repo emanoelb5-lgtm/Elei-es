@@ -1,3 +1,4 @@
+# pipeline schema v14 final.
 # schema v14: exact weight audit.
 # pipeline schema v13 final.
 # schema v13: candidate scenario coverage.
