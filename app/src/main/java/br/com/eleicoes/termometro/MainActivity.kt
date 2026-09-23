@@ -1734,6 +1734,8 @@ private fun AdvancedUncertaintyCard(uncertainty: UncertaintyData, candidates: Li
                     color = BrazilBlue,
                     fontWeight = FontWeight.Bold
                 )
+                MetricRow("Variantes paramétricas", uncertainty.parameterStressVariantCount.toString())
+                MetricRow("Sensibilidade aos parâmetros", stressSensitivityLabel(uncertainty.parameterStressSensitivity))
                 if (uncertainty.methodDiversity.status == "ok" && uncertainty.methodDiversity.shares.isNotEmpty()) {
                     Text("Composição metodológica efetiva", fontWeight = FontWeight.Bold, fontSize = 12.sp)
                     uncertainty.methodDiversity.shares.forEach { (method, share) ->
@@ -1777,6 +1779,12 @@ private fun AdvancedUncertaintyCard(uncertainty: UncertaintyData, candidates: Li
                                     "${row.methodBootstrapP10.one()}% – ${row.methodBootstrapP90.one()}%"
                                 )
                             }
+                            if (row.parameterStressLow != null && row.parameterStressHigh != null) {
+                                MetricRow(
+                                    "Envelope paramétrico dos pesos",
+                                    "${row.parameterStressLow.one()}% – ${row.parameterStressHigh.one()}%"
+                                )
+                            }
                             row.empiricalErrorQ80?.let {
                                 MetricRow("Piso empírico q80", "±${it.one()} p.p.")
                             }
@@ -1800,6 +1808,16 @@ private fun AdvancedUncertaintyCard(uncertainty: UncertaintyData, candidates: Li
             } else {
                 Text("Dados insuficientes para compor a faixa avançada.", color = Muted)
             }
+            Text(
+                if (uncertainty.parameterStressAutomaticAdjustment) {
+                    "Há ajuste paramétrico automático ativo."
+                } else {
+                    "O stress paramétrico amplia apenas a incerteza quando necessário; não altera o valor central."
+                },
+                color = if (uncertainty.parameterStressAutomaticAdjustment) Color(0xFF9A6700) else BrazilGreen,
+                fontSize = 11.sp,
+                fontWeight = FontWeight.Bold
+            )
             Text(
                 uncertainty.note,
                 color = Muted,
@@ -2350,6 +2368,13 @@ private fun weightStressSensitivityLabel(key: String): String = when (key) {
     else -> "indisponível"
 }
 
+private fun stressSensitivityLabel(key: String): String = when (key) {
+    "baixa" -> "baixa"
+    "moderada" -> "moderada"
+    "alta" -> "alta"
+    else -> "indisponível"
+}
+
 private fun methodLabel(key: String): String = when (key) {
     "presencial" -> "Presencial"
     "telefonica" -> "Telefônica"
@@ -2371,6 +2396,7 @@ private fun uncertaintyComponentLabel(key: String): String = when (key) {
     "pollBootstrap" -> "Bootstrap por pesquisa"
     "instituteBootstrap" -> "Bootstrap por instituto"
     "methodBootstrap" -> "Bootstrap por método"
+    "parameterStress" -> "Envelope paramétrico dos pesos"
     "empirical" -> "Piso empírico"
     else -> "Não identificado"
 }
