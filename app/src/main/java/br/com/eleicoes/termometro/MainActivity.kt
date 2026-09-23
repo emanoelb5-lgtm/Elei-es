@@ -2271,6 +2271,7 @@ private fun candidateColor(id: String): Color = when (id) {
 }
 
 private fun Double.one() = String.format(java.util.Locale("pt", "BR"), "%.1f", this)
+private fun Double.three() = String.format(java.util.Locale("pt", "BR"), "%.3f", this)
 private fun signed(value: Double): String = if (value > 0) "+${value.one()}" else value.one()
 private fun deltaText(value: Double): String = when {
     abs(value) < .05 -> "sem variação"
