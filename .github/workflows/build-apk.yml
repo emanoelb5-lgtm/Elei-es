@@ -91,7 +91,7 @@ jobs:
           VERSION: ${{ steps.meta.outputs.version }}
         run: |
           set -euo pipefail
-          NOTES='v0.9.3 adiciona stress test paramétrico da fórmula de pesos. Sete configurações pré-definidas variam recência, força do peso amostral e penalização por repetição do instituto, mantendo o restante da metodologia constante. O aplicativo mostra a faixa resultante e o maior deslocamento por candidatura, sem selecionar, ranquear ou aplicar automaticamente nenhuma variante. A configuração de produção é reproduzida exatamente dentro do mesmo teste. Mantém auditoria exata dos pesos, cobertura de cenários, house effect em sombra, frescor, diversidade metodológica e demais diagnósticos. Assinatura estável desde a v0.2.0.'
+          NOTES='v0.9.4 incorpora o envelope do stress test de pesos à incerteza avançada. As sete configurações paramétricas continuam sem ranking ou promoção automática; sua faixa passa apenas a ampliar o intervalo quando for mais conservadora que os componentes analítico, bootstrap ou piso empírico. O valor central de produção permanece inalterado. Mantém auditoria de pesos, cobertura de cenários, house effect em sombra, frescor, diversidade metodológica e demais diagnósticos. Assinatura estável desde a v0.2.0.'
           APK="dist/Termometro-Eleicoes-2026-v${VERSION}.apk"
           TAG="v${VERSION}"
           RELEASE_OK=0
