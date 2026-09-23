@@ -1,3 +1,4 @@
+# schema v14: exact weight audit.
 # pipeline schema v13 final.
 # schema v13: candidate scenario coverage.
 # pipeline schema v12 final.
@@ -22,6 +23,7 @@
 # v0.4 pipeline: inclui calibration.json na publicação.
 # Testes determinísticos: sem chamadas de rede.
 import unittest
+from collections import Counter
 from datetime import date, timedelta
 
 from scripts.update_analytics import (
@@ -53,6 +55,8 @@ from scripts.update_analytics import (
     house_effect_shadow_validation,
     candidate_scenario_coverage_analysis,
     scenario_coverage_shadow_validation,
+    poll_weight_components,
+    weight_audit_analysis,
     percentile,
 )
 
@@ -907,6 +911,77 @@ class AnalyticsParserTests(unittest.TestCase):
             self.assertGreater(result["comparisonCount"], 0)
             self.assertIsNotNone(result["baselineMeanAbsoluteError"])
             self.assertIsNotNone(result["shadowMeanAbsoluteError"])
+
+
+    def test_weight_audit_matches_production_weight_formula(self):
+        polls = [
+            {
+                "date": date(2026, 9, 20),
+                "institute": "A",
+                "sample": 2000,
+                "method": "Presencial",
+                "registration": "BR-55000/2026",
+                "verifiedTse": True,
+                "values": {"lula": 40.0, "flavio-bolsonaro": 35.0},
+                "nonCandidate": {},
+            },
+            {
+                "date": date(2026, 9, 21),
+                "institute": "A",
+                "sample": 1000,
+                "method": "Online",
+                "registration": "BR-55001/2026",
+                "verifiedTse": False,
+                "values": {"lula": 41.0},
+                "nonCandidate": {},
+            },
+            {
+                "date": date(2026, 9, 22),
+                "institute": "B",
+                "sample": 3000,
+                "method": "Telefônica",
+                "registration": "BR-55002/2026",
+                "verifiedTse": False,
+                "values": {"lula": 39.0, "flavio-bolsonaro": 36.0},
+                "nonCandidate": {},
+            },
+        ]
+        audit = weight_audit_analysis(polls, date(2026, 9, 22))
+        self.assertEqual(audit["status"], "ok")
+        self.assertEqual(audit["pollCount"], 3)
+        self.assertAlmostEqual(
+            sum(row["windowWeightShare"] for row in audit["rows"]),
+            1.0,
+            places=5,
+        )
+        flavio_total = sum(
+            row["candidateWeightShares"].get("flavio-bolsonaro", 0.0)
+            for row in audit["rows"]
+        )
+        self.assertAlmostEqual(flavio_total, 1.0, places=5)
+        missing = next(row for row in audit["rows"] if row["registration"] == "BR-55001/2026")
+        self.assertNotIn("flavio-bolsonaro", missing["candidateWeightShares"])
+        self.assertFalse(audit["automaticAdjustment"])
+
+    def test_weight_components_multiply_to_raw_weight(self):
+        poll = {
+            "date": date(2026, 9, 20),
+            "institute": "A",
+            "sample": 2500,
+            "method": "Presencial",
+            "registration": "BR-56000/2026",
+            "verifiedTse": True,
+            "values": {"lula": 40.0},
+        }
+        counts = Counter({"a": 4})
+        parts = poll_weight_components(poll, date(2026, 9, 22), counts)
+        product = (
+            parts["recencyFactor"]
+            * parts["sampleFactor"]
+            * parts["repeatPenalty"]
+            * parts["verificationFactor"]
+        )
+        self.assertAlmostEqual(parts["rawWeight"], product, places=12)
 
 
 if __name__ == "__main__":
