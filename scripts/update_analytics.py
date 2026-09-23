@@ -185,6 +185,139 @@ def method_diversity_analysis(polls: List[dict], target: date) -> dict:
     }
 
 
+def weighted_quantile_pairs(pairs: List[tuple[float, float]], q: float) -> float | None:
+    usable = [(float(value), float(weight)) for value, weight in pairs if weight > 0]
+    if not usable:
+        return None
+    usable.sort(key=lambda item: item[0])
+    total = sum(weight for _, weight in usable)
+    if total <= 0:
+        return None
+    threshold = min(max(q, 0.0), 1.0) * total
+    cumulative = 0.0
+    for value, weight in usable:
+        cumulative += weight
+        if cumulative >= threshold:
+            return value
+    return usable[-1][0]
+
+
+def temporal_coverage_analysis(polls: List[dict], target: date) -> dict:
+    weighted = poll_weights(polls, target)
+    if not weighted:
+        return {
+            "status": "insufficient-data",
+            "latestAgeDays": None,
+            "weightedMedianAgeDays": None,
+            "weightedP80AgeDays": None,
+            "recent7WeightShare": None,
+            "recent14WeightShare": None,
+            "distinctPollDates": 0,
+            "activeDaysLast14": 0,
+            "effectiveDateCount": 0.0,
+            "maxDateWeightShare": None,
+            "coverageSpanDays": 0,
+            "longestGapDays": None,
+            "freshness": "indisponivel",
+            "temporalConcentration": "indisponivel",
+            "note": "Sem pesquisas elegíveis para medir frescor e cobertura temporal.",
+        }
+
+    total_weight = sum(float(weight) for _, weight in weighted)
+    ages = [
+        (float(max((target - poll["date"]).days, 0)), float(weight))
+        for poll, weight in weighted
+    ]
+    latest_age = min(int(age) for age, _ in ages)
+    median_age = weighted_quantile_pairs(ages, 0.50)
+    p80_age = weighted_quantile_pairs(ages, 0.80)
+
+    recent7_weight = sum(
+        float(weight)
+        for poll, weight in weighted
+        if 0 <= (target - poll["date"]).days <= 7
+    )
+    recent14_weight = sum(
+        float(weight)
+        for poll, weight in weighted
+        if 0 <= (target - poll["date"]).days <= 14
+    )
+    recent7_share = recent7_weight / total_weight if total_weight > 0 else 0.0
+    recent14_share = recent14_weight / total_weight if total_weight > 0 else 0.0
+
+    date_weights: Dict[str, float] = {}
+    dates = []
+    for poll, weight in weighted:
+        key = poll["date"].isoformat()
+        date_weights[key] = date_weights.get(key, 0.0) + float(weight)
+        dates.append(poll["date"])
+
+    date_shares = {
+        key: value / total_weight
+        for key, value in date_weights.items()
+        if total_weight > 0
+    }
+    hhi = sum(share * share for share in date_shares.values())
+    effective_dates = 1.0 / hhi if hhi > 0 else 0.0
+    max_date_share = max(date_shares.values()) if date_shares else 0.0
+
+    unique_dates = sorted(set(dates))
+    span_days = (unique_dates[-1] - unique_dates[0]).days if len(unique_dates) >= 2 else 0
+    gaps = [
+        (b - a).days
+        for a, b in zip(unique_dates, unique_dates[1:])
+    ]
+    longest_gap = max(gaps) if gaps else 0
+    active_last14 = len({
+        poll["date"]
+        for poll, _ in weighted
+        if 0 <= (target - poll["date"]).days <= 13
+    })
+
+    if (
+        latest_age <= 3
+        and (median_age or 999) <= 7
+        and recent7_share >= 0.45
+    ):
+        freshness = "fresca"
+    elif (
+        latest_age <= 7
+        and (median_age or 999) <= 12
+        and recent14_share >= 0.55
+    ):
+        freshness = "moderada"
+    else:
+        freshness = "defasada"
+
+    if len(unique_dates) >= 6 and effective_dates >= 5.0 and max_date_share <= 0.30:
+        temporal_concentration = "diversificada"
+    elif len(unique_dates) >= 3 and effective_dates >= 3.0 and max_date_share <= 0.50:
+        temporal_concentration = "moderada"
+    else:
+        temporal_concentration = "concentrada"
+
+    return {
+        "status": "ok",
+        "latestAgeDays": latest_age,
+        "weightedMedianAgeDays": round(float(median_age), 2) if median_age is not None else None,
+        "weightedP80AgeDays": round(float(p80_age), 2) if p80_age is not None else None,
+        "recent7WeightShare": round(recent7_share, 4),
+        "recent14WeightShare": round(recent14_share, 4),
+        "distinctPollDates": len(unique_dates),
+        "activeDaysLast14": active_last14,
+        "effectiveDateCount": round(effective_dates, 2),
+        "maxDateWeightShare": round(max_date_share, 4),
+        "coverageSpanDays": span_days,
+        "longestGapDays": longest_gap,
+        "freshness": freshness,
+        "temporalConcentration": temporal_concentration,
+        "note": (
+            "Frescor e cobertura temporal usam os pesos efetivos da janela. "
+            "O diagnóstico não altera automaticamente o decaimento temporal nem o agregado."
+        ),
+    }
+
+
 def response_composition(polls: List[dict], target: date) -> dict:
     weighted = poll_weights(polls, target)
     if not weighted:
@@ -1956,6 +2089,7 @@ def main() -> None:
     composition = response_composition(first_round, now.date())
     sensitivity = sensitivity_analysis(first_round, now.date())
     influence = influence_analysis(first_round, now.date())
+    temporal_coverage = temporal_coverage_analysis(first_round, now.date())
     regime_shift = regime_shift_analysis(first_round, now.date())
     regime_shift = update_regime_persistence(regime_shift, first_round, now)
     (DATA / "calibration.json").write_text(
@@ -2008,7 +2142,7 @@ def main() -> None:
     }
 
     snapshot = {
-        "schemaVersion": 10,
+        "schemaVersion": 11,
         "generatedAt": now.isoformat().replace("+00:00", "Z"),
         "electionDate": ELECTION_DATE.isoformat(),
         "daysToElection": max((ELECTION_DATE - now.date()).days, 0),
@@ -2019,6 +2153,7 @@ def main() -> None:
         "responseComposition": composition,
         "sensitivity": sensitivity,
         "influence": influence,
+        "temporalCoverage": temporal_coverage,
         "uncertainty": uncertainty,
         "regimeShift": regime_shift,
         "methodology": {
@@ -2028,6 +2163,7 @@ def main() -> None:
             "weighting": "decaimento temporal + tamanho amostral + controle de repetição por instituto",
             "uncertainty": "faixa avançada = intervalo analítico + bootstrap individual + bootstrap por instituto + bootstrap por método + piso empírico q80 quando aplicável",
             "methodDiversity": "concentração dos pesos efetivos por grupo de método; diagnóstico sem correção automática",
+            "temporalCoverage": "frescor, concentração por data e participação ponderada de pesquisas recentes; diagnóstico sem ajuste automático",
             "marketUse": "informativo; não entra na média de pesquisas",
             "responseComposition": "categorias não candidatas somente quando identificadas pela fonte; residual não classificado não é indecisão",
             "sensitivity": "leave-one-out por pesquisa + comparação de janelas de 14 e 30 dias; informativo, sem ajuste automático",
