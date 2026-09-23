@@ -1,3 +1,4 @@
+# schema v15: weight stress test.
 # pipeline schema v14 final.
 # schema v14: exact weight audit.
 # pipeline schema v13 final.
@@ -58,6 +59,9 @@ from scripts.update_analytics import (
     scenario_coverage_shadow_validation,
     poll_weight_components,
     weight_audit_analysis,
+    stress_poll_weights,
+    weight_stress_test,
+    WEIGHT_STRESS_VARIANTS,
     percentile,
 )
 
@@ -983,6 +987,78 @@ class AnalyticsParserTests(unittest.TestCase):
             * parts["verificationFactor"]
         )
         self.assertAlmostEqual(parts["rawWeight"], product, places=12)
+
+
+    def test_weight_stress_production_matches_current_aggregate(self):
+        polls = [
+            {
+                "date": date(2026, 9, 16 + idx),
+                "institute": ["A", "A", "B", "C", "D"][idx],
+                "sample": [1200, 1800, 2200, 3000, 1600][idx],
+                "method": "Presencial",
+                "registration": f"BR-57{idx:03d}/2026",
+                "verifiedTse": idx % 2 == 0,
+                "values": {
+                    "lula": 39.0 + idx,
+                    "flavio-bolsonaro": 36.0 - idx * 0.4,
+                },
+                "nonCandidate": {},
+            }
+            for idx in range(5)
+        ]
+        current = aggregate_first_round(polls, date(2026, 9, 22))
+        production = next(v for v in WEIGHT_STRESS_VARIANTS if v["id"] == "production")
+        weighted = stress_poll_weights(
+            polls,
+            date(2026, 9, 22),
+            production["decayDays"],
+            production["sampleExponent"],
+            production["repeatExponent"],
+        )
+        for cid in current["candidates"]:
+            alt = aggregate_candidate(weighted, cid)
+            self.assertIsNotNone(alt)
+            self.assertAlmostEqual(
+                current["candidates"][cid]["support"],
+                alt[0],
+                places=10,
+            )
+
+    def test_weight_stress_reports_range_without_automatic_adjustment(self):
+        polls = []
+        for idx in range(12):
+            polls.append({
+                "date": date(2026, 9, 5) + timedelta(days=idx),
+                "institute": ["A", "A", "A", "B", "C", "D"][idx % 6],
+                "sample": [800, 1200, 1800, 2500][idx % 4],
+                "method": "Online",
+                "registration": f"BR-58{idx:03d}/2026",
+                "verifiedTse": idx % 3 == 0,
+                "values": {
+                    "lula": 37.0 + idx * 0.5,
+                    "flavio-bolsonaro": 38.0 - idx * 0.35,
+                },
+                "nonCandidate": {},
+            })
+        result = weight_stress_test(polls, date(2026, 9, 22))
+        self.assertEqual(result["status"], "ok")
+        self.assertEqual(result["variantCount"], 7)
+        self.assertEqual(result["productionVariantId"], "production")
+        self.assertFalse(result["automaticAdjustment"])
+        self.assertGreaterEqual(result["overallMaxShift"], 0.0)
+        self.assertIn(result["sensitivity"], {"baixa", "moderada", "alta"})
+        for row in result["candidates"].values():
+            self.assertLessEqual(row["minSupport"], row["baselineSupport"] + row["maxAbsoluteShift"] + 1e-9)
+            self.assertGreaterEqual(row["maxSupport"], row["baselineSupport"] - row["maxAbsoluteShift"] - 1e-9)
+
+    def test_weight_stress_variants_change_only_declared_parameters(self):
+        ids = [v["id"] for v in WEIGHT_STRESS_VARIANTS]
+        self.assertEqual(len(ids), len(set(ids)))
+        self.assertEqual(len(ids), 7)
+        production = next(v for v in WEIGHT_STRESS_VARIANTS if v["id"] == "production")
+        self.assertEqual(production["decayDays"], 10.0)
+        self.assertEqual(production["sampleExponent"], 0.50)
+        self.assertEqual(production["repeatExponent"], 0.50)
 
 
 if __name__ == "__main__":
