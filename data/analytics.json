@@ -1,6 +1,6 @@
 {
-  "schemaVersion": 15,
-  "generatedAt": "2026-09-23T10:55:50.425943Z",
+  "schemaVersion": 16,
+  "generatedAt": "2026-09-23T13:13:15.356239Z",
   "electionDate": "2026-10-04",
   "daysToElection": 11,
   "quality": {
@@ -19,7 +19,7 @@
       "label": "BBC / PollingData",
       "type": "base de pesquisas individuais",
       "status": "ok",
-      "updatedAt": "2026-09-23T10:55:51.756447Z",
+      "updatedAt": "2026-09-23T13:13:16.926236Z",
       "url": "https://news.files.bbci.co.uk/include/vjamericas/1561-poll-tracker-brazil-2026/table/portuguese/app/amp",
       "tablesFound": 2
     },
@@ -46,9 +46,9 @@
       "label": "ElectioLab",
       "type": "agregador de conferência · sem peso",
       "status": "ok",
-      "updatedAt": "2026-09-23T10:55:52.370453Z",
+      "updatedAt": "2026-09-23T13:13:18.992777Z",
       "url": "https://electiolab.com/pesquisas-presidenciais-2026",
-      "pageFreshness": "21 de setembro de 2026"
+      "pageFreshness": "22 de setembro de 2026"
     },
     {
       "id": "atlas",
@@ -64,7 +64,7 @@
       "label": "Polymarket",
       "type": "mercado de previsão · sinal externo",
       "status": "ok",
-      "updatedAt": "2026-09-23T10:55:51.885384Z",
+      "updatedAt": "2026-09-23T13:13:17.046817Z",
       "url": "https://polymarket.com/event/brazil-presidential-election"
     }
   ],
@@ -91,7 +91,7 @@
       "modelIntervalHigh": 38.06,
       "change": -0.0,
       "trend": "estável",
-      "marketSignal": 58.95
+      "marketSignal": 58.85
     },
     {
       "id": "lula",
@@ -213,6 +213,9 @@
           },
           "note": "Concentração metodológica usa os pesos efetivos da janela corrente. Ela descreve composição da base e não classifica um método como melhor ou pior."
         },
+        "parameterStressVariantCount": 7,
+        "parameterStressSensitivity": "baixa",
+        "parameterStressAutomaticAdjustment": false,
         "empiricalCalibrationApplied": false,
         "empiricalErrorQuantileUsed": "none",
         "empiricalErrorQ80": null,
@@ -234,6 +237,9 @@
             "methodBootstrapP50": 45.31,
             "methodBootstrapP90": 46.17,
             "methodBootstrapHalfWidth": 0.86,
+            "parameterStressLow": 45.25,
+            "parameterStressHigh": 45.38,
+            "parameterStressHalfWidth": 0.07,
             "dominantComponent": "analytical",
             "empiricalErrorQ80": null,
             "empiricalSupportBand": "high",
@@ -258,6 +264,9 @@
             "methodBootstrapP50": 44.26,
             "methodBootstrapP90": 44.6,
             "methodBootstrapHalfWidth": 0.36,
+            "parameterStressLow": 44.2,
+            "parameterStressHigh": 44.31,
+            "parameterStressHalfWidth": 0.06,
             "dominantComponent": "analytical",
             "empiricalErrorQ80": null,
             "empiricalSupportBand": "high",
@@ -268,7 +277,7 @@
             "advancedHalfWidth": 0.94
           }
         },
-        "note": "Faixa avançada combina a incerteza analítica existente, bootstrap por pesquisa, bootstrap em blocos por instituto, bootstrap por método de coleta e, quando aplicável, piso de erro empírico calibrado por faixa de apoio contra a próxima pesquisa publicada. É uma faixa de incerteza da leitura atual, não probabilidade de vitória nem previsão do resultado da eleição."
+        "note": "Faixa avançada combina a incerteza analítica existente, bootstrap por pesquisa, bootstrap em blocos por instituto, bootstrap por método de coleta, envelope do stress test dos pesos e, quando aplicável, piso de erro empírico calibrado por faixa de apoio contra a próxima pesquisa publicada. É uma faixa de incerteza da leitura atual, não probabilidade de vitória nem previsão do resultado da eleição."
       },
       "pairNormalizationNote": "Normalização apenas entre os dois candidatos exibidos; não é projeção de votos válidos."
     }
@@ -2717,6 +2726,9 @@
       },
       "note": "Concentração metodológica usa os pesos efetivos da janela corrente. Ela descreve composição da base e não classifica um método como melhor ou pior."
     },
+    "parameterStressVariantCount": 7,
+    "parameterStressSensitivity": "moderada",
+    "parameterStressAutomaticAdjustment": false,
     "empiricalCalibrationApplied": true,
     "empiricalErrorQuantileUsed": "q80",
     "empiricalErrorQ80": 2.32,
@@ -2751,6 +2763,9 @@
         "methodBootstrapP50": 6.06,
         "methodBootstrapP90": 7.1,
         "methodBootstrapHalfWidth": 1.43,
+        "parameterStressLow": 5.75,
+        "parameterStressHigh": 6.28,
+        "parameterStressHalfWidth": 0.31,
         "dominantComponent": "empirical",
         "empiricalErrorQ80": 1.56,
         "empiricalSupportBand": "low",
@@ -2775,6 +2790,9 @@
         "methodBootstrapP50": 36.44,
         "methodBootstrapP90": 38.54,
         "methodBootstrapHalfWidth": 2.1,
+        "parameterStressLow": 36.16,
+        "parameterStressHigh": 36.81,
+        "parameterStressHalfWidth": 0.37,
         "dominantComponent": "empirical",
         "empiricalErrorQ80": 3.86,
         "empiricalSupportBand": "high",
@@ -2799,6 +2817,9 @@
         "methodBootstrapP50": 39.18,
         "methodBootstrapP90": 40.46,
         "methodBootstrapHalfWidth": 1.28,
+        "parameterStressLow": 39.1,
+        "parameterStressHigh": 39.28,
+        "parameterStressHalfWidth": 0.1,
         "dominantComponent": "empirical",
         "empiricalErrorQ80": 3.86,
         "empiricalSupportBand": "high",
@@ -2823,6 +2844,9 @@
         "methodBootstrapP50": 1.73,
         "methodBootstrapP90": 1.9,
         "methodBootstrapHalfWidth": 0.29,
+        "parameterStressLow": 1.69,
+        "parameterStressHigh": 1.76,
+        "parameterStressHalfWidth": 0.04,
         "dominantComponent": "empirical",
         "empiricalErrorQ80": 1.56,
         "empiricalSupportBand": "low",
@@ -2847,6 +2871,9 @@
         "methodBootstrapP50": 4.7,
         "methodBootstrapP90": 6.6,
         "methodBootstrapHalfWidth": 1.9,
+        "parameterStressLow": 4.57,
+        "parameterStressHigh": 4.83,
+        "parameterStressHalfWidth": 0.13,
         "dominantComponent": "methodBootstrap",
         "empiricalErrorQ80": 1.56,
         "empiricalSupportBand": "low",
@@ -2871,6 +2898,9 @@
         "methodBootstrapP50": 1.18,
         "methodBootstrapP90": 1.31,
         "methodBootstrapHalfWidth": 0.13,
+        "parameterStressLow": 1.15,
+        "parameterStressHigh": 1.21,
+        "parameterStressHalfWidth": 0.03,
         "dominantComponent": "empirical",
         "empiricalErrorQ80": 1.56,
         "empiricalSupportBand": "low",
@@ -2895,6 +2925,9 @@
         "methodBootstrapP50": 3.06,
         "methodBootstrapP90": 3.68,
         "methodBootstrapHalfWidth": 0.84,
+        "parameterStressLow": 3.03,
+        "parameterStressHigh": 3.13,
+        "parameterStressHalfWidth": 0.07,
         "dominantComponent": "empirical",
         "empiricalErrorQ80": 1.56,
         "empiricalSupportBand": "low",
@@ -2905,7 +2938,7 @@
         "advancedHalfWidth": 1.56
       }
     },
-    "note": "Faixa avançada combina a incerteza analítica existente, bootstrap por pesquisa, bootstrap em blocos por instituto, bootstrap por método de coleta e, quando aplicável, piso de erro empírico calibrado por faixa de apoio contra a próxima pesquisa publicada. É uma faixa de incerteza da leitura atual, não probabilidade de vitória nem previsão do resultado da eleição."
+    "note": "Faixa avançada combina a incerteza analítica existente, bootstrap por pesquisa, bootstrap em blocos por instituto, bootstrap por método de coleta, envelope do stress test dos pesos e, quando aplicável, piso de erro empírico calibrado por faixa de apoio contra a próxima pesquisa publicada. É uma faixa de incerteza da leitura atual, não probabilidade de vitória nem previsão do resultado da eleição."
   },
   "regimeShift": {
     "status": "ok",
@@ -3044,12 +3077,12 @@
     "windowDays": 30,
     "deduplication": "registro TSE; fallback por instituto/data/amostra/resultados",
     "weighting": "decaimento temporal + tamanho amostral + controle de repetição por instituto",
-    "uncertainty": "faixa avançada = intervalo analítico + bootstrap individual + bootstrap por instituto + bootstrap por método + piso empírico q80 quando aplicável",
+    "uncertainty": "faixa avançada = intervalo analítico + bootstrap individual + bootstrap por instituto + bootstrap por método + envelope paramétrico dos pesos + piso empírico q80 quando aplicável",
     "methodDiversity": "concentração dos pesos efetivos por grupo de método; diagnóstico sem correção automática",
     "temporalCoverage": "frescor, concentração por data e participação ponderada de pesquisas recentes; diagnóstico sem ajuste automático",
     "scenarioCoverage": "cobertura ponderada de candidaturas e harmonização do conjunto comum apenas em sombra; ausência em cenário não equivale a zero",
     "weightAudit": "decomposição exata do peso aplicado: recência × amostra × repetição do instituto × validação TSE; participação por candidatura usa apenas pesquisas que testaram o nome",
-    "weightStress": "stress test paramétrico de recência, força amostral e penalização por repetição; nenhuma variante é aplicada automaticamente",
+    "weightStress": "stress test paramétrico de recência, força amostral e penalização por repetição; o envelope entra apenas como componente de incerteza, sem mudar o valor central",
     "marketUse": "informativo; não entra na média de pesquisas",
     "responseComposition": "categorias não candidatas somente quando identificadas pela fonte; residual não classificado não é indecisão",
     "sensitivity": "leave-one-out por pesquisa + comparação de janelas de 14 e 30 dias; informativo, sem ajuste automático",
