@@ -2,7 +2,7 @@
 
 Aplicativo Android público e experimental para acompanhar **pesquisas presidenciais de 2026**, sua evolução no tempo, incerteza e diferenças entre fontes.
 
-## O que a v0.9.1 faz
+## O que a v0.9.2 faz
 
 - trabalha com **pesquisas individuais** como unidade principal, em vez de somar agregadores;
 - deduplica levantamentos pelo número de registro TSE e, quando necessário, por uma chave de conteúdo;
@@ -76,7 +76,7 @@ Se os testes ou a validação estrutural falharem, os novos dados não são publ
 
 O workflow **Build e publicar APK** compila e assina o APK com a mesma identidade de desenvolvimento estável adotada desde a v0.2.0, permitindo atualização sobre versões posteriores à transição de assinatura.
 
-A release atual é v0.9.1.
+A release atual é v0.9.2.
 
 ## Aviso
 
@@ -266,3 +266,19 @@ Uma leitura harmonizada em sombra usa apenas pesquisas que contêm todo o conjun
 A harmonização também recebe validação temporal contra pesquisas posteriores. Nenhuma pesquisa é excluída automaticamente e a leitura principal permanece inalterada.
 
 O schema de data/analytics.json passa a ser v13.
+
+## Auditoria dos pesos v0.9.2
+
+O aplicativo passa a publicar uma decomposição exata do peso aplicado a cada pesquisa da janela corrente.
+
+A fórmula auditada é a mesma função usada pelo agregador:
+
+peso bruto = fator de recência × fator amostral × penalização por repetição do instituto × fator de validação TSE.
+
+Para cada levantamento são expostos idade, fatores individuais, quantidade de pesquisas do mesmo instituto na janela, peso bruto e participação relativa no peso total da janela.
+
+Como nem todas as pesquisas testam exatamente o mesmo conjunto de candidaturas, a auditoria também calcula a participação específica de cada levantamento dentro do agregado de cada candidatura. O denominador considera somente pesquisas em que aquela candidatura foi efetivamente testada; ausência de nome não equivale a zero.
+
+A lista permanece em ordem cronológica e não é ordenada por peso. A auditoria não adiciona bônus, penalidade ou correção além das regras já existentes no agregador.
+
+O schema de data/analytics.json passa a ser v14.
