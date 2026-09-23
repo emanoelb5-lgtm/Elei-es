@@ -1,3 +1,4 @@
+# schema v11: temporal freshness and coverage.
 # pipeline schema v10 final.
 # schema v10: methodological diversity bootstrap.
 # pipeline schema v9 final.
@@ -39,6 +40,8 @@ from scripts.update_analytics import (
     method_group,
     method_diversity_analysis,
     method_bootstrap_current_support,
+    temporal_coverage_analysis,
+    weighted_quantile_pairs,
     percentile,
 )
 
@@ -642,6 +645,50 @@ class AnalyticsParserTests(unittest.TestCase):
         self.assertEqual(a["status"], "ok")
         self.assertEqual(a["clusterCount"], 3)
         self.assertIn("lula", a["candidates"])
+
+
+    def test_weighted_quantile_pairs(self):
+        pairs = [(1.0, 1.0), (5.0, 2.0), (10.0, 1.0)]
+        self.assertEqual(weighted_quantile_pairs(pairs, 0.50), 5.0)
+        self.assertEqual(weighted_quantile_pairs(pairs, 0.80), 10.0)
+
+    def test_temporal_coverage_detects_fresh_diversified_window(self):
+        polls = []
+        for idx in range(8):
+            polls.append({
+                "date": date(2026, 9, 15 + idx),
+                "institute": ["A","B","C","D"][idx % 4],
+                "sample": 2000,
+                "method": "Presencial",
+                "registration": f"BR-46{idx:03d}/2026",
+                "verifiedTse": False,
+                "values": {"lula": 40.0, "flavio-bolsonaro": 35.0},
+                "nonCandidate": {},
+            })
+        result = temporal_coverage_analysis(polls, date(2026, 9, 22))
+        self.assertEqual(result["status"], "ok")
+        self.assertEqual(result["latestAgeDays"], 0)
+        self.assertGreaterEqual(result["distinctPollDates"], 6)
+        self.assertIn(result["freshness"], {"fresca", "moderada"})
+        self.assertIn(result["temporalConcentration"], {"diversificada", "moderada"})
+
+    def test_temporal_coverage_flags_stale_concentrated_window(self):
+        polls = [
+            {
+                "date": date(2026, 8, 25),
+                "institute": "A",
+                "sample": 2000,
+                "method": "Online",
+                "registration": f"BR-47{idx:03d}/2026",
+                "verifiedTse": False,
+                "values": {"lula": 40.0 + idx * 0.1, "flavio-bolsonaro": 35.0},
+                "nonCandidate": {},
+            }
+            for idx in range(5)
+        ]
+        result = temporal_coverage_analysis(polls, date(2026, 9, 22))
+        self.assertEqual(result["freshness"], "defasada")
+        self.assertEqual(result["temporalConcentration"], "concentrada")
 
 
 if __name__ == "__main__":
