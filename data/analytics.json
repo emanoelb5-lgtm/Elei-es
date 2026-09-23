@@ -1,6 +1,6 @@
 {
-  "schemaVersion": 10,
-  "generatedAt": "2026-09-23T00:11:22.279806Z",
+  "schemaVersion": 11,
+  "generatedAt": "2026-09-23T00:21:26.954134Z",
   "electionDate": "2026-10-04",
   "daysToElection": 11,
   "quality": {
@@ -19,7 +19,7 @@
       "label": "BBC / PollingData",
       "type": "base de pesquisas individuais",
       "status": "ok",
-      "updatedAt": "2026-09-23T00:11:23.800417Z",
+      "updatedAt": "2026-09-23T00:21:28.104339Z",
       "url": "https://news.files.bbci.co.uk/include/vjamericas/1561-poll-tracker-brazil-2026/table/portuguese/app/amp",
       "tablesFound": 2
     },
@@ -46,7 +46,7 @@
       "label": "ElectioLab",
       "type": "agregador de conferência · sem peso",
       "status": "ok",
-      "updatedAt": "2026-09-23T00:11:24.350526Z",
+      "updatedAt": "2026-09-23T00:21:28.481178Z",
       "url": "https://electiolab.com/pesquisas-presidenciais-2026",
       "pageFreshness": "21 de setembro de 2026"
     },
@@ -64,7 +64,7 @@
       "label": "Polymarket",
       "type": "mercado de previsão · sinal externo",
       "status": "ok",
-      "updatedAt": "2026-09-23T00:11:23.885191Z",
+      "updatedAt": "2026-09-23T00:21:28.146501Z",
       "url": "https://polymarket.com/event/brazil-presidential-election"
     }
   ],
@@ -77,7 +77,7 @@
       "intervalHigh": 7.62,
       "modelIntervalLow": 5.04,
       "modelIntervalHigh": 7.07,
-      "change": 0.08,
+      "change": -0.0,
       "trend": "estável",
       "marketSignal": 0.05
     },
@@ -89,7 +89,7 @@
       "intervalHigh": 40.3,
       "modelIntervalLow": 34.81,
       "modelIntervalHigh": 38.06,
-      "change": 0.02,
+      "change": -0.0,
       "trend": "estável",
       "marketSignal": 58.55
     },
@@ -101,7 +101,7 @@
       "intervalHigh": 43.04,
       "modelIntervalLow": 38.16,
       "modelIntervalHigh": 40.2,
-      "change": -0.05,
+      "change": -0.0,
       "trend": "estável",
       "marketSignal": 41.5
     },
@@ -113,7 +113,7 @@
       "intervalHigh": 3.29,
       "modelIntervalLow": 1.13,
       "modelIntervalHigh": 2.33,
-      "change": -0.04,
+      "change": -0.0,
       "trend": "estável",
       "marketSignal": 0.05
     },
@@ -125,7 +125,7 @@
       "intervalHigh": 6.6,
       "modelIntervalLow": 3.47,
       "modelIntervalHigh": 5.94,
-      "change": -0.06,
+      "change": 0.0,
       "trend": "estável",
       "marketSignal": 0.85
     },
@@ -137,7 +137,7 @@
       "intervalHigh": 2.74,
       "modelIntervalLow": 0.58,
       "modelIntervalHigh": 1.78,
-      "change": -0.01,
+      "change": 0.0,
       "trend": "estável",
       "marketSignal": 0.05
     },
@@ -149,7 +149,7 @@
       "intervalHigh": 4.62,
       "modelIntervalLow": 2.46,
       "modelIntervalHigh": 3.66,
-      "change": 0.02,
+      "change": 0.0,
       "trend": "estável",
       "marketSignal": 0.05
     }
@@ -1288,6 +1288,23 @@
     "correctionApplied": false,
     "note": "Influência mede mudança mecânica do agregado ao retirar dados. Sinal atípico usa desvio robusto entre pesquisas contemporâneas e não implica erro, viés ou fraude."
   },
+  "temporalCoverage": {
+    "status": "ok",
+    "latestAgeDays": 3,
+    "weightedMedianAgeDays": 9.0,
+    "weightedP80AgeDays": 15.0,
+    "recent7WeightShare": 0.468,
+    "recent14WeightShare": 0.7762,
+    "distinctPollDates": 18,
+    "activeDaysLast14": 6,
+    "effectiveDateCount": 8.22,
+    "maxDateWeightShare": 0.2196,
+    "coverageSpanDays": 25,
+    "longestGapDays": 3,
+    "freshness": "moderada",
+    "temporalConcentration": "diversificada",
+    "note": "Frescor e cobertura temporal usam os pesos efetivos da janela. O diagnóstico não altera automaticamente o decaimento temporal nem o agregado."
+  },
   "uncertainty": {
     "status": "ok",
     "bootstrapDraws": 500,
@@ -1624,7 +1641,7 @@
     "adaptiveApplied": false,
     "note": "Compara o bloco recente com pesquisas de 8 a 30 dias. A leitura adaptativa é calculada apenas em sombra para validação e não substitui o agregado principal.",
     "evidenceFingerprint": "5fa10bd59c7b0a8883bd",
-    "evidenceChanged": true,
+    "evidenceChanged": false,
     "evidenceStateCount": 2,
     "persistentCandidateCount": 0,
     "buildingCandidateCount": 2,
@@ -1638,6 +1655,7 @@
     "weighting": "decaimento temporal + tamanho amostral + controle de repetição por instituto",
     "uncertainty": "faixa avançada = intervalo analítico + bootstrap individual + bootstrap por instituto + bootstrap por método + piso empírico q80 quando aplicável",
     "methodDiversity": "concentração dos pesos efetivos por grupo de método; diagnóstico sem correção automática",
+    "temporalCoverage": "frescor, concentração por data e participação ponderada de pesquisas recentes; diagnóstico sem ajuste automático",
     "marketUse": "informativo; não entra na média de pesquisas",
     "responseComposition": "categorias não candidatas somente quando identificadas pela fonte; residual não classificado não é indecisão",
     "sensitivity": "leave-one-out por pesquisa + comparação de janelas de 14 e 30 dias; informativo, sem ajuste automático",
