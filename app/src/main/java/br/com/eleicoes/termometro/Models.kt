@@ -313,6 +313,36 @@ data class RollingValidation(
     val note: String?
 )
 
+data class HouseEffectCandidateShadow(
+    val baselineSupport: Double,
+    val shadowSupport: Double,
+    val difference: Double
+)
+
+data class HouseEffectShadow(
+    val status: String,
+    val instituteCount: Int,
+    val lookbackDays: Int,
+    val priorStrength: Double,
+    val maxAbsoluteAdjustment: Double,
+    val candidates: Map<String, HouseEffectCandidateShadow>,
+    val correctionApplied: Boolean,
+    val note: String
+)
+
+data class HouseEffectValidation(
+    val status: String,
+    val caseCount: Int,
+    val comparisonCount: Int,
+    val adjustedComparisonCount: Int,
+    val baselineMeanAbsoluteError: Double?,
+    val shadowMeanAbsoluteError: Double?,
+    val differenceShadowVsBaseline: Double?,
+    val promotionEligible: Boolean,
+    val correctionApplied: Boolean,
+    val note: String
+)
+
 data class CalibrationData(
     val generatedAt: String,
     val correctionApplied: Boolean,
@@ -322,6 +352,8 @@ data class CalibrationData(
     val methodDiagnostics: List<SourceDiagnostic>,
     val rollingValidation: RollingValidation,
     val regimeShadowValidation: RegimeShadowValidation,
+    val houseEffectShadow: HouseEffectShadow,
+    val houseEffectValidation: HouseEffectValidation,
     val historicalBacktestStatus: String,
     val historicalBacktestNote: String
 )
