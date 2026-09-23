@@ -91,7 +91,7 @@ jobs:
           VERSION: ${{ steps.meta.outputs.version }}
         run: |
           set -euo pipefail
-          NOTES='v0.9.1 adiciona diagnóstico de cobertura de candidaturas e composição de cenários. O sistema mede a participação ponderada de cada candidatura nas pesquisas da janela e nunca interpreta ausência de um nome como 0%. Uma leitura harmonizada em sombra usa apenas pesquisas que contêm todo o conjunto comum, preservando os pesos originais para medir sensibilidade à mistura de cenários. A harmonização recebe validação retrospectiva separada e não é aplicada automaticamente. Mantém house effect em sombra, frescor temporal, diversidade metodológica, bootstraps e persistência. Assinatura estável desde a v0.2.0.'
+          NOTES='v0.9.2 adiciona auditoria exata dos pesos usados pelo agregador. Cada pesquisa mostra idade, fator de recência, fator amostral, repetição do instituto, fator de validação TSE, peso bruto, participação relativa na janela e participação específica no agregado de cada candidatura testada. A auditoria compartilha a mesma função de cálculo usada em produção e mantém ordem cronológica, sem ranking por peso. Nenhum ajuste adicional é aplicado. Mantém cobertura de cenários, house effect em sombra, frescor, diversidade metodológica, bootstraps e persistência. Assinatura estável desde a v0.2.0.'
           APK="dist/Termometro-Eleicoes-2026-v${VERSION}.apk"
           TAG="v${VERSION}"
           RELEASE_OK=0
