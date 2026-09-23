@@ -49,7 +49,7 @@ jobs:
           c=json.load(open('data/calibration.json'))
           r=json.load(open('data/regime-history.json'))
 
-          assert a.get('schemaVersion') == 14
+          assert a.get('schemaVersion') == 15
           assert c.get('schemaVersion') == 1
           assert c.get('correctionApplied') is False
           assert len(a.get('candidates', [])) >= 2
@@ -68,6 +68,12 @@ jobs:
           assert a['scenarioCoverage']['status'] in ('ok', 'insufficient-data')
           assert a['scenarioCoverage'].get('harmonizationApplied', False) is False
           assert a['weightAudit']['status'] in ('ok', 'insufficient-data')
+          assert a['weightStress']['status'] in ('ok', 'insufficient-data')
+          assert a['weightStress'].get('automaticAdjustment', False) is False
+          if a['weightStress']['status'] == 'ok':
+              assert a['weightStress']['variantCount'] == 7
+              assert a['weightStress']['productionVariantId'] == 'production'
+              assert a['weightStress']['sensitivity'] in ('baixa', 'moderada', 'alta')
           if a['weightAudit']['status'] == 'ok':
               assert a['weightAudit'].get('automaticAdjustment', True) is False
               assert a['weightAudit']['pollCount'] == a['quality']['pollCount']
