@@ -248,6 +248,27 @@ class ElectionRepository {
         )
     }
 
+    private fun parseTemporalCoverage(obj: JSONObject?): TemporalCoverageData {
+        val root = obj ?: JSONObject()
+        return TemporalCoverageData(
+            status = root.optString("status", "insufficient-data"),
+            latestAgeDays = if (root.isNull("latestAgeDays")) null else root.optInt("latestAgeDays"),
+            weightedMedianAgeDays = if (root.isNull("weightedMedianAgeDays")) null else root.optDouble("weightedMedianAgeDays"),
+            weightedP80AgeDays = if (root.isNull("weightedP80AgeDays")) null else root.optDouble("weightedP80AgeDays"),
+            recent7WeightShare = if (root.isNull("recent7WeightShare")) null else root.optDouble("recent7WeightShare"),
+            recent14WeightShare = if (root.isNull("recent14WeightShare")) null else root.optDouble("recent14WeightShare"),
+            distinctPollDates = root.optInt("distinctPollDates", 0),
+            activeDaysLast14 = root.optInt("activeDaysLast14", 0),
+            effectiveDateCount = root.optDouble("effectiveDateCount", 0.0),
+            maxDateWeightShare = if (root.isNull("maxDateWeightShare")) null else root.optDouble("maxDateWeightShare"),
+            coverageSpanDays = root.optInt("coverageSpanDays", 0),
+            longestGapDays = if (root.isNull("longestGapDays")) null else root.optInt("longestGapDays"),
+            freshness = root.optString("freshness", "indisponivel"),
+            temporalConcentration = root.optString("temporalConcentration", "indisponivel"),
+            note = root.optString("note")
+        )
+    }
+
     private fun parseSnapshot(root: JSONObject): Snapshot {
         val q = root.optJSONObject("quality") ?: JSONObject()
         val quality = QualityInfo(
@@ -333,6 +354,7 @@ class ElectionRepository {
             responseComposition = parseResponseComposition(root.optJSONObject("responseComposition")),
             sensitivity = parseSensitivity(root.optJSONObject("sensitivity")),
             influence = parseInfluence(root.optJSONObject("influence")),
+            temporalCoverage = parseTemporalCoverage(root.optJSONObject("temporalCoverage")),
             uncertainty = parseUncertainty(root.optJSONObject("uncertainty")),
             regimeShift = parseRegimeShift(root.optJSONObject("regimeShift")),
             note = root.optString("note", "Leitura estatística de pesquisas públicas.")
