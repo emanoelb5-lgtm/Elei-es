@@ -332,6 +332,45 @@ class ElectionRepository {
         )
     }
 
+    private fun parseWeightAudit(obj: JSONObject?): WeightAuditData {
+        val root = obj ?: JSONObject()
+        val rowsArray = root.optJSONArray("rows") ?: JSONArray()
+        val rows = List(rowsArray.length()) { i ->
+            val item = rowsArray.getJSONObject(i)
+            val ids = item.optJSONArray("candidateIds") ?: JSONArray()
+            WeightAuditRow(
+                date = item.optString("date"),
+                institute = item.optString("institute", "Instituto não identificado"),
+                sample = item.optInt("sample", 0),
+                method = item.optString("method", "não identificado"),
+                registration = item.optString("registration").takeIf { it.isNotBlank() && it != "null" },
+                verifiedTse = item.optBoolean("verifiedTse", false),
+                candidateIds = List(ids.length()) { j -> ids.optString(j) },
+                ageDays = item.optInt("ageDays", 0),
+                recencyFactor = item.optDouble("recencyFactor", 0.0),
+                sampleFactor = item.optDouble("sampleFactor", 0.0),
+                institutePollCount = item.optInt("institutePollCount", 0),
+                repeatPenalty = item.optDouble("repeatPenalty", 0.0),
+                verificationFactor = item.optDouble("verificationFactor", 0.0),
+                rawWeight = item.optDouble("rawWeight", 0.0),
+                windowWeightShare = item.optDouble("windowWeightShare", 0.0),
+                candidateWeightShares = readDoubleMap(item.optJSONObject("candidateWeightShares"))
+            )
+        }
+        return WeightAuditData(
+            status = root.optString("status", "insufficient-data"),
+            pollCount = root.optInt("pollCount", 0),
+            instituteCount = root.optInt("instituteCount", 0),
+            effectivePolls = root.optDouble("effectivePolls", 0.0),
+            totalRawWeight = if (root.isNull("totalRawWeight")) null else root.optDouble("totalRawWeight"),
+            rows = rows,
+            formula = root.optString("formula"),
+            candidateShareMeaning = root.optString("candidateShareMeaning"),
+            automaticAdjustment = root.optBoolean("automaticAdjustment", false),
+            note = root.optString("note")
+        )
+    }
+
     private fun parseSnapshot(root: JSONObject): Snapshot {
         val q = root.optJSONObject("quality") ?: JSONObject()
         val quality = QualityInfo(
@@ -419,6 +458,7 @@ class ElectionRepository {
             influence = parseInfluence(root.optJSONObject("influence")),
             temporalCoverage = parseTemporalCoverage(root.optJSONObject("temporalCoverage")),
             scenarioCoverage = parseScenarioCoverage(root.optJSONObject("scenarioCoverage")),
+            weightAudit = parseWeightAudit(root.optJSONObject("weightAudit")),
             uncertainty = parseUncertainty(root.optJSONObject("uncertainty")),
             regimeShift = parseRegimeShift(root.optJSONObject("regimeShift")),
             note = root.optString("note", "Leitura estatística de pesquisas públicas.")
