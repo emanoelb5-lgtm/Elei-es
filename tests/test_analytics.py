@@ -1,3 +1,4 @@
+# schema v10: methodological diversity bootstrap.
 # pipeline schema v9 final.
 # schema v9: regime persistence by distinct evidence.
 # pipeline schema v8 final.
@@ -34,6 +35,9 @@ from scripts.update_analytics import (
     regime_shadow_validation,
     regime_evidence_fingerprint,
     apply_regime_persistence,
+    method_group,
+    method_diversity_analysis,
+    method_bootstrap_current_support,
     percentile,
 )
 
@@ -587,6 +591,56 @@ class AnalyticsParserTests(unittest.TestCase):
         polls[0]["values"]["lula"] = 41.0
         c = regime_evidence_fingerprint(polls, date(2026, 9, 22))
         self.assertNotEqual(a, c)
+
+
+    def test_method_group_normalizes_common_modes(self):
+        self.assertEqual(method_group("Presencial domiciliar"), "presencial")
+        self.assertEqual(method_group("Telefônica CATI"), "telefonica")
+        self.assertEqual(method_group("Online / web"), "online")
+        self.assertEqual(method_group("URA / IVR"), "ura-ivr")
+        self.assertEqual(method_group("Híbrida"), "hibrida")
+
+    def test_method_diversity_uses_effective_weight_shares(self):
+        polls = [
+            {
+                "date": date(2026, 9, 20),
+                "institute": "A",
+                "sample": 2000,
+                "method": method,
+                "registration": f"BR-44{idx:03d}/2026",
+                "verifiedTse": False,
+                "values": {"lula": 40.0 + idx, "flavio-bolsonaro": 35.0 - idx * 0.5},
+                "nonCandidate": {},
+            }
+            for idx, method in enumerate(["Presencial", "Online", "Telefônica", "Presencial"])
+        ]
+        result = method_diversity_analysis(polls, date(2026, 9, 22))
+        self.assertEqual(result["status"], "ok")
+        self.assertEqual(result["methodCount"], 3)
+        self.assertGreaterEqual(result["effectiveMethodCount"], 1.0)
+        self.assertLessEqual(result["maxWeightShare"], 1.0)
+        self.assertAlmostEqual(sum(result["shares"].values()), 1.0, places=3)
+
+    def test_method_bootstrap_is_deterministic(self):
+        polls = [
+            {
+                "date": date(2026, 9, 18 + idx),
+                "institute": chr(ord("A") + idx),
+                "sample": 1800 + idx * 100,
+                "method": ["Presencial", "Online", "Telefônica", "Presencial"][idx],
+                "registration": f"BR-45{idx:03d}/2026",
+                "verifiedTse": False,
+                "values": {"lula": 39.0 + idx, "flavio-bolsonaro": 36.0 - idx * 0.4},
+                "nonCandidate": {},
+            }
+            for idx in range(4)
+        ]
+        a = method_bootstrap_current_support(polls, date(2026, 9, 22), draws=120)
+        b = method_bootstrap_current_support(polls, date(2026, 9, 22), draws=120)
+        self.assertEqual(a, b)
+        self.assertEqual(a["status"], "ok")
+        self.assertEqual(a["clusterCount"], 3)
+        self.assertIn("lula", a["candidates"])
 
 
 if __name__ == "__main__":
