@@ -2,7 +2,7 @@
 
 Aplicativo Android público e experimental para acompanhar **pesquisas presidenciais de 2026**, sua evolução no tempo, incerteza e diferenças entre fontes.
 
-## O que a v0.9.0 faz
+## O que a v0.9.1 faz
 
 - trabalha com **pesquisas individuais** como unidade principal, em vez de somar agregadores;
 - deduplica levantamentos pelo número de registro TSE e, quando necessário, por uma chave de conteúdo;
@@ -76,7 +76,7 @@ Se os testes ou a validação estrutural falharem, os novos dados não são publ
 
 O workflow **Build e publicar APK** compila e assina o APK com a mesma identidade de desenvolvimento estável adotada desde a v0.2.0, permitindo atualização sobre versões posteriores à transição de assinatura.
 
-A release atual é v0.9.0.
+A release atual é v0.9.1.
 
 ## Aviso
 
@@ -247,3 +247,22 @@ A leitura corrigida é executada apenas em sombra. A validação é temporal: pa
 A validação compara MAE do modelo atual com MAE da versão corrigida em sombra. Uma eventual melhora só torna a técnica elegível para revisão; nenhuma correção é ativada automaticamente.
 
 O schema de data/analytics.json passa a ser v12.
+
+## Cobertura de candidaturas e cenários v0.9.1
+
+Pesquisas diferentes podem testar conjuntos diferentes de candidaturas. A v0.9.1 passa a medir explicitamente esse problema em vez de interpretar a ausência de um nome como 0%.
+
+Para cada candidatura são publicados:
+
+- número de pesquisas em que aparece;
+- número de institutos e métodos que a medem;
+- participação ponderada do peso da janela;
+- indicação de pertencimento ao conjunto comum de candidaturas.
+
+O conjunto comum é definido por cobertura ponderada mínima de 80%. A análise também registra quantas combinações de candidaturas existem, o peso do cenário dominante e a parcela da base preservada numa harmonização.
+
+Uma leitura harmonizada em sombra usa apenas pesquisas que contêm todo o conjunto comum, mas preserva os pesos originais dessas pesquisas. Isso permite medir o quanto a mistura de cenários desloca o agregado sem confundir o efeito com uma recalibração dos pesos.
+
+A harmonização também recebe validação temporal contra pesquisas posteriores. Nenhuma pesquisa é excluída automaticamente e a leitura principal permanece inalterada.
+
+O schema de data/analytics.json passa a ser v13.
