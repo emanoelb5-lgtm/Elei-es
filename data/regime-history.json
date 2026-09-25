@@ -127,5 +127,43 @@
         "differenceRecentVsPrevious": -0.26
       }
     }
+  },
+  {
+    "generatedAt": "2026-09-25T14:51:18.772988Z",
+    "evidenceFingerprint": "1dcdf8fcef37d8b63b8b",
+    "status": "ok",
+    "overall": "consistent",
+    "candidates": {
+      "augusto-cury": {
+        "level": "consistent",
+        "direction": "down",
+        "differenceRecentVsPrevious": -2.07
+      },
+      "flavio-bolsonaro": {
+        "level": "consistent",
+        "direction": "up",
+        "differenceRecentVsPrevious": 2.85
+      },
+      "lula": {
+        "level": "consistent",
+        "direction": "up",
+        "differenceRecentVsPrevious": 2.03
+      },
+      "renan-santos": {
+        "level": "stable",
+        "direction": "up",
+        "differenceRecentVsPrevious": 0.49
+      },
+      "romeu-zema": {
+        "level": "stable",
+        "direction": "down",
+        "differenceRecentVsPrevious": -0.25
+      },
+      "ronaldo-caiado": {
+        "level": "stable",
+        "direction": "down",
+        "differenceRecentVsPrevious": -0.14
+      }
+    }
   }
 ]

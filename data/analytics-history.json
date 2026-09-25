@@ -4010,46 +4010,46 @@
   {
     "generatedAt": "2026-09-23T18:00:00Z",
     "pollingSupport": {
-      "augusto-cury": 5.71,
-      "flavio-bolsonaro": 37.04,
-      "lula": 39.73,
+      "augusto-cury": 5.49,
+      "flavio-bolsonaro": 37.15,
+      "lula": 40.18,
       "pablo-marcal": 1.73,
-      "renan-santos": 4.67,
-      "romeu-zema": 1.15,
-      "ronaldo-caiado": 2.92
+      "renan-santos": 4.66,
+      "romeu-zema": 1.11,
+      "ronaldo-caiado": 2.91
     },
     "intervals": {
       "augusto-cury": {
-        "low": 4.62,
-        "high": 6.79
+        "low": 4.49,
+        "high": 6.49
       },
       "flavio-bolsonaro": {
-        "low": 35.26,
-        "high": 38.82
+        "low": 35.39,
+        "high": 38.92
       },
       "lula": {
-        "low": 38.46,
-        "high": 41.0
+        "low": 39.02,
+        "high": 41.34
       },
       "pablo-marcal": {
         "low": 1.13,
         "high": 2.33
       },
       "renan-santos": {
-        "low": 3.49,
-        "high": 5.85
+        "low": 3.59,
+        "high": 5.73
       },
       "romeu-zema": {
-        "low": 0.55,
-        "high": 1.75
+        "low": 0.51,
+        "high": 1.71
       },
       "ronaldo-caiado": {
-        "low": 2.32,
-        "high": 3.52
+        "low": 2.26,
+        "high": 3.55
       }
     },
-    "pollCount": 33,
-    "instituteCount": 15,
+    "pollCount": 37,
+    "instituteCount": 16,
     "verifiedTseCount": 0,
     "origin": "historical-reconstruction"
   },
@@ -4240,46 +4240,46 @@
   {
     "generatedAt": "2026-09-24T18:00:00Z",
     "pollingSupport": {
-      "augusto-cury": 5.71,
-      "flavio-bolsonaro": 37.04,
-      "lula": 39.73,
-      "pablo-marcal": 1.73,
-      "renan-santos": 4.67,
-      "romeu-zema": 1.15,
-      "ronaldo-caiado": 2.92
+      "augusto-cury": 5.46,
+      "flavio-bolsonaro": 37.27,
+      "lula": 40.11,
+      "pablo-marcal": 1.72,
+      "renan-santos": 4.49,
+      "romeu-zema": 1.09,
+      "ronaldo-caiado": 3.07
     },
     "intervals": {
       "augusto-cury": {
-        "low": 4.62,
-        "high": 6.79
+        "low": 4.54,
+        "high": 6.39
       },
       "flavio-bolsonaro": {
-        "low": 35.26,
-        "high": 38.82
+        "low": 35.62,
+        "high": 38.93
       },
       "lula": {
-        "low": 38.46,
-        "high": 41.0
+        "low": 39.02,
+        "high": 41.19
       },
       "pablo-marcal": {
-        "low": 1.13,
-        "high": 2.33
+        "low": 1.12,
+        "high": 2.32
       },
       "renan-santos": {
-        "low": 3.49,
-        "high": 5.85
+        "low": 3.48,
+        "high": 5.51
       },
       "romeu-zema": {
-        "low": 0.55,
-        "high": 1.75
+        "low": 0.49,
+        "high": 1.69
       },
       "ronaldo-caiado": {
-        "low": 2.32,
-        "high": 3.52
+        "low": 2.43,
+        "high": 3.72
       }
     },
-    "pollCount": 33,
-    "instituteCount": 15,
+    "pollCount": 39,
+    "instituteCount": 16,
     "verifiedTseCount": 0,
     "origin": "historical-reconstruction"
   },
@@ -4418,6 +4418,52 @@
     },
     "pollCount": 33,
     "instituteCount": 15,
+    "verifiedTseCount": 0,
+    "origin": "live"
+  },
+  {
+    "generatedAt": "2026-09-25T14:51:18.772988Z",
+    "pollingSupport": {
+      "augusto-cury": 5.46,
+      "flavio-bolsonaro": 37.27,
+      "lula": 40.11,
+      "pablo-marcal": 1.72,
+      "renan-santos": 4.49,
+      "romeu-zema": 1.09,
+      "ronaldo-caiado": 3.07
+    },
+    "intervals": {
+      "augusto-cury": {
+        "low": 3.87,
+        "high": 7.05
+      },
+      "flavio-bolsonaro": {
+        "low": 33.37,
+        "high": 41.17
+      },
+      "lula": {
+        "low": 36.21,
+        "high": 44.01
+      },
+      "pablo-marcal": {
+        "low": 0.13,
+        "high": 3.31
+      },
+      "renan-santos": {
+        "low": 2.81,
+        "high": 6.18
+      },
+      "romeu-zema": {
+        "low": 0.0,
+        "high": 2.68
+      },
+      "ronaldo-caiado": {
+        "low": 1.48,
+        "high": 4.66
+      }
+    },
+    "pollCount": 39,
+    "instituteCount": 16,
     "verifiedTseCount": 0,
     "origin": "live"
   }
