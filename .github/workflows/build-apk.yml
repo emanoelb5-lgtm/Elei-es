@@ -91,7 +91,7 @@ jobs:
           VERSION: ${{ steps.meta.outputs.version }}
         run: |
           set -euo pipefail
-          NOTES='v0.9.4 incorpora o envelope do stress test de pesos à incerteza avançada. As sete configurações paramétricas continuam sem ranking ou promoção automática; sua faixa passa apenas a ampliar o intervalo quando for mais conservadora que os componentes analítico, bootstrap ou piso empírico. O valor central de produção permanece inalterado. Mantém auditoria de pesos, cobertura de cenários, house effect em sombra, frescor, diversidade metodológica e demais diagnósticos. Assinatura estável desde a v0.2.0.'
+          NOTES='v0.9.5 melhora a experiência Android: início com hierarquia visual renovada, indicadores em destaque e navegação com ícones; última leitura salva no aparelho para uso sem conexão; consultas complementares independentes, com aviso quando alguma fonte estiver indisponível; datas e falhas de atualização apresentadas com clareza. O cálculo eleitoral e a assinatura de desenvolvimento estável permanecem os mesmos.'
           APK="dist/Termometro-Eleicoes-2026-v${VERSION}.apk"
           TAG="v${VERSION}"
           RELEASE_OK=0

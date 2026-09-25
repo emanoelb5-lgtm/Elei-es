@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -16,28 +17,34 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
 import kotlin.math.abs
 
-private val BrazilGreen = Color(0xFF0B6B45)
-private val BrazilBlue = Color(0xFF183B6B)
-private val SoftBg = Color(0xFFF5F7F2)
-private val TextDark = Color(0xFF17221D)
-private val Muted = Color(0xFF65736B)
+private val BrazilGreen = Color(0xFF006C60)
+private val BrazilBlue = Color(0xFF122D41)
+private val SoftBg = Color(0xFFF4F6F4)
+private val TextDark = Color(0xFF142A34)
+private val Muted = Color(0xFF5B7078)
 private val Positive = Color(0xFF157347)
 private val Negative = Color(0xFFB42318)
 
@@ -57,7 +64,10 @@ fun TermometroApp() {
             background = SoftBg,
             surface = Color.White,
             onBackground = TextDark,
-            onSurface = TextDark
+            onSurface = TextDark,
+            primaryContainer = Color(0xFFDEF4EA),
+            onPrimaryContainer = BrazilBlue,
+            surfaceVariant = Color(0xFFE8EFED)
         )
     ) {
         Surface(Modifier.fillMaxSize(), color = SoftBg) {
@@ -74,72 +84,102 @@ fun TermometroApp() {
 
 @Composable
 private fun DashboardHost() {
-    val repository = remember { ElectionRepository() }
+    val context = LocalContext.current
+    val repository = remember(context) { ElectionRepository(context.applicationContext) }
     val scope = rememberCoroutineScope()
     var data by remember { mutableStateOf<DashboardData?>(null) }
     var loading by remember { mutableStateOf(true) }
     var error by remember { mutableStateOf<String?>(null) }
     var notice by remember { mutableStateOf<String?>(null) }
+    var showingSavedReading by remember { mutableStateOf(false) }
     var tab by remember { mutableIntStateOf(0) }
 
     fun refresh(userInitiated: Boolean = false) {
+        if (loading) return
         loading = true
         error = null
         if (userInitiated) notice = null
         val before = data
         scope.launch {
-            runCatching { withContext(Dispatchers.IO) { repository.load() } }
-                .onSuccess { fresh ->
-                    if (userInitiated) notice = refreshFeedback(before, fresh)
-                    data = fresh
+            runCatching { repository.load() }
+                .onSuccess { result ->
+                    if (userInitiated) notice = refreshFeedback(before, result.data)
+                    if (result.supplementalIncomplete) {
+                        notice = "Leitura atual recebida. Algumas seções estão indisponíveis ou usam dados salvos."
+                    }
+                    data = result.data
+                    showingSavedReading = false
                 }
-                .onFailure {
-                    error = "Não foi possível atualizar agora. A leitura anterior foi mantida."
-                    if (userInitiated) notice = "Falha ao consultar as fontes. Tente novamente mais tarde."
+                .onFailure { failure ->
+                    if (failure is CancellationException) throw failure
+                    error = if (data == null) "Não foi possível acessar as pesquisas. Verifique a conexão e tente novamente."
+                    else "Sem conexão com a fonte agora. A última leitura continua disponível."
+                    if (userInitiated) notice = null
                 }
             loading = false
         }
     }
 
-    LaunchedEffect(Unit) { refresh(false) }
+    LaunchedEffect(Unit) {
+        data = withContext(Dispatchers.IO) { repository.loadCached() }
+        showingSavedReading = data != null
+        loading = false
+        refresh(false)
+    }
 
     Column(Modifier.fillMaxSize()) {
         Box(Modifier.weight(1f).fillMaxWidth()) {
             when (tab) {
-                0 -> HomeScreen(data, loading, error, notice) { refresh(true) }
+                0 -> HomeScreen(data, loading, error, notice, showingSavedReading) { refresh(true) }
                 1 -> TrendScreen(data, loading)
                 2 -> PollsScreen(data, loading)
                 else -> DiagnosticsScreen(data, loading)
             }
         }
-        NavigationBar(containerColor = Color.White) {
+        NavigationBar(containerColor = Color.White, tonalElevation = 6.dp) {
             NavigationBarItem(
                 selected = tab == 0,
                 onClick = { tab = 0 },
-                icon = { Text("⌂", fontSize = 22.sp, fontWeight = FontWeight.Bold) },
-                label = { Text("Início") }
+                icon = { Icon(painterResource(R.drawable.ic_nav_home), contentDescription = null) },
+                label = { Text("Início") },
+                colors = tabColors()
             )
             NavigationBarItem(
                 selected = tab == 1,
                 onClick = { tab = 1 },
-                icon = { Text("↗", fontSize = 21.sp, fontWeight = FontWeight.Bold) },
-                label = { Text("Tendência") }
+                enabled = data != null,
+                icon = { Icon(painterResource(R.drawable.ic_nav_trend), contentDescription = null) },
+                label = { Text("Tendência") },
+                colors = tabColors()
             )
             NavigationBarItem(
                 selected = tab == 2,
                 onClick = { tab = 2 },
-                icon = { Text("≡", fontSize = 21.sp, fontWeight = FontWeight.Bold) },
-                label = { Text("Pesquisas") }
+                enabled = data != null,
+                icon = { Icon(painterResource(R.drawable.ic_nav_polls), contentDescription = null) },
+                label = { Text("Pesquisas") },
+                colors = tabColors()
             )
             NavigationBarItem(
                 selected = tab == 3,
                 onClick = { tab = 3 },
-                icon = { Text("◎", fontSize = 20.sp, fontWeight = FontWeight.Bold) },
-                label = { Text("Diagnóstico") }
+                enabled = data != null,
+                icon = { Icon(painterResource(R.drawable.ic_nav_insights), contentDescription = null) },
+                label = { Text("Análise") },
+                colors = tabColors()
             )
         }
     }
 }
+
+@Composable
+private fun tabColors() = NavigationBarItemDefaults.colors(
+    selectedIconColor = BrazilGreen,
+    selectedTextColor = BrazilGreen,
+    indicatorColor = Color(0xFFDEF4EA),
+    unselectedIconColor = Muted,
+    unselectedTextColor = Muted
+)
 
 @Composable
 private fun HomeScreen(
@@ -147,6 +187,7 @@ private fun HomeScreen(
     loading: Boolean,
     error: String?,
     notice: String?,
+    showingSavedReading: Boolean,
     onRefresh: () -> Unit
 ) {
     LazyColumn(
@@ -154,17 +195,13 @@ private fun HomeScreen(
         contentPadding = PaddingValues(18.dp, 22.dp, 18.dp, 34.dp),
         verticalArrangement = Arrangement.spacedBy(14.dp)
     ) {
-        item { Header() }
-        item { StatusCard(data?.snapshot, loading, error, notice, onRefresh) }
+        item { Header(data?.snapshot) }
+        item { StatusCard(data?.snapshot, loading, error, notice, showingSavedReading, onRefresh) }
 
         if (data != null) {
-            item { QualityCard(data.snapshot.quality) }
-            item { TemporalCoverageCard(data.snapshot.temporalCoverage) }
-            item { AdvancedUncertaintySummary(data.snapshot.uncertainty) }
-            item { SectionTitle("Apoio agregado nas pesquisas", "Pesquisas individuais deduplicadas e ponderadas") }
+            item { OverviewMetrics(data.snapshot.quality) }
+            item { SectionTitle("Leitura das pesquisas", "Média ponderada · ordem de exibição sem ranking") }
             items(data.snapshot.candidates, key = { it.id }) { CandidateCard(it) }
-            item { ResponseCompositionCard(data.snapshot.responseComposition) }
-
             item { SectionTitle("Evolução observada", "Histórico reconstruído + leituras atuais") }
             item { HistoryChart(data.history, data.snapshot.candidates.take(5)) }
             item { VariationCard(data.snapshot.candidates) }
@@ -174,11 +211,18 @@ private fun HomeScreen(
                 items(data.snapshot.runoffScenarios.take(4), key = { it.id }) { RunoffCard(it) }
             }
 
+            item { SectionTitle("Como ler os dados", "Cobertura, incerteza e respostas") }
+            item { QualityCard(data.snapshot.quality) }
+            item { TemporalCoverageCard(data.snapshot.temporalCoverage) }
+            item { AdvancedUncertaintySummary(data.snapshot.uncertainty) }
+            item { ResponseCompositionCard(data.snapshot.responseComposition) }
             item { SectionTitle("Fontes e validação", "Fontes atuais e estado de cada coleta") }
             items(data.snapshot.sources, key = { it.id }) { SourceCard(it) }
             item { MethodologyCard(data.snapshot) }
         } else if (loading) {
             item { LoadingBlock() }
+        } else {
+            item { EmptyReading(onRefresh) }
         }
     }
 }
@@ -255,11 +299,7 @@ private fun PollsScreen(data: DashboardData?, loading: Boolean) {
         if (data == null) {
             emptyList()
         } else {
-            val reference = runCatching {
-                Instant.parse(data.snapshot.generatedAt)
-                    .atZone(ZoneId.of("America/Sao_Paulo"))
-                    .toLocalDate()
-            }.getOrElse { LocalDate.now() }
+            val reference = LocalDate.now(ZoneId.of("America/Sao_Paulo"))
             val cutoff = reference.minusDays(periodDays.toLong())
             data.polls.filter { poll ->
                 runCatching { !LocalDate.parse(poll.date).isBefore(cutoff) }.getOrDefault(false)
@@ -376,12 +416,13 @@ private fun PollRecordCard(poll: PollRecord, candidates: List<Candidate>) {
 
             candidates.forEach { candidate ->
                 poll.candidates[candidate.id]?.let { value ->
-                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                        Row(verticalAlignment = Alignment.CenterVertically) {
+                    Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                        Row(Modifier.weight(1f), verticalAlignment = Alignment.CenterVertically) {
                             Box(Modifier.size(7.dp).background(candidateColor(candidate.id), CircleShape))
                             Spacer(Modifier.width(6.dp))
-                            Text(candidate.name, fontSize = 13.sp)
+                            Text(candidate.name, fontSize = 13.sp, maxLines = 1, overflow = TextOverflow.Ellipsis)
                         }
+                        Spacer(Modifier.width(8.dp))
                         Text("${value.one()}%", fontWeight = FontWeight.Bold, fontSize = 13.sp)
                     }
                 }
@@ -988,19 +1029,59 @@ private fun HistoricalBacktestCard(study: HistoricalBacktestStudy) {
 }
 
 @Composable
-private fun Header() {
-    Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+private fun Header(snapshot: Snapshot?) {
+    val daysRemaining = snapshot?.let {
+        runCatching {
+            ChronoUnit.DAYS.between(
+                LocalDate.now(ZoneId.of("America/Sao_Paulo")),
+                LocalDate.parse(it.electionDate)
+            )
+        }.getOrNull()
+    }
+    Column(
+        Modifier.fillMaxWidth()
+            .background(
+                Brush.linearGradient(listOf(BrazilBlue, Color(0xFF174D55), BrazilGreen)),
+                RoundedCornerShape(28.dp)
+            )
+            .padding(22.dp),
+        verticalArrangement = Arrangement.spacedBy(13.dp)
+    ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Box(Modifier.size(12.dp).background(BrazilGreen, CircleShape))
+            Box(Modifier.size(9.dp).background(Color(0xFF8DE0B7), CircleShape))
             Spacer(Modifier.width(8.dp))
-            Text("BRASIL · ELEIÇÃO 2026", color = BrazilGreen, fontWeight = FontWeight.Bold, fontSize = 13.sp)
+            Text(
+                "TERMÔMETRO 2026",
+                color = Color(0xFFD8F5EC),
+                fontWeight = FontWeight.Bold,
+                letterSpacing = 1.4.sp,
+                fontSize = 12.sp
+            )
         }
-        Text("Termômetro\nPresidencial", fontSize = 38.sp, lineHeight = 40.sp, fontWeight = FontWeight.ExtraBold)
         Text(
-            "Agregação transparente de pesquisas públicas, com incerteza, histórico e validação de registros.",
-            color = Muted,
-            lineHeight = 21.sp
+            "O retrato das\npesquisas",
+            fontSize = 33.sp,
+            lineHeight = 35.sp,
+            fontWeight = FontWeight.ExtraBold,
+            color = Color.White
         )
+        Text(
+            "Acompanhe a eleição presidencial com dados públicos, contexto e incerteza à vista.",
+            color = Color(0xFFDCF2EE),
+            fontSize = 14.sp,
+            lineHeight = 20.sp
+        )
+        if (daysRemaining != null && daysRemaining >= 0) {
+            Surface(color = Color.White.copy(alpha = .16f), shape = RoundedCornerShape(50)) {
+                Text(
+                    if (daysRemaining == 0L) "Dia da eleição" else "$daysRemaining dias até a eleição",
+                    Modifier.padding(horizontal = 12.dp, vertical = 7.dp),
+                    color = Color.White,
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+        }
     }
 }
 
@@ -1010,33 +1091,93 @@ private fun StatusCard(
     loading: Boolean,
     error: String?,
     notice: String?,
+    showingSavedReading: Boolean,
     onRefresh: () -> Unit
 ) {
-    Card(shape = RoundedCornerShape(24.dp), colors = CardDefaults.cardColors(containerColor = BrazilBlue)) {
-        Column(Modifier.padding(18.dp), verticalArrangement = Arrangement.spacedBy(11.dp)) {
-            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                Column {
-                    Text("ÚLTIMA LEITURA", color = Color(0xFFBFD3EF), fontSize = 12.sp, fontWeight = FontWeight.Bold)
-                    Text(snapshot?.generatedAt?.let(::formatDate) ?: "Buscando dados…", color = Color.White, fontWeight = FontWeight.SemiBold)
-                }
-                snapshot?.let {
-                    Surface(color = Color.White.copy(alpha = .12f), shape = RoundedCornerShape(50)) {
-                        Text("${it.daysToElection} dias", Modifier.padding(horizontal = 12.dp, vertical = 7.dp), color = Color.White, fontWeight = FontWeight.Bold)
-                    }
-                }
+    Card(
+        shape = RoundedCornerShape(22.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.White),
+        border = BorderStroke(1.dp, Color(0xFFE2EAE7))
+    ) {
+        Column(Modifier.padding(18.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+            Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                Box(
+                    Modifier.size(8.dp).background(
+                        if (showingSavedReading || error != null) Color(0xFFBB7933) else BrazilGreen,
+                        CircleShape
+                    )
+                )
+                Spacer(Modifier.width(8.dp))
+                Text(
+                    when {
+                        showingSavedReading -> "LEITURA SALVA NO APARELHO"
+                        loading -> "VERIFICANDO NOVOS DADOS"
+                        error != null -> "FONTE INDISPONÍVEL"
+                        else -> "LEITURA ATUALIZADA"
+                    },
+                    color = Muted,
+                    fontSize = 11.sp,
+                    fontWeight = FontWeight.Bold,
+                    letterSpacing = .8.sp
+                )
             }
+            Text(
+                snapshot?.generatedAt?.let { "Dados de ${formatDate(it)} (Brasília)" }
+                    ?: if (loading) "Buscando pesquisas…" else "Nenhuma leitura disponível",
+                color = TextDark,
+                fontWeight = FontWeight.Bold,
+                fontSize = 15.sp
+            )
+            if (loading) LinearProgressIndicator(Modifier.fillMaxWidth(), color = BrazilGreen)
             Button(
                 onClick = onRefresh,
                 enabled = !loading,
                 modifier = Modifier.fillMaxWidth(),
-                colors = ButtonDefaults.buttonColors(containerColor = Color.White, contentColor = BrazilBlue)
+                shape = RoundedCornerShape(14.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = BrazilGreen, contentColor = Color.White)
             ) {
                 AnimatedContent(loading, label = "refresh") { active ->
                     Text(if (active) "Verificando fontes…" else "Atualizar leitura", fontWeight = FontWeight.Bold)
                 }
             }
-            notice?.let { Text(it, color = Color(0xFFD8E8FF), fontSize = 13.sp, lineHeight = 18.sp) }
-            error?.let { Text(it, color = Color(0xFFFFD6D1), fontSize = 13.sp) }
+            notice?.let { Text(it, color = BrazilGreen, fontSize = 13.sp, lineHeight = 18.sp) }
+            error?.let { Text(it, color = Negative, fontSize = 13.sp, lineHeight = 18.sp) }
+        }
+    }
+}
+
+@Composable
+private fun OverviewMetrics(q: QualityInfo) {
+    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+        listOf(
+            q.pollCount.toString() to "pesquisas",
+            q.instituteCount.toString() to "institutos",
+            q.methodCount.toString() to "métodos"
+        ).forEach { (value, label) ->
+            Column(
+                Modifier.weight(1f)
+                    .background(Color.White, RoundedCornerShape(18.dp))
+                    .padding(horizontal = 10.dp, vertical = 15.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(value, color = BrazilBlue, fontSize = 23.sp, fontWeight = FontWeight.ExtraBold)
+                Text(label, color = Muted, fontSize = 11.sp, maxLines = 1)
+            }
+        }
+    }
+}
+
+@Composable
+private fun EmptyReading(onRefresh: () -> Unit) {
+    Card(shape = RoundedCornerShape(22.dp), colors = CardDefaults.cardColors(containerColor = Color.White)) {
+        Column(Modifier.padding(20.dp), verticalArrangement = Arrangement.spacedBy(9.dp)) {
+            Text("Sem leitura disponível", fontWeight = FontWeight.ExtraBold, fontSize = 19.sp)
+            Text(
+                "Conecte-se à internet para carregar as pesquisas. Após a primeira consulta, a última leitura ficará salva neste aparelho.",
+                color = Muted,
+                lineHeight = 20.sp
+            )
+            TextButton(onClick = onRefresh) { Text("Tentar novamente") }
         }
     }
 }
@@ -1066,9 +1207,10 @@ private fun QualityCard(q: QualityInfo) {
 
 @Composable
 private fun MetricRow(label: String, value: String) {
-    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-        Text(label, color = Muted, fontSize = 13.sp)
-        Text(value, fontWeight = FontWeight.Bold, color = TextDark)
+    Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.Top) {
+        Text(label, Modifier.weight(1f), color = Muted, fontSize = 13.sp, lineHeight = 18.sp)
+        Spacer(Modifier.width(12.dp))
+        Text(value, fontWeight = FontWeight.Bold, color = TextDark, fontSize = 13.sp)
     }
 }
 
@@ -1079,27 +1221,27 @@ private fun CandidateCard(candidate: Candidate) {
         candidate.change < -.09 -> Negative
         else -> Muted
     }
-    Card(shape = RoundedCornerShape(20.dp), colors = CardDefaults.cardColors(containerColor = Color.White)) {
-        Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
-            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Box(Modifier.size(42.dp).background(candidateColor(candidate.id), CircleShape), contentAlignment = Alignment.Center) {
-                        Text(candidate.name.take(1), color = Color.White, fontWeight = FontWeight.ExtraBold)
-                    }
-                    Spacer(Modifier.width(11.dp))
-                    Column {
-                        Text(candidate.name, fontWeight = FontWeight.Bold, fontSize = 17.sp)
-                        Text(
-                            "Faixa avançada: ${candidate.intervalLow.one()}% – ${candidate.intervalHigh.one()}%",
-                            color = Muted,
-                            fontSize = 12.sp
-                        )
-                    }
+    Card(
+        shape = RoundedCornerShape(20.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.White),
+        border = BorderStroke(1.dp, Color(0xFFE6EDEA))
+    ) {
+        Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+            Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                Box(Modifier.size(40.dp).background(candidateColor(candidate.id), CircleShape), contentAlignment = Alignment.Center) {
+                    Text(candidate.name.take(1), color = Color.White, fontWeight = FontWeight.ExtraBold)
                 }
-                Column(horizontalAlignment = Alignment.End) {
-                    Text("${candidate.pollingSupport.one()}%", fontSize = 24.sp, fontWeight = FontWeight.ExtraBold, color = BrazilBlue)
-                    Text(deltaText(candidate.change), color = deltaColor, fontSize = 12.sp, fontWeight = FontWeight.Bold)
-                }
+                Spacer(Modifier.width(10.dp))
+                Text(
+                    candidate.name,
+                    Modifier.weight(1f),
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 16.sp,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis
+                )
+                Spacer(Modifier.width(8.dp))
+                Text("${candidate.pollingSupport.one()}%", fontSize = 23.sp, fontWeight = FontWeight.ExtraBold, color = BrazilBlue)
             }
             LinearProgressIndicator(
                 progress = { (candidate.pollingSupport / 100.0).toFloat().coerceIn(0f, 1f) },
@@ -1108,6 +1250,16 @@ private fun CandidateCard(candidate: Candidate) {
                 trackColor = Color(0xFFE8ECE9),
                 strokeCap = StrokeCap.Round
             )
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                Text(
+                    "Faixa: ${candidate.intervalLow.one()}% a ${candidate.intervalHigh.one()}%",
+                    modifier = Modifier.weight(1f),
+                    color = Muted,
+                    fontSize = 12.sp
+                )
+                Spacer(Modifier.width(8.dp))
+                Text(deltaText(candidate.change), color = deltaColor, fontSize = 12.sp, fontWeight = FontWeight.Bold)
+            }
         }
     }
 }

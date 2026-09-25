@@ -1,36 +1,119 @@
 package br.com.eleicoes.termometro
 
+import android.content.Context
+import android.util.AtomicFile
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.withContext
 import org.json.JSONArray
 import org.json.JSONObject
+import java.io.File
 import java.net.HttpURLConnection
 import java.net.URL
 
-class ElectionRepository {
-    private val base = "https://raw.githubusercontent.com/emanoelb5-lgtm/Elei-es/main/data"
+data class RefreshResult(val data: DashboardData, val supplementalIncomplete: Boolean)
 
-    fun load(): DashboardData {
+class ElectionRepository(context: Context) {
+    private val base = "https://raw.githubusercontent.com/emanoelb5-lgtm/Elei-es/main/data"
+    private val cacheDir = File(context.applicationContext.filesDir, "election-cache")
+
+    // The snapshot is required. Supplemental feeds can be read from disk if a request fails.
+    suspend fun load(): RefreshResult = coroutineScope {
         val nonce = System.currentTimeMillis()
-        val latest = getJson("$base/analytics.json?t=$nonce")
-        val history = getJson("$base/analytics-history.json?t=$nonce")
-        val polls = getJson("$base/polls.json?t=$nonce")
-        val calibration = getJson("$base/calibration.json?t=$nonce")
-        val historicalBacktest = getJson("$base/historical-backtest.json?t=$nonce")
-        val modelLab = runCatching { getJson("$base/model-lab.json?t=$nonce") }.getOrNull()
-        return DashboardData(
-            snapshot = parseSnapshot(JSONObject(latest)),
-            history = parseHistory(JSONArray(history)),
-            polls = parsePolls(JSONObject(polls)),
-            calibration = parseCalibration(JSONObject(calibration)),
-            historicalBacktests = parseHistoricalBacktests(JSONObject(historicalBacktest)),
-            modelLab = modelLab?.let { parseModelLab(JSONObject(it)) }
+        val latest = withContext(Dispatchers.IO) { getJson("$base/analytics.json?t=$nonce") }
+        val snapshot = parseSnapshot(JSONObject(latest))
+        withContext(Dispatchers.IO) { runCatching { save("analytics.json", latest) } }
+
+        val history = async(Dispatchers.IO) {
+            supplemental("analytics-history.json", nonce, emptyList<HistoryPoint>()) { parseHistory(JSONArray(it)) }
+        }
+        val polls = async(Dispatchers.IO) {
+            supplemental("polls.json", nonce, emptyList<PollRecord>()) { parsePolls(JSONObject(it)) }
+        }
+        val calibration = async(Dispatchers.IO) {
+            supplemental("calibration.json", nonce, parseCalibration(JSONObject())) { parseCalibration(JSONObject(it)) }
+        }
+        val backtests = async(Dispatchers.IO) {
+            supplemental("historical-backtest.json", nonce, emptyList<HistoricalBacktestStudy>()) {
+                parseHistoricalBacktests(JSONObject(it))
+            }
+        }
+        val lab = async(Dispatchers.IO) {
+            supplemental<ModelLabData?>("model-lab.json", nonce, null) { parseModelLab(JSONObject(it)) }
+        }
+        val historyPart = history.await()
+        val pollsPart = polls.await()
+        val calibrationPart = calibration.await()
+        val backtestsPart = backtests.await()
+        val labPart = lab.await()
+        RefreshResult(
+            data = DashboardData(
+                snapshot = snapshot,
+                history = historyPart.first,
+                polls = pollsPart.first,
+                calibration = calibrationPart.first,
+                historicalBacktests = backtestsPart.first,
+                modelLab = labPart.first
+            ),
+            supplementalIncomplete = listOf(
+                historyPart.second, pollsPart.second, calibrationPart.second,
+                backtestsPart.second, labPart.second
+            ).any { it }
         )
+    }
+
+    // Called off the main thread before the network request, so the app opens on weak connections.
+    fun loadCached(): DashboardData? {
+        val snapshot = runCatching { parseSnapshot(JSONObject(read("analytics.json") ?: return null)) }.getOrNull()
+            ?: return null
+        return DashboardData(
+            snapshot = snapshot,
+            history = cached("analytics-history.json", emptyList()) { parseHistory(JSONArray(it)) },
+            polls = cached("polls.json", emptyList()) { parsePolls(JSONObject(it)) },
+            calibration = cached("calibration.json", parseCalibration(JSONObject())) { parseCalibration(JSONObject(it)) },
+            historicalBacktests = cached("historical-backtest.json", emptyList()) { parseHistoricalBacktests(JSONObject(it)) },
+            modelLab = cached<ModelLabData?>("model-lab.json", null) { parseModelLab(JSONObject(it)) }
+        )
+    }
+
+    private fun <T> supplemental(name: String, nonce: Long, empty: T, parse: (String) -> T): Pair<T, Boolean> =
+        try {
+            val raw = getJson("$base/$name?t=$nonce")
+            val parsed = parse(raw)
+            runCatching { save(name, raw) }
+            parsed to false
+        } catch (e: Exception) {
+            if (e is CancellationException) throw e
+            cached(name, empty, parse) to true
+        }
+
+    private fun <T> cached(name: String, empty: T, parse: (String) -> T): T =
+        read(name)?.let { runCatching { parse(it) }.getOrNull() } ?: empty
+
+    private fun read(name: String): String? = runCatching {
+        AtomicFile(File(cacheDir, name)).openRead().bufferedReader().use { it.readText() }
+    }.getOrNull()
+
+    private fun save(name: String, content: String) {
+        cacheDir.mkdirs()
+        val file = AtomicFile(File(cacheDir, name))
+        val stream = file.startWrite()
+        try {
+            stream.write(content.toByteArray(Charsets.UTF_8))
+            file.finishWrite(stream)
+        } catch (e: Exception) {
+            file.failWrite(stream)
+            throw e
+        }
     }
 
     private fun getJson(address: String): String {
         val connection = (URL(address).openConnection() as HttpURLConnection).apply {
             requestMethod = "GET"
-            connectTimeout = 15_000
-            readTimeout = 15_000
+            connectTimeout = 8_000
+            readTimeout = 8_000
             setRequestProperty("Accept", "application/json")
             setRequestProperty("Cache-Control", "no-cache, no-store, max-age=0")
             setRequestProperty("Pragma", "no-cache")

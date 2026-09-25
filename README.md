@@ -2,7 +2,12 @@
 
 Aplicativo Android público e experimental para acompanhar **pesquisas presidenciais de 2026**, sua evolução no tempo, incerteza e diferenças entre fontes.
 
-## O que a v0.9.4 faz
+## O que a v0.9.5 faz
+
+- abre a última leitura salva no aparelho enquanto consulta as fontes, inclusive sem conexão após a primeira atualização;
+- mostra a data da leitura e avisa quando histórico ou diagnósticos não puderem ser atualizados;
+- traz início reorganizado, cartões legíveis em celulares menores e navegação com ícones;
+- mantém a metodologia de cálculo da v0.9.4.
 
 - trabalha com **pesquisas individuais** como unidade principal, em vez de somar agregadores;
 - deduplica levantamentos pelo número de registro TSE e, quando necessário, por uma chave de conteúdo;
@@ -76,7 +81,7 @@ Se os testes ou a validação estrutural falharem, os novos dados não são publ
 
 O workflow **Build e publicar APK** compila e assina o APK com a mesma identidade de desenvolvimento estável adotada desde a v0.2.0, permitindo atualização sobre versões posteriores à transição de assinatura.
 
-A release atual é v0.9.4.
+A release atual é v0.9.5.
 
 ## Aviso
 
