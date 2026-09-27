@@ -1,6 +1,6 @@
 {
   "schemaVersion": 16,
-  "generatedAt": "2026-09-27T20:07:49.922080Z",
+  "generatedAt": "2026-09-27T22:59:51.401059Z",
   "electionDate": "2026-10-04",
   "daysToElection": 7,
   "quality": {
@@ -19,7 +19,7 @@
       "label": "BBC / PollingData",
       "type": "base de pesquisas individuais",
       "status": "ok",
-      "updatedAt": "2026-09-27T20:07:52.541307Z",
+      "updatedAt": "2026-09-27T22:59:52.761246Z",
       "url": "https://news.files.bbci.co.uk/include/vjamericas/1561-poll-tracker-brazil-2026/table/portuguese/app/amp",
       "tablesFound": 2
     },
@@ -46,7 +46,7 @@
       "label": "ElectioLab",
       "type": "agregador de conferência · sem peso",
       "status": "ok",
-      "updatedAt": "2026-09-27T20:07:53.120963Z",
+      "updatedAt": "2026-09-27T22:59:53.098840Z",
       "url": "https://electiolab.com/pesquisas-presidenciais-2026",
       "pageFreshness": "24 de setembro de 2026"
     },
@@ -64,7 +64,7 @@
       "label": "Polymarket",
       "type": "mercado de previsão · sinal externo",
       "status": "ok",
-      "updatedAt": "2026-09-27T20:07:52.619293Z",
+      "updatedAt": "2026-09-27T22:59:52.819663Z",
       "url": "https://polymarket.com/event/brazil-presidential-election"
     }
   ],
@@ -127,7 +127,7 @@
       "modelIntervalHigh": 5.51,
       "change": -0.0,
       "trend": "estável",
-      "marketSignal": 0.45
+      "marketSignal": 0.4
     },
     {
       "id": "romeu-zema",
