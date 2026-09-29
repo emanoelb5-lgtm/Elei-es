@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-28T09:46:12.841727Z",
+  "generatedAt": "2026-09-29T09:49:28.456280Z",
   "productionModelId": "current-v04",
   "automaticPromotion": false,
   "promotionPolicy": "Uma variante só é sinalizada para revisão se reduzir o MAE em pelo menos 0,10 p.p. no conjunto histórico e na validação corrente, sem piorar nenhum ciclo histórico em mais de 0,10 p.p. Nenhuma promoção é automática.",
@@ -32,9 +32,9 @@
         ]
       },
       "currentRolling": {
-        "caseCount": 133,
-        "comparisonCount": 790,
-        "meanAbsoluteError": 1.49,
+        "caseCount": 135,
+        "comparisonCount": 803,
+        "meanAbsoluteError": 1.48,
         "target": "próxima pesquisa publicada"
       },
       "deltaVsProduction": {
@@ -69,14 +69,14 @@
         ]
       },
       "currentRolling": {
-        "caseCount": 133,
-        "comparisonCount": 790,
+        "caseCount": 135,
+        "comparisonCount": 803,
         "meanAbsoluteError": 1.5,
         "target": "próxima pesquisa publicada"
       },
       "deltaVsProduction": {
         "historicalMae": -0.15,
-        "currentRollingMae": 0.01
+        "currentRollingMae": 0.02
       },
       "promotionCandidate": false
     },
@@ -106,9 +106,9 @@
         ]
       },
       "currentRolling": {
-        "caseCount": 133,
-        "comparisonCount": 790,
-        "meanAbsoluteError": 1.49,
+        "caseCount": 135,
+        "comparisonCount": 803,
+        "meanAbsoluteError": 1.48,
         "target": "próxima pesquisa publicada"
       },
       "deltaVsProduction": {
@@ -143,14 +143,14 @@
         ]
       },
       "currentRolling": {
-        "caseCount": 133,
-        "comparisonCount": 790,
+        "caseCount": 135,
+        "comparisonCount": 803,
         "meanAbsoluteError": 1.46,
         "target": "próxima pesquisa publicada"
       },
       "deltaVsProduction": {
         "historicalMae": 0.04,
-        "currentRollingMae": -0.03
+        "currentRollingMae": -0.02
       },
       "promotionCandidate": false
     },
@@ -180,14 +180,14 @@
         ]
       },
       "currentRolling": {
-        "caseCount": 133,
-        "comparisonCount": 790,
+        "caseCount": 135,
+        "comparisonCount": 803,
         "meanAbsoluteError": 1.48,
         "target": "próxima pesquisa publicada"
       },
       "deltaVsProduction": {
         "historicalMae": -0.06,
-        "currentRollingMae": -0.01
+        "currentRollingMae": 0.0
       },
       "promotionCandidate": false
     },
@@ -217,14 +217,14 @@
         ]
       },
       "currentRolling": {
-        "caseCount": 133,
-        "comparisonCount": 790,
+        "caseCount": 135,
+        "comparisonCount": 803,
         "meanAbsoluteError": 1.49,
         "target": "próxima pesquisa publicada"
       },
       "deltaVsProduction": {
         "historicalMae": 0.72,
-        "currentRollingMae": 0.0
+        "currentRollingMae": 0.01
       },
       "promotionCandidate": false
     }
