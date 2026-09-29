@@ -1,6 +1,6 @@
 {
   "schemaVersion": 16,
-  "generatedAt": "2026-09-29T13:32:47.995924Z",
+  "generatedAt": "2026-09-29T18:51:39.292736Z",
   "electionDate": "2026-10-04",
   "daysToElection": 5,
   "quality": {
@@ -19,7 +19,7 @@
       "label": "BBC / PollingData",
       "type": "base de pesquisas individuais",
       "status": "ok",
-      "updatedAt": "2026-09-29T13:32:49.257709Z",
+      "updatedAt": "2026-09-29T18:51:42.599858Z",
       "url": "https://news.files.bbci.co.uk/include/vjamericas/1561-poll-tracker-brazil-2026/table/portuguese/app/amp",
       "tablesFound": 2
     },
@@ -27,10 +27,10 @@
       "id": "tse",
       "label": "TSE · PesqEle",
       "type": "cadastro oficial de pesquisas",
-      "status": "fallback",
-      "updatedAt": null,
+      "status": "ok",
+      "updatedAt": "2026-09-29T18:51:41.680351Z",
       "url": "https://dadosabertos.tse.jus.br/dataset/pesquisas-eleitorais-2026",
-      "error": "403 Client Error: Forbidden for url: https://dadosabertos.tse.jus.br/api/3/action/package_show?id=6ee9ef02-b6da-4dd2-8fee-37afe4d2db6d"
+      "recordsFound": 7
     },
     {
       "id": "uol",
@@ -46,7 +46,7 @@
       "label": "ElectioLab",
       "type": "agregador de conferência · sem peso",
       "status": "ok",
-      "updatedAt": "2026-09-29T13:32:49.718589Z",
+      "updatedAt": "2026-09-29T18:51:43.423723Z",
       "url": "https://electiolab.com/pesquisas-presidenciais-2026",
       "pageFreshness": "28 de setembro de 2026"
     },
@@ -64,7 +64,7 @@
       "label": "Polymarket",
       "type": "mercado de previsão · sinal externo",
       "status": "ok",
-      "updatedAt": "2026-09-29T13:32:49.310434Z",
+      "updatedAt": "2026-09-29T18:51:42.766009Z",
       "url": "https://polymarket.com/event/brazil-presidential-election"
     }
   ],
@@ -91,7 +91,7 @@
       "modelIntervalHigh": 38.7,
       "change": -0.0,
       "trend": "estável",
-      "marketSignal": 58.05
+      "marketSignal": 59.75
     },
     {
       "id": "lula",
@@ -103,7 +103,7 @@
       "modelIntervalHigh": 41.21,
       "change": 0.0,
       "trend": "estável",
-      "marketSignal": 41.5
+      "marketSignal": 40.5
     },
     {
       "id": "pablo-marcal",
@@ -127,7 +127,7 @@
       "modelIntervalHigh": 5.35,
       "change": 0.0,
       "trend": "estável",
-      "marketSignal": 0.25
+      "marketSignal": 0.65
     },
     {
       "id": "romeu-zema",
