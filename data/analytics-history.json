@@ -5508,5 +5508,51 @@
     "instituteCount": 16,
     "verifiedTseCount": 0,
     "origin": "live"
+  },
+  {
+    "generatedAt": "2026-10-01T08:50:51.605477Z",
+    "pollingSupport": {
+      "augusto-cury": 4.5,
+      "flavio-bolsonaro": 38.09,
+      "lula": 40.95,
+      "pablo-marcal": 1.6,
+      "renan-santos": 4.5,
+      "romeu-zema": 1.11,
+      "ronaldo-caiado": 2.99
+    },
+    "intervals": {
+      "augusto-cury": {
+        "low": 2.89,
+        "high": 6.11
+      },
+      "flavio-bolsonaro": {
+        "low": 34.16,
+        "high": 42.02
+      },
+      "lula": {
+        "low": 37.02,
+        "high": 44.88
+      },
+      "pablo-marcal": {
+        "low": 0.0,
+        "high": 3.21
+      },
+      "renan-santos": {
+        "low": 2.89,
+        "high": 6.11
+      },
+      "romeu-zema": {
+        "low": 0.0,
+        "high": 2.72
+      },
+      "ronaldo-caiado": {
+        "low": 1.38,
+        "high": 4.6
+      }
+    },
+    "pollCount": 39,
+    "instituteCount": 16,
+    "verifiedTseCount": 0,
+    "origin": "live"
   }
 ]
