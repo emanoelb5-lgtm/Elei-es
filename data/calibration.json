@@ -1,49 +1,49 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-01T08:50:51.605477Z",
+  "generatedAt": "2026-10-01T15:49:00.264875Z",
   "correctionApplied": false,
   "correctionPolicy": "diagnóstico somente; nenhum ajuste por instituto, método ou house effect altera a média atual",
   "sourceDiagnostics": {
     "peerWindowDays": 10,
-    "comparisonCount": 842,
+    "comparisonCount": 863,
     "institutes": [
       {
         "label": "Alfa Inteligência",
         "pollCount": 4,
         "comparisonCount": 22,
         "meanOffset": -0.36,
-        "meanAbsoluteDeviation": 2.11,
+        "meanAbsoluteDeviation": 2.09,
         "residualSd": 2.67,
         "candidateOffsets": {
           "flavio-bolsonaro": {
             "name": "Flávio Bolsonaro",
             "comparisons": 4,
-            "meanOffset": -4.3,
-            "meanAbsoluteDeviation": 4.3
+            "meanOffset": -4.31,
+            "meanAbsoluteDeviation": 4.31
           },
           "lula": {
             "name": "Lula",
             "comparisons": 4,
-            "meanOffset": -0.23,
-            "meanAbsoluteDeviation": 0.99
+            "meanOffset": -0.19,
+            "meanAbsoluteDeviation": 0.95
           },
           "renan-santos": {
             "name": "Renan Santos",
             "comparisons": 4,
-            "meanOffset": -1.35,
-            "meanAbsoluteDeviation": 1.35
+            "meanOffset": -1.33,
+            "meanAbsoluteDeviation": 1.33
           },
           "romeu-zema": {
             "name": "Romeu Zema",
             "comparisons": 4,
-            "meanOffset": 2.05,
-            "meanAbsoluteDeviation": 2.06
+            "meanOffset": 2.03,
+            "meanAbsoluteDeviation": 2.08
           },
           "ronaldo-caiado": {
             "name": "Ronaldo Caiado",
             "comparisons": 4,
-            "meanOffset": 1.56,
-            "meanAbsoluteDeviation": 2.27
+            "meanOffset": 1.55,
+            "meanAbsoluteDeviation": 2.26
           }
         }
       },
@@ -61,44 +61,44 @@
         "pollCount": 11,
         "comparisonCount": 65,
         "meanOffset": 1.52,
-        "meanAbsoluteDeviation": 2.34,
-        "residualSd": 2.86,
+        "meanAbsoluteDeviation": 2.37,
+        "residualSd": 2.87,
         "candidateOffsets": {
           "augusto-cury": {
             "name": "Augusto Cury",
             "comparisons": 8,
-            "meanOffset": -1.11,
-            "meanAbsoluteDeviation": 1.17
+            "meanOffset": -1.16,
+            "meanAbsoluteDeviation": 1.22
           },
           "flavio-bolsonaro": {
             "name": "Flávio Bolsonaro",
             "comparisons": 11,
-            "meanOffset": 2.93,
-            "meanAbsoluteDeviation": 2.93
+            "meanOffset": 2.91,
+            "meanAbsoluteDeviation": 2.91
           },
           "lula": {
             "name": "Lula",
             "comparisons": 11,
-            "meanOffset": 5.93,
-            "meanAbsoluteDeviation": 5.93
+            "meanOffset": 5.98,
+            "meanAbsoluteDeviation": 5.98
           },
           "renan-santos": {
             "name": "Renan Santos",
             "comparisons": 11,
-            "meanOffset": 2.23,
-            "meanAbsoluteDeviation": 2.27
+            "meanOffset": 2.27,
+            "meanAbsoluteDeviation": 2.3
           },
           "romeu-zema": {
             "name": "Romeu Zema",
             "comparisons": 11,
-            "meanOffset": -0.25,
-            "meanAbsoluteDeviation": 0.53
+            "meanOffset": -0.28,
+            "meanAbsoluteDeviation": 0.55
           },
           "ronaldo-caiado": {
             "name": "Ronaldo Caiado",
             "comparisons": 11,
-            "meanOffset": -0.94,
-            "meanAbsoluteDeviation": 1.21
+            "meanOffset": -0.96,
+            "meanAbsoluteDeviation": 1.23
           }
         }
       },
@@ -116,26 +116,26 @@
         "pollCount": 11,
         "comparisonCount": 67,
         "meanOffset": -0.36,
-        "meanAbsoluteDeviation": 1.07,
+        "meanAbsoluteDeviation": 1.06,
         "residualSd": 1.34,
         "candidateOffsets": {
           "augusto-cury": {
             "name": "Augusto Cury",
             "comparisons": 9,
-            "meanOffset": 0.06,
-            "meanAbsoluteDeviation": 0.86
+            "meanOffset": 0.05,
+            "meanAbsoluteDeviation": 0.85
           },
           "flavio-bolsonaro": {
             "name": "Flávio Bolsonaro",
             "comparisons": 11,
-            "meanOffset": -2.14,
-            "meanAbsoluteDeviation": 2.22
+            "meanOffset": -2.15,
+            "meanAbsoluteDeviation": 2.23
           },
           "lula": {
             "name": "Lula",
             "comparisons": 11,
-            "meanOffset": 0.04,
-            "meanAbsoluteDeviation": 0.77
+            "meanOffset": 0.07,
+            "meanAbsoluteDeviation": 0.75
           },
           "pablo-marcal": {
             "name": "Pablo Marçal",
@@ -152,8 +152,8 @@
           "romeu-zema": {
             "name": "Romeu Zema",
             "comparisons": 11,
-            "meanOffset": 0.34,
-            "meanAbsoluteDeviation": 0.92
+            "meanOffset": 0.33,
+            "meanAbsoluteDeviation": 0.93
           },
           "ronaldo-caiado": {
             "name": "Ronaldo Caiado",
@@ -174,29 +174,29 @@
       },
       {
         "label": "Futura",
-        "pollCount": 13,
-        "comparisonCount": 76,
-        "meanOffset": 0.23,
-        "meanAbsoluteDeviation": 1.4,
-        "residualSd": 2.07,
+        "pollCount": 14,
+        "comparisonCount": 82,
+        "meanOffset": 0.22,
+        "meanAbsoluteDeviation": 1.39,
+        "residualSd": 2.04,
         "candidateOffsets": {
           "augusto-cury": {
             "name": "Augusto Cury",
-            "comparisons": 9,
-            "meanOffset": 0.26,
-            "meanAbsoluteDeviation": 0.74
+            "comparisons": 10,
+            "meanOffset": 0.24,
+            "meanAbsoluteDeviation": 0.66
           },
           "flavio-bolsonaro": {
             "name": "Flávio Bolsonaro",
-            "comparisons": 13,
-            "meanOffset": 1.73,
-            "meanAbsoluteDeviation": 2.12
+            "comparisons": 14,
+            "meanOffset": 1.82,
+            "meanAbsoluteDeviation": 2.19
           },
           "lula": {
             "name": "Lula",
-            "comparisons": 13,
-            "meanOffset": -1.12,
-            "meanAbsoluteDeviation": 2.55
+            "comparisons": 14,
+            "meanOffset": -1.18,
+            "meanAbsoluteDeviation": 2.51
           },
           "pablo-marcal": {
             "name": "Pablo Marçal",
@@ -206,49 +206,49 @@
           },
           "renan-santos": {
             "name": "Renan Santos",
-            "comparisons": 13,
-            "meanOffset": -0.86,
-            "meanAbsoluteDeviation": 1.04
+            "comparisons": 14,
+            "meanOffset": -0.9,
+            "meanAbsoluteDeviation": 1.07
           },
           "romeu-zema": {
             "name": "Romeu Zema",
-            "comparisons": 13,
-            "meanOffset": 0.36,
-            "meanAbsoluteDeviation": 0.73
+            "comparisons": 14,
+            "meanOffset": 0.35,
+            "meanAbsoluteDeviation": 0.71
           },
           "ronaldo-caiado": {
             "name": "Ronaldo Caiado",
-            "comparisons": 12,
-            "meanOffset": 0.96,
+            "comparisons": 13,
+            "meanOffset": 0.97,
             "meanAbsoluteDeviation": 1.15
           }
         }
       },
       {
         "label": "GERP",
-        "pollCount": 12,
-        "comparisonCount": 73,
-        "meanOffset": -0.62,
-        "meanAbsoluteDeviation": 1.73,
-        "residualSd": 2.2,
+        "pollCount": 13,
+        "comparisonCount": 79,
+        "meanOffset": -0.56,
+        "meanAbsoluteDeviation": 1.69,
+        "residualSd": 2.16,
         "candidateOffsets": {
           "augusto-cury": {
             "name": "Augusto Cury",
-            "comparisons": 10,
-            "meanOffset": -0.5,
-            "meanAbsoluteDeviation": 0.78
+            "comparisons": 11,
+            "meanOffset": -0.36,
+            "meanAbsoluteDeviation": 0.8
           },
           "flavio-bolsonaro": {
             "name": "Flávio Bolsonaro",
-            "comparisons": 12,
-            "meanOffset": 2.58,
+            "comparisons": 13,
+            "meanOffset": 2.62,
             "meanAbsoluteDeviation": 2.99
           },
           "lula": {
             "name": "Lula",
-            "comparisons": 12,
-            "meanOffset": -3.44,
-            "meanAbsoluteDeviation": 3.44
+            "comparisons": 13,
+            "meanOffset": -3.28,
+            "meanAbsoluteDeviation": 3.28
           },
           "pablo-marcal": {
             "name": "Pablo Marçal",
@@ -258,113 +258,113 @@
           },
           "renan-santos": {
             "name": "Renan Santos",
-            "comparisons": 12,
-            "meanOffset": -0.97,
-            "meanAbsoluteDeviation": 1.12
+            "comparisons": 13,
+            "meanOffset": -1.03,
+            "meanAbsoluteDeviation": 1.16
           },
           "romeu-zema": {
             "name": "Romeu Zema",
-            "comparisons": 12,
-            "meanOffset": -0.5,
-            "meanAbsoluteDeviation": 0.72
+            "comparisons": 13,
+            "meanOffset": -0.47,
+            "meanAbsoluteDeviation": 0.68
           },
           "ronaldo-caiado": {
             "name": "Ronaldo Caiado",
-            "comparisons": 12,
-            "meanOffset": -1.08,
-            "meanAbsoluteDeviation": 1.45
+            "comparisons": 13,
+            "meanOffset": -1.0,
+            "meanAbsoluteDeviation": 1.34
           }
         }
       },
       {
         "label": "Ideia Inteligência",
-        "pollCount": 9,
-        "comparisonCount": 50,
-        "meanOffset": 0.32,
-        "meanAbsoluteDeviation": 1.13,
-        "residualSd": 1.39,
+        "pollCount": 10,
+        "comparisonCount": 56,
+        "meanOffset": 0.35,
+        "meanAbsoluteDeviation": 1.2,
+        "residualSd": 1.46,
         "candidateOffsets": {
           "augusto-cury": {
             "name": "Augusto Cury",
-            "comparisons": 4,
-            "meanOffset": 0.02,
-            "meanAbsoluteDeviation": 0.46
+            "comparisons": 5,
+            "meanOffset": 0.67,
+            "meanAbsoluteDeviation": 1.02
           },
           "flavio-bolsonaro": {
             "name": "Flávio Bolsonaro",
-            "comparisons": 9,
-            "meanOffset": -0.14,
-            "meanAbsoluteDeviation": 1.62
+            "comparisons": 10,
+            "meanOffset": -0.24,
+            "meanAbsoluteDeviation": 1.57
           },
           "lula": {
             "name": "Lula",
-            "comparisons": 9,
-            "meanOffset": 1.07,
-            "meanAbsoluteDeviation": 1.35
+            "comparisons": 10,
+            "meanOffset": 0.74,
+            "meanAbsoluteDeviation": 1.44
           },
           "renan-santos": {
             "name": "Renan Santos",
-            "comparisons": 9,
-            "meanOffset": -0.6,
-            "meanAbsoluteDeviation": 0.89
+            "comparisons": 10,
+            "meanOffset": -0.55,
+            "meanAbsoluteDeviation": 0.81
           },
           "romeu-zema": {
             "name": "Romeu Zema",
-            "comparisons": 9,
-            "meanOffset": 0.29,
-            "meanAbsoluteDeviation": 0.88
+            "comparisons": 10,
+            "meanOffset": 0.51,
+            "meanAbsoluteDeviation": 1.03
           },
           "ronaldo-caiado": {
             "name": "Ronaldo Caiado",
-            "comparisons": 9,
-            "meanOffset": 1.16,
-            "meanAbsoluteDeviation": 1.28
+            "comparisons": 10,
+            "meanOffset": 1.19,
+            "meanAbsoluteDeviation": 1.3
           }
         }
       },
       {
         "label": "Indexa",
-        "pollCount": 5,
-        "comparisonCount": 31,
-        "meanOffset": -0.67,
-        "meanAbsoluteDeviation": 1.16,
-        "residualSd": 1.35,
+        "pollCount": 6,
+        "comparisonCount": 37,
+        "meanOffset": -0.81,
+        "meanAbsoluteDeviation": 1.29,
+        "residualSd": 1.57,
         "candidateOffsets": {
           "augusto-cury": {
             "name": "Augusto Cury",
-            "comparisons": 5,
-            "meanOffset": -1.27,
-            "meanAbsoluteDeviation": 1.27
+            "comparisons": 6,
+            "meanOffset": -1.01,
+            "meanAbsoluteDeviation": 1.11
           },
           "flavio-bolsonaro": {
             "name": "Flávio Bolsonaro",
-            "comparisons": 5,
-            "meanOffset": -2.45,
-            "meanAbsoluteDeviation": 2.45
+            "comparisons": 6,
+            "meanOffset": -3.02,
+            "meanAbsoluteDeviation": 3.02
           },
           "lula": {
             "name": "Lula",
-            "comparisons": 5,
-            "meanOffset": 0.2,
-            "meanAbsoluteDeviation": 0.96
+            "comparisons": 6,
+            "meanOffset": -0.26,
+            "meanAbsoluteDeviation": 1.23
           },
           "renan-santos": {
             "name": "Renan Santos",
-            "comparisons": 5,
-            "meanOffset": -0.92,
-            "meanAbsoluteDeviation": 1.02
+            "comparisons": 6,
+            "meanOffset": -1.05,
+            "meanAbsoluteDeviation": 1.13
           },
           "romeu-zema": {
             "name": "Romeu Zema",
-            "comparisons": 5,
+            "comparisons": 6,
             "meanOffset": -0.31,
-            "meanAbsoluteDeviation": 0.4
+            "meanAbsoluteDeviation": 0.38
           },
           "ronaldo-caiado": {
             "name": "Ronaldo Caiado",
-            "comparisons": 5,
-            "meanOffset": 0.84,
-            "meanAbsoluteDeviation": 0.85
+            "comparisons": 6,
+            "meanOffset": 0.86,
+            "meanAbsoluteDeviation": 0.87
           }
         }
       },
@@ -392,13 +392,13 @@
         "comparisonCount": 99,
         "meanOffset": 0.25,
         "meanAbsoluteDeviation": 1.03,
-        "residualSd": 1.3,
+        "residualSd": 1.29,
         "candidateOffsets": {
           "augusto-cury": {
             "name": "Augusto Cury",
             "comparisons": 15,
-            "meanOffset": 0.62,
-            "meanAbsoluteDeviation": 0.98
+            "meanOffset": 0.59,
+            "meanAbsoluteDeviation": 0.95
           },
           "flavio-bolsonaro": {
             "name": "Flávio Bolsonaro",
@@ -409,8 +409,8 @@
           "lula": {
             "name": "Lula",
             "comparisons": 16,
-            "meanOffset": 0.03,
-            "meanAbsoluteDeviation": 1.08
+            "meanOffset": 0.07,
+            "meanAbsoluteDeviation": 1.11
           },
           "pablo-marcal": {
             "name": "Pablo Marçal",
@@ -421,20 +421,20 @@
           "renan-santos": {
             "name": "Renan Santos",
             "comparisons": 16,
-            "meanOffset": -0.67,
-            "meanAbsoluteDeviation": 0.93
+            "meanOffset": -0.66,
+            "meanAbsoluteDeviation": 0.92
           },
           "romeu-zema": {
             "name": "Romeu Zema",
             "comparisons": 16,
-            "meanOffset": 0.43,
-            "meanAbsoluteDeviation": 0.63
+            "meanOffset": 0.42,
+            "meanAbsoluteDeviation": 0.65
           },
           "ronaldo-caiado": {
             "name": "Ronaldo Caiado",
             "comparisons": 16,
-            "meanOffset": 1.08,
-            "meanAbsoluteDeviation": 1.19
+            "meanOffset": 1.07,
+            "meanAbsoluteDeviation": 1.18
           }
         }
       },
@@ -442,27 +442,27 @@
         "label": "Palver",
         "pollCount": 5,
         "comparisonCount": 31,
-        "meanOffset": 1.21,
-        "meanAbsoluteDeviation": 3.11,
+        "meanOffset": 1.19,
+        "meanAbsoluteDeviation": 3.14,
         "residualSd": 3.54,
         "candidateOffsets": {
           "augusto-cury": {
             "name": "Augusto Cury",
             "comparisons": 5,
-            "meanOffset": -2.85,
-            "meanAbsoluteDeviation": 2.85
+            "meanOffset": -2.91,
+            "meanAbsoluteDeviation": 2.91
           },
           "flavio-bolsonaro": {
             "name": "Flávio Bolsonaro",
             "comparisons": 5,
-            "meanOffset": 5.44,
-            "meanAbsoluteDeviation": 5.44
+            "meanOffset": 5.31,
+            "meanAbsoluteDeviation": 5.31
           },
           "lula": {
             "name": "Lula",
             "comparisons": 5,
-            "meanOffset": 2.1,
-            "meanAbsoluteDeviation": 2.1
+            "meanOffset": 2.29,
+            "meanAbsoluteDeviation": 2.29
           },
           "renan-santos": {
             "name": "Renan Santos",
@@ -473,14 +473,14 @@
           "romeu-zema": {
             "name": "Romeu Zema",
             "comparisons": 5,
-            "meanOffset": -0.47,
-            "meanAbsoluteDeviation": 0.47
+            "meanOffset": -0.55,
+            "meanAbsoluteDeviation": 0.55
           },
           "ronaldo-caiado": {
             "name": "Ronaldo Caiado",
             "comparisons": 5,
-            "meanOffset": -2.39,
-            "meanAbsoluteDeviation": 2.39
+            "meanOffset": -2.42,
+            "meanAbsoluteDeviation": 2.42
           }
         }
       },
@@ -529,26 +529,26 @@
         "pollCount": 10,
         "comparisonCount": 64,
         "meanOffset": 0.15,
-        "meanAbsoluteDeviation": 1.03,
+        "meanAbsoluteDeviation": 1.02,
         "residualSd": 1.32,
         "candidateOffsets": {
           "augusto-cury": {
             "name": "Augusto Cury",
             "comparisons": 10,
             "meanOffset": 1.8,
-            "meanAbsoluteDeviation": 2.01
+            "meanAbsoluteDeviation": 2.0
           },
           "flavio-bolsonaro": {
             "name": "Flávio Bolsonaro",
             "comparisons": 10,
-            "meanOffset": 0.95,
-            "meanAbsoluteDeviation": 1.21
+            "meanOffset": 0.93,
+            "meanAbsoluteDeviation": 1.2
           },
           "lula": {
             "name": "Lula",
             "comparisons": 10,
-            "meanOffset": -0.68,
-            "meanAbsoluteDeviation": 1.05
+            "meanOffset": -0.66,
+            "meanAbsoluteDeviation": 1.04
           },
           "pablo-marcal": {
             "name": "Pablo Marçal",
@@ -559,13 +559,13 @@
           "renan-santos": {
             "name": "Renan Santos",
             "comparisons": 10,
-            "meanOffset": -0.61,
-            "meanAbsoluteDeviation": 1.14
+            "meanOffset": -0.6,
+            "meanAbsoluteDeviation": 1.13
           },
           "romeu-zema": {
             "name": "Romeu Zema",
             "comparisons": 10,
-            "meanOffset": 0.14,
+            "meanOffset": 0.13,
             "meanAbsoluteDeviation": 0.42
           },
           "ronaldo-caiado": {
@@ -579,46 +579,46 @@
       {
         "label": "Quaest",
         "pollCount": 15,
-        "comparisonCount": 86,
-        "meanOffset": -1.27,
-        "meanAbsoluteDeviation": 1.65,
-        "residualSd": 1.98,
+        "comparisonCount": 83,
+        "meanOffset": -1.3,
+        "meanAbsoluteDeviation": 1.66,
+        "residualSd": 1.97,
         "candidateOffsets": {
           "augusto-cury": {
             "name": "Augusto Cury",
             "comparisons": 10,
-            "meanOffset": 0.44,
-            "meanAbsoluteDeviation": 0.75
+            "meanOffset": 0.4,
+            "meanAbsoluteDeviation": 0.71
           },
           "flavio-bolsonaro": {
             "name": "Flávio Bolsonaro",
             "comparisons": 15,
-            "meanOffset": -4.12,
-            "meanAbsoluteDeviation": 4.12
+            "meanOffset": -4.11,
+            "meanAbsoluteDeviation": 4.11
           },
           "lula": {
             "name": "Lula",
             "comparisons": 15,
-            "meanOffset": -2.05,
-            "meanAbsoluteDeviation": 2.47
+            "meanOffset": -2.0,
+            "meanAbsoluteDeviation": 2.41
           },
           "renan-santos": {
             "name": "Renan Santos",
-            "comparisons": 15,
-            "meanOffset": -0.74,
-            "meanAbsoluteDeviation": 0.8
+            "comparisons": 14,
+            "meanOffset": -0.63,
+            "meanAbsoluteDeviation": 0.7
           },
           "romeu-zema": {
             "name": "Romeu Zema",
-            "comparisons": 14,
-            "meanOffset": -0.52,
-            "meanAbsoluteDeviation": 0.61
+            "comparisons": 13,
+            "meanOffset": -0.56,
+            "meanAbsoluteDeviation": 0.67
           },
           "ronaldo-caiado": {
             "name": "Ronaldo Caiado",
-            "comparisons": 15,
-            "meanOffset": -0.05,
-            "meanAbsoluteDeviation": 0.88
+            "comparisons": 14,
+            "meanOffset": -0.15,
+            "meanAbsoluteDeviation": 0.84
           }
         }
       },
@@ -633,38 +633,38 @@
           "augusto-cury": {
             "name": "Augusto Cury",
             "comparisons": 5,
-            "meanOffset": 0.52,
-            "meanAbsoluteDeviation": 1.04
+            "meanOffset": 0.51,
+            "meanAbsoluteDeviation": 1.02
           },
           "flavio-bolsonaro": {
             "name": "Flávio Bolsonaro",
             "comparisons": 8,
-            "meanOffset": -1.71,
-            "meanAbsoluteDeviation": 3.16
+            "meanOffset": -1.72,
+            "meanAbsoluteDeviation": 3.17
           },
           "lula": {
             "name": "Lula",
             "comparisons": 8,
-            "meanOffset": -0.26,
-            "meanAbsoluteDeviation": 0.73
+            "meanOffset": -0.24,
+            "meanAbsoluteDeviation": 0.7
           },
           "renan-santos": {
             "name": "Renan Santos",
             "comparisons": 8,
-            "meanOffset": 1.29,
-            "meanAbsoluteDeviation": 1.77
+            "meanOffset": 1.3,
+            "meanAbsoluteDeviation": 1.78
           },
           "romeu-zema": {
             "name": "Romeu Zema",
             "comparisons": 8,
-            "meanOffset": -0.48,
-            "meanAbsoluteDeviation": 0.9
+            "meanOffset": -0.49,
+            "meanAbsoluteDeviation": 0.91
           },
           "ronaldo-caiado": {
             "name": "Ronaldo Caiado",
             "comparisons": 7,
-            "meanOffset": 0.88,
-            "meanAbsoluteDeviation": 1.14
+            "meanOffset": 0.87,
+            "meanAbsoluteDeviation": 1.15
           }
         }
       },
@@ -727,45 +727,45 @@
         "label": "Vox Brasil",
         "pollCount": 7,
         "comparisonCount": 43,
-        "meanOffset": -0.31,
-        "meanAbsoluteDeviation": 1.55,
-        "residualSd": 1.79,
+        "meanOffset": -0.3,
+        "meanAbsoluteDeviation": 1.51,
+        "residualSd": 1.76,
         "candidateOffsets": {
           "augusto-cury": {
             "name": "Augusto Cury",
             "comparisons": 7,
-            "meanOffset": -1.19,
-            "meanAbsoluteDeviation": 1.19
+            "meanOffset": -1.25,
+            "meanAbsoluteDeviation": 1.25
           },
           "flavio-bolsonaro": {
             "name": "Flávio Bolsonaro",
             "comparisons": 7,
-            "meanOffset": -0.55,
-            "meanAbsoluteDeviation": 1.61
+            "meanOffset": -0.52,
+            "meanAbsoluteDeviation": 1.58
           },
           "lula": {
             "name": "Lula",
             "comparisons": 7,
-            "meanOffset": -0.58,
-            "meanAbsoluteDeviation": 2.58
+            "meanOffset": -0.47,
+            "meanAbsoluteDeviation": 2.47
           },
           "renan-santos": {
             "name": "Renan Santos",
             "comparisons": 7,
-            "meanOffset": -1.52,
-            "meanAbsoluteDeviation": 1.52
+            "meanOffset": -1.46,
+            "meanAbsoluteDeviation": 1.46
           },
           "romeu-zema": {
             "name": "Romeu Zema",
             "comparisons": 7,
-            "meanOffset": 0.55,
-            "meanAbsoluteDeviation": 1.0
+            "meanOffset": 0.51,
+            "meanAbsoluteDeviation": 0.96
           },
           "ronaldo-caiado": {
             "name": "Ronaldo Caiado",
             "comparisons": 7,
-            "meanOffset": 1.5,
-            "meanAbsoluteDeviation": 1.5
+            "meanOffset": 1.46,
+            "meanAbsoluteDeviation": 1.46
           }
         }
       }
@@ -775,27 +775,27 @@
         "label": "Online",
         "pollCount": 16,
         "comparisonCount": 96,
-        "meanOffset": 1.42,
-        "meanAbsoluteDeviation": 2.59,
-        "residualSd": 3.1,
+        "meanOffset": 1.41,
+        "meanAbsoluteDeviation": 2.62,
+        "residualSd": 3.11,
         "candidateOffsets": {
           "augusto-cury": {
             "name": "Augusto Cury",
             "comparisons": 13,
-            "meanOffset": -1.78,
-            "meanAbsoluteDeviation": 1.82
+            "meanOffset": -1.83,
+            "meanAbsoluteDeviation": 1.87
           },
           "flavio-bolsonaro": {
             "name": "Flávio Bolsonaro",
             "comparisons": 16,
-            "meanOffset": 3.72,
-            "meanAbsoluteDeviation": 3.72
+            "meanOffset": 3.66,
+            "meanAbsoluteDeviation": 3.66
           },
           "lula": {
             "name": "Lula",
             "comparisons": 16,
-            "meanOffset": 4.73,
-            "meanAbsoluteDeviation": 4.73
+            "meanOffset": 4.83,
+            "meanAbsoluteDeviation": 4.83
           },
           "pablo-marcal": {
             "name": "Pablo Marçal",
@@ -806,48 +806,48 @@
           "renan-santos": {
             "name": "Renan Santos",
             "comparisons": 16,
-            "meanOffset": 3.36,
-            "meanAbsoluteDeviation": 3.39
+            "meanOffset": 3.39,
+            "meanAbsoluteDeviation": 3.41
           },
           "romeu-zema": {
             "name": "Romeu Zema",
             "comparisons": 16,
-            "meanOffset": -0.32,
-            "meanAbsoluteDeviation": 0.51
+            "meanOffset": -0.36,
+            "meanAbsoluteDeviation": 0.55
           },
           "ronaldo-caiado": {
             "name": "Ronaldo Caiado",
             "comparisons": 16,
-            "meanOffset": -1.39,
-            "meanAbsoluteDeviation": 1.58
+            "meanOffset": -1.41,
+            "meanAbsoluteDeviation": 1.6
           }
         }
       },
       {
         "label": "Presencial (Domiciliar)",
-        "pollCount": 51,
-        "comparisonCount": 296,
-        "meanOffset": -0.67,
-        "meanAbsoluteDeviation": 1.59,
+        "pollCount": 52,
+        "comparisonCount": 299,
+        "meanOffset": -0.66,
+        "meanAbsoluteDeviation": 1.58,
         "residualSd": 2.1,
         "candidateOffsets": {
           "augusto-cury": {
             "name": "Augusto Cury",
-            "comparisons": 35,
+            "comparisons": 36,
             "meanOffset": -0.17,
-            "meanAbsoluteDeviation": 0.84
+            "meanAbsoluteDeviation": 0.85
           },
           "flavio-bolsonaro": {
             "name": "Flávio Bolsonaro",
-            "comparisons": 51,
-            "meanOffset": -1.56,
-            "meanAbsoluteDeviation": 3.25
+            "comparisons": 52,
+            "meanOffset": -1.47,
+            "meanAbsoluteDeviation": 3.24
           },
           "lula": {
             "name": "Lula",
-            "comparisons": 51,
-            "meanOffset": -1.33,
-            "meanAbsoluteDeviation": 2.36
+            "comparisons": 52,
+            "meanOffset": -1.3,
+            "meanAbsoluteDeviation": 2.31
           },
           "pablo-marcal": {
             "name": "Pablo Marçal",
@@ -858,20 +858,20 @@
           "renan-santos": {
             "name": "Renan Santos",
             "comparisons": 51,
-            "meanOffset": -0.59,
-            "meanAbsoluteDeviation": 1.15
+            "meanOffset": -0.57,
+            "meanAbsoluteDeviation": 1.13
           },
           "romeu-zema": {
             "name": "Romeu Zema",
             "comparisons": 50,
-            "meanOffset": -0.29,
+            "meanOffset": -0.3,
             "meanAbsoluteDeviation": 0.74
           },
           "ronaldo-caiado": {
             "name": "Ronaldo Caiado",
             "comparisons": 50,
-            "meanOffset": -0.01,
-            "meanAbsoluteDeviation": 1.06
+            "meanOffset": -0.05,
+            "meanAbsoluteDeviation": 1.03
           }
         }
       },
@@ -880,26 +880,26 @@
         "pollCount": 11,
         "comparisonCount": 67,
         "meanOffset": -0.36,
-        "meanAbsoluteDeviation": 1.07,
+        "meanAbsoluteDeviation": 1.06,
         "residualSd": 1.34,
         "candidateOffsets": {
           "augusto-cury": {
             "name": "Augusto Cury",
             "comparisons": 9,
-            "meanOffset": 0.06,
-            "meanAbsoluteDeviation": 0.86
+            "meanOffset": 0.05,
+            "meanAbsoluteDeviation": 0.85
           },
           "flavio-bolsonaro": {
             "name": "Flávio Bolsonaro",
             "comparisons": 11,
-            "meanOffset": -2.14,
-            "meanAbsoluteDeviation": 2.22
+            "meanOffset": -2.15,
+            "meanAbsoluteDeviation": 2.23
           },
           "lula": {
             "name": "Lula",
             "comparisons": 11,
-            "meanOffset": 0.04,
-            "meanAbsoluteDeviation": 0.77
+            "meanOffset": 0.07,
+            "meanAbsoluteDeviation": 0.75
           },
           "pablo-marcal": {
             "name": "Pablo Marçal",
@@ -916,8 +916,8 @@
           "romeu-zema": {
             "name": "Romeu Zema",
             "comparisons": 11,
-            "meanOffset": 0.34,
-            "meanAbsoluteDeviation": 0.92
+            "meanOffset": 0.33,
+            "meanAbsoluteDeviation": 0.93
           },
           "ronaldo-caiado": {
             "name": "Ronaldo Caiado",
@@ -929,29 +929,29 @@
       },
       {
         "label": "Telefonica (CATI)",
-        "pollCount": 48,
-        "comparisonCount": 282,
-        "meanOffset": 0.12,
-        "meanAbsoluteDeviation": 1.28,
-        "residualSd": 1.82,
+        "pollCount": 51,
+        "comparisonCount": 300,
+        "meanOffset": 0.1,
+        "meanAbsoluteDeviation": 1.3,
+        "residualSd": 1.84,
         "candidateOffsets": {
           "augusto-cury": {
             "name": "Augusto Cury",
-            "comparisons": 35,
-            "meanOffset": 0.19,
-            "meanAbsoluteDeviation": 0.91
+            "comparisons": 38,
+            "meanOffset": 0.25,
+            "meanAbsoluteDeviation": 0.92
           },
           "flavio-bolsonaro": {
             "name": "Flávio Bolsonaro",
-            "comparisons": 48,
-            "meanOffset": -0.03,
-            "meanAbsoluteDeviation": 2.15
+            "comparisons": 51,
+            "meanOffset": -0.1,
+            "meanAbsoluteDeviation": 2.22
           },
           "lula": {
             "name": "Lula",
-            "comparisons": 48,
-            "meanOffset": -0.16,
-            "meanAbsoluteDeviation": 1.55
+            "comparisons": 51,
+            "meanOffset": -0.27,
+            "meanAbsoluteDeviation": 1.6
           },
           "pablo-marcal": {
             "name": "Pablo Marçal",
@@ -961,21 +961,21 @@
           },
           "renan-santos": {
             "name": "Renan Santos",
-            "comparisons": 48,
-            "meanOffset": -0.78,
+            "comparisons": 51,
+            "meanOffset": -0.79,
             "meanAbsoluteDeviation": 0.98
           },
           "romeu-zema": {
             "name": "Romeu Zema",
-            "comparisons": 48,
-            "meanOffset": 0.41,
-            "meanAbsoluteDeviation": 0.82
+            "comparisons": 51,
+            "meanOffset": 0.42,
+            "meanAbsoluteDeviation": 0.84
           },
           "ronaldo-caiado": {
             "name": "Ronaldo Caiado",
-            "comparisons": 46,
+            "comparisons": 49,
             "meanOffset": 1.08,
-            "meanAbsoluteDeviation": 1.26
+            "meanAbsoluteDeviation": 1.25
           }
         }
       },
@@ -983,27 +983,27 @@
         "label": "Telefonica (IVR)",
         "pollCount": 16,
         "comparisonCount": 101,
-        "meanOffset": 0.11,
+        "meanOffset": 0.1,
         "meanAbsoluteDeviation": 1.23,
         "residualSd": 1.78,
         "candidateOffsets": {
           "augusto-cury": {
             "name": "Augusto Cury",
             "comparisons": 15,
-            "meanOffset": 1.58,
-            "meanAbsoluteDeviation": 1.73
+            "meanOffset": 1.57,
+            "meanAbsoluteDeviation": 1.72
           },
           "flavio-bolsonaro": {
             "name": "Flávio Bolsonaro",
             "comparisons": 16,
-            "meanOffset": 1.07,
+            "meanOffset": 1.06,
             "meanAbsoluteDeviation": 1.92
           },
           "lula": {
             "name": "Lula",
             "comparisons": 16,
-            "meanOffset": -1.02,
-            "meanAbsoluteDeviation": 1.29
+            "meanOffset": -1.01,
+            "meanAbsoluteDeviation": 1.28
           },
           "pablo-marcal": {
             "name": "Pablo Marçal",
@@ -1020,7 +1020,7 @@
           "romeu-zema": {
             "name": "Romeu Zema",
             "comparisons": 16,
-            "meanOffset": 0.02,
+            "meanOffset": 0.01,
             "meanAbsoluteDeviation": 0.7
           },
           "ronaldo-caiado": {
@@ -1035,91 +1035,91 @@
   },
   "rollingValidation": {
     "status": "ok",
-    "caseCount": 138,
-    "comparisonCount": 821,
-    "meanAbsoluteError": 1.51,
+    "caseCount": 142,
+    "comparisonCount": 842,
+    "meanAbsoluteError": 1.5,
     "medianAbsoluteError": 0.98,
     "simpleMeanAbsoluteError": 1.53,
     "errorDifferenceVsSimple": -0.02,
-    "intervalCoverage": 51.3,
+    "intervalCoverage": 51.2,
     "absoluteErrorQuantiles": {
       "q50": 0.98,
       "q68": 1.63,
       "q80": 2.4,
-      "q90": 3.63,
-      "q95": 5.2
+      "q90": 3.65,
+      "q95": 5.12
     },
     "absoluteErrorQuantilesBySupportBand": {
       "low": {
-        "count": 545,
+        "count": 558,
         "q50": 0.75,
-        "q80": 1.61,
-        "q90": 2.24
+        "q80": 1.6,
+        "q90": 2.23
       },
       "high": {
-        "count": 276,
-        "q50": 1.91,
-        "q80": 3.93,
-        "q90": 5.4
+        "count": 284,
+        "q50": 1.9,
+        "q80": 4.02,
+        "q90": 5.38
       }
     },
-    "empiricalQ80Coverage": 80.1,
-    "empiricalQ90Coverage": 89.9,
+    "empiricalQ80Coverage": 79.9,
+    "empiricalQ90Coverage": 89.8,
     "target": "próxima pesquisa publicada",
     "note": "Validação interna do agregador; não mede acerto do resultado eleitoral."
   },
   "regimeShadowValidation": {
     "status": "ok",
-    "signalCaseCount": 75,
-    "comparisonCount": 470,
+    "signalCaseCount": 79,
+    "comparisonCount": 491,
     "baselineMeanAbsoluteError": 1.49,
     "shadowMeanAbsoluteError": 1.49,
-    "differenceShadowVsBaseline": -0.01,
+    "differenceShadowVsBaseline": -0.0,
     "promotionEligible": false,
     "adaptiveApplied": false,
     "note": "Validação da leitura adaptativa em sombra apenas nos casos em que o detector identificou mudança. Nenhuma promoção é automática."
   },
   "houseEffectShadow": {
     "status": "ok",
-    "instituteCount": 8,
+    "instituteCount": 10,
     "lookbackDays": 90,
     "priorStrength": 6.0,
     "maxAbsoluteAdjustment": 3.0,
     "candidates": {
       "augusto-cury": {
-        "baselineSupport": 4.5,
-        "shadowSupport": 4.68,
-        "difference": 0.18
+        "baselineSupport": 4.55,
+        "shadowSupport": 4.72,
+        "difference": 0.17
       },
       "flavio-bolsonaro": {
-        "baselineSupport": 38.09,
-        "shadowSupport": 37.66,
-        "difference": -0.43
+        "baselineSupport": 38.2,
+        "shadowSupport": 37.87,
+        "difference": -0.33
       },
       "lula": {
-        "baselineSupport": 40.95,
-        "shadowSupport": 40.66,
-        "difference": -0.28
+        "baselineSupport": 40.7,
+        "shadowSupport": 40.54,
+        "difference": -0.16
       },
       "pablo-marcal": {
         "baselineSupport": 1.6,
-        "shadowSupport": 1.56,
+        "shadowSupport": 1.57,
         "difference": -0.03
       },
       "renan-santos": {
-        "baselineSupport": 4.5,
-        "shadowSupport": 4.15,
-        "difference": -0.35
+        "baselineSupport": 4.34,
+        "shadowSupport": 4.13,
+        "difference": -0.22
       },
       "romeu-zema": {
-        "baselineSupport": 1.11,
-        "shadowSupport": 1.13,
-        "difference": 0.02
+        "baselineSupport": 1.26,
+        "shadowSupport": 1.29,
+        "difference": 0.03
       },
       "ronaldo-caiado": {
-        "baselineSupport": 2.99,
-        "shadowSupport": 3.19,
-        "difference": 0.2
+        "baselineSupport": 3.14,
+        "shadowSupport": 3.23,
+        "difference": 0.1
       }
     },
     "effects": {
@@ -1129,38 +1129,38 @@
         "comparisonCount": 38,
         "candidateEffects": {
           "augusto-cury": {
-            "rawOffset": -1.23,
-            "shrunkenOffset": -0.61,
+            "rawOffset": -1.3,
+            "shrunkenOffset": -0.65,
             "comparisons": 6,
             "shrinkageFactor": 0.5
           },
           "flavio-bolsonaro": {
-            "rawOffset": 3.37,
-            "shrunkenOffset": 1.69,
+            "rawOffset": 3.31,
+            "shrunkenOffset": 1.66,
             "comparisons": 6,
             "shrinkageFactor": 0.5
           },
           "lula": {
-            "rawOffset": 4.87,
-            "shrunkenOffset": 2.44,
+            "rawOffset": 4.97,
+            "shrunkenOffset": 2.48,
             "comparisons": 6,
             "shrinkageFactor": 0.5
           },
           "renan-santos": {
-            "rawOffset": 1.84,
-            "shrunkenOffset": 0.92,
+            "rawOffset": 1.91,
+            "shrunkenOffset": 0.95,
             "comparisons": 6,
             "shrinkageFactor": 0.5
           },
           "romeu-zema": {
-            "rawOffset": -0.12,
-            "shrunkenOffset": -0.06,
+            "rawOffset": -0.17,
+            "shrunkenOffset": -0.09,
             "comparisons": 6,
             "shrinkageFactor": 0.5
           },
           "ronaldo-caiado": {
-            "rawOffset": -1.61,
-            "shrunkenOffset": -0.81,
+            "rawOffset": -1.65,
+            "shrunkenOffset": -0.82,
             "comparisons": 6,
             "shrinkageFactor": 0.5
           }
@@ -1172,37 +1172,37 @@
         "comparisonCount": 39,
         "candidateEffects": {
           "augusto-cury": {
-            "rawOffset": -0.29,
-            "shrunkenOffset": -0.14,
+            "rawOffset": -0.31,
+            "shrunkenOffset": -0.15,
             "comparisons": 6,
             "shrinkageFactor": 0.5
           },
           "flavio-bolsonaro": {
-            "rawOffset": -2.57,
-            "shrunkenOffset": -1.28,
+            "rawOffset": -2.59,
+            "shrunkenOffset": -1.29,
             "comparisons": 6,
             "shrinkageFactor": 0.5
           },
           "lula": {
-            "rawOffset": -0.58,
-            "shrunkenOffset": -0.29,
+            "rawOffset": -0.53,
+            "shrunkenOffset": -0.27,
             "comparisons": 6,
             "shrinkageFactor": 0.5
           },
           "renan-santos": {
-            "rawOffset": -1.17,
+            "rawOffset": -1.16,
             "shrunkenOffset": -0.58,
             "comparisons": 6,
             "shrinkageFactor": 0.5
           },
           "romeu-zema": {
-            "rawOffset": 0.58,
-            "shrunkenOffset": 0.29,
+            "rawOffset": 0.56,
+            "shrunkenOffset": 0.28,
             "comparisons": 6,
             "shrinkageFactor": 0.5
           },
           "ronaldo-caiado": {
-            "rawOffset": 0.69,
+            "rawOffset": 0.68,
             "shrunkenOffset": 0.34,
             "comparisons": 6,
             "shrinkageFactor": 0.5
@@ -1211,87 +1211,173 @@
       },
       "futura": {
         "label": "Futura",
-        "pollCount": 6,
-        "comparisonCount": 39,
+        "pollCount": 7,
+        "comparisonCount": 45,
         "candidateEffects": {
           "augusto-cury": {
-            "rawOffset": 0.54,
-            "shrunkenOffset": 0.27,
-            "comparisons": 6,
-            "shrinkageFactor": 0.5
+            "rawOffset": 0.46,
+            "shrunkenOffset": 0.25,
+            "comparisons": 7,
+            "shrinkageFactor": 0.538
           },
           "flavio-bolsonaro": {
-            "rawOffset": 0.55,
-            "shrunkenOffset": 0.28,
-            "comparisons": 6,
-            "shrinkageFactor": 0.5
+            "rawOffset": 0.91,
+            "shrunkenOffset": 0.49,
+            "comparisons": 7,
+            "shrinkageFactor": 0.538
           },
           "lula": {
-            "rawOffset": -1.04,
-            "shrunkenOffset": -0.52,
-            "comparisons": 6,
-            "shrinkageFactor": 0.5
+            "rawOffset": -1.18,
+            "shrunkenOffset": -0.64,
+            "comparisons": 7,
+            "shrinkageFactor": 0.538
           },
           "renan-santos": {
-            "rawOffset": -1.37,
-            "shrunkenOffset": -0.69,
-            "comparisons": 6,
-            "shrinkageFactor": 0.5
+            "rawOffset": -1.38,
+            "shrunkenOffset": -0.74,
+            "comparisons": 7,
+            "shrinkageFactor": 0.538
           },
           "romeu-zema": {
-            "rawOffset": 0.17,
-            "shrunkenOffset": 0.09,
-            "comparisons": 6,
-            "shrinkageFactor": 0.5
+            "rawOffset": 0.18,
+            "shrunkenOffset": 0.1,
+            "comparisons": 7,
+            "shrinkageFactor": 0.538
           },
           "ronaldo-caiado": {
-            "rawOffset": 1.47,
-            "shrunkenOffset": 0.73,
-            "comparisons": 6,
-            "shrinkageFactor": 0.5
+            "rawOffset": 1.41,
+            "shrunkenOffset": 0.76,
+            "comparisons": 7,
+            "shrinkageFactor": 0.538
           }
         }
       },
       "gerp": {
         "label": "GERP",
-        "pollCount": 6,
-        "comparisonCount": 39,
+        "pollCount": 7,
+        "comparisonCount": 45,
         "candidateEffects": {
           "augusto-cury": {
-            "rawOffset": -0.63,
-            "shrunkenOffset": -0.32,
-            "comparisons": 6,
-            "shrinkageFactor": 0.5
+            "rawOffset": -0.4,
+            "shrunkenOffset": -0.22,
+            "comparisons": 7,
+            "shrinkageFactor": 0.538
           },
           "flavio-bolsonaro": {
-            "rawOffset": 3.29,
-            "shrunkenOffset": 1.65,
-            "comparisons": 6,
-            "shrinkageFactor": 0.5
+            "rawOffset": 3.25,
+            "shrunkenOffset": 1.75,
+            "comparisons": 7,
+            "shrinkageFactor": 0.538
           },
           "lula": {
-            "rawOffset": -3.32,
-            "shrunkenOffset": -1.66,
-            "comparisons": 6,
-            "shrinkageFactor": 0.5
+            "rawOffset": -3.03,
+            "shrunkenOffset": -1.63,
+            "comparisons": 7,
+            "shrinkageFactor": 0.538
           },
           "renan-santos": {
-            "rawOffset": -1.26,
-            "shrunkenOffset": -0.63,
-            "comparisons": 6,
-            "shrinkageFactor": 0.5
+            "rawOffset": -1.32,
+            "shrunkenOffset": -0.71,
+            "comparisons": 7,
+            "shrinkageFactor": 0.538
           },
           "romeu-zema": {
-            "rawOffset": -0.5,
+            "rawOffset": -0.46,
             "shrunkenOffset": -0.25,
-            "comparisons": 6,
-            "shrinkageFactor": 0.5
+            "comparisons": 7,
+            "shrinkageFactor": 0.538
           },
           "ronaldo-caiado": {
-            "rawOffset": -0.32,
+            "rawOffset": -0.28,
+            "shrunkenOffset": -0.15,
+            "comparisons": 7,
+            "shrinkageFactor": 0.538
+          }
+        }
+      },
+      "ideia inteligência": {
+        "label": "Ideia Inteligência",
+        "pollCount": 4,
+        "comparisonCount": 25,
+        "candidateEffects": {
+          "augusto-cury": {
+            "rawOffset": 0.73,
+            "shrunkenOffset": 0.29,
+            "comparisons": 4,
+            "shrinkageFactor": 0.4
+          },
+          "flavio-bolsonaro": {
+            "rawOffset": -0.08,
+            "shrunkenOffset": -0.03,
+            "comparisons": 4,
+            "shrinkageFactor": 0.4
+          },
+          "lula": {
+            "rawOffset": 0.41,
+            "shrunkenOffset": 0.16,
+            "comparisons": 4,
+            "shrinkageFactor": 0.4
+          },
+          "renan-santos": {
+            "rawOffset": -0.4,
             "shrunkenOffset": -0.16,
-            "comparisons": 6,
-            "shrinkageFactor": 0.5
+            "comparisons": 4,
+            "shrinkageFactor": 0.4
+          },
+          "romeu-zema": {
+            "rawOffset": 0.5,
+            "shrunkenOffset": 0.2,
+            "comparisons": 4,
+            "shrinkageFactor": 0.4
+          },
+          "ronaldo-caiado": {
+            "rawOffset": 0.83,
+            "shrunkenOffset": 0.33,
+            "comparisons": 4,
+            "shrinkageFactor": 0.4
+          }
+        }
+      },
+      "indexa": {
+        "label": "Indexa",
+        "pollCount": 4,
+        "comparisonCount": 25,
+        "candidateEffects": {
+          "augusto-cury": {
+            "rawOffset": -1.03,
+            "shrunkenOffset": -0.41,
+            "comparisons": 4,
+            "shrinkageFactor": 0.4
+          },
+          "flavio-bolsonaro": {
+            "rawOffset": -3.42,
+            "shrunkenOffset": -1.37,
+            "comparisons": 4,
+            "shrinkageFactor": 0.4
+          },
+          "lula": {
+            "rawOffset": -0.74,
+            "shrunkenOffset": -0.3,
+            "comparisons": 4,
+            "shrinkageFactor": 0.4
+          },
+          "renan-santos": {
+            "rawOffset": -1.18,
+            "shrunkenOffset": -0.47,
+            "comparisons": 4,
+            "shrinkageFactor": 0.4
+          },
+          "romeu-zema": {
+            "rawOffset": -0.35,
+            "shrunkenOffset": -0.14,
+            "comparisons": 4,
+            "shrinkageFactor": 0.4
+          },
+          "ronaldo-caiado": {
+            "rawOffset": 1.05,
+            "shrunkenOffset": 0.42,
+            "comparisons": 4,
+            "shrinkageFactor": 0.4
           }
         }
       },
@@ -1301,20 +1387,20 @@
         "comparisonCount": 70,
         "candidateEffects": {
           "augusto-cury": {
-            "rawOffset": 0.75,
-            "shrunkenOffset": 0.49,
+            "rawOffset": 0.71,
+            "shrunkenOffset": 0.46,
             "comparisons": 11,
             "shrinkageFactor": 0.647
           },
           "flavio-bolsonaro": {
-            "rawOffset": -0.34,
-            "shrunkenOffset": -0.22,
+            "rawOffset": -0.35,
+            "shrunkenOffset": -0.23,
             "comparisons": 11,
             "shrinkageFactor": 0.647
           },
           "lula": {
-            "rawOffset": 0.04,
-            "shrunkenOffset": 0.03,
+            "rawOffset": 0.1,
+            "shrunkenOffset": 0.06,
             "comparisons": 11,
             "shrinkageFactor": 0.647
           },
@@ -1325,19 +1411,19 @@
             "shrinkageFactor": 0.4
           },
           "renan-santos": {
-            "rawOffset": -0.88,
-            "shrunkenOffset": -0.57,
+            "rawOffset": -0.86,
+            "shrunkenOffset": -0.56,
             "comparisons": 11,
             "shrinkageFactor": 0.647
           },
           "romeu-zema": {
-            "rawOffset": 0.46,
-            "shrunkenOffset": 0.3,
+            "rawOffset": 0.44,
+            "shrunkenOffset": 0.28,
             "comparisons": 11,
             "shrinkageFactor": 0.647
           },
           "ronaldo-caiado": {
-            "rawOffset": 1.38,
+            "rawOffset": 1.37,
             "shrunkenOffset": 0.89,
             "comparisons": 11,
             "shrinkageFactor": 0.647
@@ -1350,20 +1436,20 @@
         "comparisonCount": 31,
         "candidateEffects": {
           "augusto-cury": {
-            "rawOffset": -2.85,
-            "shrunkenOffset": -1.3,
+            "rawOffset": -2.91,
+            "shrunkenOffset": -1.32,
             "comparisons": 5,
             "shrinkageFactor": 0.455
           },
           "flavio-bolsonaro": {
-            "rawOffset": 5.44,
-            "shrunkenOffset": 2.47,
+            "rawOffset": 5.31,
+            "shrunkenOffset": 2.41,
             "comparisons": 5,
             "shrinkageFactor": 0.455
           },
           "lula": {
-            "rawOffset": 2.1,
-            "shrunkenOffset": 0.95,
+            "rawOffset": 2.29,
+            "shrunkenOffset": 1.04,
             "comparisons": 5,
             "shrinkageFactor": 0.455
           },
@@ -1374,14 +1460,14 @@
             "shrinkageFactor": 0.455
           },
           "romeu-zema": {
-            "rawOffset": -0.47,
-            "shrunkenOffset": -0.21,
+            "rawOffset": -0.55,
+            "shrunkenOffset": -0.25,
             "comparisons": 5,
             "shrinkageFactor": 0.455
           },
           "ronaldo-caiado": {
-            "rawOffset": -2.39,
-            "shrunkenOffset": -1.09,
+            "rawOffset": -2.42,
+            "shrunkenOffset": -1.1,
             "comparisons": 5,
             "shrinkageFactor": 0.455
           }
@@ -1393,20 +1479,20 @@
         "comparisonCount": 52,
         "candidateEffects": {
           "augusto-cury": {
-            "rawOffset": 1.75,
-            "shrunkenOffset": 1.0,
+            "rawOffset": 1.74,
+            "shrunkenOffset": 0.99,
             "comparisons": 8,
             "shrinkageFactor": 0.571
           },
           "flavio-bolsonaro": {
-            "rawOffset": 0.49,
-            "shrunkenOffset": 0.28,
+            "rawOffset": 0.47,
+            "shrunkenOffset": 0.27,
             "comparisons": 8,
             "shrinkageFactor": 0.571
           },
           "lula": {
-            "rawOffset": -0.86,
-            "shrunkenOffset": -0.49,
+            "rawOffset": -0.84,
+            "shrunkenOffset": -0.48,
             "comparisons": 8,
             "shrinkageFactor": 0.571
           },
@@ -1417,14 +1503,14 @@
             "shrinkageFactor": 0.4
           },
           "renan-santos": {
-            "rawOffset": -0.75,
-            "shrunkenOffset": -0.43,
+            "rawOffset": -0.74,
+            "shrunkenOffset": -0.42,
             "comparisons": 8,
             "shrinkageFactor": 0.571
           },
           "romeu-zema": {
-            "rawOffset": 0.08,
-            "shrunkenOffset": 0.05,
+            "rawOffset": 0.07,
+            "shrunkenOffset": 0.04,
             "comparisons": 8,
             "shrinkageFactor": 0.571
           },
@@ -1439,43 +1525,43 @@
       "quaest": {
         "label": "Quaest",
         "pollCount": 8,
-        "comparisonCount": 50,
+        "comparisonCount": 47,
         "candidateEffects": {
           "augusto-cury": {
-            "rawOffset": 0.61,
-            "shrunkenOffset": 0.35,
+            "rawOffset": 0.56,
+            "shrunkenOffset": 0.32,
             "comparisons": 8,
             "shrinkageFactor": 0.571
           },
           "flavio-bolsonaro": {
-            "rawOffset": -5.51,
+            "rawOffset": -5.5,
             "shrunkenOffset": -3.0,
             "comparisons": 8,
             "shrinkageFactor": 0.571
           },
           "lula": {
-            "rawOffset": -2.57,
-            "shrunkenOffset": -1.47,
+            "rawOffset": -2.48,
+            "shrunkenOffset": -1.42,
             "comparisons": 8,
             "shrinkageFactor": 0.571
           },
           "renan-santos": {
-            "rawOffset": -1.26,
-            "shrunkenOffset": -0.72,
-            "comparisons": 8,
-            "shrinkageFactor": 0.571
+            "rawOffset": -1.1,
+            "shrunkenOffset": -0.59,
+            "comparisons": 7,
+            "shrinkageFactor": 0.538
           },
           "romeu-zema": {
-            "rawOffset": -0.37,
-            "shrunkenOffset": -0.21,
-            "comparisons": 8,
-            "shrinkageFactor": 0.571
+            "rawOffset": -0.44,
+            "shrunkenOffset": -0.24,
+            "comparisons": 7,
+            "shrinkageFactor": 0.538
           },
           "ronaldo-caiado": {
-            "rawOffset": -0.1,
-            "shrunkenOffset": -0.06,
-            "comparisons": 8,
-            "shrinkageFactor": 0.571
+            "rawOffset": -0.32,
+            "shrunkenOffset": -0.17,
+            "comparisons": 7,
+            "shrinkageFactor": 0.538
           }
         }
       }
@@ -1485,11 +1571,11 @@
   },
   "houseEffectValidation": {
     "status": "ok",
-    "caseCount": 101,
-    "comparisonCount": 627,
-    "adjustedComparisonCount": 259,
+    "caseCount": 105,
+    "comparisonCount": 648,
+    "adjustedComparisonCount": 268,
     "baselineMeanAbsoluteError": 1.45,
-    "shadowMeanAbsoluteError": 1.46,
+    "shadowMeanAbsoluteError": 1.45,
     "differenceShadowVsBaseline": 0.01,
     "promotionEligible": false,
     "correctionApplied": false,
@@ -1497,9 +1583,9 @@
   },
   "scenarioCoverageValidation": {
     "status": "ok",
-    "caseCount": 130,
-    "comparisonCount": 757,
-    "shiftedComparisonCount": 169,
+    "caseCount": 134,
+    "comparisonCount": 778,
+    "shiftedComparisonCount": 201,
     "baselineMeanAbsoluteError": 1.51,
     "shadowMeanAbsoluteError": 1.51,
     "differenceShadowVsBaseline": 0.0,

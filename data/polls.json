@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-01T08:50:51.605477Z",
+  "generatedAt": "2026-10-01T15:49:00.264875Z",
   "firstRound": [
     {
       "date": "2026-01-11",
@@ -2328,10 +2328,7 @@
       "candidates": {
         "lula": 37.0,
         "flavio-bolsonaro": 33.0,
-        "augusto-cury": 6.0,
-        "renan-santos": 3.0,
-        "ronaldo-caiado": 4.0,
-        "romeu-zema": 1.0
+        "augusto-cury": 6.0
       },
       "nonCandidate": {}
     },
@@ -2462,6 +2459,24 @@
       "nonCandidate": {}
     },
     {
+      "date": "2026-09-26",
+      "institute": "GERP",
+      "sample": 2400,
+      "method": "Presencial (Domiciliar)",
+      "registration": "BR-03929/2026",
+      "verifiedTse": false,
+      "round": "1º turno",
+      "candidates": {
+        "lula": 40.0,
+        "flavio-bolsonaro": 42.0,
+        "augusto-cury": 5.0,
+        "renan-santos": 3.0,
+        "ronaldo-caiado": 3.0,
+        "romeu-zema": 1.0
+      },
+      "nonCandidate": {}
+    },
+    {
       "date": "2026-09-27",
       "institute": "Nexus",
       "sample": 2000,
@@ -2517,6 +2532,24 @@
     },
     {
       "date": "2026-09-28",
+      "institute": "Ideia Inteligência",
+      "sample": 2000,
+      "method": "Telefonica (CATI)",
+      "registration": "BR-08706/2026",
+      "verifiedTse": false,
+      "round": "1º turno",
+      "candidates": {
+        "lula": 39.4,
+        "flavio-bolsonaro": 38.4,
+        "augusto-cury": 6.7,
+        "renan-santos": 4.5,
+        "ronaldo-caiado": 4.4,
+        "romeu-zema": 3.5
+      },
+      "nonCandidate": {}
+    },
+    {
+      "date": "2026-09-28",
       "institute": "Palver",
       "sample": 5000,
       "method": "Online",
@@ -2548,6 +2581,42 @@
         "renan-santos": 2.7,
         "ronaldo-caiado": 3.8,
         "romeu-zema": 1.8
+      },
+      "nonCandidate": {}
+    },
+    {
+      "date": "2026-09-29",
+      "institute": "Futura",
+      "sample": 2000,
+      "method": "Telefonica (CATI)",
+      "registration": "BR-01122/2026",
+      "verifiedTse": false,
+      "round": "1º turno",
+      "candidates": {
+        "lula": 39.4,
+        "flavio-bolsonaro": 42.2,
+        "augusto-cury": 3.8,
+        "renan-santos": 3.2,
+        "ronaldo-caiado": 4.0,
+        "romeu-zema": 1.6
+      },
+      "nonCandidate": {}
+    },
+    {
+      "date": "2026-09-29",
+      "institute": "Indexa",
+      "sample": 2000,
+      "method": "Telefonica (CATI)",
+      "registration": "BR-00698/2026",
+      "verifiedTse": false,
+      "round": "1º turno",
+      "candidates": {
+        "lula": 39.0,
+        "flavio-bolsonaro": 34.0,
+        "augusto-cury": 4.0,
+        "renan-santos": 3.0,
+        "ronaldo-caiado": 4.0,
+        "romeu-zema": 1.0
       },
       "nonCandidate": {}
     }
@@ -4388,6 +4457,20 @@
       "nonCandidate": {}
     },
     {
+      "date": "2026-09-26",
+      "institute": "GERP",
+      "sample": 2400,
+      "method": "Presencial (Domiciliar)",
+      "registration": "BR-03929/2026",
+      "verifiedTse": false,
+      "round": "2º turno 1",
+      "candidates": {
+        "flavio-bolsonaro": 50.0,
+        "lula": 43.0
+      },
+      "nonCandidate": {}
+    },
+    {
       "date": "2026-09-27",
       "institute": "Nexus",
       "sample": 2000,
@@ -4431,6 +4514,20 @@
     },
     {
       "date": "2026-09-28",
+      "institute": "Ideia Inteligência",
+      "sample": 2000,
+      "method": "Telefonica (CATI)",
+      "registration": "BR-08706/2026",
+      "verifiedTse": false,
+      "round": "2º turno 1",
+      "candidates": {
+        "flavio-bolsonaro": 48.0,
+        "lula": 48.5
+      },
+      "nonCandidate": {}
+    },
+    {
+      "date": "2026-09-28",
       "institute": "Palver",
       "sample": 5000,
       "method": "Online",
@@ -4454,6 +4551,34 @@
       "candidates": {
         "flavio-bolsonaro": 45.2,
         "lula": 44.7
+      },
+      "nonCandidate": {}
+    },
+    {
+      "date": "2026-09-29",
+      "institute": "Futura",
+      "sample": 2000,
+      "method": "Telefonica (CATI)",
+      "registration": "BR-01122/2026",
+      "verifiedTse": false,
+      "round": "2º turno 1",
+      "candidates": {
+        "flavio-bolsonaro": 49.0,
+        "lula": 43.5
+      },
+      "nonCandidate": {}
+    },
+    {
+      "date": "2026-09-29",
+      "institute": "Indexa",
+      "sample": 2000,
+      "method": "Telefonica (CATI)",
+      "registration": "BR-00698/2026",
+      "verifiedTse": false,
+      "round": "2º turno 1",
+      "candidates": {
+        "flavio-bolsonaro": 42.0,
+        "lula": 43.0
       },
       "nonCandidate": {}
     }
