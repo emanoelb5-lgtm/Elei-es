@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-01T10:07:55.771909Z",
+  "generatedAt": "2026-10-02T09:45:46.586685Z",
   "productionModelId": "current-v04",
   "automaticPromotion": false,
   "promotionPolicy": "Uma variante só é sinalizada para revisão se reduzir o MAE em pelo menos 0,10 p.p. no conjunto histórico e na validação corrente, sem piorar nenhum ciclo histórico em mais de 0,10 p.p. Nenhuma promoção é automática.",
@@ -32,9 +32,9 @@
         ]
       },
       "currentRolling": {
-        "caseCount": 138,
-        "comparisonCount": 821,
-        "meanAbsoluteError": 1.51,
+        "caseCount": 142,
+        "comparisonCount": 842,
+        "meanAbsoluteError": 1.5,
         "target": "próxima pesquisa publicada"
       },
       "deltaVsProduction": {
@@ -69,9 +69,9 @@
         ]
       },
       "currentRolling": {
-        "caseCount": 138,
-        "comparisonCount": 821,
-        "meanAbsoluteError": 1.52,
+        "caseCount": 142,
+        "comparisonCount": 842,
+        "meanAbsoluteError": 1.51,
         "target": "próxima pesquisa publicada"
       },
       "deltaVsProduction": {
@@ -106,9 +106,9 @@
         ]
       },
       "currentRolling": {
-        "caseCount": 138,
-        "comparisonCount": 821,
-        "meanAbsoluteError": 1.51,
+        "caseCount": 142,
+        "comparisonCount": 842,
+        "meanAbsoluteError": 1.5,
         "target": "próxima pesquisa publicada"
       },
       "deltaVsProduction": {
@@ -143,14 +143,14 @@
         ]
       },
       "currentRolling": {
-        "caseCount": 138,
-        "comparisonCount": 821,
+        "caseCount": 142,
+        "comparisonCount": 842,
         "meanAbsoluteError": 1.48,
         "target": "próxima pesquisa publicada"
       },
       "deltaVsProduction": {
         "historicalMae": 0.04,
-        "currentRollingMae": -0.03
+        "currentRollingMae": -0.02
       },
       "promotionCandidate": false
     },
@@ -180,14 +180,14 @@
         ]
       },
       "currentRolling": {
-        "caseCount": 138,
-        "comparisonCount": 821,
+        "caseCount": 142,
+        "comparisonCount": 842,
         "meanAbsoluteError": 1.5,
         "target": "próxima pesquisa publicada"
       },
       "deltaVsProduction": {
         "historicalMae": -0.06,
-        "currentRollingMae": -0.01
+        "currentRollingMae": 0.0
       },
       "promotionCandidate": false
     },
@@ -217,14 +217,14 @@
         ]
       },
       "currentRolling": {
-        "caseCount": 138,
-        "comparisonCount": 821,
+        "caseCount": 142,
+        "comparisonCount": 842,
         "meanAbsoluteError": 1.53,
         "target": "próxima pesquisa publicada"
       },
       "deltaVsProduction": {
         "historicalMae": 0.72,
-        "currentRollingMae": 0.02
+        "currentRollingMae": 0.03
       },
       "promotionCandidate": false
     }
