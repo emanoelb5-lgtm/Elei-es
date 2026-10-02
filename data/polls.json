@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-02T11:20:32.368202Z",
+  "generatedAt": "2026-10-02T16:43:58.482390Z",
   "firstRound": [
     {
       "date": "2026-01-11",
@@ -2459,6 +2459,24 @@
       "nonCandidate": {}
     },
     {
+      "date": "2026-09-24",
+      "institute": "Quaest",
+      "sample": 804,
+      "method": "Presencial (Domiciliar)",
+      "registration": null,
+      "verifiedTse": false,
+      "round": "1º turno",
+      "candidates": {
+        "lula": 52.0,
+        "flavio-bolsonaro": 25.0,
+        "augusto-cury": 6.0,
+        "renan-santos": 2.0,
+        "ronaldo-caiado": 2.0,
+        "romeu-zema": 0.0
+      },
+      "nonCandidate": {}
+    },
+    {
       "date": "2026-09-26",
       "institute": "GERP",
       "sample": 2400,
@@ -2617,6 +2635,60 @@
         "renan-santos": 3.0,
         "ronaldo-caiado": 4.0,
         "romeu-zema": 1.0
+      },
+      "nonCandidate": {}
+    },
+    {
+      "date": "2026-09-30",
+      "institute": "Real Time Big Data",
+      "sample": 2000,
+      "method": "Presencial (Domiciliar)",
+      "registration": "BR-09503/2026",
+      "verifiedTse": false,
+      "round": "1º turno",
+      "candidates": {
+        "lula": 43.0,
+        "flavio-bolsonaro": 39.0,
+        "augusto-cury": 3.0,
+        "renan-santos": 4.0,
+        "ronaldo-caiado": 3.0,
+        "romeu-zema": 1.0
+      },
+      "nonCandidate": {}
+    },
+    {
+      "date": "2026-10-01",
+      "institute": "Datafolha",
+      "sample": 2506,
+      "method": "Presencial (Ponto de fluxo)",
+      "registration": "BR-08039/2026",
+      "verifiedTse": false,
+      "round": "1º turno",
+      "candidates": {
+        "lula": 42.0,
+        "flavio-bolsonaro": 38.0,
+        "augusto-cury": 4.0,
+        "renan-santos": 3.0,
+        "ronaldo-caiado": 3.0,
+        "romeu-zema": 1.0
+      },
+      "nonCandidate": {}
+    },
+    {
+      "date": "2026-10-01",
+      "institute": "Vox Brasil",
+      "sample": 2100,
+      "method": "Presencial (Domiciliar)",
+      "registration": "BR-00148/2026",
+      "verifiedTse": false,
+      "round": "1º turno",
+      "candidates": {
+        "lula": 40.4,
+        "flavio-bolsonaro": 41.2,
+        "augusto-cury": 1.2,
+        "renan-santos": 2.2,
+        "ronaldo-caiado": 3.3,
+        "romeu-zema": 1.3
       },
       "nonCandidate": {}
     }
@@ -4579,6 +4651,48 @@
       "candidates": {
         "flavio-bolsonaro": 42.0,
         "lula": 43.0
+      },
+      "nonCandidate": {}
+    },
+    {
+      "date": "2026-09-30",
+      "institute": "Real Time Big Data",
+      "sample": 2000,
+      "method": "Presencial (Domiciliar)",
+      "registration": "BR-09503/2026",
+      "verifiedTse": false,
+      "round": "2º turno 1",
+      "candidates": {
+        "flavio-bolsonaro": 46.0,
+        "lula": 45.0
+      },
+      "nonCandidate": {}
+    },
+    {
+      "date": "2026-10-01",
+      "institute": "Datafolha",
+      "sample": 2506,
+      "method": "Presencial (Ponto de fluxo)",
+      "registration": "BR-08039/2026",
+      "verifiedTse": false,
+      "round": "2º turno 1",
+      "candidates": {
+        "flavio-bolsonaro": 45.0,
+        "lula": 48.0
+      },
+      "nonCandidate": {}
+    },
+    {
+      "date": "2026-10-01",
+      "institute": "Vox Brasil",
+      "sample": 2100,
+      "method": "Presencial (Domiciliar)",
+      "registration": "BR-00148/2026",
+      "verifiedTse": false,
+      "round": "2º turno 1",
+      "candidates": {
+        "flavio-bolsonaro": 48.2,
+        "lula": 45.2
       },
       "nonCandidate": {}
     }
