@@ -1,15 +1,15 @@
 {
   "schemaVersion": 16,
-  "generatedAt": "2026-10-01T20:39:55.684280Z",
+  "generatedAt": "2026-10-02T00:12:42.671813Z",
   "electionDate": "2026-10-04",
-  "daysToElection": 3,
+  "daysToElection": 2,
   "quality": {
-    "pollCount": 43,
+    "pollCount": 41,
     "instituteCount": 16,
     "methodCount": 5,
-    "registrationCount": 43,
+    "registrationCount": 41,
     "verifiedTseCount": 0,
-    "averageAgeDays": 14.6,
+    "averageAgeDays": 14.9,
     "effectivePolls": 24.9,
     "confidence": "moderada"
   },
@@ -19,7 +19,7 @@
       "label": "BBC / PollingData",
       "type": "base de pesquisas individuais",
       "status": "ok",
-      "updatedAt": "2026-10-01T20:39:58.394581Z",
+      "updatedAt": "2026-10-02T00:12:44.844025Z",
       "url": "https://news.files.bbci.co.uk/include/vjamericas/1561-poll-tracker-brazil-2026/table/portuguese/app/amp",
       "tablesFound": 2
     },
@@ -28,7 +28,7 @@
       "label": "TSE · PesqEle",
       "type": "cadastro oficial de pesquisas",
       "status": "ok",
-      "updatedAt": "2026-10-01T20:39:56.569740Z",
+      "updatedAt": "2026-10-02T00:12:43.476469Z",
       "url": "https://dadosabertos.tse.jus.br/dataset/pesquisas-eleitorais-2026",
       "recordsFound": 7
     },
@@ -46,7 +46,7 @@
       "label": "ElectioLab",
       "type": "agregador de conferência · sem peso",
       "status": "ok",
-      "updatedAt": "2026-10-01T20:39:58.887478Z",
+      "updatedAt": "2026-10-02T00:12:45.628700Z",
       "url": "https://electiolab.com/pesquisas-presidenciais-2026",
       "pageFreshness": "29 de setembro de 2026"
     },
@@ -64,7 +64,7 @@
       "label": "Polymarket",
       "type": "mercado de previsão · sinal externo",
       "status": "ok",
-      "updatedAt": "2026-10-01T20:39:58.472377Z",
+      "updatedAt": "2026-10-02T00:12:44.878562Z",
       "url": "https://polymarket.com/event/brazil-presidential-election"
     }
   ],
@@ -72,38 +72,38 @@
     {
       "id": "augusto-cury",
       "name": "Augusto Cury",
-      "pollingSupport": 4.55,
-      "intervalLow": 2.95,
-      "intervalHigh": 6.15,
+      "pollingSupport": 4.54,
+      "intervalLow": 2.94,
+      "intervalHigh": 6.14,
       "modelIntervalLow": 3.68,
-      "modelIntervalHigh": 5.43,
-      "change": 0.0,
+      "modelIntervalHigh": 5.4,
+      "change": -0.01,
       "trend": "estável",
       "marketSignal": 0.05
     },
     {
       "id": "flavio-bolsonaro",
       "name": "Flávio Bolsonaro",
-      "pollingSupport": 38.2,
-      "intervalLow": 34.18,
-      "intervalHigh": 42.22,
-      "modelIntervalLow": 36.68,
-      "modelIntervalHigh": 39.71,
-      "change": -0.0,
+      "pollingSupport": 38.21,
+      "intervalLow": 34.19,
+      "intervalHigh": 42.23,
+      "modelIntervalLow": 36.7,
+      "modelIntervalHigh": 39.72,
+      "change": 0.01,
       "trend": "estável",
-      "marketSignal": 61.75
+      "marketSignal": 60.45
     },
     {
       "id": "lula",
       "name": "Lula",
-      "pollingSupport": 40.7,
-      "intervalLow": 36.68,
-      "intervalHigh": 44.72,
-      "modelIntervalLow": 39.68,
-      "modelIntervalHigh": 41.71,
-      "change": -0.0,
+      "pollingSupport": 40.68,
+      "intervalLow": 36.66,
+      "intervalHigh": 44.7,
+      "modelIntervalLow": 39.66,
+      "modelIntervalHigh": 41.69,
+      "change": -0.02,
       "trend": "estável",
-      "marketSignal": 37.5
+      "marketSignal": 39.5
     },
     {
       "id": "pablo-marcal",
@@ -113,19 +113,19 @@
       "intervalHigh": 3.2,
       "modelIntervalLow": 1.0,
       "modelIntervalHigh": 2.2,
-      "change": 0.0,
+      "change": -0.0,
       "trend": "estável",
       "marketSignal": 0.05
     },
     {
       "id": "renan-santos",
       "name": "Renan Santos",
-      "pollingSupport": 4.34,
-      "intervalLow": 2.74,
-      "intervalHigh": 5.94,
-      "modelIntervalLow": 3.5,
-      "modelIntervalHigh": 5.19,
-      "change": 0.0,
+      "pollingSupport": 4.33,
+      "intervalLow": 2.73,
+      "intervalHigh": 5.93,
+      "modelIntervalLow": 3.49,
+      "modelIntervalHigh": 5.17,
+      "change": -0.01,
       "trend": "estável",
       "marketSignal": 0.25
     },
@@ -144,12 +144,12 @@
     {
       "id": "ronaldo-caiado",
       "name": "Ronaldo Caiado",
-      "pollingSupport": 3.14,
-      "intervalLow": 1.54,
-      "intervalHigh": 4.74,
-      "modelIntervalLow": 2.54,
-      "modelIntervalHigh": 3.74,
-      "change": -0.0,
+      "pollingSupport": 3.16,
+      "intervalLow": 1.56,
+      "intervalHigh": 4.76,
+      "modelIntervalLow": 2.56,
+      "modelIntervalHigh": 3.76,
+      "change": 0.02,
       "trend": "estável",
       "marketSignal": 0.05
     }
@@ -162,35 +162,35 @@
         {
           "id": "flavio-bolsonaro",
           "name": "Flávio Bolsonaro",
-          "support": 45.82,
-          "intervalLow": 44.77,
-          "intervalHigh": 46.86,
-          "modelIntervalLow": 44.77,
-          "modelIntervalHigh": 46.86
+          "support": 45.83,
+          "intervalLow": 44.78,
+          "intervalHigh": 46.88,
+          "modelIntervalLow": 44.78,
+          "modelIntervalHigh": 46.88
         },
         {
           "id": "lula",
           "name": "Lula",
-          "support": 44.8,
-          "intervalLow": 43.94,
-          "intervalHigh": 45.66,
-          "modelIntervalLow": 43.94,
-          "modelIntervalHigh": 45.66
+          "support": 44.77,
+          "intervalLow": 43.9,
+          "intervalHigh": 45.63,
+          "modelIntervalLow": 43.9,
+          "modelIntervalHigh": 45.63
         }
       ],
-      "pollCount": 43,
+      "pollCount": 41,
       "instituteCount": 16,
       "responseComposition": {
         "available": true,
-        "candidateShare": 90.61,
+        "candidateShare": 90.6,
         "categories": {},
-        "residualUnclassified": 9.39,
-        "pollCount": 43,
+        "residualUnclassified": 9.4,
+        "pollCount": 41,
         "note": "Categorias não candidatas são agregadas apenas quando a fonte as identifica. Residual não classificado não é tratado como indecisão."
       },
       "pairNormalized": {
-        "flavio-bolsonaro": 50.56,
-        "lula": 49.44
+        "flavio-bolsonaro": 50.58,
+        "lula": 49.42
       },
       "uncertainty": {
         "status": "ok",
@@ -203,13 +203,13 @@
           "status": "ok",
           "methodCount": 3,
           "effectiveMethodCount": 2.88,
-          "maxWeightShare": 0.4216,
-          "concentrationHhi": 0.3468,
+          "maxWeightShare": 0.4237,
+          "concentrationHhi": 0.3476,
           "concentration": "diversificada",
           "shares": {
-            "online": 0.2596,
-            "presencial": 0.3188,
-            "telefonica": 0.4216
+            "online": 0.2566,
+            "presencial": 0.3197,
+            "telefonica": 0.4237
           },
           "note": "Concentração metodológica usa os pesos efetivos da janela corrente. Ela descreve composição da base e não classifica um método como melhor ou pior."
         },
@@ -223,57 +223,57 @@
         "supportBandCalibration": {},
         "candidates": {
           "flavio-bolsonaro": {
-            "support": 45.82,
-            "modelLow": 44.77,
-            "modelHigh": 46.86,
-            "bootstrapP10": 45.45,
-            "bootstrapP50": 45.93,
-            "bootstrapP90": 46.42,
-            "instituteBootstrapP10": 44.96,
-            "instituteBootstrapP50": 45.85,
-            "instituteBootstrapP90": 46.57,
-            "instituteBootstrapHalfWidth": 0.86,
+            "support": 45.83,
+            "modelLow": 44.78,
+            "modelHigh": 46.88,
+            "bootstrapP10": 45.36,
+            "bootstrapP50": 45.87,
+            "bootstrapP90": 46.39,
+            "instituteBootstrapP10": 44.9,
+            "instituteBootstrapP50": 45.83,
+            "instituteBootstrapP90": 46.67,
+            "instituteBootstrapHalfWidth": 0.93,
             "methodBootstrapP10": 45.21,
-            "methodBootstrapP50": 45.82,
-            "methodBootstrapP90": 46.5,
-            "methodBootstrapHalfWidth": 0.68,
-            "parameterStressLow": 45.74,
-            "parameterStressHigh": 45.89,
+            "methodBootstrapP50": 45.83,
+            "methodBootstrapP90": 46.53,
+            "methodBootstrapHalfWidth": 0.7,
+            "parameterStressLow": 45.75,
+            "parameterStressHigh": 45.9,
             "parameterStressHalfWidth": 0.08,
             "dominantComponent": "analytical",
             "empiricalErrorQ80": null,
             "empiricalSupportBand": "high",
             "empiricalSupportBandCount": 0,
             "empiricalSupportBandUsed": false,
-            "advancedLow": 44.77,
-            "advancedHigh": 46.86,
-            "advancedHalfWidth": 1.04
+            "advancedLow": 44.78,
+            "advancedHigh": 46.88,
+            "advancedHalfWidth": 1.05
           },
           "lula": {
-            "support": 44.8,
-            "modelLow": 43.94,
-            "modelHigh": 45.66,
-            "bootstrapP10": 44.43,
-            "bootstrapP50": 44.83,
+            "support": 44.77,
+            "modelLow": 43.9,
+            "modelHigh": 45.63,
+            "bootstrapP10": 44.37,
+            "bootstrapP50": 44.8,
             "bootstrapP90": 45.19,
-            "instituteBootstrapP10": 44.1,
-            "instituteBootstrapP50": 44.76,
-            "instituteBootstrapP90": 45.54,
-            "instituteBootstrapHalfWidth": 0.74,
-            "methodBootstrapP10": 44.29,
-            "methodBootstrapP50": 44.8,
-            "methodBootstrapP90": 45.37,
-            "methodBootstrapHalfWidth": 0.57,
-            "parameterStressLow": 44.74,
-            "parameterStressHigh": 44.86,
-            "parameterStressHalfWidth": 0.06,
+            "instituteBootstrapP10": 44.05,
+            "instituteBootstrapP50": 44.79,
+            "instituteBootstrapP90": 45.42,
+            "instituteBootstrapHalfWidth": 0.72,
+            "methodBootstrapP10": 44.25,
+            "methodBootstrapP50": 44.77,
+            "methodBootstrapP90": 45.36,
+            "methodBootstrapHalfWidth": 0.59,
+            "parameterStressLow": 44.72,
+            "parameterStressHigh": 44.82,
+            "parameterStressHalfWidth": 0.05,
             "dominantComponent": "analytical",
             "empiricalErrorQ80": null,
             "empiricalSupportBand": "high",
             "empiricalSupportBandCount": 0,
             "empiricalSupportBandUsed": false,
-            "advancedLow": 43.94,
-            "advancedHigh": 45.66,
+            "advancedLow": 43.9,
+            "advancedHigh": 45.63,
             "advancedHalfWidth": 0.86
           }
         },
@@ -284,54 +284,54 @@
   ],
   "responseComposition": {
     "available": true,
-    "candidateShare": 92.28,
+    "candidateShare": 92.25,
     "categories": {},
-    "residualUnclassified": 7.72,
-    "pollCount": 43,
+    "residualUnclassified": 7.75,
+    "pollCount": 41,
     "note": "Categorias não candidatas são agregadas apenas quando a fonte as identifica. Residual não classificado não é tratado como indecisão."
   },
   "sensitivity": {
     "status": "ok",
-    "pollCount": 43,
-    "maxLeaveOneOutShift": 0.33,
+    "pollCount": 41,
+    "maxLeaveOneOutShift": 0.32,
     "stability": "alta",
     "candidates": {
       "augusto-cury": {
-        "baseline": 4.55,
-        "leaveOneOutLow": 4.43,
-        "leaveOneOutHigh": 4.76,
-        "maxLeaveOneOutShift": 0.21,
-        "support14Days": 4.12,
-        "difference14Vs30": -0.43
+        "baseline": 4.54,
+        "leaveOneOutLow": 4.42,
+        "leaveOneOutHigh": 4.74,
+        "maxLeaveOneOutShift": 0.2,
+        "support14Days": 4.07,
+        "difference14Vs30": -0.46
       },
       "flavio-bolsonaro": {
-        "baseline": 38.2,
-        "leaveOneOutLow": 37.87,
-        "leaveOneOutHigh": 38.5,
-        "maxLeaveOneOutShift": 0.33,
-        "support14Days": 38.8,
-        "difference14Vs30": 0.61
+        "baseline": 38.21,
+        "leaveOneOutLow": 37.89,
+        "leaveOneOutHigh": 38.51,
+        "maxLeaveOneOutShift": 0.32,
+        "support14Days": 38.87,
+        "difference14Vs30": 0.66
       },
       "lula": {
-        "baseline": 40.7,
-        "leaveOneOutLow": 40.44,
-        "leaveOneOutHigh": 40.79,
+        "baseline": 40.68,
+        "leaveOneOutLow": 40.42,
+        "leaveOneOutHigh": 40.77,
         "maxLeaveOneOutShift": 0.26,
-        "support14Days": 41.04,
-        "difference14Vs30": 0.34
+        "support14Days": 41.07,
+        "difference14Vs30": 0.39
       },
       "pablo-marcal": {
         "baseline": 1.6,
-        "leaveOneOutLow": 1.56,
+        "leaveOneOutLow": 1.55,
         "leaveOneOutHigh": 1.67,
         "maxLeaveOneOutShift": 0.07,
-        "support14Days": 1.9,
-        "difference14Vs30": 0.3
+        "support14Days": null,
+        "difference14Vs30": null
       },
       "renan-santos": {
-        "baseline": 4.34,
-        "leaveOneOutLow": 4.16,
-        "leaveOneOutHigh": 4.49,
+        "baseline": 4.33,
+        "leaveOneOutLow": 4.15,
+        "leaveOneOutHigh": 4.48,
         "maxLeaveOneOutShift": 0.18,
         "support14Days": 4.33,
         "difference14Vs30": -0.01
@@ -341,71 +341,27 @@
         "leaveOneOutLow": 1.13,
         "leaveOneOutHigh": 1.31,
         "maxLeaveOneOutShift": 0.13,
-        "support14Days": 1.28,
-        "difference14Vs30": 0.02
+        "support14Days": 1.27,
+        "difference14Vs30": 0.01
       },
       "ronaldo-caiado": {
-        "baseline": 3.14,
-        "leaveOneOutLow": 3.03,
-        "leaveOneOutHigh": 3.25,
+        "baseline": 3.16,
+        "leaveOneOutLow": 3.05,
+        "leaveOneOutHigh": 3.27,
         "maxLeaveOneOutShift": 0.12,
         "support14Days": 3.19,
-        "difference14Vs30": 0.05
+        "difference14Vs30": 0.03
       }
     },
     "note": "Teste de robustez: mede a mudança do agregado ao retirar uma pesquisa por vez e ao comparar janelas de 14 e 30 dias. Não é previsão de resultado."
   },
   "influence": {
     "status": "ok",
-    "pollCount": 43,
+    "pollCount": 41,
     "instituteCount": 16,
     "peerWindowDays": 10,
-    "atypicalThreshold": 2.48,
+    "atypicalThreshold": 2.53,
     "polls": [
-      {
-        "date": "2026-09-01",
-        "institute": "Futura",
-        "sample": 2000,
-        "method": "Telefonica (CATI)",
-        "registration": "BR-02793/2026",
-        "verifiedTse": false,
-        "maxAbsoluteShift": 0.03,
-        "meanAbsoluteShift": 0.01,
-        "candidateShifts": {
-          "augusto-cury": -0.01,
-          "flavio-bolsonaro": 0.03,
-          "lula": -0.01,
-          "pablo-marcal": -0.01,
-          "renan-santos": -0.01,
-          "romeu-zema": -0.0,
-          "ronaldo-caiado": 0.01
-        },
-        "peerComparisonCount": 7,
-        "meanPeerDeviation": 0.93,
-        "atypicalSignal": false
-      },
-      {
-        "date": "2026-09-01",
-        "institute": "Quaest",
-        "sample": 2004,
-        "method": "Presencial (Domiciliar)",
-        "registration": "BR-07065/2026",
-        "verifiedTse": false,
-        "maxAbsoluteShift": 0.02,
-        "meanAbsoluteShift": 0.01,
-        "candidateShifts": {
-          "augusto-cury": -0.01,
-          "flavio-bolsonaro": -0.02,
-          "lula": -0.01,
-          "pablo-marcal": 0.01,
-          "renan-santos": -0.0,
-          "romeu-zema": -0.0,
-          "ronaldo-caiado": 0.01
-        },
-        "peerComparisonCount": 7,
-        "meanPeerDeviation": 1.77,
-        "atypicalSignal": false
-      },
       {
         "date": "2026-09-02",
         "institute": "PoderData",
@@ -425,7 +381,7 @@
           "ronaldo-caiado": -0.0
         },
         "peerComparisonCount": 7,
-        "meanPeerDeviation": 0.9,
+        "meanPeerDeviation": 1.26,
         "atypicalSignal": false
       },
       {
@@ -447,7 +403,7 @@
           "ronaldo-caiado": 0.0
         },
         "peerComparisonCount": 7,
-        "meanPeerDeviation": 1.16,
+        "meanPeerDeviation": 1.25,
         "atypicalSignal": false
       },
       {
@@ -469,7 +425,7 @@
           "ronaldo-caiado": 0.01
         },
         "peerComparisonCount": 7,
-        "meanPeerDeviation": 1.79,
+        "meanPeerDeviation": 1.84,
         "atypicalSignal": false
       },
       {
@@ -480,18 +436,18 @@
         "registration": "BR-01720/2026",
         "verifiedTse": false,
         "maxAbsoluteShift": 0.02,
-        "meanAbsoluteShift": 0.0,
+        "meanAbsoluteShift": 0.01,
         "candidateShifts": {
           "augusto-cury": -0.01,
-          "flavio-bolsonaro": 0.0,
-          "lula": -0.0,
+          "flavio-bolsonaro": -0.01,
+          "lula": -0.01,
           "pablo-marcal": 0.02,
           "renan-santos": -0.0,
-          "romeu-zema": -0.0,
-          "ronaldo-caiado": 0.0
+          "romeu-zema": -0.01,
+          "ronaldo-caiado": 0.01
         },
         "peerComparisonCount": 7,
-        "meanPeerDeviation": 1.98,
+        "meanPeerDeviation": 2.02,
         "atypicalSignal": false
       },
       {
@@ -513,7 +469,7 @@
           "ronaldo-caiado": 0.02
         },
         "peerComparisonCount": 7,
-        "meanPeerDeviation": 0.74,
+        "meanPeerDeviation": 0.71,
         "atypicalSignal": false
       },
       {
@@ -535,7 +491,7 @@
           "ronaldo-caiado": 0.01
         },
         "peerComparisonCount": 7,
-        "meanPeerDeviation": 1.12,
+        "meanPeerDeviation": 1.18,
         "atypicalSignal": false
       },
       {
@@ -557,7 +513,7 @@
           "ronaldo-caiado": -0.01
         },
         "peerComparisonCount": 7,
-        "meanPeerDeviation": 1.55,
+        "meanPeerDeviation": 1.53,
         "atypicalSignal": false
       },
       {
@@ -579,7 +535,7 @@
           "ronaldo-caiado": -0.02
         },
         "peerComparisonCount": 7,
-        "meanPeerDeviation": 2.89,
+        "meanPeerDeviation": 2.85,
         "atypicalSignal": true
       },
       {
@@ -601,7 +557,7 @@
           "ronaldo-caiado": -0.01
         },
         "peerComparisonCount": 7,
-        "meanPeerDeviation": 1.95,
+        "meanPeerDeviation": 1.91,
         "atypicalSignal": false
       },
       {
@@ -611,19 +567,19 @@
         "method": "Telefonica (CATI)",
         "registration": "BR-02322/2026",
         "verifiedTse": false,
-        "maxAbsoluteShift": 0.05,
-        "meanAbsoluteShift": 0.01,
+        "maxAbsoluteShift": 0.06,
+        "meanAbsoluteShift": 0.02,
         "candidateShifts": {
           "augusto-cury": -0.01,
-          "flavio-bolsonaro": 0.05,
+          "flavio-bolsonaro": 0.06,
           "lula": -0.01,
           "pablo-marcal": -0.02,
-          "renan-santos": -0.01,
+          "renan-santos": -0.02,
           "romeu-zema": 0.0,
           "ronaldo-caiado": 0.01
         },
         "peerComparisonCount": 7,
-        "meanPeerDeviation": 0.91,
+        "meanPeerDeviation": 0.92,
         "atypicalSignal": false
       },
       {
@@ -645,7 +601,7 @@
           "ronaldo-caiado": 0.0
         },
         "peerComparisonCount": 7,
-        "meanPeerDeviation": 1.21,
+        "meanPeerDeviation": 1.23,
         "atypicalSignal": false
       },
       {
@@ -660,14 +616,14 @@
         "candidateShifts": {
           "augusto-cury": 0.0,
           "flavio-bolsonaro": 0.02,
-          "lula": 0.01,
+          "lula": 0.0,
           "pablo-marcal": -0.02,
           "renan-santos": 0.0,
           "romeu-zema": -0.0,
           "ronaldo-caiado": -0.0
         },
         "peerComparisonCount": 7,
-        "meanPeerDeviation": 1.2,
+        "meanPeerDeviation": 1.21,
         "atypicalSignal": false
       },
       {
@@ -750,7 +706,7 @@
           "flavio-bolsonaro": 0.02,
           "lula": 0.02,
           "pablo-marcal": -0.0,
-          "renan-santos": -0.0,
+          "renan-santos": -0.01,
           "romeu-zema": 0.0,
           "ronaldo-caiado": -0.0
         },
@@ -840,7 +796,7 @@
           "pablo-marcal": 0.07,
           "renan-santos": 0.01,
           "romeu-zema": 0.0,
-          "ronaldo-caiado": -0.01
+          "ronaldo-caiado": -0.0
         },
         "peerComparisonCount": 7,
         "meanPeerDeviation": 1.3,
@@ -875,13 +831,13 @@
         "method": "Telefonica (CATI)",
         "registration": "BR-00749/2026",
         "verifiedTse": false,
-        "maxAbsoluteShift": 0.03,
-        "meanAbsoluteShift": 0.01,
+        "maxAbsoluteShift": 0.04,
+        "meanAbsoluteShift": 0.02,
         "candidateShifts": {
           "augusto-cury": -0.02,
-          "flavio-bolsonaro": 0.03,
+          "flavio-bolsonaro": 0.04,
           "lula": 0.01,
-          "pablo-marcal": -0.02,
+          "pablo-marcal": -0.03,
           "renan-santos": -0.0,
           "romeu-zema": 0.0,
           "ronaldo-caiado": -0.0
@@ -946,11 +902,11 @@
         "candidateShifts": {
           "augusto-cury": -0.02,
           "flavio-bolsonaro": 0.05,
-          "lula": 0.04,
+          "lula": 0.05,
           "pablo-marcal": -0.0,
           "renan-santos": -0.01,
           "romeu-zema": -0.0,
-          "ronaldo-caiado": 0.0
+          "ronaldo-caiado": 0.01
         },
         "peerComparisonCount": 3,
         "meanPeerDeviation": 3.77,
@@ -1029,14 +985,14 @@
         "method": "Telefonica (IVR)",
         "registration": "BR-01739/2026",
         "verifiedTse": false,
-        "maxAbsoluteShift": 0.04,
+        "maxAbsoluteShift": 0.03,
         "meanAbsoluteShift": 0.02,
         "candidateShifts": {
           "augusto-cury": -0.03,
           "flavio-bolsonaro": -0.03,
           "lula": -0.02,
           "pablo-marcal": -0.0,
-          "renan-santos": 0.04,
+          "renan-santos": 0.03,
           "romeu-zema": 0.01,
           "ronaldo-caiado": 0.03
         },
@@ -1098,9 +1054,9 @@
         "maxAbsoluteShift": 0.06,
         "meanAbsoluteShift": 0.03,
         "candidateShifts": {
-          "augusto-cury": -0.02,
+          "augusto-cury": -0.03,
           "flavio-bolsonaro": -0.04,
-          "lula": 0.04,
+          "lula": 0.05,
           "pablo-marcal": 0.01,
           "renan-santos": 0.04,
           "romeu-zema": 0.01,
@@ -1117,11 +1073,11 @@
         "method": "Presencial (Domiciliar)",
         "registration": "BR-03929/2026",
         "verifiedTse": false,
-        "maxAbsoluteShift": 0.16,
-        "meanAbsoluteShift": 0.04,
+        "maxAbsoluteShift": 0.15,
+        "meanAbsoluteShift": 0.03,
         "candidateShifts": {
           "augusto-cury": -0.01,
-          "flavio-bolsonaro": -0.16,
+          "flavio-bolsonaro": -0.15,
           "lula": 0.01,
           "pablo-marcal": -0.01,
           "renan-santos": 0.05,
@@ -1161,14 +1117,14 @@
         "method": "Presencial (Domiciliar)",
         "registration": "BR-06520/2026",
         "verifiedTse": false,
-        "maxAbsoluteShift": 0.11,
+        "maxAbsoluteShift": 0.12,
         "meanAbsoluteShift": 0.04,
         "candidateShifts": {
           "augusto-cury": 0.03,
-          "flavio-bolsonaro": 0.11,
+          "flavio-bolsonaro": 0.12,
           "lula": 0.04,
           "pablo-marcal": -0.0,
-          "renan-santos": 0.04,
+          "renan-santos": 0.05,
           "romeu-zema": 0.01,
           "ronaldo-caiado": -0.03
         },
@@ -1227,11 +1183,11 @@
         "method": "Online",
         "registration": "BR-02990/2026",
         "verifiedTse": false,
-        "maxAbsoluteShift": 0.33,
+        "maxAbsoluteShift": 0.32,
         "meanAbsoluteShift": 0.15,
         "candidateShifts": {
           "augusto-cury": 0.2,
-          "flavio-bolsonaro": -0.33,
+          "flavio-bolsonaro": -0.32,
           "lula": -0.2,
           "pablo-marcal": -0.01,
           "renan-santos": -0.18,
@@ -1249,14 +1205,14 @@
         "method": "Presencial (Domiciliar)",
         "registration": "BR-00895/2026",
         "verifiedTse": false,
-        "maxAbsoluteShift": 0.21,
-        "meanAbsoluteShift": 0.08,
+        "maxAbsoluteShift": 0.2,
+        "meanAbsoluteShift": 0.07,
         "candidateShifts": {
-          "augusto-cury": 0.21,
-          "flavio-bolsonaro": 0.03,
-          "lula": -0.03,
+          "augusto-cury": 0.2,
+          "flavio-bolsonaro": 0.04,
+          "lula": -0.04,
           "pablo-marcal": 0.0,
-          "renan-santos": 0.15,
+          "renan-santos": 0.14,
           "romeu-zema": -0.05,
           "ronaldo-caiado": -0.06
         },
@@ -1271,11 +1227,11 @@
         "method": "Telefonica (CATI)",
         "registration": "BR-01122/2026",
         "verifiedTse": false,
-        "maxAbsoluteShift": 0.16,
+        "maxAbsoluteShift": 0.17,
         "meanAbsoluteShift": 0.05,
         "candidateShifts": {
           "augusto-cury": 0.04,
-          "flavio-bolsonaro": -0.16,
+          "flavio-bolsonaro": -0.17,
           "lula": 0.04,
           "pablo-marcal": 0.01,
           "renan-santos": 0.04,
@@ -1298,7 +1254,7 @@
         "candidateShifts": {
           "augusto-cury": 0.04,
           "flavio-bolsonaro": 0.25,
-          "lula": 0.1,
+          "lula": 0.09,
           "pablo-marcal": 0.0,
           "renan-santos": 0.08,
           "romeu-zema": 0.02,
@@ -1328,12 +1284,12 @@
       {
         "institute": "AtlasIntel",
         "pollCount": 4,
-        "maxAbsoluteShift": 0.62,
+        "maxAbsoluteShift": 0.61,
         "meanAbsoluteShift": 0.26,
         "candidateShifts": {
-          "augusto-cury": 0.28,
-          "flavio-bolsonaro": -0.55,
-          "lula": -0.62,
+          "augusto-cury": 0.27,
+          "flavio-bolsonaro": -0.54,
+          "lula": -0.61,
           "pablo-marcal": 0.04,
           "renan-santos": -0.11,
           "romeu-zema": 0.03,
@@ -1352,7 +1308,7 @@
           "pablo-marcal": -0.03,
           "renan-santos": 0.07,
           "romeu-zema": -0.01,
-          "ronaldo-caiado": -0.05
+          "ronaldo-caiado": -0.04
         }
       },
       {
@@ -1372,17 +1328,17 @@
       },
       {
         "institute": "Futura",
-        "pollCount": 5,
-        "maxAbsoluteShift": 0.18,
-        "meanAbsoluteShift": 0.1,
+        "pollCount": 4,
+        "maxAbsoluteShift": 0.21,
+        "meanAbsoluteShift": 0.11,
         "candidateShifts": {
           "augusto-cury": -0.04,
-          "flavio-bolsonaro": -0.18,
-          "lula": 0.16,
-          "pablo-marcal": -0.08,
+          "flavio-bolsonaro": -0.21,
+          "lula": 0.17,
+          "pablo-marcal": -0.06,
           "renan-santos": 0.12,
           "romeu-zema": 0.0,
-          "ronaldo-caiado": -0.13
+          "ronaldo-caiado": -0.14
         }
       },
       {
@@ -1397,7 +1353,7 @@
           "pablo-marcal": 0.05,
           "renan-santos": 0.1,
           "romeu-zema": 0.02,
-          "ronaldo-caiado": -0.01
+          "ronaldo-caiado": -0.0
         }
       },
       {
@@ -1411,7 +1367,7 @@
           "lula": 0.09,
           "pablo-marcal": 0.0,
           "renan-santos": -0.01,
-          "romeu-zema": -0.14,
+          "romeu-zema": -0.13,
           "ronaldo-caiado": -0.08
         }
       },
@@ -1423,7 +1379,7 @@
         "candidateShifts": {
           "augusto-cury": 0.02,
           "flavio-bolsonaro": 0.33,
-          "lula": 0.15,
+          "lula": 0.14,
           "pablo-marcal": 0.0,
           "renan-santos": 0.11,
           "romeu-zema": 0.02,
@@ -1463,11 +1419,11 @@
       {
         "institute": "Palver",
         "pollCount": 4,
-        "maxAbsoluteShift": 0.76,
+        "maxAbsoluteShift": 0.75,
         "meanAbsoluteShift": 0.38,
         "candidateShifts": {
-          "augusto-cury": 0.45,
-          "flavio-bolsonaro": -0.76,
+          "augusto-cury": 0.44,
+          "flavio-bolsonaro": -0.75,
           "lula": -0.34,
           "pablo-marcal": 0.04,
           "renan-santos": -0.71,
@@ -1486,23 +1442,23 @@
           "lula": 0.08,
           "pablo-marcal": 0.04,
           "renan-santos": 0.08,
-          "romeu-zema": 0.02,
+          "romeu-zema": 0.01,
           "ronaldo-caiado": 0.05
         }
       },
       {
         "institute": "Quaest",
-        "pollCount": 5,
-        "maxAbsoluteShift": 0.35,
+        "pollCount": 4,
+        "maxAbsoluteShift": 0.36,
         "meanAbsoluteShift": 0.1,
         "candidateShifts": {
           "augusto-cury": -0.05,
-          "flavio-bolsonaro": 0.35,
-          "lula": 0.19,
-          "pablo-marcal": 0.03,
+          "flavio-bolsonaro": 0.36,
+          "lula": 0.2,
+          "pablo-marcal": 0.02,
           "renan-santos": 0.06,
           "romeu-zema": 0.01,
-          "ronaldo-caiado": -0.03
+          "ronaldo-caiado": -0.04
         }
       },
       {
@@ -1538,14 +1494,14 @@
       {
         "institute": "Vox Brasil",
         "pollCount": 1,
-        "maxAbsoluteShift": 0.21,
-        "meanAbsoluteShift": 0.08,
+        "maxAbsoluteShift": 0.2,
+        "meanAbsoluteShift": 0.07,
         "candidateShifts": {
-          "augusto-cury": 0.21,
-          "flavio-bolsonaro": 0.03,
-          "lula": -0.03,
+          "augusto-cury": 0.2,
+          "flavio-bolsonaro": 0.04,
+          "lula": -0.04,
           "pablo-marcal": 0.0,
-          "renan-santos": 0.15,
+          "renan-santos": 0.14,
           "romeu-zema": -0.05,
           "ronaldo-caiado": -0.06
         }
@@ -1556,24 +1512,24 @@
   },
   "temporalCoverage": {
     "status": "ok",
-    "latestAgeDays": 2,
-    "weightedMedianAgeDays": 7.0,
-    "weightedP80AgeDays": 14.0,
-    "recent7WeightShare": 0.5171,
-    "recent14WeightShare": 0.8064,
-    "distinctPollDates": 21,
+    "latestAgeDays": 3,
+    "weightedMedianAgeDays": 8.0,
+    "weightedP80AgeDays": 15.0,
+    "recent7WeightShare": 0.4702,
+    "recent14WeightShare": 0.7855,
+    "distinctPollDates": 20,
     "activeDaysLast14": 8,
-    "effectiveDateCount": 7.93,
-    "maxDateWeightShare": 0.2596,
-    "coverageSpanDays": 28,
+    "effectiveDateCount": 7.98,
+    "maxDateWeightShare": 0.2566,
+    "coverageSpanDays": 27,
     "longestGapDays": 3,
-    "freshness": "fresca",
+    "freshness": "moderada",
     "temporalConcentration": "diversificada",
     "note": "Frescor e cobertura temporal usam os pesos efetivos da janela. O diagnóstico não altera automaticamente o decaimento temporal nem o agregado."
   },
   "scenarioCoverage": {
     "status": "ok",
-    "pollCount": 43,
+    "pollCount": 41,
     "coreThreshold": 0.8,
     "coreCandidates": [
       "augusto-cury",
@@ -1586,43 +1542,43 @@
     "candidates": {
       "augusto-cury": {
         "name": "Augusto Cury",
-        "pollCount": 43,
+        "pollCount": 41,
         "instituteCount": 16,
         "methodCount": 3,
         "weightShare": 1.0,
         "coreCandidate": true,
-        "baselineSupport": 4.55,
-        "harmonizedSupport": 4.53,
-        "difference": -0.02
+        "baselineSupport": 4.54,
+        "harmonizedSupport": 4.51,
+        "difference": -0.03
       },
       "flavio-bolsonaro": {
         "name": "Flávio Bolsonaro",
-        "pollCount": 43,
+        "pollCount": 41,
         "instituteCount": 16,
         "methodCount": 3,
         "weightShare": 1.0,
         "coreCandidate": true,
-        "baselineSupport": 38.2,
-        "harmonizedSupport": 38.28,
-        "difference": 0.08
+        "baselineSupport": 38.21,
+        "harmonizedSupport": 38.3,
+        "difference": 0.09
       },
       "lula": {
         "name": "Lula",
-        "pollCount": 43,
+        "pollCount": 41,
         "instituteCount": 16,
         "methodCount": 3,
         "weightShare": 1.0,
         "coreCandidate": true,
-        "baselineSupport": 40.7,
-        "harmonizedSupport": 40.76,
-        "difference": 0.06
+        "baselineSupport": 40.68,
+        "harmonizedSupport": 40.74,
+        "difference": 0.07
       },
       "pablo-marcal": {
         "name": "Pablo Marçal",
-        "pollCount": 19,
+        "pollCount": 17,
         "instituteCount": 11,
         "methodCount": 3,
-        "weightShare": 0.1471,
+        "weightShare": 0.1432,
         "coreCandidate": false,
         "baselineSupport": 1.6,
         "harmonizedSupport": null,
@@ -1630,21 +1586,21 @@
       },
       "renan-santos": {
         "name": "Renan Santos",
-        "pollCount": 42,
+        "pollCount": 40,
         "instituteCount": 16,
         "methodCount": 3,
-        "weightShare": 0.9842,
+        "weightShare": 0.9826,
         "coreCandidate": true,
-        "baselineSupport": 4.34,
-        "harmonizedSupport": 4.34,
+        "baselineSupport": 4.33,
+        "harmonizedSupport": 4.33,
         "difference": 0.0
       },
       "romeu-zema": {
         "name": "Romeu Zema",
-        "pollCount": 42,
+        "pollCount": 40,
         "instituteCount": 16,
         "methodCount": 3,
-        "weightShare": 0.9842,
+        "weightShare": 0.9826,
         "coreCandidate": true,
         "baselineSupport": 1.26,
         "harmonizedSupport": 1.26,
@@ -1652,13 +1608,13 @@
       },
       "ronaldo-caiado": {
         "name": "Ronaldo Caiado",
-        "pollCount": 42,
+        "pollCount": 40,
         "instituteCount": 16,
         "methodCount": 3,
-        "weightShare": 0.9842,
+        "weightShare": 0.9826,
         "coreCandidate": true,
-        "baselineSupport": 3.14,
-        "harmonizedSupport": 3.14,
+        "baselineSupport": 3.16,
+        "harmonizedSupport": 3.16,
         "difference": 0.0
       }
     },
@@ -1674,7 +1630,7 @@
           "ronaldo-caiado"
         ],
         "pollCount": 23,
-        "weightShare": 0.8371
+        "weightShare": 0.8394
       },
       {
         "candidateIds": [
@@ -1686,8 +1642,8 @@
           "romeu-zema",
           "ronaldo-caiado"
         ],
-        "pollCount": 19,
-        "weightShare": 0.1471
+        "pollCount": 17,
+        "weightShare": 0.1432
       },
       {
         "candidateIds": [
@@ -1696,23 +1652,23 @@
           "lula"
         ],
         "pollCount": 1,
-        "weightShare": 0.0158
+        "weightShare": 0.0174
       }
     ],
-    "dominantScenarioWeightShare": 0.8371,
-    "harmonizedPollCount": 42,
-    "harmonizedWeightShare": 0.9842,
-    "maxHarmonizedShift": 0.08,
+    "dominantScenarioWeightShare": 0.8394,
+    "harmonizedPollCount": 40,
+    "harmonizedWeightShare": 0.9826,
+    "maxHarmonizedShift": 0.09,
     "sensitivity": "baixa",
     "harmonizationApplied": false,
     "note": "Cobertura mede em que parcela do peso cada candidatura aparece. Ausência em um cenário não é tratada como 0%. A leitura harmonizada é apenas sombra e preserva os pesos originais das pesquisas selecionadas."
   },
   "weightAudit": {
     "status": "ok",
-    "pollCount": 43,
+    "pollCount": 41,
     "instituteCount": 16,
-    "effectivePolls": 24.85,
-    "totalRawWeight": 9.45473388,
+    "effectivePolls": 24.89,
+    "totalRawWeight": 8.65436882,
     "rows": [
       {
         "date": "2026-09-29",
@@ -1729,21 +1685,21 @@
           "romeu-zema",
           "ronaldo-caiado"
         ],
-        "ageDays": 2,
-        "recencyFactor": 0.818731,
+        "ageDays": 3,
+        "recencyFactor": 0.740818,
         "sampleFactor": 1.0,
         "institutePollCount": 2,
         "repeatPenalty": 0.707107,
         "verificationFactor": 1.0,
-        "rawWeight": 0.57893007,
-        "windowWeightShare": 0.061232,
+        "rawWeight": 0.52383759,
+        "windowWeightShare": 0.060529,
         "candidateWeightShares": {
-          "lula": 0.061232,
-          "flavio-bolsonaro": 0.061232,
-          "augusto-cury": 0.061232,
-          "renan-santos": 0.062212,
-          "ronaldo-caiado": 0.062212,
-          "romeu-zema": 0.062212
+          "lula": 0.060529,
+          "flavio-bolsonaro": 0.060529,
+          "augusto-cury": 0.060529,
+          "renan-santos": 0.061602,
+          "ronaldo-caiado": 0.061602,
+          "romeu-zema": 0.061602
         }
       },
       {
@@ -1761,21 +1717,21 @@
           "romeu-zema",
           "ronaldo-caiado"
         ],
-        "ageDays": 2,
-        "recencyFactor": 0.818731,
+        "ageDays": 3,
+        "recencyFactor": 0.740818,
         "sampleFactor": 1.0,
-        "institutePollCount": 5,
-        "repeatPenalty": 0.447214,
+        "institutePollCount": 4,
+        "repeatPenalty": 0.5,
         "verificationFactor": 1.0,
-        "rawWeight": 0.36614752,
-        "windowWeightShare": 0.038726,
+        "rawWeight": 0.37040911,
+        "windowWeightShare": 0.0428,
         "candidateWeightShares": {
-          "lula": 0.038726,
-          "flavio-bolsonaro": 0.038726,
-          "augusto-cury": 0.038726,
-          "renan-santos": 0.039346,
-          "ronaldo-caiado": 0.039346,
-          "romeu-zema": 0.039346
+          "lula": 0.0428,
+          "flavio-bolsonaro": 0.0428,
+          "augusto-cury": 0.0428,
+          "renan-santos": 0.043559,
+          "ronaldo-caiado": 0.043559,
+          "romeu-zema": 0.043559
         }
       },
       {
@@ -1793,21 +1749,21 @@
           "romeu-zema",
           "ronaldo-caiado"
         ],
-        "ageDays": 3,
-        "recencyFactor": 0.740818,
+        "ageDays": 4,
+        "recencyFactor": 0.67032,
         "sampleFactor": 1.024695,
         "institutePollCount": 1,
         "repeatPenalty": 1.0,
         "verificationFactor": 1.0,
-        "rawWeight": 0.75911278,
-        "windowWeightShare": 0.080289,
+        "rawWeight": 0.68687365,
+        "windowWeightShare": 0.079367,
         "candidateWeightShares": {
-          "lula": 0.080289,
-          "flavio-bolsonaro": 0.080289,
-          "augusto-cury": 0.080289,
-          "renan-santos": 0.081575,
-          "ronaldo-caiado": 0.081575,
-          "romeu-zema": 0.081575
+          "lula": 0.079367,
+          "flavio-bolsonaro": 0.079367,
+          "augusto-cury": 0.079367,
+          "renan-santos": 0.080774,
+          "ronaldo-caiado": 0.080774,
+          "romeu-zema": 0.080774
         }
       },
       {
@@ -1825,21 +1781,21 @@
           "romeu-zema",
           "ronaldo-caiado"
         ],
-        "ageDays": 3,
-        "recencyFactor": 0.740818,
+        "ageDays": 4,
+        "recencyFactor": 0.67032,
         "sampleFactor": 1.581139,
         "institutePollCount": 4,
         "repeatPenalty": 0.5,
         "verificationFactor": 1.0,
-        "rawWeight": 0.58566823,
-        "windowWeightShare": 0.061944,
+        "rawWeight": 0.52993453,
+        "windowWeightShare": 0.061233,
         "candidateWeightShares": {
-          "lula": 0.061944,
-          "flavio-bolsonaro": 0.061944,
-          "augusto-cury": 0.061944,
-          "renan-santos": 0.062936,
-          "ronaldo-caiado": 0.062936,
-          "romeu-zema": 0.062936
+          "lula": 0.061233,
+          "flavio-bolsonaro": 0.061233,
+          "augusto-cury": 0.061233,
+          "renan-santos": 0.062319,
+          "ronaldo-caiado": 0.062319,
+          "romeu-zema": 0.062319
         }
       },
       {
@@ -1857,21 +1813,21 @@
           "romeu-zema",
           "ronaldo-caiado"
         ],
-        "ageDays": 3,
-        "recencyFactor": 0.740818,
+        "ageDays": 4,
+        "recencyFactor": 0.67032,
         "sampleFactor": 1.0,
         "institutePollCount": 2,
         "repeatPenalty": 0.707107,
         "verificationFactor": 1.0,
-        "rawWeight": 0.52383759,
-        "windowWeightShare": 0.055405,
+        "rawWeight": 0.47398785,
+        "windowWeightShare": 0.054769,
         "candidateWeightShares": {
-          "lula": 0.055405,
-          "flavio-bolsonaro": 0.055405,
-          "augusto-cury": 0.055405,
-          "renan-santos": 0.056292,
-          "ronaldo-caiado": 0.056292,
-          "romeu-zema": 0.056292
+          "lula": 0.054769,
+          "flavio-bolsonaro": 0.054769,
+          "augusto-cury": 0.054769,
+          "renan-santos": 0.05574,
+          "ronaldo-caiado": 0.05574,
+          "romeu-zema": 0.05574
         }
       },
       {
@@ -1889,21 +1845,21 @@
           "romeu-zema",
           "ronaldo-caiado"
         ],
-        "ageDays": 3,
-        "recencyFactor": 0.740818,
+        "ageDays": 4,
+        "recencyFactor": 0.67032,
         "sampleFactor": 1.581139,
         "institutePollCount": 4,
         "repeatPenalty": 0.5,
         "verificationFactor": 1.0,
-        "rawWeight": 0.58566823,
-        "windowWeightShare": 0.061944,
+        "rawWeight": 0.52993453,
+        "windowWeightShare": 0.061233,
         "candidateWeightShares": {
-          "lula": 0.061944,
-          "flavio-bolsonaro": 0.061944,
-          "augusto-cury": 0.061944,
-          "renan-santos": 0.062936,
-          "ronaldo-caiado": 0.062936,
-          "romeu-zema": 0.062936
+          "lula": 0.061233,
+          "flavio-bolsonaro": 0.061233,
+          "augusto-cury": 0.061233,
+          "renan-santos": 0.062319,
+          "ronaldo-caiado": 0.062319,
+          "romeu-zema": 0.062319
         }
       },
       {
@@ -1921,21 +1877,21 @@
           "romeu-zema",
           "ronaldo-caiado"
         ],
-        "ageDays": 4,
-        "recencyFactor": 0.67032,
+        "ageDays": 5,
+        "recencyFactor": 0.606531,
         "sampleFactor": 1.001,
-        "institutePollCount": 5,
-        "repeatPenalty": 0.447214,
+        "institutePollCount": 4,
+        "repeatPenalty": 0.5,
         "verificationFactor": 1.0,
-        "rawWeight": 0.30007586,
-        "windowWeightShare": 0.031738,
+        "rawWeight": 0.30356844,
+        "windowWeightShare": 0.035077,
         "candidateWeightShares": {
-          "lula": 0.031738,
-          "flavio-bolsonaro": 0.031738,
-          "augusto-cury": 0.031738,
-          "renan-santos": 0.032246,
-          "ronaldo-caiado": 0.032246,
-          "romeu-zema": 0.032246
+          "lula": 0.035077,
+          "flavio-bolsonaro": 0.035077,
+          "augusto-cury": 0.035077,
+          "renan-santos": 0.035699,
+          "ronaldo-caiado": 0.035699,
+          "romeu-zema": 0.035699
         }
       },
       {
@@ -1953,21 +1909,21 @@
           "romeu-zema",
           "ronaldo-caiado"
         ],
-        "ageDays": 4,
-        "recencyFactor": 0.67032,
+        "ageDays": 5,
+        "recencyFactor": 0.606531,
         "sampleFactor": 1.0,
         "institutePollCount": 4,
         "repeatPenalty": 0.5,
         "verificationFactor": 1.0,
-        "rawWeight": 0.33516002,
-        "windowWeightShare": 0.035449,
+        "rawWeight": 0.30326533,
+        "windowWeightShare": 0.035042,
         "candidateWeightShares": {
-          "lula": 0.035449,
-          "flavio-bolsonaro": 0.035449,
-          "augusto-cury": 0.035449,
-          "renan-santos": 0.036017,
-          "ronaldo-caiado": 0.036017,
-          "romeu-zema": 0.036017
+          "lula": 0.035042,
+          "flavio-bolsonaro": 0.035042,
+          "augusto-cury": 0.035042,
+          "renan-santos": 0.035663,
+          "ronaldo-caiado": 0.035663,
+          "romeu-zema": 0.035663
         }
       },
       {
@@ -1985,21 +1941,21 @@
           "romeu-zema",
           "ronaldo-caiado"
         ],
-        "ageDays": 5,
-        "recencyFactor": 0.606531,
+        "ageDays": 6,
+        "recencyFactor": 0.548812,
         "sampleFactor": 1.095445,
         "institutePollCount": 3,
         "repeatPenalty": 0.57735,
         "verificationFactor": 1.0,
-        "rawWeight": 0.38360367,
-        "windowWeightShare": 0.040573,
+        "rawWeight": 0.34709896,
+        "windowWeightShare": 0.040107,
         "candidateWeightShares": {
-          "lula": 0.040573,
-          "flavio-bolsonaro": 0.040573,
-          "augusto-cury": 0.040573,
-          "renan-santos": 0.041222,
-          "ronaldo-caiado": 0.041222,
-          "romeu-zema": 0.041222
+          "lula": 0.040107,
+          "flavio-bolsonaro": 0.040107,
+          "augusto-cury": 0.040107,
+          "renan-santos": 0.040818,
+          "ronaldo-caiado": 0.040818,
+          "romeu-zema": 0.040818
         }
       },
       {
@@ -2017,21 +1973,21 @@
           "romeu-zema",
           "ronaldo-caiado"
         ],
-        "ageDays": 7,
-        "recencyFactor": 0.496585,
+        "ageDays": 8,
+        "recencyFactor": 0.449329,
         "sampleFactor": 1.0,
-        "institutePollCount": 5,
-        "repeatPenalty": 0.447214,
+        "institutePollCount": 4,
+        "repeatPenalty": 0.5,
         "verificationFactor": 1.0,
-        "rawWeight": 0.2220797,
-        "windowWeightShare": 0.023489,
+        "rawWeight": 0.22466448,
+        "windowWeightShare": 0.02596,
         "candidateWeightShares": {
-          "lula": 0.023489,
-          "flavio-bolsonaro": 0.023489,
-          "augusto-cury": 0.023489,
-          "renan-santos": 0.023865,
-          "ronaldo-caiado": 0.023865,
-          "romeu-zema": 0.023865
+          "lula": 0.02596,
+          "flavio-bolsonaro": 0.02596,
+          "augusto-cury": 0.02596,
+          "renan-santos": 0.02642,
+          "ronaldo-caiado": 0.02642,
+          "romeu-zema": 0.02642
         }
       },
       {
@@ -2049,21 +2005,21 @@
           "romeu-zema",
           "ronaldo-caiado"
         ],
-        "ageDays": 7,
-        "recencyFactor": 0.496585,
+        "ageDays": 8,
+        "recencyFactor": 0.449329,
         "sampleFactor": 1.0005,
         "institutePollCount": 4,
         "repeatPenalty": 0.5,
         "verificationFactor": 1.0,
-        "rawWeight": 0.24841677,
-        "windowWeightShare": 0.026274,
+        "rawWeight": 0.22477679,
+        "windowWeightShare": 0.025973,
         "candidateWeightShares": {
-          "lula": 0.026274,
-          "flavio-bolsonaro": 0.026274,
-          "augusto-cury": 0.026274,
-          "renan-santos": 0.026695,
-          "ronaldo-caiado": 0.026695,
-          "romeu-zema": 0.026695
+          "lula": 0.025973,
+          "flavio-bolsonaro": 0.025973,
+          "augusto-cury": 0.025973,
+          "renan-santos": 0.026433,
+          "ronaldo-caiado": 0.026433,
+          "romeu-zema": 0.026433
         }
       },
       {
@@ -2081,21 +2037,21 @@
           "romeu-zema",
           "ronaldo-caiado"
         ],
-        "ageDays": 8,
-        "recencyFactor": 0.449329,
+        "ageDays": 9,
+        "recencyFactor": 0.40657,
         "sampleFactor": 1.0,
         "institutePollCount": 1,
         "repeatPenalty": 1.0,
         "verificationFactor": 1.0,
-        "rawWeight": 0.44932896,
-        "windowWeightShare": 0.047524,
+        "rawWeight": 0.40656966,
+        "windowWeightShare": 0.046979,
         "candidateWeightShares": {
-          "lula": 0.047524,
-          "flavio-bolsonaro": 0.047524,
-          "augusto-cury": 0.047524,
-          "renan-santos": 0.048285,
-          "ronaldo-caiado": 0.048285,
-          "romeu-zema": 0.048285
+          "lula": 0.046979,
+          "flavio-bolsonaro": 0.046979,
+          "augusto-cury": 0.046979,
+          "renan-santos": 0.047811,
+          "ronaldo-caiado": 0.047811,
+          "romeu-zema": 0.047811
         }
       },
       {
@@ -2113,21 +2069,21 @@
           "romeu-zema",
           "ronaldo-caiado"
         ],
-        "ageDays": 8,
-        "recencyFactor": 0.449329,
+        "ageDays": 9,
+        "recencyFactor": 0.40657,
         "sampleFactor": 1.224745,
         "institutePollCount": 4,
         "repeatPenalty": 0.5,
         "verificationFactor": 1.0,
-        "rawWeight": 0.27515667,
-        "windowWeightShare": 0.029103,
+        "rawWeight": 0.24897205,
+        "windowWeightShare": 0.028768,
         "candidateWeightShares": {
-          "lula": 0.029103,
-          "flavio-bolsonaro": 0.029103,
-          "augusto-cury": 0.029103,
-          "renan-santos": 0.029569,
-          "ronaldo-caiado": 0.029569,
-          "romeu-zema": 0.029569
+          "lula": 0.028768,
+          "flavio-bolsonaro": 0.028768,
+          "augusto-cury": 0.028768,
+          "renan-santos": 0.029278,
+          "ronaldo-caiado": 0.029278,
+          "romeu-zema": 0.029278
         }
       },
       {
@@ -2145,21 +2101,21 @@
           "romeu-zema",
           "ronaldo-caiado"
         ],
-        "ageDays": 8,
-        "recencyFactor": 0.449329,
+        "ageDays": 9,
+        "recencyFactor": 0.40657,
         "sampleFactor": 1.581139,
         "institutePollCount": 4,
         "repeatPenalty": 0.5,
         "verificationFactor": 1.0,
-        "rawWeight": 0.35522574,
-        "windowWeightShare": 0.037571,
+        "rawWeight": 0.32142154,
+        "windowWeightShare": 0.03714,
         "candidateWeightShares": {
-          "lula": 0.037571,
-          "flavio-bolsonaro": 0.037571,
-          "augusto-cury": 0.037571,
-          "renan-santos": 0.038173,
-          "ronaldo-caiado": 0.038173,
-          "romeu-zema": 0.038173
+          "lula": 0.03714,
+          "flavio-bolsonaro": 0.03714,
+          "augusto-cury": 0.03714,
+          "renan-santos": 0.037798,
+          "ronaldo-caiado": 0.037798,
+          "romeu-zema": 0.037798
         }
       },
       {
@@ -2177,21 +2133,21 @@
           "romeu-zema",
           "ronaldo-caiado"
         ],
-        "ageDays": 8,
-        "recencyFactor": 0.449329,
+        "ageDays": 9,
+        "recencyFactor": 0.40657,
         "sampleFactor": 1.161895,
         "institutePollCount": 1,
         "repeatPenalty": 1.0,
         "verificationFactor": 1.0,
-        "rawWeight": 0.52207308,
-        "windowWeightShare": 0.055218,
+        "rawWeight": 0.47239126,
+        "windowWeightShare": 0.054584,
         "candidateWeightShares": {
-          "lula": 0.055218,
-          "flavio-bolsonaro": 0.055218,
-          "augusto-cury": 0.055218,
-          "renan-santos": 0.056102,
-          "ronaldo-caiado": 0.056102,
-          "romeu-zema": 0.056102
+          "lula": 0.054584,
+          "flavio-bolsonaro": 0.054584,
+          "augusto-cury": 0.054584,
+          "renan-santos": 0.055552,
+          "ronaldo-caiado": 0.055552,
+          "romeu-zema": 0.055552
         }
       },
       {
@@ -2209,21 +2165,21 @@
           "romeu-zema",
           "ronaldo-caiado"
         ],
-        "ageDays": 9,
-        "recencyFactor": 0.40657,
+        "ageDays": 10,
+        "recencyFactor": 0.367879,
         "sampleFactor": 1.581139,
         "institutePollCount": 4,
         "repeatPenalty": 0.5,
         "verificationFactor": 1.0,
-        "rawWeight": 0.32142154,
-        "windowWeightShare": 0.033996,
+        "rawWeight": 0.29083423,
+        "windowWeightShare": 0.033605,
         "candidateWeightShares": {
-          "lula": 0.033996,
-          "flavio-bolsonaro": 0.033996,
-          "augusto-cury": 0.033996,
-          "renan-santos": 0.03454,
-          "ronaldo-caiado": 0.03454,
-          "romeu-zema": 0.03454
+          "lula": 0.033605,
+          "flavio-bolsonaro": 0.033605,
+          "augusto-cury": 0.033605,
+          "renan-santos": 0.034201,
+          "ronaldo-caiado": 0.034201,
+          "romeu-zema": 0.034201
         }
       },
       {
@@ -2238,18 +2194,18 @@
           "flavio-bolsonaro",
           "lula"
         ],
-        "ageDays": 11,
-        "recencyFactor": 0.332871,
+        "ageDays": 12,
+        "recencyFactor": 0.301194,
         "sampleFactor": 1.001,
-        "institutePollCount": 5,
-        "repeatPenalty": 0.447214,
+        "institutePollCount": 4,
+        "repeatPenalty": 0.5,
         "verificationFactor": 1.0,
-        "rawWeight": 0.14901326,
-        "windowWeightShare": 0.015761,
+        "rawWeight": 0.15074763,
+        "windowWeightShare": 0.017419,
         "candidateWeightShares": {
-          "lula": 0.015761,
-          "flavio-bolsonaro": 0.015761,
-          "augusto-cury": 0.015761
+          "lula": 0.017419,
+          "flavio-bolsonaro": 0.017419,
+          "augusto-cury": 0.017419
         }
       },
       {
@@ -2267,21 +2223,21 @@
           "romeu-zema",
           "ronaldo-caiado"
         ],
-        "ageDays": 11,
-        "recencyFactor": 0.332871,
+        "ageDays": 12,
+        "recencyFactor": 0.301194,
         "sampleFactor": 1.581139,
         "institutePollCount": 4,
         "repeatPenalty": 0.5,
         "verificationFactor": 1.0,
-        "rawWeight": 0.2631577,
-        "windowWeightShare": 0.027833,
+        "rawWeight": 0.23811493,
+        "windowWeightShare": 0.027514,
         "candidateWeightShares": {
-          "lula": 0.027833,
-          "flavio-bolsonaro": 0.027833,
-          "augusto-cury": 0.027833,
-          "renan-santos": 0.028279,
-          "ronaldo-caiado": 0.028279,
-          "romeu-zema": 0.028279
+          "lula": 0.027514,
+          "flavio-bolsonaro": 0.027514,
+          "augusto-cury": 0.027514,
+          "renan-santos": 0.028002,
+          "ronaldo-caiado": 0.028002,
+          "romeu-zema": 0.028002
         }
       },
       {
@@ -2299,21 +2255,21 @@
           "romeu-zema",
           "ronaldo-caiado"
         ],
-        "ageDays": 11,
-        "recencyFactor": 0.332871,
+        "ageDays": 12,
+        "recencyFactor": 0.301194,
         "sampleFactor": 1.0,
         "institutePollCount": 4,
         "repeatPenalty": 0.5,
         "verificationFactor": 1.0,
-        "rawWeight": 0.16643554,
-        "windowWeightShare": 0.017603,
+        "rawWeight": 0.15059711,
+        "windowWeightShare": 0.017401,
         "candidateWeightShares": {
-          "lula": 0.017603,
-          "flavio-bolsonaro": 0.017603,
-          "augusto-cury": 0.017603,
-          "renan-santos": 0.017885,
-          "ronaldo-caiado": 0.017885,
-          "romeu-zema": 0.017885
+          "lula": 0.017401,
+          "flavio-bolsonaro": 0.017401,
+          "augusto-cury": 0.017401,
+          "renan-santos": 0.01771,
+          "ronaldo-caiado": 0.01771,
+          "romeu-zema": 0.01771
         }
       },
       {
@@ -2332,22 +2288,22 @@
           "romeu-zema",
           "ronaldo-caiado"
         ],
-        "ageDays": 14,
-        "recencyFactor": 0.246597,
+        "ageDays": 15,
+        "recencyFactor": 0.22313,
         "sampleFactor": 1.0,
-        "institutePollCount": 5,
-        "repeatPenalty": 0.447214,
+        "institutePollCount": 4,
+        "repeatPenalty": 0.5,
         "verificationFactor": 1.0,
-        "rawWeight": 0.11028151,
-        "windowWeightShare": 0.011664,
+        "rawWeight": 0.11156508,
+        "windowWeightShare": 0.012891,
         "candidateWeightShares": {
-          "lula": 0.011664,
-          "flavio-bolsonaro": 0.011664,
-          "augusto-cury": 0.011664,
-          "renan-santos": 0.011851,
-          "ronaldo-caiado": 0.011851,
-          "romeu-zema": 0.011851,
-          "pablo-marcal": 0.079288
+          "lula": 0.012891,
+          "flavio-bolsonaro": 0.012891,
+          "augusto-cury": 0.012891,
+          "renan-santos": 0.01312,
+          "ronaldo-caiado": 0.01312,
+          "romeu-zema": 0.01312,
+          "pablo-marcal": 0.090029
         }
       },
       {
@@ -2365,21 +2321,21 @@
           "romeu-zema",
           "ronaldo-caiado"
         ],
-        "ageDays": 14,
-        "recencyFactor": 0.246597,
+        "ageDays": 15,
+        "recencyFactor": 0.22313,
         "sampleFactor": 1.0005,
         "institutePollCount": 4,
         "repeatPenalty": 0.5,
         "verificationFactor": 1.0,
-        "rawWeight": 0.12336012,
-        "windowWeightShare": 0.013047,
+        "rawWeight": 0.11162085,
+        "windowWeightShare": 0.012898,
         "candidateWeightShares": {
-          "lula": 0.013047,
-          "flavio-bolsonaro": 0.013047,
-          "augusto-cury": 0.013047,
-          "renan-santos": 0.013256,
-          "ronaldo-caiado": 0.013256,
-          "romeu-zema": 0.013256
+          "lula": 0.012898,
+          "flavio-bolsonaro": 0.012898,
+          "augusto-cury": 0.012898,
+          "renan-santos": 0.013126,
+          "ronaldo-caiado": 0.013126,
+          "romeu-zema": 0.013126
         }
       },
       {
@@ -2398,22 +2354,22 @@
           "romeu-zema",
           "ronaldo-caiado"
         ],
-        "ageDays": 15,
-        "recencyFactor": 0.22313,
+        "ageDays": 16,
+        "recencyFactor": 0.201897,
         "sampleFactor": 1.224745,
         "institutePollCount": 4,
         "repeatPenalty": 0.5,
         "verificationFactor": 1.0,
-        "rawWeight": 0.13663876,
-        "windowWeightShare": 0.014452,
+        "rawWeight": 0.12363586,
+        "windowWeightShare": 0.014286,
         "candidateWeightShares": {
-          "lula": 0.014452,
-          "flavio-bolsonaro": 0.014452,
-          "augusto-cury": 0.014452,
-          "renan-santos": 0.014683,
-          "ronaldo-caiado": 0.014683,
-          "romeu-zema": 0.014683,
-          "pablo-marcal": 0.098238
+          "lula": 0.014286,
+          "flavio-bolsonaro": 0.014286,
+          "augusto-cury": 0.014286,
+          "renan-santos": 0.014539,
+          "ronaldo-caiado": 0.014539,
+          "romeu-zema": 0.014539,
+          "pablo-marcal": 0.099769
         }
       },
       {
@@ -2432,22 +2388,22 @@
           "romeu-zema",
           "ronaldo-caiado"
         ],
-        "ageDays": 15,
-        "recencyFactor": 0.22313,
+        "ageDays": 16,
+        "recencyFactor": 0.201897,
         "sampleFactor": 1.095445,
         "institutePollCount": 3,
         "repeatPenalty": 0.57735,
         "verificationFactor": 1.0,
-        "rawWeight": 0.1411199,
-        "windowWeightShare": 0.014926,
+        "rawWeight": 0.12769057,
+        "windowWeightShare": 0.014754,
         "candidateWeightShares": {
-          "lula": 0.014926,
-          "flavio-bolsonaro": 0.014926,
-          "augusto-cury": 0.014926,
-          "renan-santos": 0.015165,
-          "ronaldo-caiado": 0.015165,
-          "romeu-zema": 0.015165,
-          "pablo-marcal": 0.10146
+          "lula": 0.014754,
+          "flavio-bolsonaro": 0.014754,
+          "augusto-cury": 0.014754,
+          "renan-santos": 0.015016,
+          "ronaldo-caiado": 0.015016,
+          "romeu-zema": 0.015016,
+          "pablo-marcal": 0.103041
         }
       },
       {
@@ -2465,21 +2421,21 @@
           "romeu-zema",
           "ronaldo-caiado"
         ],
-        "ageDays": 15,
-        "recencyFactor": 0.22313,
+        "ageDays": 16,
+        "recencyFactor": 0.201897,
         "sampleFactor": 1.581139,
         "institutePollCount": 4,
         "repeatPenalty": 0.5,
         "verificationFactor": 1.0,
-        "rawWeight": 0.17639988,
-        "windowWeightShare": 0.018657,
+        "rawWeight": 0.15961321,
+        "windowWeightShare": 0.018443,
         "candidateWeightShares": {
-          "lula": 0.018657,
-          "flavio-bolsonaro": 0.018657,
-          "augusto-cury": 0.018657,
-          "renan-santos": 0.018956,
-          "ronaldo-caiado": 0.018956,
-          "romeu-zema": 0.018956
+          "lula": 0.018443,
+          "flavio-bolsonaro": 0.018443,
+          "augusto-cury": 0.018443,
+          "renan-santos": 0.01877,
+          "ronaldo-caiado": 0.01877,
+          "romeu-zema": 0.01877
         }
       },
       {
@@ -2497,21 +2453,21 @@
           "romeu-zema",
           "ronaldo-caiado"
         ],
-        "ageDays": 17,
-        "recencyFactor": 0.182684,
+        "ageDays": 18,
+        "recencyFactor": 0.165299,
         "sampleFactor": 1.0,
         "institutePollCount": 1,
         "repeatPenalty": 1.0,
         "verificationFactor": 1.0,
-        "rawWeight": 0.18268352,
-        "windowWeightShare": 0.019322,
+        "rawWeight": 0.16529889,
+        "windowWeightShare": 0.0191,
         "candidateWeightShares": {
-          "lula": 0.019322,
-          "flavio-bolsonaro": 0.019322,
-          "augusto-cury": 0.019322,
-          "renan-santos": 0.019631,
-          "ronaldo-caiado": 0.019631,
-          "romeu-zema": 0.019631
+          "lula": 0.0191,
+          "flavio-bolsonaro": 0.0191,
+          "augusto-cury": 0.0191,
+          "renan-santos": 0.019439,
+          "ronaldo-caiado": 0.019439,
+          "romeu-zema": 0.019439
         }
       },
       {
@@ -2529,21 +2485,21 @@
           "romeu-zema",
           "ronaldo-caiado"
         ],
-        "ageDays": 18,
-        "recencyFactor": 0.165299,
+        "ageDays": 19,
+        "recencyFactor": 0.149569,
         "sampleFactor": 1.001,
-        "institutePollCount": 5,
-        "repeatPenalty": 0.447214,
+        "institutePollCount": 4,
+        "repeatPenalty": 0.5,
         "verificationFactor": 1.0,
-        "rawWeight": 0.0739978,
-        "windowWeightShare": 0.007827,
+        "rawWeight": 0.07485906,
+        "windowWeightShare": 0.00865,
         "candidateWeightShares": {
-          "lula": 0.007827,
-          "flavio-bolsonaro": 0.007827,
-          "augusto-cury": 0.007827,
-          "renan-santos": 0.007952,
-          "ronaldo-caiado": 0.007952,
-          "romeu-zema": 0.007952
+          "lula": 0.00865,
+          "flavio-bolsonaro": 0.00865,
+          "augusto-cury": 0.00865,
+          "renan-santos": 0.008803,
+          "ronaldo-caiado": 0.008803,
+          "romeu-zema": 0.008803
         }
       },
       {
@@ -2562,22 +2518,22 @@
           "romeu-zema",
           "ronaldo-caiado"
         ],
-        "ageDays": 18,
-        "recencyFactor": 0.165299,
+        "ageDays": 19,
+        "recencyFactor": 0.149569,
         "sampleFactor": 1.0,
         "institutePollCount": 4,
         "repeatPenalty": 0.5,
         "verificationFactor": 1.0,
-        "rawWeight": 0.08264944,
-        "windowWeightShare": 0.008742,
+        "rawWeight": 0.07478431,
+        "windowWeightShare": 0.008641,
         "candidateWeightShares": {
-          "lula": 0.008742,
-          "flavio-bolsonaro": 0.008742,
-          "augusto-cury": 0.008742,
-          "renan-santos": 0.008882,
-          "ronaldo-caiado": 0.008882,
-          "romeu-zema": 0.008882,
-          "pablo-marcal": 0.059422
+          "lula": 0.008641,
+          "flavio-bolsonaro": 0.008641,
+          "augusto-cury": 0.008641,
+          "renan-santos": 0.008794,
+          "ronaldo-caiado": 0.008794,
+          "romeu-zema": 0.008794,
+          "pablo-marcal": 0.060348
         }
       },
       {
@@ -2596,22 +2552,22 @@
           "romeu-zema",
           "ronaldo-caiado"
         ],
-        "ageDays": 18,
-        "recencyFactor": 0.165299,
+        "ageDays": 19,
+        "recencyFactor": 0.149569,
         "sampleFactor": 1.0005,
         "institutePollCount": 1,
         "repeatPenalty": 1.0,
         "verificationFactor": 1.0,
-        "rawWeight": 0.16538152,
-        "windowWeightShare": 0.017492,
+        "rawWeight": 0.14964338,
+        "windowWeightShare": 0.017291,
         "candidateWeightShares": {
-          "lula": 0.017492,
-          "flavio-bolsonaro": 0.017492,
-          "augusto-cury": 0.017492,
-          "renan-santos": 0.017772,
-          "ronaldo-caiado": 0.017772,
-          "romeu-zema": 0.017772,
-          "pablo-marcal": 0.118903
+          "lula": 0.017291,
+          "flavio-bolsonaro": 0.017291,
+          "augusto-cury": 0.017291,
+          "renan-santos": 0.017598,
+          "ronaldo-caiado": 0.017598,
+          "romeu-zema": 0.017598,
+          "pablo-marcal": 0.120756
         }
       },
       {
@@ -2629,21 +2585,21 @@
           "romeu-zema",
           "ronaldo-caiado"
         ],
-        "ageDays": 18,
-        "recencyFactor": 0.165299,
+        "ageDays": 19,
+        "recencyFactor": 0.149569,
         "sampleFactor": 1.0,
         "institutePollCount": 2,
         "repeatPenalty": 0.707107,
         "verificationFactor": 1.0,
-        "rawWeight": 0.11688396,
-        "windowWeightShare": 0.012362,
+        "rawWeight": 0.10576098,
+        "windowWeightShare": 0.012221,
         "candidateWeightShares": {
-          "lula": 0.012362,
-          "flavio-bolsonaro": 0.012362,
-          "augusto-cury": 0.012362,
-          "renan-santos": 0.01256,
-          "ronaldo-caiado": 0.01256,
-          "romeu-zema": 0.01256
+          "lula": 0.012221,
+          "flavio-bolsonaro": 0.012221,
+          "augusto-cury": 0.012221,
+          "renan-santos": 0.012437,
+          "ronaldo-caiado": 0.012437,
+          "romeu-zema": 0.012437
         }
       },
       {
@@ -2662,22 +2618,22 @@
           "romeu-zema",
           "ronaldo-caiado"
         ],
-        "ageDays": 20,
-        "recencyFactor": 0.135335,
+        "ageDays": 21,
+        "recencyFactor": 0.122456,
         "sampleFactor": 1.0005,
         "institutePollCount": 4,
         "repeatPenalty": 0.5,
         "verificationFactor": 1.0,
-        "rawWeight": 0.06770147,
-        "windowWeightShare": 0.007161,
+        "rawWeight": 0.06125882,
+        "windowWeightShare": 0.007078,
         "candidateWeightShares": {
-          "lula": 0.007161,
-          "flavio-bolsonaro": 0.007161,
-          "augusto-cury": 0.007161,
-          "renan-santos": 0.007275,
-          "ronaldo-caiado": 0.007275,
-          "romeu-zema": 0.007275,
-          "pablo-marcal": 0.048675
+          "lula": 0.007078,
+          "flavio-bolsonaro": 0.007078,
+          "augusto-cury": 0.007078,
+          "renan-santos": 0.007204,
+          "ronaldo-caiado": 0.007204,
+          "romeu-zema": 0.007204,
+          "pablo-marcal": 0.049434
         }
       },
       {
@@ -2696,22 +2652,22 @@
           "romeu-zema",
           "ronaldo-caiado"
         ],
-        "ageDays": 22,
-        "recencyFactor": 0.110803,
+        "ageDays": 23,
+        "recencyFactor": 0.100259,
         "sampleFactor": 1.224745,
         "institutePollCount": 4,
         "repeatPenalty": 0.5,
         "verificationFactor": 1.0,
-        "rawWeight": 0.0678528,
-        "windowWeightShare": 0.007177,
+        "rawWeight": 0.06139575,
+        "windowWeightShare": 0.007094,
         "candidateWeightShares": {
-          "lula": 0.007177,
-          "flavio-bolsonaro": 0.007177,
-          "augusto-cury": 0.007177,
-          "renan-santos": 0.007292,
-          "ronaldo-caiado": 0.007292,
-          "romeu-zema": 0.007292,
-          "pablo-marcal": 0.048784
+          "lula": 0.007094,
+          "flavio-bolsonaro": 0.007094,
+          "augusto-cury": 0.007094,
+          "renan-santos": 0.00722,
+          "ronaldo-caiado": 0.00722,
+          "romeu-zema": 0.00722,
+          "pablo-marcal": 0.049544
         }
       },
       {
@@ -2730,22 +2686,22 @@
           "romeu-zema",
           "ronaldo-caiado"
         ],
-        "ageDays": 22,
-        "recencyFactor": 0.110803,
+        "ageDays": 23,
+        "recencyFactor": 0.100259,
         "sampleFactor": 1.0,
-        "institutePollCount": 5,
-        "repeatPenalty": 0.447214,
+        "institutePollCount": 4,
+        "repeatPenalty": 0.5,
         "verificationFactor": 1.0,
-        "rawWeight": 0.04955268,
-        "windowWeightShare": 0.005241,
+        "rawWeight": 0.05012942,
+        "windowWeightShare": 0.005792,
         "candidateWeightShares": {
-          "lula": 0.005241,
-          "flavio-bolsonaro": 0.005241,
-          "augusto-cury": 0.005241,
-          "renan-santos": 0.005325,
-          "ronaldo-caiado": 0.005325,
-          "romeu-zema": 0.005325,
-          "pablo-marcal": 0.035626
+          "lula": 0.005792,
+          "flavio-bolsonaro": 0.005792,
+          "augusto-cury": 0.005792,
+          "renan-santos": 0.005895,
+          "ronaldo-caiado": 0.005895,
+          "romeu-zema": 0.005895,
+          "pablo-marcal": 0.040453
         }
       },
       {
@@ -2764,22 +2720,22 @@
           "romeu-zema",
           "ronaldo-caiado"
         ],
-        "ageDays": 22,
-        "recencyFactor": 0.110803,
+        "ageDays": 23,
+        "recencyFactor": 0.100259,
         "sampleFactor": 1.581139,
         "institutePollCount": 4,
         "repeatPenalty": 0.5,
         "verificationFactor": 1.0,
-        "rawWeight": 0.08759759,
-        "windowWeightShare": 0.009265,
+        "rawWeight": 0.07926158,
+        "windowWeightShare": 0.009159,
         "candidateWeightShares": {
-          "lula": 0.009265,
-          "flavio-bolsonaro": 0.009265,
-          "augusto-cury": 0.009265,
-          "renan-santos": 0.009413,
-          "ronaldo-caiado": 0.009413,
-          "romeu-zema": 0.009413,
-          "pablo-marcal": 0.062979
+          "lula": 0.009159,
+          "flavio-bolsonaro": 0.009159,
+          "augusto-cury": 0.009159,
+          "renan-santos": 0.009321,
+          "ronaldo-caiado": 0.009321,
+          "romeu-zema": 0.009321,
+          "pablo-marcal": 0.063961
         }
       },
       {
@@ -2798,22 +2754,22 @@
           "romeu-zema",
           "ronaldo-caiado"
         ],
-        "ageDays": 23,
-        "recencyFactor": 0.100259,
+        "ageDays": 24,
+        "recencyFactor": 0.090718,
         "sampleFactor": 1.581139,
         "institutePollCount": 4,
         "repeatPenalty": 0.5,
         "verificationFactor": 1.0,
-        "rawWeight": 0.07926158,
-        "windowWeightShare": 0.008383,
+        "rawWeight": 0.07171884,
+        "windowWeightShare": 0.008287,
         "candidateWeightShares": {
-          "lula": 0.008383,
-          "flavio-bolsonaro": 0.008383,
-          "augusto-cury": 0.008383,
-          "renan-santos": 0.008518,
-          "ronaldo-caiado": 0.008518,
-          "romeu-zema": 0.008518,
-          "pablo-marcal": 0.056986
+          "lula": 0.008287,
+          "flavio-bolsonaro": 0.008287,
+          "augusto-cury": 0.008287,
+          "renan-santos": 0.008434,
+          "ronaldo-caiado": 0.008434,
+          "romeu-zema": 0.008434,
+          "pablo-marcal": 0.057874
         }
       },
       {
@@ -2832,22 +2788,22 @@
           "romeu-zema",
           "ronaldo-caiado"
         ],
-        "ageDays": 23,
-        "recencyFactor": 0.100259,
+        "ageDays": 24,
+        "recencyFactor": 0.090718,
         "sampleFactor": 1.095445,
         "institutePollCount": 3,
         "repeatPenalty": 0.57735,
         "verificationFactor": 1.0,
-        "rawWeight": 0.06340926,
-        "windowWeightShare": 0.006707,
+        "rawWeight": 0.05737507,
+        "windowWeightShare": 0.00663,
         "candidateWeightShares": {
-          "lula": 0.006707,
-          "flavio-bolsonaro": 0.006707,
-          "augusto-cury": 0.006707,
-          "renan-santos": 0.006814,
-          "ronaldo-caiado": 0.006814,
-          "romeu-zema": 0.006814,
-          "pablo-marcal": 0.045589
+          "lula": 0.00663,
+          "flavio-bolsonaro": 0.00663,
+          "augusto-cury": 0.00663,
+          "renan-santos": 0.006747,
+          "ronaldo-caiado": 0.006747,
+          "romeu-zema": 0.006747,
+          "pablo-marcal": 0.046299
         }
       },
       {
@@ -2866,22 +2822,22 @@
           "romeu-zema",
           "ronaldo-caiado"
         ],
-        "ageDays": 24,
-        "recencyFactor": 0.090718,
+        "ageDays": 25,
+        "recencyFactor": 0.082085,
         "sampleFactor": 1.0,
         "institutePollCount": 4,
         "repeatPenalty": 0.5,
         "verificationFactor": 1.0,
-        "rawWeight": 0.04535898,
-        "windowWeightShare": 0.004797,
+        "rawWeight": 0.0410425,
+        "windowWeightShare": 0.004742,
         "candidateWeightShares": {
-          "lula": 0.004797,
-          "flavio-bolsonaro": 0.004797,
-          "augusto-cury": 0.004797,
-          "renan-santos": 0.004874,
-          "ronaldo-caiado": 0.004874,
-          "romeu-zema": 0.004874,
-          "pablo-marcal": 0.032611
+          "lula": 0.004742,
+          "flavio-bolsonaro": 0.004742,
+          "augusto-cury": 0.004742,
+          "renan-santos": 0.004826,
+          "ronaldo-caiado": 0.004826,
+          "romeu-zema": 0.004826,
+          "pablo-marcal": 0.03312
         }
       },
       {
@@ -2900,22 +2856,22 @@
           "romeu-zema",
           "ronaldo-caiado"
         ],
-        "ageDays": 24,
-        "recencyFactor": 0.090718,
+        "ageDays": 25,
+        "recencyFactor": 0.082085,
         "sampleFactor": 0.866025,
         "institutePollCount": 2,
         "repeatPenalty": 0.707107,
         "verificationFactor": 1.0,
-        "rawWeight": 0.05555317,
-        "windowWeightShare": 0.005876,
+        "rawWeight": 0.05026659,
+        "windowWeightShare": 0.005808,
         "candidateWeightShares": {
-          "lula": 0.005876,
-          "flavio-bolsonaro": 0.005876,
-          "augusto-cury": 0.005876,
-          "renan-santos": 0.00597,
-          "ronaldo-caiado": 0.00597,
-          "romeu-zema": 0.00597,
-          "pablo-marcal": 0.039941
+          "lula": 0.005808,
+          "flavio-bolsonaro": 0.005808,
+          "augusto-cury": 0.005808,
+          "renan-santos": 0.005911,
+          "ronaldo-caiado": 0.005911,
+          "romeu-zema": 0.005911,
+          "pablo-marcal": 0.040563
         }
       },
       {
@@ -2934,22 +2890,22 @@
           "romeu-zema",
           "ronaldo-caiado"
         ],
-        "ageDays": 25,
-        "recencyFactor": 0.082085,
+        "ageDays": 26,
+        "recencyFactor": 0.074274,
         "sampleFactor": 1.001,
-        "institutePollCount": 5,
-        "repeatPenalty": 0.447214,
+        "institutePollCount": 4,
+        "repeatPenalty": 0.5,
         "verificationFactor": 1.0,
-        "rawWeight": 0.03674622,
-        "windowWeightShare": 0.003887,
+        "rawWeight": 0.03717391,
+        "windowWeightShare": 0.004295,
         "candidateWeightShares": {
-          "lula": 0.003887,
-          "flavio-bolsonaro": 0.003887,
-          "augusto-cury": 0.003887,
-          "renan-santos": 0.003949,
-          "ronaldo-caiado": 0.003949,
-          "romeu-zema": 0.003949,
-          "pablo-marcal": 0.026419
+          "lula": 0.004295,
+          "flavio-bolsonaro": 0.004295,
+          "augusto-cury": 0.004295,
+          "renan-santos": 0.004372,
+          "ronaldo-caiado": 0.004372,
+          "romeu-zema": 0.004372,
+          "pablo-marcal": 0.029998
         }
       },
       {
@@ -2968,22 +2924,22 @@
           "romeu-zema",
           "ronaldo-caiado"
         ],
-        "ageDays": 27,
-        "recencyFactor": 0.067206,
+        "ageDays": 28,
+        "recencyFactor": 0.06081,
         "sampleFactor": 1.385641,
         "institutePollCount": 1,
         "repeatPenalty": 1.0,
         "verificationFactor": 1.0,
-        "rawWeight": 0.09312269,
-        "windowWeightShare": 0.009849,
+        "rawWeight": 0.08426089,
+        "windowWeightShare": 0.009736,
         "candidateWeightShares": {
-          "lula": 0.009849,
-          "flavio-bolsonaro": 0.009849,
-          "augusto-cury": 0.009849,
-          "renan-santos": 0.010007,
-          "ronaldo-caiado": 0.010007,
-          "romeu-zema": 0.010007,
-          "pablo-marcal": 0.066952
+          "lula": 0.009736,
+          "flavio-bolsonaro": 0.009736,
+          "augusto-cury": 0.009736,
+          "renan-santos": 0.009909,
+          "ronaldo-caiado": 0.009909,
+          "romeu-zema": 0.009909,
+          "pablo-marcal": 0.067995
         }
       },
       {
@@ -3002,22 +2958,22 @@
           "romeu-zema",
           "ronaldo-caiado"
         ],
-        "ageDays": 28,
-        "recencyFactor": 0.06081,
+        "ageDays": 29,
+        "recencyFactor": 0.055023,
         "sampleFactor": 1.0005,
         "institutePollCount": 4,
         "repeatPenalty": 0.5,
         "verificationFactor": 1.0,
-        "rawWeight": 0.03042023,
-        "windowWeightShare": 0.003217,
+        "rawWeight": 0.02752536,
+        "windowWeightShare": 0.003181,
         "candidateWeightShares": {
-          "lula": 0.003217,
-          "flavio-bolsonaro": 0.003217,
-          "augusto-cury": 0.003217,
-          "renan-santos": 0.003269,
-          "ronaldo-caiado": 0.003269,
-          "romeu-zema": 0.003269,
-          "pablo-marcal": 0.021871
+          "lula": 0.003181,
+          "flavio-bolsonaro": 0.003181,
+          "augusto-cury": 0.003181,
+          "renan-santos": 0.003237,
+          "ronaldo-caiado": 0.003237,
+          "romeu-zema": 0.003237,
+          "pablo-marcal": 0.022212
         }
       },
       {
@@ -3036,90 +2992,22 @@
           "romeu-zema",
           "ronaldo-caiado"
         ],
-        "ageDays": 29,
-        "recencyFactor": 0.055023,
+        "ageDays": 30,
+        "recencyFactor": 0.049787,
         "sampleFactor": 1.224745,
         "institutePollCount": 4,
         "repeatPenalty": 0.5,
         "verificationFactor": 1.0,
-        "rawWeight": 0.0336947,
-        "windowWeightShare": 0.003564,
+        "rawWeight": 0.03048823,
+        "windowWeightShare": 0.003523,
         "candidateWeightShares": {
-          "lula": 0.003564,
-          "flavio-bolsonaro": 0.003564,
-          "augusto-cury": 0.003564,
-          "renan-santos": 0.003621,
-          "ronaldo-caiado": 0.003621,
-          "romeu-zema": 0.003621,
-          "pablo-marcal": 0.024225
-        }
-      },
-      {
-        "date": "2026-09-01",
-        "institute": "Quaest",
-        "sample": 2004,
-        "method": "Presencial (Domiciliar)",
-        "registration": "BR-07065/2026",
-        "verifiedTse": false,
-        "candidateIds": [
-          "augusto-cury",
-          "flavio-bolsonaro",
-          "lula",
-          "pablo-marcal",
-          "renan-santos",
-          "romeu-zema",
-          "ronaldo-caiado"
-        ],
-        "ageDays": 30,
-        "recencyFactor": 0.049787,
-        "sampleFactor": 1.001,
-        "institutePollCount": 5,
-        "repeatPenalty": 0.447214,
-        "verificationFactor": 1.0,
-        "rawWeight": 0.02228771,
-        "windowWeightShare": 0.002357,
-        "candidateWeightShares": {
-          "lula": 0.002357,
-          "flavio-bolsonaro": 0.002357,
-          "augusto-cury": 0.002357,
-          "renan-santos": 0.002395,
-          "ronaldo-caiado": 0.002395,
-          "romeu-zema": 0.002395,
-          "pablo-marcal": 0.016024
-        }
-      },
-      {
-        "date": "2026-09-01",
-        "institute": "Futura",
-        "sample": 2000,
-        "method": "Telefonica (CATI)",
-        "registration": "BR-02793/2026",
-        "verifiedTse": false,
-        "candidateIds": [
-          "augusto-cury",
-          "flavio-bolsonaro",
-          "lula",
-          "pablo-marcal",
-          "renan-santos",
-          "romeu-zema",
-          "ronaldo-caiado"
-        ],
-        "ageDays": 30,
-        "recencyFactor": 0.049787,
-        "sampleFactor": 1.0,
-        "institutePollCount": 5,
-        "repeatPenalty": 0.447214,
-        "verificationFactor": 1.0,
-        "rawWeight": 0.02226545,
-        "windowWeightShare": 0.002355,
-        "candidateWeightShares": {
-          "lula": 0.002355,
-          "flavio-bolsonaro": 0.002355,
-          "augusto-cury": 0.002355,
-          "renan-santos": 0.002393,
-          "ronaldo-caiado": 0.002393,
-          "romeu-zema": 0.002393,
-          "pablo-marcal": 0.016008
+          "lula": 0.003523,
+          "flavio-bolsonaro": 0.003523,
+          "augusto-cury": 0.003523,
+          "renan-santos": 0.003585,
+          "ronaldo-caiado": 0.003585,
+          "romeu-zema": 0.003585,
+          "pablo-marcal": 0.024603
         }
       }
     ],
@@ -3131,47 +3019,47 @@
   "weightStress": {
     "status": "ok",
     "variantCount": 7,
-    "overallMaxShift": 0.3,
+    "overallMaxShift": 0.29,
     "sensitivity": "moderada",
     "productionVariantId": "production",
     "candidates": {
       "augusto-cury": {
         "name": "Augusto Cury",
-        "baselineSupport": 4.55,
+        "baselineSupport": 4.54,
         "minSupport": 4.25,
-        "maxSupport": 4.83,
-        "maxAbsoluteShift": 0.3,
-        "spread": 0.58
-      },
-      "flavio-bolsonaro": {
-        "name": "Flávio Bolsonaro",
-        "baselineSupport": 38.2,
-        "minSupport": 37.93,
-        "maxSupport": 38.48,
+        "maxSupport": 4.79,
         "maxAbsoluteShift": 0.29,
         "spread": 0.55
       },
+      "flavio-bolsonaro": {
+        "name": "Flávio Bolsonaro",
+        "baselineSupport": 38.21,
+        "minSupport": 37.97,
+        "maxSupport": 38.49,
+        "maxAbsoluteShift": 0.28,
+        "spread": 0.52
+      },
       "lula": {
         "name": "Lula",
-        "baselineSupport": 40.7,
-        "minSupport": 40.52,
-        "maxSupport": 40.89,
-        "maxAbsoluteShift": 0.19,
-        "spread": 0.38
+        "baselineSupport": 40.68,
+        "minSupport": 40.51,
+        "maxSupport": 40.86,
+        "maxAbsoluteShift": 0.18,
+        "spread": 0.36
       },
       "pablo-marcal": {
         "name": "Pablo Marçal",
         "baselineSupport": 1.6,
         "minSupport": 1.58,
-        "maxSupport": 1.62,
+        "maxSupport": 1.61,
         "maxAbsoluteShift": 0.02,
-        "spread": 0.04
+        "spread": 0.03
       },
       "renan-santos": {
         "name": "Renan Santos",
-        "baselineSupport": 4.34,
-        "minSupport": 4.26,
-        "maxSupport": 4.39,
+        "baselineSupport": 4.33,
+        "minSupport": 4.25,
+        "maxSupport": 4.38,
         "maxAbsoluteShift": 0.08,
         "spread": 0.13
       },
@@ -3185,9 +3073,9 @@
       },
       "ronaldo-caiado": {
         "name": "Ronaldo Caiado",
-        "baselineSupport": 3.14,
-        "minSupport": 3.1,
-        "maxSupport": 3.2,
+        "baselineSupport": 3.16,
+        "minSupport": 3.13,
+        "maxSupport": 3.22,
         "maxAbsoluteShift": 0.06,
         "spread": 0.1
       }
@@ -3200,13 +3088,13 @@
         "sampleExponent": 0.5,
         "repeatExponent": 0.5,
         "candidateSupport": {
-          "augusto-cury": 4.55,
-          "flavio-bolsonaro": 38.2,
-          "lula": 40.7,
+          "augusto-cury": 4.54,
+          "flavio-bolsonaro": 38.21,
+          "lula": 40.68,
           "pablo-marcal": 1.6,
-          "renan-santos": 4.34,
+          "renan-santos": 4.33,
           "romeu-zema": 1.26,
-          "ronaldo-caiado": 3.14
+          "ronaldo-caiado": 3.16
         }
       },
       {
@@ -3217,12 +3105,12 @@
         "repeatExponent": 0.5,
         "candidateSupport": {
           "augusto-cury": 4.25,
-          "flavio-bolsonaro": 38.48,
-          "lula": 40.89,
+          "flavio-bolsonaro": 38.49,
+          "lula": 40.86,
           "pablo-marcal": 1.58,
-          "renan-santos": 4.33,
+          "renan-santos": 4.32,
           "romeu-zema": 1.29,
-          "ronaldo-caiado": 3.18
+          "ronaldo-caiado": 3.19
         }
       },
       {
@@ -3232,13 +3120,13 @@
         "sampleExponent": 0.5,
         "repeatExponent": 0.5,
         "candidateSupport": {
-          "augusto-cury": 4.83,
-          "flavio-bolsonaro": 37.93,
-          "lula": 40.52,
-          "pablo-marcal": 1.62,
+          "augusto-cury": 4.79,
+          "flavio-bolsonaro": 37.97,
+          "lula": 40.51,
+          "pablo-marcal": 1.61,
           "renan-santos": 4.34,
           "romeu-zema": 1.24,
-          "ronaldo-caiado": 3.1
+          "ronaldo-caiado": 3.13
         }
       },
       {
@@ -3248,13 +3136,13 @@
         "sampleExponent": 0.35,
         "repeatExponent": 0.5,
         "candidateSupport": {
-          "augusto-cury": 4.62,
-          "flavio-bolsonaro": 38.05,
-          "lula": 40.6,
+          "augusto-cury": 4.6,
+          "flavio-bolsonaro": 38.07,
+          "lula": 40.58,
           "pablo-marcal": 1.61,
-          "renan-santos": 4.26,
+          "renan-santos": 4.25,
           "romeu-zema": 1.27,
-          "ronaldo-caiado": 3.2
+          "ronaldo-caiado": 3.22
         }
       },
       {
@@ -3264,13 +3152,13 @@
         "sampleExponent": 0.65,
         "repeatExponent": 0.5,
         "candidateSupport": {
-          "augusto-cury": 4.57,
-          "flavio-bolsonaro": 38.2,
-          "lula": 40.7,
-          "pablo-marcal": 1.6,
-          "renan-santos": 4.34,
+          "augusto-cury": 4.55,
+          "flavio-bolsonaro": 38.21,
+          "lula": 40.68,
+          "pablo-marcal": 1.59,
+          "renan-santos": 4.33,
           "romeu-zema": 1.25,
-          "ronaldo-caiado": 3.13
+          "ronaldo-caiado": 3.15
         }
       },
       {
@@ -3280,13 +3168,13 @@
         "sampleExponent": 0.5,
         "repeatExponent": 0.35,
         "candidateSupport": {
-          "augusto-cury": 4.52,
-          "flavio-bolsonaro": 38.33,
-          "lula": 40.73,
+          "augusto-cury": 4.5,
+          "flavio-bolsonaro": 38.35,
+          "lula": 40.71,
           "pablo-marcal": 1.6,
-          "renan-santos": 4.39,
+          "renan-santos": 4.38,
           "romeu-zema": 1.25,
-          "ronaldo-caiado": 3.11
+          "ronaldo-caiado": 3.13
         }
       },
       {
@@ -3296,13 +3184,13 @@
         "sampleExponent": 0.5,
         "repeatExponent": 0.65,
         "candidateSupport": {
-          "augusto-cury": 4.58,
-          "flavio-bolsonaro": 38.05,
-          "lula": 40.67,
+          "augusto-cury": 4.57,
+          "flavio-bolsonaro": 38.06,
+          "lula": 40.64,
           "pablo-marcal": 1.6,
-          "renan-santos": 4.3,
+          "renan-santos": 4.28,
           "romeu-zema": 1.27,
-          "ronaldo-caiado": 3.16
+          "ronaldo-caiado": 3.19
         }
       }
     ],
@@ -3320,13 +3208,13 @@
       "status": "ok",
       "methodCount": 3,
       "effectiveMethodCount": 2.88,
-      "maxWeightShare": 0.4216,
-      "concentrationHhi": 0.3468,
+      "maxWeightShare": 0.4237,
+      "concentrationHhi": 0.3476,
       "concentration": "diversificada",
       "shares": {
-        "online": 0.2596,
-        "presencial": 0.3188,
-        "telefonica": 0.4216
+        "online": 0.2566,
+        "presencial": 0.3197,
+        "telefonica": 0.4237
       },
       "note": "Concentração metodológica usa os pesos efetivos da janela corrente. Ela descreve composição da base e não classifica um método como melhor ou pior."
     },
@@ -3353,103 +3241,103 @@
     },
     "candidates": {
       "augusto-cury": {
-        "support": 4.55,
+        "support": 4.54,
         "modelLow": 3.68,
-        "modelHigh": 5.43,
-        "bootstrapP10": 4.11,
-        "bootstrapP50": 4.52,
-        "bootstrapP90": 4.99,
-        "instituteBootstrapP10": 3.81,
+        "modelHigh": 5.4,
+        "bootstrapP10": 4.06,
+        "bootstrapP50": 4.5,
+        "bootstrapP90": 4.94,
+        "instituteBootstrapP10": 3.88,
         "instituteBootstrapP50": 4.57,
-        "instituteBootstrapP90": 5.4,
-        "instituteBootstrapHalfWidth": 0.85,
+        "instituteBootstrapP90": 5.29,
+        "instituteBootstrapHalfWidth": 0.75,
         "methodBootstrapP10": 3.11,
-        "methodBootstrapP50": 4.55,
-        "methodBootstrapP90": 5.59,
-        "methodBootstrapHalfWidth": 1.44,
+        "methodBootstrapP50": 4.54,
+        "methodBootstrapP90": 5.55,
+        "methodBootstrapHalfWidth": 1.43,
         "parameterStressLow": 4.25,
-        "parameterStressHigh": 4.83,
-        "parameterStressHalfWidth": 0.3,
+        "parameterStressHigh": 4.79,
+        "parameterStressHalfWidth": 0.29,
         "dominantComponent": "empirical",
         "empiricalErrorQ80": 1.6,
         "empiricalSupportBand": "low",
         "empiricalSupportBandCount": 558,
         "empiricalSupportBandUsed": true,
-        "advancedLow": 2.95,
-        "advancedHigh": 6.15,
+        "advancedLow": 2.94,
+        "advancedHigh": 6.14,
         "advancedHalfWidth": 1.6
       },
       "flavio-bolsonaro": {
-        "support": 38.2,
-        "modelLow": 36.68,
-        "modelHigh": 39.71,
-        "bootstrapP10": 37.62,
-        "bootstrapP50": 38.27,
-        "bootstrapP90": 39.02,
-        "instituteBootstrapP10": 36.74,
-        "instituteBootstrapP50": 38.24,
-        "instituteBootstrapP90": 39.53,
-        "instituteBootstrapHalfWidth": 1.46,
-        "methodBootstrapP10": 36.62,
-        "methodBootstrapP50": 38.2,
-        "methodBootstrapP90": 40.3,
-        "methodBootstrapHalfWidth": 2.1,
-        "parameterStressLow": 37.93,
-        "parameterStressHigh": 38.48,
+        "support": 38.21,
+        "modelLow": 36.7,
+        "modelHigh": 39.72,
+        "bootstrapP10": 37.67,
+        "bootstrapP50": 38.41,
+        "bootstrapP90": 39.12,
+        "instituteBootstrapP10": 36.72,
+        "instituteBootstrapP50": 38.19,
+        "instituteBootstrapP90": 39.37,
+        "instituteBootstrapHalfWidth": 1.49,
+        "methodBootstrapP10": 36.64,
+        "methodBootstrapP50": 38.21,
+        "methodBootstrapP90": 40.27,
+        "methodBootstrapHalfWidth": 2.06,
+        "parameterStressLow": 37.97,
+        "parameterStressHigh": 38.49,
         "parameterStressHalfWidth": 0.28,
         "dominantComponent": "empirical",
         "empiricalErrorQ80": 4.02,
         "empiricalSupportBand": "high",
         "empiricalSupportBandCount": 284,
         "empiricalSupportBandUsed": true,
-        "advancedLow": 34.18,
-        "advancedHigh": 42.22,
+        "advancedLow": 34.19,
+        "advancedHigh": 42.23,
         "advancedHalfWidth": 4.02
       },
       "lula": {
-        "support": 40.7,
-        "modelLow": 39.68,
-        "modelHigh": 41.71,
-        "bootstrapP10": 40.2,
-        "bootstrapP50": 40.72,
-        "bootstrapP90": 41.18,
-        "instituteBootstrapP10": 39.82,
-        "instituteBootstrapP50": 40.62,
-        "instituteBootstrapP90": 41.61,
-        "instituteBootstrapHalfWidth": 0.91,
-        "methodBootstrapP10": 39.53,
-        "methodBootstrapP50": 40.7,
-        "methodBootstrapP90": 42.32,
+        "support": 40.68,
+        "modelLow": 39.66,
+        "modelHigh": 41.69,
+        "bootstrapP10": 40.22,
+        "bootstrapP50": 40.73,
+        "bootstrapP90": 41.17,
+        "instituteBootstrapP10": 39.74,
+        "instituteBootstrapP50": 40.59,
+        "instituteBootstrapP90": 41.52,
+        "instituteBootstrapHalfWidth": 0.94,
+        "methodBootstrapP10": 39.52,
+        "methodBootstrapP50": 40.68,
+        "methodBootstrapP90": 42.3,
         "methodBootstrapHalfWidth": 1.62,
-        "parameterStressLow": 40.52,
-        "parameterStressHigh": 40.89,
-        "parameterStressHalfWidth": 0.19,
+        "parameterStressLow": 40.51,
+        "parameterStressHigh": 40.86,
+        "parameterStressHalfWidth": 0.18,
         "dominantComponent": "empirical",
         "empiricalErrorQ80": 4.02,
         "empiricalSupportBand": "high",
         "empiricalSupportBandCount": 284,
         "empiricalSupportBandUsed": true,
-        "advancedLow": 36.68,
-        "advancedHigh": 44.72,
+        "advancedLow": 36.66,
+        "advancedHigh": 44.7,
         "advancedHalfWidth": 4.02
       },
       "pablo-marcal": {
         "support": 1.6,
         "modelLow": 1.0,
         "modelHigh": 2.2,
-        "bootstrapP10": 1.46,
+        "bootstrapP10": 1.45,
         "bootstrapP50": 1.61,
-        "bootstrapP90": 1.79,
-        "instituteBootstrapP10": 1.42,
+        "bootstrapP90": 1.78,
+        "instituteBootstrapP10": 1.44,
         "instituteBootstrapP50": 1.59,
-        "instituteBootstrapP90": 1.76,
-        "instituteBootstrapHalfWidth": 0.18,
-        "methodBootstrapP10": 1.34,
+        "instituteBootstrapP90": 1.75,
+        "instituteBootstrapHalfWidth": 0.16,
+        "methodBootstrapP10": 1.35,
         "methodBootstrapP50": 1.6,
-        "methodBootstrapP90": 1.72,
-        "methodBootstrapHalfWidth": 0.26,
+        "methodBootstrapP90": 1.71,
+        "methodBootstrapHalfWidth": 0.25,
         "parameterStressLow": 1.58,
-        "parameterStressHigh": 1.62,
+        "parameterStressHigh": 1.61,
         "parameterStressHalfWidth": 0.02,
         "dominantComponent": "empirical",
         "empiricalErrorQ80": 1.6,
@@ -3461,43 +3349,43 @@
         "advancedHalfWidth": 1.6
       },
       "renan-santos": {
-        "support": 4.34,
-        "modelLow": 3.5,
-        "modelHigh": 5.19,
-        "bootstrapP10": 4.07,
-        "bootstrapP50": 4.39,
-        "bootstrapP90": 4.77,
-        "instituteBootstrapP10": 3.44,
-        "instituteBootstrapP50": 4.3,
-        "instituteBootstrapP90": 5.23,
-        "instituteBootstrapHalfWidth": 0.9,
+        "support": 4.33,
+        "modelLow": 3.49,
+        "modelHigh": 5.17,
+        "bootstrapP10": 4.05,
+        "bootstrapP50": 4.4,
+        "bootstrapP90": 4.76,
+        "instituteBootstrapP10": 3.47,
+        "instituteBootstrapP50": 4.25,
+        "instituteBootstrapP90": 5.15,
+        "instituteBootstrapHalfWidth": 0.86,
         "methodBootstrapP10": 3.38,
-        "methodBootstrapP50": 4.34,
-        "methodBootstrapP90": 5.69,
+        "methodBootstrapP50": 4.33,
+        "methodBootstrapP90": 5.68,
         "methodBootstrapHalfWidth": 1.35,
-        "parameterStressLow": 4.26,
-        "parameterStressHigh": 4.39,
+        "parameterStressLow": 4.25,
+        "parameterStressHigh": 4.38,
         "parameterStressHalfWidth": 0.08,
         "dominantComponent": "empirical",
         "empiricalErrorQ80": 1.6,
         "empiricalSupportBand": "low",
         "empiricalSupportBandCount": 558,
         "empiricalSupportBandUsed": true,
-        "advancedLow": 2.74,
-        "advancedHigh": 5.94,
+        "advancedLow": 2.73,
+        "advancedHigh": 5.93,
         "advancedHalfWidth": 1.6
       },
       "romeu-zema": {
         "support": 1.26,
         "modelLow": 0.66,
         "modelHigh": 1.86,
-        "bootstrapP10": 1.08,
-        "bootstrapP50": 1.25,
+        "bootstrapP10": 1.09,
+        "bootstrapP50": 1.24,
         "bootstrapP90": 1.4,
-        "instituteBootstrapP10": 1.07,
-        "instituteBootstrapP50": 1.25,
-        "instituteBootstrapP90": 1.47,
-        "instituteBootstrapHalfWidth": 0.21,
+        "instituteBootstrapP10": 1.08,
+        "instituteBootstrapP50": 1.24,
+        "instituteBootstrapP90": 1.46,
+        "instituteBootstrapHalfWidth": 0.2,
         "methodBootstrapP10": 1.12,
         "methodBootstrapP50": 1.26,
         "methodBootstrapP90": 1.36,
@@ -3515,30 +3403,30 @@
         "advancedHalfWidth": 1.6
       },
       "ronaldo-caiado": {
-        "support": 3.14,
-        "modelLow": 2.54,
-        "modelHigh": 3.74,
-        "bootstrapP10": 2.84,
-        "bootstrapP50": 3.1,
-        "bootstrapP90": 3.36,
-        "instituteBootstrapP10": 2.59,
-        "instituteBootstrapP50": 3.14,
-        "instituteBootstrapP90": 3.68,
-        "instituteBootstrapHalfWidth": 0.55,
-        "methodBootstrapP10": 2.06,
-        "methodBootstrapP50": 3.14,
-        "methodBootstrapP90": 3.91,
-        "methodBootstrapHalfWidth": 1.08,
-        "parameterStressLow": 3.1,
-        "parameterStressHigh": 3.2,
+        "support": 3.16,
+        "modelLow": 2.56,
+        "modelHigh": 3.76,
+        "bootstrapP10": 2.81,
+        "bootstrapP50": 3.13,
+        "bootstrapP90": 3.38,
+        "instituteBootstrapP10": 2.67,
+        "instituteBootstrapP50": 3.2,
+        "instituteBootstrapP90": 3.72,
+        "instituteBootstrapHalfWidth": 0.56,
+        "methodBootstrapP10": 2.07,
+        "methodBootstrapP50": 3.16,
+        "methodBootstrapP90": 3.93,
+        "methodBootstrapHalfWidth": 1.09,
+        "parameterStressLow": 3.13,
+        "parameterStressHigh": 3.22,
         "parameterStressHalfWidth": 0.06,
         "dominantComponent": "empirical",
         "empiricalErrorQ80": 1.6,
         "empiricalSupportBand": "low",
         "empiricalSupportBandCount": 558,
         "empiricalSupportBandUsed": true,
-        "advancedLow": 1.54,
-        "advancedHigh": 4.74,
+        "advancedLow": 1.56,
+        "advancedHigh": 4.76,
         "advancedHalfWidth": 1.6
       }
     },
@@ -3548,53 +3436,53 @@
     "status": "ok",
     "overall": "consistent",
     "recentDays": 7,
-    "recentPollCount": 11,
-    "recentInstituteCount": 10,
+    "recentPollCount": 9,
+    "recentInstituteCount": 9,
     "previousPollCount": 32,
     "previousInstituteCount": 15,
     "candidates": {
       "augusto-cury": {
-        "recentSupport": 3.64,
-        "previousSupport": 5.45,
-        "currentSupport": 4.55,
-        "differenceRecentVsPrevious": -1.81,
-        "signalRatio": 2.37,
-        "instituteConsistency": 0.9,
-        "recentInstituteCount": 10,
+        "recentSupport": 3.46,
+        "previousSupport": 5.4,
+        "currentSupport": 4.54,
+        "differenceRecentVsPrevious": -1.94,
+        "signalRatio": 2.56,
+        "instituteConsistency": 0.89,
+        "recentInstituteCount": 9,
         "level": "consistent",
-        "shadowAdaptiveSupport": 3.96,
+        "shadowAdaptiveSupport": 3.84,
         "shadowRecentWeight": 0.65,
-        "persistenceStreak": 11,
+        "persistenceStreak": 12,
         "persistenceStatus": "persistent",
         "persistentSignal": true,
         "persistenceDirection": "down"
       },
       "flavio-bolsonaro": {
-        "recentSupport": 39.29,
-        "previousSupport": 37.35,
-        "currentSupport": 38.2,
-        "differenceRecentVsPrevious": 1.94,
-        "signalRatio": 1.32,
-        "instituteConsistency": 0.6,
-        "recentInstituteCount": 10,
+        "recentSupport": 39.54,
+        "previousSupport": 37.47,
+        "currentSupport": 38.21,
+        "differenceRecentVsPrevious": 2.07,
+        "signalRatio": 1.37,
+        "instituteConsistency": 0.67,
+        "recentInstituteCount": 9,
         "level": "watch",
-        "shadowAdaptiveSupport": 38.74,
+        "shadowAdaptiveSupport": 38.88,
         "shadowRecentWeight": 0.5,
-        "persistenceStreak": 1,
-        "persistenceStatus": "unconfirmed",
+        "persistenceStreak": 2,
+        "persistenceStatus": "building",
         "persistentSignal": false,
         "persistenceDirection": "up"
       },
       "lula": {
-        "recentSupport": 41.26,
-        "previousSupport": 40.3,
-        "currentSupport": 40.7,
-        "differenceRecentVsPrevious": 0.96,
-        "signalRatio": 0.95,
-        "instituteConsistency": 0.4,
-        "recentInstituteCount": 10,
+        "recentSupport": 41.42,
+        "previousSupport": 40.19,
+        "currentSupport": 40.68,
+        "differenceRecentVsPrevious": 1.23,
+        "signalRatio": 1.17,
+        "instituteConsistency": 0.44,
+        "recentInstituteCount": 9,
         "level": "stable",
-        "shadowAdaptiveSupport": 40.7,
+        "shadowAdaptiveSupport": 40.68,
         "shadowRecentWeight": 0.0,
         "persistenceStreak": 0,
         "persistenceStatus": "stable",
@@ -3602,15 +3490,15 @@
         "persistenceDirection": "up"
       },
       "renan-santos": {
-        "recentSupport": 4.22,
-        "previousSupport": 4.72,
-        "currentSupport": 4.34,
-        "differenceRecentVsPrevious": -0.5,
-        "signalRatio": 0.61,
-        "instituteConsistency": 0.8,
-        "recentInstituteCount": 10,
+        "recentSupport": 4.36,
+        "previousSupport": 4.54,
+        "currentSupport": 4.33,
+        "differenceRecentVsPrevious": -0.18,
+        "signalRatio": 0.22,
+        "instituteConsistency": 0.78,
+        "recentInstituteCount": 9,
         "level": "stable",
-        "shadowAdaptiveSupport": 4.34,
+        "shadowAdaptiveSupport": 4.33,
         "shadowRecentWeight": 0.0,
         "persistenceStreak": 0,
         "persistenceStatus": "stable",
@@ -3618,13 +3506,13 @@
         "persistenceDirection": "down"
       },
       "romeu-zema": {
-        "recentSupport": 1.33,
-        "previousSupport": 1.09,
+        "recentSupport": 1.38,
+        "previousSupport": 1.06,
         "currentSupport": 1.26,
-        "differenceRecentVsPrevious": 0.24,
-        "signalRatio": 0.56,
-        "instituteConsistency": 0.3,
-        "recentInstituteCount": 10,
+        "differenceRecentVsPrevious": 0.31,
+        "signalRatio": 0.73,
+        "instituteConsistency": 0.33,
+        "recentInstituteCount": 9,
         "level": "stable",
         "shadowAdaptiveSupport": 1.26,
         "shadowRecentWeight": 0.0,
@@ -3634,15 +3522,15 @@
         "persistenceDirection": "up"
       },
       "ronaldo-caiado": {
-        "recentSupport": 3.34,
-        "previousSupport": 2.79,
-        "currentSupport": 3.14,
-        "differenceRecentVsPrevious": 0.55,
-        "signalRatio": 0.98,
-        "instituteConsistency": 0.8,
-        "recentInstituteCount": 10,
+        "recentSupport": 3.21,
+        "previousSupport": 3.0,
+        "currentSupport": 3.16,
+        "differenceRecentVsPrevious": 0.21,
+        "signalRatio": 0.36,
+        "instituteConsistency": 0.78,
+        "recentInstituteCount": 9,
         "level": "stable",
-        "shadowAdaptiveSupport": 3.14,
+        "shadowAdaptiveSupport": 3.16,
         "shadowRecentWeight": 0.0,
         "persistenceStreak": 0,
         "persistenceStatus": "stable",
@@ -3652,11 +3540,11 @@
     },
     "adaptiveApplied": false,
     "note": "Compara o bloco recente com pesquisas de 8 a 30 dias. A leitura adaptativa é calculada apenas em sombra para validação e não substitui o agregado principal.",
-    "evidenceFingerprint": "986322df02492985c3d7",
-    "evidenceChanged": false,
-    "evidenceStateCount": 11,
+    "evidenceFingerprint": "0c55350b711511e349f1",
+    "evidenceChanged": true,
+    "evidenceStateCount": 12,
     "persistentCandidateCount": 1,
-    "buildingCandidateCount": 0,
+    "buildingCandidateCount": 1,
     "persistenceApplied": false,
     "persistenceNote": "Persistência conta apenas conjuntos distintos de pesquisas. Execuções repetidas sem nova evidência não avançam o contador. Três estados de evidência consecutivos na mesma direção são necessários para marcar um sinal como persistente."
   },
