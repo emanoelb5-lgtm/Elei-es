@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-03T21:34:54.816481Z",
+  "generatedAt": "2026-10-04T00:01:22.485497Z",
   "correctionApplied": false,
   "correctionPolicy": "diagnóstico somente; nenhum ajuste por instituto, método ou house effect altera a média atual",
   "sourceDiagnostics": {
@@ -1087,28 +1087,28 @@
     "maxAbsoluteAdjustment": 3.0,
     "candidates": {
       "augusto-cury": {
-        "baselineSupport": 4.25,
+        "baselineSupport": 4.24,
         "shadowSupport": 4.44,
         "difference": 0.19
       },
       "flavio-bolsonaro": {
-        "baselineSupport": 38.34,
-        "shadowSupport": 38.18,
-        "difference": -0.17
+        "baselineSupport": 38.35,
+        "shadowSupport": 38.19,
+        "difference": -0.16
       },
       "lula": {
         "baselineSupport": 41.01,
-        "shadowSupport": 40.95,
+        "shadowSupport": 40.96,
         "difference": -0.06
       },
       "pablo-marcal": {
-        "baselineSupport": 1.58,
+        "baselineSupport": 1.57,
         "shadowSupport": 1.54,
         "difference": -0.04
       },
       "renan-santos": {
-        "baselineSupport": 4.1,
-        "shadowSupport": 3.95,
+        "baselineSupport": 4.09,
+        "shadowSupport": 3.94,
         "difference": -0.15
       },
       "romeu-zema": {
@@ -1118,7 +1118,7 @@
       },
       "ronaldo-caiado": {
         "baselineSupport": 3.13,
-        "shadowSupport": 3.15,
+        "shadowSupport": 3.14,
         "difference": 0.02
       }
     },
