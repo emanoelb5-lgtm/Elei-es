@@ -1,6 +1,6 @@
 {
   "schemaVersion": 16,
-  "generatedAt": "2026-10-04T19:12:28.369074Z",
+  "generatedAt": "2026-10-04T22:19:56.434195Z",
   "electionDate": "2026-10-04",
   "daysToElection": 0,
   "quality": {
@@ -19,7 +19,7 @@
       "label": "BBC / PollingData",
       "type": "base de pesquisas individuais",
       "status": "ok",
-      "updatedAt": "2026-10-04T19:12:31.736799Z",
+      "updatedAt": "2026-10-04T22:19:58.601763Z",
       "url": "https://news.files.bbci.co.uk/include/vjamericas/1561-poll-tracker-brazil-2026/table/portuguese/app/amp",
       "tablesFound": 2
     },
@@ -28,7 +28,7 @@
       "label": "TSE · PesqEle",
       "type": "cadastro oficial de pesquisas",
       "status": "ok",
-      "updatedAt": "2026-10-04T19:12:29.219514Z",
+      "updatedAt": "2026-10-04T22:19:57.343379Z",
       "url": "https://dadosabertos.tse.jus.br/dataset/pesquisas-eleitorais-2026",
       "recordsFound": 7
     },
@@ -46,7 +46,7 @@
       "label": "ElectioLab",
       "type": "agregador de conferência · sem peso",
       "status": "ok",
-      "updatedAt": "2026-10-04T19:12:32.492573Z",
+      "updatedAt": "2026-10-04T22:19:59.246618Z",
       "url": "https://electiolab.com/pesquisas-presidenciais-2026",
       "pageFreshness": "29 de setembro de 2026"
     },
@@ -64,7 +64,7 @@
       "label": "Polymarket",
       "type": "mercado de previsão · sinal externo",
       "status": "ok",
-      "updatedAt": "2026-10-04T19:12:31.785957Z",
+      "updatedAt": "2026-10-04T22:19:58.689457Z",
       "url": "https://polymarket.com/event/brazil-presidential-election"
     }
   ],
@@ -91,7 +91,7 @@
       "modelIntervalHigh": 40.71,
       "change": 0.0,
       "trend": "estável",
-      "marketSignal": 63.55
+      "marketSignal": 84.55
     },
     {
       "id": "lula",
@@ -103,7 +103,7 @@
       "modelIntervalHigh": 42.39,
       "change": 0.0,
       "trend": "estável",
-      "marketSignal": 36.5
+      "marketSignal": 15.5
     },
     {
       "id": "pablo-marcal",
@@ -127,7 +127,7 @@
       "modelIntervalHigh": 4.43,
       "change": 0.0,
       "trend": "estável",
-      "marketSignal": 0.15
+      "marketSignal": 0.05
     },
     {
       "id": "romeu-zema",
