@@ -1,6 +1,6 @@
 {
   "schemaVersion": 16,
-  "generatedAt": "2026-10-05T06:58:40.254304Z",
+  "generatedAt": "2026-10-05T15:34:50.574289Z",
   "electionDate": "2026-10-04",
   "daysToElection": 0,
   "quality": {
@@ -19,7 +19,7 @@
       "label": "BBC / PollingData",
       "type": "base de pesquisas individuais",
       "status": "ok",
-      "updatedAt": "2026-10-05T06:58:42.900274Z",
+      "updatedAt": "2026-10-05T15:34:53.653957Z",
       "url": "https://news.files.bbci.co.uk/include/vjamericas/1561-poll-tracker-brazil-2026/table/portuguese/app/amp",
       "tablesFound": 2
     },
@@ -28,7 +28,7 @@
       "label": "TSE · PesqEle",
       "type": "cadastro oficial de pesquisas",
       "status": "ok",
-      "updatedAt": "2026-10-05T06:58:41.465165Z",
+      "updatedAt": "2026-10-05T15:34:52.250673Z",
       "url": "https://dadosabertos.tse.jus.br/dataset/pesquisas-eleitorais-2026",
       "recordsFound": 7
     },
@@ -46,7 +46,7 @@
       "label": "ElectioLab",
       "type": "agregador de conferência · sem peso",
       "status": "ok",
-      "updatedAt": "2026-10-05T06:58:44.383598Z",
+      "updatedAt": "2026-10-05T15:34:54.965499Z",
       "url": "https://electiolab.com/pesquisas-presidenciais-2026",
       "pageFreshness": "29 de setembro de 2026"
     },
@@ -64,7 +64,7 @@
       "label": "Polymarket",
       "type": "mercado de previsão · sinal externo",
       "status": "ok",
-      "updatedAt": "2026-10-05T06:58:43.003515Z",
+      "updatedAt": "2026-10-05T15:34:53.759118Z",
       "url": "https://polymarket.com/event/brazil-presidential-election"
     }
   ],
@@ -79,7 +79,7 @@
       "modelIntervalHigh": 4.37,
       "change": -0.0,
       "trend": "estável",
-      "marketSignal": 0.05
+      "marketSignal": 0.0
     },
     {
       "id": "flavio-bolsonaro",
@@ -91,7 +91,7 @@
       "modelIntervalHigh": 40.72,
       "change": -0.0,
       "trend": "estável",
-      "marketSignal": 81.8
+      "marketSignal": 84.45
     },
     {
       "id": "lula",
@@ -103,7 +103,7 @@
       "modelIntervalHigh": 42.41,
       "change": -0.0,
       "trend": "estável",
-      "marketSignal": 18.5
+      "marketSignal": 15.5
     },
     {
       "id": "pablo-marcal",
@@ -115,7 +115,7 @@
       "modelIntervalHigh": 2.2,
       "change": 0.0,
       "trend": "estável",
-      "marketSignal": 0.05
+      "marketSignal": 0.0
     },
     {
       "id": "renan-santos",
@@ -127,7 +127,7 @@
       "modelIntervalHigh": 4.44,
       "change": 0.0,
       "trend": "estável",
-      "marketSignal": 0.05
+      "marketSignal": 0.0
     },
     {
       "id": "romeu-zema",
@@ -139,7 +139,7 @@
       "modelIntervalHigh": 1.53,
       "change": -0.0,
       "trend": "estável",
-      "marketSignal": 0.05
+      "marketSignal": 0.0
     },
     {
       "id": "ronaldo-caiado",
@@ -151,7 +151,7 @@
       "modelIntervalHigh": 3.59,
       "change": -0.0,
       "trend": "estável",
-      "marketSignal": 0.05
+      "marketSignal": 0.0
     }
   ],
   "runoffScenarios": [
