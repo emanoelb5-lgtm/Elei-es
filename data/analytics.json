@@ -1,6 +1,6 @@
 {
   "schemaVersion": 16,
-  "generatedAt": "2026-10-07T19:00:12.082152Z",
+  "generatedAt": "2026-10-07T23:30:05.070571Z",
   "electionDate": "2026-10-04",
   "daysToElection": 0,
   "quality": {
@@ -19,7 +19,7 @@
       "label": "BBC / PollingData",
       "type": "base de pesquisas individuais",
       "status": "ok",
-      "updatedAt": "2026-10-07T19:00:13.879078Z",
+      "updatedAt": "2026-10-07T23:30:07.791982Z",
       "url": "https://news.files.bbci.co.uk/include/vjamericas/1561-poll-tracker-brazil-2026/table/portuguese/app/amp",
       "tablesFound": 2
     },
@@ -28,7 +28,7 @@
       "label": "TSE · PesqEle",
       "type": "cadastro oficial de pesquisas",
       "status": "ok",
-      "updatedAt": "2026-10-07T19:00:12.783170Z",
+      "updatedAt": "2026-10-07T23:30:06.651218Z",
       "url": "https://dadosabertos.tse.jus.br/dataset/pesquisas-eleitorais-2026",
       "recordsFound": 7
     },
@@ -64,7 +64,7 @@
       "label": "Polymarket",
       "type": "mercado de previsão · sinal externo",
       "status": "ok",
-      "updatedAt": "2026-10-07T19:00:13.922768Z",
+      "updatedAt": "2026-10-07T23:30:07.874843Z",
       "url": "https://polymarket.com/event/brazil-presidential-election"
     }
   ],
@@ -91,7 +91,7 @@
       "modelIntervalHigh": 40.71,
       "change": -0.0,
       "trend": "estável",
-      "marketSignal": 84.75
+      "marketSignal": 83.85
     },
     {
       "id": "lula",
@@ -103,7 +103,7 @@
       "modelIntervalHigh": 42.41,
       "change": 0.0,
       "trend": "estável",
-      "marketSignal": 14.5
+      "marketSignal": 15.5
     },
     {
       "id": "pablo-marcal",
