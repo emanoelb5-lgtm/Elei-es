@@ -91,7 +91,7 @@ jobs:
           VERSION: ${{ steps.meta.outputs.version }}
         run: |
           set -euo pipefail
-          NOTES='v0.9.5 melhora a experiência Android: início com hierarquia visual renovada, indicadores em destaque e navegação com ícones; última leitura salva no aparelho para uso sem conexão; consultas complementares independentes, com aviso quando alguma fonte estiver indisponível; datas e falhas de atualização apresentadas com clareza. O cálculo eleitoral e a assinatura de desenvolvimento estável permanecem os mesmos.'
+          NOTES='v0.10.0 concentra o aplicativo no segundo turno presidencial de 25/10/2026 entre Flávio Bolsonaro e Lula. Nova tela, pesquisas publicadas após o primeiro turno, fonte de cada levantamento, bases de votos totais e válidos separadas, atualização e leitura salva no aparelho. Sem reaproveitar simulações anteriores nem calcular previsão de resultado. APK assinado com a identidade de desenvolvimento estável desde a v0.2.0.'
           APK="dist/Termometro-Eleicoes-2026-v${VERSION}.apk"
           TAG="v${VERSION}"
           RELEASE_OK=0

@@ -10,6 +10,9 @@ on:
       - 'scripts/update_analytics.py'
       - 'requirements.txt'
       - 'tests/test_analytics.py'
+      - 'scripts/update_runoff.py'
+      - 'data/runoff-curated.json'
+      - 'tests/test_runoff.py'
 
 permissions:
   contents: write
@@ -33,10 +36,15 @@ jobs:
       - run: pip install -r requirements.txt
 
       - name: Testar parser e agregador corrente
-        run: python -m unittest discover -s tests -p 'test_analytics.py' -v
+        run: |
+          python -m unittest discover -s tests -p 'test_analytics.py' -v
+          python -m unittest discover -s tests -p 'test_runoff.py' -v
 
       - name: Atualizar analytics auditáveis
         run: python scripts/update_analytics.py
+
+      - name: Atualizar pesquisas do segundo turno
+        run: python scripts/update_runoff.py
 
       - name: Validar saída corrente
         run: |
@@ -132,6 +140,26 @@ jobs:
           )
           PY
 
+      - name: Validar leitura do segundo turno
+        run: |
+          python - <<'PY'
+          import json
+          from datetime import date
+
+          r = json.load(open('data/runoff-2026.json'))
+          assert r['schemaVersion'] == 1
+          assert r['electionDate'] == '2026-10-25'
+          assert {c['id'] for c in r['candidates']} == {'flavio-bolsonaro', 'lula'}
+          assert r['pollCount'] == len(r['polls']) >= 2
+          assert r['instituteCount'] == len({p['institute'].lower() for p in r['polls']})
+          for p in r['polls']:
+              assert date(2026, 10, 5) <= date.fromisoformat(p['fieldworkEnd']) <= date.today()
+              assert set(p['result']) == {'flavio-bolsonaro', 'lula'}
+              assert p['basis'] in ('total', 'valid', 'unspecified')
+              assert p['sourceUrl'].startswith('https://')
+          print('Segundo turno OK:', r['pollCount'], 'pesquisas')
+          PY
+
       - name: Publicar dados correntes se houver mudança
         run: |
           set -euo pipefail
@@ -141,6 +169,7 @@ jobs:
           cp data/analytics.json /tmp/analytics.json
           cp data/analytics-history.json /tmp/analytics-history.json
           cp data/polls.json /tmp/polls.json
+          cp data/runoff-2026.json /tmp/runoff-2026.json
           cp data/calibration.json /tmp/calibration.json
           cp data/regime-history.json /tmp/regime-history.json
 
@@ -152,10 +181,11 @@ jobs:
             cp /tmp/analytics.json data/analytics.json
             cp /tmp/analytics-history.json data/analytics-history.json
             cp /tmp/polls.json data/polls.json
+            cp /tmp/runoff-2026.json data/runoff-2026.json
             cp /tmp/calibration.json data/calibration.json
             cp /tmp/regime-history.json data/regime-history.json
 
-            git add data/analytics.json data/analytics-history.json data/polls.json data/calibration.json data/regime-history.json
+            git add data/analytics.json data/analytics-history.json data/polls.json data/runoff-2026.json data/calibration.json data/regime-history.json
             if git diff --cached --quiet; then
               echo "Sem mudança"
               exit 0

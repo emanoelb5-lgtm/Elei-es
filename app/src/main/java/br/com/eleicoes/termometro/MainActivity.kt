@@ -51,7 +51,7 @@ private val Negative = Color(0xFFB42318)
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent { TermometroApp() }
+        setContent { SegundoTurnoApp() }
     }
 }
 
