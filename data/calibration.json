@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-09T20:05:32.345203Z",
+  "generatedAt": "2026-10-10T00:00:33.671239Z",
   "correctionApplied": false,
   "correctionPolicy": "diagnóstico somente; nenhum ajuste por instituto, método ou house effect altera a média atual",
   "sourceDiagnostics": {
@@ -1127,38 +1127,38 @@
     "maxAbsoluteAdjustment": 3.0,
     "candidates": {
       "augusto-cury": {
-        "baselineSupport": 3.72,
-        "shadowSupport": 3.87,
-        "difference": 0.16
+        "baselineSupport": 3.67,
+        "shadowSupport": 3.82,
+        "difference": 0.15
       },
       "flavio-bolsonaro": {
-        "baselineSupport": 39.43,
-        "shadowSupport": 39.2,
+        "baselineSupport": 39.53,
+        "shadowSupport": 39.3,
         "difference": -0.23
       },
       "lula": {
-        "baselineSupport": 41.53,
-        "shadowSupport": 41.48,
-        "difference": -0.04
+        "baselineSupport": 41.57,
+        "shadowSupport": 41.52,
+        "difference": -0.05
       },
       "pablo-marcal": {
-        "baselineSupport": 1.57,
-        "shadowSupport": 1.53,
-        "difference": -0.04
+        "baselineSupport": 1.54,
+        "shadowSupport": 1.49,
+        "difference": -0.05
       },
       "renan-santos": {
-        "baselineSupport": 3.78,
-        "shadowSupport": 3.61,
+        "baselineSupport": 3.76,
+        "shadowSupport": 3.6,
         "difference": -0.17
       },
       "romeu-zema": {
-        "baselineSupport": 0.94,
-        "shadowSupport": 0.98,
+        "baselineSupport": 0.93,
+        "shadowSupport": 0.97,
         "difference": 0.04
       },
       "ronaldo-caiado": {
         "baselineSupport": 2.98,
-        "shadowSupport": 3.08,
+        "shadowSupport": 3.07,
         "difference": 0.09
       }
     },
@@ -1251,44 +1251,44 @@
       },
       "futura": {
         "label": "Futura",
-        "pollCount": 8,
-        "comparisonCount": 51,
+        "pollCount": 7,
+        "comparisonCount": 45,
         "candidateEffects": {
           "augusto-cury": {
-            "rawOffset": 0.56,
-            "shrunkenOffset": 0.32,
-            "comparisons": 8,
-            "shrinkageFactor": 0.571
+            "rawOffset": 0.72,
+            "shrunkenOffset": 0.39,
+            "comparisons": 7,
+            "shrinkageFactor": 0.538
           },
           "flavio-bolsonaro": {
-            "rawOffset": 1.1,
-            "shrunkenOffset": 0.63,
-            "comparisons": 8,
-            "shrinkageFactor": 0.571
+            "rawOffset": 0.61,
+            "shrunkenOffset": 0.33,
+            "comparisons": 7,
+            "shrinkageFactor": 0.538
           },
           "lula": {
-            "rawOffset": -1.45,
-            "shrunkenOffset": -0.83,
-            "comparisons": 8,
-            "shrinkageFactor": 0.571
+            "rawOffset": -1.68,
+            "shrunkenOffset": -0.9,
+            "comparisons": 7,
+            "shrinkageFactor": 0.538
           },
           "renan-santos": {
-            "rawOffset": -1.31,
-            "shrunkenOffset": -0.75,
-            "comparisons": 8,
-            "shrinkageFactor": 0.571
+            "rawOffset": -1.25,
+            "shrunkenOffset": -0.67,
+            "comparisons": 7,
+            "shrinkageFactor": 0.538
           },
           "romeu-zema": {
-            "rawOffset": 0.2,
-            "shrunkenOffset": 0.11,
-            "comparisons": 8,
-            "shrinkageFactor": 0.571
+            "rawOffset": 0.15,
+            "shrunkenOffset": 0.08,
+            "comparisons": 7,
+            "shrinkageFactor": 0.538
           },
           "ronaldo-caiado": {
-            "rawOffset": 1.36,
-            "shrunkenOffset": 0.78,
-            "comparisons": 8,
-            "shrinkageFactor": 0.571
+            "rawOffset": 1.5,
+            "shrunkenOffset": 0.81,
+            "comparisons": 7,
+            "shrinkageFactor": 0.538
           }
         }
       },
@@ -1304,20 +1304,20 @@
             "shrinkageFactor": 0.538
           },
           "flavio-bolsonaro": {
-            "rawOffset": 3.23,
-            "shrunkenOffset": 1.74,
+            "rawOffset": 3.25,
+            "shrunkenOffset": 1.75,
             "comparisons": 7,
             "shrinkageFactor": 0.538
           },
           "lula": {
-            "rawOffset": -2.69,
+            "rawOffset": -2.7,
             "shrunkenOffset": -1.45,
             "comparisons": 7,
             "shrinkageFactor": 0.538
           },
           "renan-santos": {
-            "rawOffset": -1.37,
-            "shrunkenOffset": -0.74,
+            "rawOffset": -1.39,
+            "shrunkenOffset": -0.75,
             "comparisons": 7,
             "shrinkageFactor": 0.538
           },
@@ -1341,14 +1341,14 @@
         "comparisonCount": 25,
         "candidateEffects": {
           "augusto-cury": {
-            "rawOffset": -0.95,
+            "rawOffset": -0.96,
             "shrunkenOffset": -0.38,
             "comparisons": 4,
             "shrinkageFactor": 0.4
           },
           "flavio-bolsonaro": {
-            "rawOffset": -3.47,
-            "shrunkenOffset": -1.39,
+            "rawOffset": -3.44,
+            "shrunkenOffset": -1.38,
             "comparisons": 4,
             "shrinkageFactor": 0.4
           },
@@ -1359,8 +1359,8 @@
             "shrinkageFactor": 0.4
           },
           "renan-santos": {
-            "rawOffset": -1.03,
-            "shrunkenOffset": -0.41,
+            "rawOffset": -1.06,
+            "shrunkenOffset": -0.42,
             "comparisons": 4,
             "shrinkageFactor": 0.4
           },
@@ -1384,20 +1384,20 @@
         "comparisonCount": 70,
         "candidateEffects": {
           "augusto-cury": {
-            "rawOffset": 0.72,
-            "shrunkenOffset": 0.47,
+            "rawOffset": 0.71,
+            "shrunkenOffset": 0.46,
             "comparisons": 11,
             "shrinkageFactor": 0.647
           },
           "flavio-bolsonaro": {
-            "rawOffset": -0.31,
-            "shrunkenOffset": -0.2,
+            "rawOffset": -0.17,
+            "shrunkenOffset": -0.11,
             "comparisons": 11,
             "shrinkageFactor": 0.647
           },
           "lula": {
-            "rawOffset": -0.0,
-            "shrunkenOffset": -0.0,
+            "rawOffset": 0.0,
+            "shrunkenOffset": 0.0,
             "comparisons": 11,
             "shrinkageFactor": 0.647
           },
@@ -1408,20 +1408,20 @@
             "shrinkageFactor": 0.4
           },
           "renan-santos": {
-            "rawOffset": -0.85,
-            "shrunkenOffset": -0.55,
+            "rawOffset": -0.89,
+            "shrunkenOffset": -0.58,
             "comparisons": 11,
             "shrinkageFactor": 0.647
           },
           "romeu-zema": {
-            "rawOffset": 0.45,
-            "shrunkenOffset": 0.29,
+            "rawOffset": 0.47,
+            "shrunkenOffset": 0.3,
             "comparisons": 11,
             "shrinkageFactor": 0.647
           },
           "ronaldo-caiado": {
-            "rawOffset": 1.36,
-            "shrunkenOffset": 0.88,
+            "rawOffset": 1.38,
+            "shrunkenOffset": 0.89,
             "comparisons": 11,
             "shrinkageFactor": 0.647
           }
@@ -1476,14 +1476,14 @@
         "comparisonCount": 58,
         "candidateEffects": {
           "augusto-cury": {
-            "rawOffset": 1.54,
+            "rawOffset": 1.53,
             "shrunkenOffset": 0.92,
             "comparisons": 9,
             "shrinkageFactor": 0.6
           },
           "flavio-bolsonaro": {
-            "rawOffset": 0.54,
-            "shrunkenOffset": 0.32,
+            "rawOffset": 0.62,
+            "shrunkenOffset": 0.37,
             "comparisons": 9,
             "shrinkageFactor": 0.6
           },
@@ -1500,14 +1500,14 @@
             "shrinkageFactor": 0.4
           },
           "renan-santos": {
-            "rawOffset": -0.73,
-            "shrunkenOffset": -0.44,
+            "rawOffset": -0.75,
+            "shrunkenOffset": -0.45,
             "comparisons": 9,
             "shrinkageFactor": 0.6
           },
           "romeu-zema": {
-            "rawOffset": 0.09,
-            "shrunkenOffset": 0.05,
+            "rawOffset": 0.11,
+            "shrunkenOffset": 0.07,
             "comparisons": 9,
             "shrinkageFactor": 0.6
           },
@@ -1525,13 +1525,13 @@
         "comparisonCount": 59,
         "candidateEffects": {
           "augusto-cury": {
-            "rawOffset": 0.65,
-            "shrunkenOffset": 0.41,
+            "rawOffset": 0.63,
+            "shrunkenOffset": 0.39,
             "comparisons": 10,
             "shrinkageFactor": 0.625
           },
           "flavio-bolsonaro": {
-            "rawOffset": -6.22,
+            "rawOffset": -6.15,
             "shrunkenOffset": -3.0,
             "comparisons": 10,
             "shrinkageFactor": 0.625
@@ -1543,14 +1543,14 @@
             "shrinkageFactor": 0.625
           },
           "renan-santos": {
-            "rawOffset": -1.22,
-            "shrunkenOffset": -0.73,
+            "rawOffset": -1.27,
+            "shrunkenOffset": -0.76,
             "comparisons": 9,
             "shrinkageFactor": 0.6
           },
           "romeu-zema": {
-            "rawOffset": -0.55,
-            "shrunkenOffset": -0.33,
+            "rawOffset": -0.54,
+            "shrunkenOffset": -0.32,
             "comparisons": 9,
             "shrinkageFactor": 0.6
           },
@@ -1568,31 +1568,31 @@
         "comparisonCount": 25,
         "candidateEffects": {
           "augusto-cury": {
-            "rawOffset": 0.78,
+            "rawOffset": 0.77,
             "shrunkenOffset": 0.31,
             "comparisons": 4,
             "shrinkageFactor": 0.4
           },
           "flavio-bolsonaro": {
-            "rawOffset": -2.08,
-            "shrunkenOffset": -0.83,
+            "rawOffset": -2.05,
+            "shrunkenOffset": -0.82,
             "comparisons": 4,
             "shrinkageFactor": 0.4
           },
           "lula": {
-            "rawOffset": -0.14,
+            "rawOffset": -0.15,
             "shrunkenOffset": -0.06,
             "comparisons": 4,
             "shrinkageFactor": 0.4
           },
           "renan-santos": {
-            "rawOffset": 2.17,
-            "shrunkenOffset": 0.87,
+            "rawOffset": 2.15,
+            "shrunkenOffset": 0.86,
             "comparisons": 4,
             "shrinkageFactor": 0.4
           },
           "romeu-zema": {
-            "rawOffset": -0.15,
+            "rawOffset": -0.14,
             "shrunkenOffset": -0.06,
             "comparisons": 4,
             "shrinkageFactor": 0.4
