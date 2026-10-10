@@ -1,6 +1,6 @@
 {
   "schemaVersion": 16,
-  "generatedAt": "2026-10-10T00:00:33.671239Z",
+  "generatedAt": "2026-10-10T05:45:18.964758Z",
   "electionDate": "2026-10-04",
   "daysToElection": 0,
   "quality": {
@@ -19,7 +19,7 @@
       "label": "BBC / PollingData",
       "type": "base de pesquisas individuais",
       "status": "ok",
-      "updatedAt": "2026-10-10T00:00:35.388306Z",
+      "updatedAt": "2026-10-10T05:45:22.066657Z",
       "url": "https://news.files.bbci.co.uk/include/vjamericas/1561-poll-tracker-brazil-2026/table/portuguese/app/amp",
       "tablesFound": 2
     },
@@ -28,7 +28,7 @@
       "label": "TSE · PesqEle",
       "type": "cadastro oficial de pesquisas",
       "status": "ok",
-      "updatedAt": "2026-10-10T00:00:34.361073Z",
+      "updatedAt": "2026-10-10T05:45:20.847008Z",
       "url": "https://dadosabertos.tse.jus.br/dataset/pesquisas-eleitorais-2026",
       "recordsFound": 7
     },
@@ -46,7 +46,7 @@
       "label": "ElectioLab",
       "type": "agregador de conferência · sem peso",
       "status": "ok",
-      "updatedAt": "2026-10-10T00:00:35.869031Z",
+      "updatedAt": "2026-10-10T05:45:22.545814Z",
       "url": "https://electiolab.com/pesquisas-presidenciais-2026",
       "pageFreshness": "08 de outubro de 2026"
     },
@@ -64,7 +64,7 @@
       "label": "Polymarket",
       "type": "mercado de previsão · sinal externo",
       "status": "ok",
-      "updatedAt": "2026-10-10T00:00:35.481590Z",
+      "updatedAt": "2026-10-10T05:45:22.191542Z",
       "url": "https://polymarket.com/event/brazil-presidential-election"
     }
   ],
@@ -77,7 +77,7 @@
       "intervalHigh": 5.28,
       "modelIntervalLow": 3.04,
       "modelIntervalHigh": 4.3,
-      "change": -0.05,
+      "change": -0.0,
       "trend": "estável",
       "marketSignal": 0.0
     },
@@ -89,9 +89,9 @@
       "intervalHigh": 43.58,
       "modelIntervalLow": 38.14,
       "modelIntervalHigh": 40.93,
-      "change": 0.1,
-      "trend": "subindo",
-      "marketSignal": 89.05
+      "change": 0.0,
+      "trend": "estável",
+      "marketSignal": 88.65
     },
     {
       "id": "lula",
@@ -101,9 +101,9 @@
       "intervalHigh": 45.62,
       "modelIntervalLow": 40.65,
       "modelIntervalHigh": 42.49,
-      "change": 0.04,
+      "change": -0.0,
       "trend": "estável",
-      "marketSignal": 10.5
+      "marketSignal": 11.5
     },
     {
       "id": "pablo-marcal",
@@ -113,7 +113,7 @@
       "intervalHigh": 3.15,
       "modelIntervalLow": 0.94,
       "modelIntervalHigh": 2.14,
-      "change": -0.03,
+      "change": -0.0,
       "trend": "estável",
       "marketSignal": 0.0
     },
@@ -125,7 +125,7 @@
       "intervalHigh": 5.37,
       "modelIntervalLow": 3.09,
       "modelIntervalHigh": 4.44,
-      "change": -0.02,
+      "change": 0.0,
       "trend": "estável",
       "marketSignal": 0.0
     },
@@ -137,7 +137,7 @@
       "intervalHigh": 2.54,
       "modelIntervalLow": 0.33,
       "modelIntervalHigh": 1.53,
-      "change": -0.01,
+      "change": 0.0,
       "trend": "estável",
       "marketSignal": 0.0
     },
@@ -3642,7 +3642,7 @@
     "adaptiveApplied": false,
     "note": "Compara o bloco recente com pesquisas de 8 a 30 dias. A leitura adaptativa é calculada apenas em sombra para validação e não substitui o agregado principal.",
     "evidenceFingerprint": "cf018edc3235723ffd6c",
-    "evidenceChanged": true,
+    "evidenceChanged": false,
     "evidenceStateCount": 21,
     "persistentCandidateCount": 2,
     "buildingCandidateCount": 1,
