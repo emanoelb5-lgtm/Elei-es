@@ -811,5 +811,12 @@
         "differenceRecentVsPrevious": -0.21
       }
     }
+  },
+  {
+    "generatedAt": "2026-10-12T02:20:21.963467Z",
+    "evidenceFingerprint": "dc5b497abe83b0759c54",
+    "status": "insufficient-data",
+    "overall": null,
+    "candidates": {}
   }
 ]
