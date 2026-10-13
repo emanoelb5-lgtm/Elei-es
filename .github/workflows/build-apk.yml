@@ -76,7 +76,7 @@ jobs:
           script: |
             gradle --no-daemon :app:connectedDebugAndroidTest
             mkdir -p app/build/reports/screenshots
-            adb pull /sdcard/Android/data/br.com.eleicoes.termometro/files/qa app/build/reports/screenshots
+            adb pull /sdcard/Download/termometro-qa app/build/reports/screenshots
       - uses: actions/upload-artifact@v4
         if: always()
         with:

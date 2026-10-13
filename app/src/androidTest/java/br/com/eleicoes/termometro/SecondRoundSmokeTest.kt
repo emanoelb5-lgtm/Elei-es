@@ -1,8 +1,8 @@
 package br.com.eleicoes.termometro
 
 import android.content.Context
-import android.graphics.Bitmap
-import androidx.compose.ui.graphics.asAndroidBitmap
+import android.os.ParcelFileDescriptor
+import androidx.test.platform.app.InstrumentationRegistry
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.test.core.app.ApplicationProvider
@@ -21,10 +21,13 @@ class SecondRoundSmokeTest {
         SecondRoundRepository(context, download, "test-" + UUID.randomUUID() + ".json")
 
     private fun screenshot(name: String) {
-        val directory = File(context.getExternalFilesDir(null), "qa").apply { mkdirs() }
-        compose.onRoot().captureToImage().asAndroidBitmap().let { bitmap ->
-            File(directory, name + ".png").outputStream().use { bitmap.compress(Bitmap.CompressFormat.PNG, 100, it) }
+        // Capturas em pasta do shell sobrevivem à limpeza do pacote pelo UTP.
+        val shell = InstrumentationRegistry.getInstrumentation().uiAutomation
+        fun command(text: String) {
+            ParcelFileDescriptor.AutoCloseInputStream(shell.executeShellCommand(text)).use { it.readBytes() }
         }
+        command("mkdir -p /sdcard/Download/termometro-qa")
+        command("screencap -p /sdcard/Download/termometro-qa/" + name + ".png")
     }
 
     @Test fun firstOpeningWorksOfflineAndTabsRemainUsable() {
