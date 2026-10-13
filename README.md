@@ -1,22 +1,41 @@
-# 🇧🇷 Termômetro Eleições 2026
+# Termômetro Eleições 2026
 
-Aplicativo Android para acompanhar **somente o segundo turno presidencial de 2026**, entre Flávio Bolsonaro (PL) e Lula (PT), com votação em 25 de outubro.
+Aplicativo Android para acompanhar somente o **segundo turno presidencial** entre Flávio Bolsonaro e Lula.
 
-## Versão 0.10.0
+## Funcionamento na versão 0.11.0
 
-- Mostra pesquisas realizadas após 4 de outubro entre os dois finalistas, com instituto, data, amostra, método, registro informado e link da fonte.
-- Identifica **votos totais** e **votos válidos** em separado. Não mistura as bases nem transforma pesquisas em previsão do resultado.
-- Exibe uma tela inicial clara, lista de pesquisas com busca e filtros, e uma aba que explica os dados.
-- Mantém a última leitura do segundo turno no aparelho para consulta sem conexão após a primeira atualização.
+1. Abre com uma base conferida incluída no APK, mesmo na primeira instalação sem internet.
+2. Consulta um único painel de dados, tenta um segundo endereço se necessário e conserva a leitura disponível quando a rede falha ou a resposta é inválida.
+3. O botão **Atualizar pesquisas** compara as evidências, não o horário do arquivo. Informa quando não há pesquisa nova.
+4. **Início:** chance exploratória no modelo, apoio agregado em votos válidos, intervalo de cenário, variação, pesquisa mais recente e mercado de previsão separado.
+5. **Pesquisas:** resultados publicados, período da coleta, divulgação, amostra, método, margem de erro, busca, filtros e publicação original.
+6. **Evolução:** apoio e chance no modelo por datas de divulgação, incluindo histórico anterior à instalação. Não inventa pontos nos dias sem publicação.
+7. **Fontes:** metodologia, pesquisas e pesos usados e disponibilidade das fontes.
 
-A leitura pública usada pelo aplicativo está em [data/runoff-2026.json](data/runoff-2026.json). [data/runoff-curated.json](data/runoff-curated.json) registra levantamentos conferidos nas publicações de Datafolha e PoderData. O script [scripts/update_runoff.py](scripts/update_runoff.py) incorpora novas linhas da tabela BBC/PollingData somente quando a coleta ocorreu após o primeiro turno e contém exatamente os dois finalistas. Se a base percentual da tabela não está documentada, ela aparece como **base a conferir**. A atualização automática roda no GitHub Actions e valida os dados antes da publicação.
+## Modelo e limites
 
-O [TSE confirmou os finalistas](https://www.tse.jus.br/comunicacao/noticias/2026/Outubro/flavio-bolsonaro-e-lula-vao-disputar-o-2o-turno-para-a-presidencia-da-republica). O código e os dados legados de agregação permanecem no repositório para auditoria histórica, mas a interface desta versão não os usa.
+Apenas pesquisas com coleta integral a partir de 05/10/2026 entre os dois finalistas. O agregado usa um levantamento por instituto, janela de 14 dias, recência com meia-vida de sete dias e peso amostral limitado. Votos válidos publicados têm prioridade; a conversão de votos totais, quando necessária, é explicitamente identificada. Base desconhecida não entra no modelo.
 
-## APK
+A probabilidade de vitória é **exploratória, não calibrada**: aplica uma distribuição normal ao apoio agregado, com piso de desvio estrutural de três pontos de votos válidos, dispersão entre institutos, horizonte até o pleito e idade da coleta. O intervalo de cenário também depende dessas hipóteses; não é a margem de erro de uma pesquisa. Duas datas iniciais não comprovam tendência. O app não representa o TSE nem recomenda voto.
 
-Baixe a versão atual na [Release v0.10.0](https://github.com/emanoelb5-lgtm/Elei-es/releases/tag/v0.10.0). O workflow **Build e publicar APK** compila e assina o pacote com a mesma identidade de desenvolvimento adotada desde a v0.2.0. Esta chave de teste é destinada a desenvolvimento, não à Play Store.
+Cotações recentes de Polymarket são mostradas como sinal externo; não se somam aos votos nem recebem peso na estimativa do aplicativo.
 
-**Este aplicativo não é uma pesquisa eleitoral, não representa o TSE e não recomenda voto ou aposta.** Consulte o método e a publicação original de cada levantamento.
+## Dados e atualização
+
+- [runoff-curated.json](data/runoff-curated.json): pesquisas conferidas nas publicações originais.
+- [runoff-dashboard.json](data/runoff-dashboard.json): painel, diagnóstico, histórico, fontes e mercado.
+- [runoff-2026.json](data/runoff-2026.json): feed compatível com a versão 0.10.0.
+- [update_runoff.py](scripts/update_runoff.py): pipeline independente do primeiro turno. Conserva evidências confirmadas quando fontes complementares falham.
+- GitHub Actions verifica as fontes a cada 15 minutos; disponibilidade de publicação e execução pode variar. O app sincroniza na abertura e a cada cinco minutos enquanto está ativo.
+
+A data da coleta, a consulta pelo coletor e a consulta pelo aparelho são exibidas separadamente.
+
+## Verificação e APK
+
+O workflow de publicação executa testes Python, testes Kotlin, Android Lint e testes de abertura offline, navegação, atualização sem mudança e recuperação de cache no emulador Android 15 antes de assinar e publicar o APK.
+
+[Baixar APK v0.11.0](https://github.com/emanoelb5-lgtm/Elei-es/releases/download/v0.11.0/Termometro-Eleicoes-2026-v0.11.0.apk)
+
+A assinatura de desenvolvimento permanece compatível com as versões desde a v0.2.0. Não é uma chave destinada à Play Store.
 
 Licença: MIT.

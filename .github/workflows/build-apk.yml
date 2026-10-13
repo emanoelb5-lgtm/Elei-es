@@ -5,6 +5,8 @@ on:
     branches: [main]
     paths:
       - 'app/**'
+      - 'scripts/update_runoff.py'
+      - 'tests/test_runoff.py'
       - 'build.gradle.kts'
       - 'settings.gradle.kts'
       - 'gradle.properties'
@@ -21,6 +23,7 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
 
@@ -36,6 +39,15 @@ jobs:
           fi
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
 
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validar a base e o funcionamento do segundo turno
+        run: |
+          pip install -r requirements.txt
+          python -m unittest discover -s tests -p 'test_runoff.py' -v
+          cp data/runoff-dashboard.json app/src/main/assets/runoff-2026.json
+
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
@@ -45,7 +57,34 @@ jobs:
           gradle-version: '8.9'
 
       - name: Compilar APK release sem chave efêmera
-        run: gradle --no-daemon :app:assembleRelease
+        run: gradle --no-daemon :app:testDebugUnitTest :app:lintRelease :app:assembleRelease :app:assembleDebugAndroidTest
+
+      - name: Habilitar aceleração do emulador
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+      - name: Testar abertura offline, navegação e atualização no Android
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 35
+          target: google_apis
+          arch: x86_64
+          profile: pixel_6
+          disable-animations: true
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          script: |
+            gradle --no-daemon :app:connectedDebugAndroidTest
+            mkdir -p app/build/reports/screenshots
+            adb pull /sdcard/Android/data/br.com.eleicoes.termometro/files/qa app/build/reports/screenshots
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: verificacao-android-${{ steps.meta.outputs.version }}
+          path: |
+            app/build/reports/
+            app/build/outputs/androidTest-results/
+          if-no-files-found: ignore
 
       - name: Assinar com identidade de desenvolvimento estável
         shell: bash
@@ -91,7 +130,7 @@ jobs:
           VERSION: ${{ steps.meta.outputs.version }}
         run: |
           set -euo pipefail
-          NOTES='v0.10.0 concentra o aplicativo no segundo turno presidencial de 25/10/2026 entre Flávio Bolsonaro e Lula. Nova tela, pesquisas publicadas após o primeiro turno, fonte de cada levantamento, bases de votos totais e válidos separadas, atualização e leitura salva no aparelho. Sem reaproveitar simulações anteriores nem calcular previsão de resultado. APK assinado com a identidade de desenvolvimento estável desde a v0.2.0.'
+          NOTES='v0.11.0 reconstrói o funcionamento do segundo turno. Primeira abertura com dados incluídos no APK, leitura salva e proteção contra respostas inválidas; atualização por conteúdo com aviso quando não há pesquisa nova. Retorna o diagnóstico com apoio agregado, probabilidade exploratória de vitória, incerteza e auditoria dos pesos. Histórico anterior à instalação por datas de divulgação, busca e filtros, fontes e mercado de previsão separados. Pipeline exclusivo do segundo turno independente do primeiro turno. Validado com testes de dados e testes Android em emulador. Assinatura estável desde v0.2.0.'
           APK="dist/Termometro-Eleicoes-2026-v${VERSION}.apk"
           TAG="v${VERSION}"
           RELEASE_OK=0

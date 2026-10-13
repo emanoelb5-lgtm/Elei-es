@@ -1,6 +1,5 @@
 {
-  "schemaVersion": 1,
-  "generatedAt": "2026-10-12T19:13:57.270280Z",
+  "generatedAt": "2026-10-13T00:49:11.162942Z",
   "electionDate": "2026-10-25",
   "candidates": [
     {
@@ -15,6 +14,35 @@
     }
   ],
   "polls": [
+    {
+      "id": "BR-00933/2026",
+      "institute": "Ipespe/Abrapel",
+      "fieldworkStart": "2026-10-06",
+      "fieldworkEnd": "2026-10-08",
+      "publishedAt": "2026-10-10",
+      "sample": 1500,
+      "method": "Telefone (CATI)",
+      "registration": "BR-00933/2026",
+      "verifiedTse": false,
+      "marginError": 2.6,
+      "basis": "total",
+      "result": {
+        "flavio-bolsonaro": 49.0,
+        "lula": 44.0
+      },
+      "validResult": {
+        "flavio-bolsonaro": 52.7,
+        "lula": 47.3
+      },
+      "nonCandidate": {
+        "blankNull": 5.0,
+        "undecided": 3.0
+      },
+      "sourceUrl": "https://ipespe.org.br/pesquisa-ipespe-abrapel-2o-turno-tracking-da-campanha-weekly-tracking-rodada-01-6-a-8-de-outubro-de-2026/",
+      "sourceLabel": "Ipespe / Abrapel · relatório original",
+      "instituteKey": "ipespe",
+      "origin": "fonte primária conferida"
+    },
     {
       "id": "BR-02949/2026",
       "institute": "Datafolha",
@@ -34,11 +62,14 @@
         "lula": 48.0
       },
       "nonCandidate": {
-        "blankNull": 5,
-        "undecided": 1
+        "blankNull": 5.0,
+        "undecided": 1.0
       },
       "sourceUrl": "https://www1.folha.uol.com.br/poder/2026/10/datafolha-flavio-bolsonaro-tem-52-e-lula-48-em-votos-validos-no-segundo-turno.shtml",
       "sourceLabel": "Folha de S.Paulo / Datafolha",
+      "fieldworkStart": "2026-10-06",
+      "marginError": 2.0,
+      "instituteKey": "datafolha",
       "origin": "fonte primária conferida"
     },
     {
@@ -59,10 +90,14 @@
       "nonCandidate": {},
       "sourceUrl": "https://www.poder360.com.br/poderdata/flavio-tem-53-contra-47-de-lula-no-2o-turno-diz-pesquisa-poderdata-aya/",
       "sourceLabel": "Poder360 / PoderData",
+      "fieldworkStart": "2026-10-05",
+      "marginError": 1.8,
+      "instituteKey": "poderdata",
       "origin": "fonte primária conferida"
     }
   ],
-  "pollCount": 2,
-  "instituteCount": 2,
-  "methodology": "Somente levantamentos do confronto entre os finalistas após 4/10/2026. Percentuais totais e válidos são identificados separadamente; sem agregação entre bases distintas e sem previsão de resultado."
+  "pollCount": 3,
+  "instituteCount": 3,
+  "schemaVersion": 1,
+  "methodology": "Pesquisas dos finalistas com coleta integral após 4/10; bases publicadas preservadas."
 }

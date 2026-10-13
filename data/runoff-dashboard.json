@@ -1,0 +1,228 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-13T00:49:11.162942Z",
+  "checkedAt": "2026-10-13T00:58:51.041392Z",
+  "pollRevision": "9c56c1331a113f2172a5bee70dcce5d05bd71098ed0ce2f4da6b7c55383c2293",
+  "electionDate": "2026-10-25",
+  "candidates": [
+    {
+      "id": "flavio-bolsonaro",
+      "name": "Flávio Bolsonaro",
+      "party": "PL"
+    },
+    {
+      "id": "lula",
+      "name": "Lula",
+      "party": "PT"
+    }
+  ],
+  "polls": [
+    {
+      "id": "BR-00933/2026",
+      "institute": "Ipespe/Abrapel",
+      "fieldworkStart": "2026-10-06",
+      "fieldworkEnd": "2026-10-08",
+      "publishedAt": "2026-10-10",
+      "sample": 1500,
+      "method": "Telefone (CATI)",
+      "registration": "BR-00933/2026",
+      "verifiedTse": false,
+      "marginError": 2.6,
+      "basis": "total",
+      "result": {
+        "flavio-bolsonaro": 49.0,
+        "lula": 44.0
+      },
+      "validResult": {
+        "flavio-bolsonaro": 52.7,
+        "lula": 47.3
+      },
+      "nonCandidate": {
+        "blankNull": 5.0,
+        "undecided": 3.0
+      },
+      "sourceUrl": "https://ipespe.org.br/pesquisa-ipespe-abrapel-2o-turno-tracking-da-campanha-weekly-tracking-rodada-01-6-a-8-de-outubro-de-2026/",
+      "sourceLabel": "Ipespe / Abrapel · relatório original",
+      "instituteKey": "ipespe",
+      "origin": "fonte primária conferida"
+    },
+    {
+      "id": "BR-02949/2026",
+      "institute": "Datafolha",
+      "fieldworkEnd": "2026-10-07",
+      "publishedAt": "2026-10-08T18:40:00-03:00",
+      "sample": 2520,
+      "method": "Presencial",
+      "registration": "BR-02949/2026",
+      "verifiedTse": false,
+      "basis": "total",
+      "result": {
+        "flavio-bolsonaro": 49.0,
+        "lula": 45.0
+      },
+      "validResult": {
+        "flavio-bolsonaro": 52.0,
+        "lula": 48.0
+      },
+      "nonCandidate": {
+        "blankNull": 5.0,
+        "undecided": 1.0
+      },
+      "sourceUrl": "https://www1.folha.uol.com.br/poder/2026/10/datafolha-flavio-bolsonaro-tem-52-e-lula-48-em-votos-validos-no-segundo-turno.shtml",
+      "sourceLabel": "Folha de S.Paulo / Datafolha",
+      "fieldworkStart": "2026-10-06",
+      "marginError": 2.0,
+      "instituteKey": "datafolha",
+      "origin": "fonte primária conferida"
+    },
+    {
+      "id": "BR-08134/2026",
+      "institute": "PoderData/Aya",
+      "fieldworkEnd": "2026-10-07",
+      "publishedAt": "2026-10-08T07:30:00-03:00",
+      "sample": 3000,
+      "method": "Telefone (URA)",
+      "registration": "BR-08134/2026",
+      "verifiedTse": false,
+      "basis": "valid",
+      "result": {
+        "flavio-bolsonaro": 53.0,
+        "lula": 47.0
+      },
+      "validResult": {},
+      "nonCandidate": {},
+      "sourceUrl": "https://www.poder360.com.br/poderdata/flavio-tem-53-contra-47-de-lula-no-2o-turno-diz-pesquisa-poderdata-aya/",
+      "sourceLabel": "Poder360 / PoderData",
+      "fieldworkStart": "2026-10-05",
+      "marginError": 1.8,
+      "instituteKey": "poderdata",
+      "origin": "fonte primária conferida"
+    }
+  ],
+  "pollCount": 3,
+  "instituteCount": 3,
+  "latestPollDate": "2026-10-08",
+  "model": {
+    "status": "ok",
+    "modelVersion": "runoff-1",
+    "asOf": "2026-10-12",
+    "instituteCount": 3,
+    "pollCount": 3,
+    "rows": [
+      {
+        "pollId": "BR-08134/2026",
+        "institute": "PoderData/Aya",
+        "values": {
+          "flavio-bolsonaro": 53.0,
+          "lula": 47.0
+        },
+        "basisOrigin": "válidos publicados",
+        "ageDays": 5,
+        "sample": 3000,
+        "weightShare": 0.37075151375425575
+      },
+      {
+        "pollId": "BR-02949/2026",
+        "institute": "Datafolha",
+        "values": {
+          "flavio-bolsonaro": 52.0,
+          "lula": 48.0
+        },
+        "basisOrigin": "válidos publicados",
+        "ageDays": 5,
+        "sample": 2520,
+        "weightShare": 0.3397993751596677
+      },
+      {
+        "pollId": "BR-00933/2026",
+        "institute": "Ipespe/Abrapel",
+        "values": {
+          "flavio-bolsonaro": 52.7,
+          "lula": 47.3
+        },
+        "basisOrigin": "válidos publicados",
+        "ageDays": 4,
+        "sample": 1500,
+        "weightShare": 0.28944911108607657
+      }
+    ],
+    "support": {
+      "flavio-bolsonaro": 52.57,
+      "lula": 47.43
+    },
+    "winProbability": {
+      "flavio-bolsonaro": 77.9,
+      "lula": 22.1
+    },
+    "intervals": {
+      "flavio-bolsonaro": [
+        46.0,
+        59.1
+      ],
+      "lula": [
+        40.9,
+        54.0
+      ]
+    },
+    "sigma": 3.352,
+    "calibrated": false,
+    "latestAgeDays": 4,
+    "quality": "base inicial",
+    "message": "Estimativa exploratória de vitória sob as hipóteses do modelo; não calibrada. Não é percentual de votos nem garantia de resultado.",
+    "change": {
+      "flavio-bolsonaro": 0.05,
+      "lula": -0.05
+    },
+    "changeSince": "2026-10-08"
+  },
+  "history": [
+    {
+      "date": "2026-10-08",
+      "support": {
+        "flavio-bolsonaro": 52.52,
+        "lula": 47.48
+      },
+      "winProbability": {
+        "flavio-bolsonaro": 76.5,
+        "lula": 23.5
+      },
+      "instituteCount": 2
+    },
+    {
+      "date": "2026-10-10",
+      "support": {
+        "flavio-bolsonaro": 52.57,
+        "lula": 47.43
+      },
+      "winProbability": {
+        "flavio-bolsonaro": 77.6,
+        "lula": 22.4
+      },
+      "instituteCount": 3
+    }
+  ],
+  "market": {
+    "status": "ok",
+    "values": {
+      "flavio-bolsonaro": 87.25,
+      "lula": 12.5
+    },
+    "updatedAt": "2026-10-13T00:55:47.824291Z",
+    "url": "https://polymarket.com/event/brazil-presidential-election",
+    "label": "Polymarket · sinal externo"
+  },
+  "sources": [
+    {
+      "id": "pollingdata",
+      "status": "ok",
+      "checkedAt": "2026-10-13T00:58:51.041392Z",
+      "acceptedPolls": 0
+    },
+    {
+      "id": "polymarket",
+      "status": "ok",
+      "checkedAt": "2026-10-13T00:58:51.041392Z"
+    }
+  ],
+  "methodology": "Um levantamento recente por instituto, janela de 14 dias, meia-vida de 7 dias, peso amostral com teto. Votos válidos publicados têm prioridade; totais são convertidos somente entre os dois nomes e identificados como calculados. Base desconhecida não entra. Mercados ficam separados. Modelo normal exploratório com desvio estrutural mínimo de 3 pontos de votos válidos, dispersão dos institutos, distância da eleição e idade da coleta; sem calibração histórica."
+}

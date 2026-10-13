@@ -1,5 +1,4 @@
 name: Atualizar dados eleitorais
-
 on:
   schedule:
     - cron: '*/15 * * * *'
@@ -7,199 +6,62 @@ on:
   push:
     branches: [main]
     paths:
-      - 'scripts/update_analytics.py'
-      - 'requirements.txt'
-      - 'tests/test_analytics.py'
       - 'scripts/update_runoff.py'
+      - 'scripts/update_analytics.py'
       - 'data/runoff-curated.json'
       - 'tests/test_runoff.py'
-
+      - '.github/workflows/update-data.yml'
 permissions:
   contents: write
-
 concurrency:
   group: dados-eleitorais-main
   cancel-in-progress: false
-
 jobs:
   update:
     runs-on: ubuntu-latest
+    timeout-minutes: 8
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-
       - run: pip install -r requirements.txt
-
-      - name: Testar parser e agregador corrente
-        run: |
-          python -m unittest discover -s tests -p 'test_analytics.py' -v
-          python -m unittest discover -s tests -p 'test_runoff.py' -v
-
-      - name: Atualizar analytics auditáveis
-        run: python scripts/update_analytics.py
-
-      - name: Atualizar pesquisas do segundo turno
-        run: python scripts/update_runoff.py
-
-      - name: Validar saída corrente
-        run: |
-          python - <<'PY'
-          import json
-
-          a=json.load(open('data/analytics.json'))
-          h=json.load(open('data/analytics-history.json'))
-          p=json.load(open('data/polls.json'))
-          c=json.load(open('data/calibration.json'))
-          r=json.load(open('data/regime-history.json'))
-
-          assert a.get('schemaVersion') == 16
-          assert c.get('schemaVersion') == 1
-          assert c.get('correctionApplied') is False
-          assert len(a.get('candidates', [])) >= 2
-          assert a['quality']['pollCount'] >= 1
-          assert a['quality']['instituteCount'] >= 1
-          assert a['quality']['methodCount'] >= 1
-          assert a['quality']['registrationCount'] >= 1
-          assert len(h) >= 2
-          assert len(p.get('firstRound', [])) >= 1
-          assert c['sourceDiagnostics']['comparisonCount'] >= 1
-          assert c['rollingValidation']['status'] in ('ok', 'insufficient-data')
-          assert a['responseComposition']['available'] in (True, False)
-          assert a['sensitivity']['status'] in ('ok', 'insufficient-data')
-          assert a['influence']['status'] in ('ok', 'insufficient-data')
-          assert a['temporalCoverage']['status'] in ('ok', 'insufficient-data')
-          assert a['scenarioCoverage']['status'] in ('ok', 'insufficient-data')
-          assert a['scenarioCoverage'].get('harmonizationApplied', False) is False
-          assert a['weightAudit']['status'] in ('ok', 'insufficient-data')
-          assert a['weightStress']['status'] in ('ok', 'insufficient-data')
-          assert a['weightStress'].get('automaticAdjustment', False) is False
-          if a['weightStress']['status'] == 'ok':
-              assert a['weightStress']['variantCount'] == 7
-              assert a['weightStress']['productionVariantId'] == 'production'
-              assert a['weightStress']['sensitivity'] in ('baixa', 'moderada', 'alta')
-          if a['weightAudit']['status'] == 'ok':
-              assert a['weightAudit'].get('automaticAdjustment', True) is False
-              assert a['weightAudit']['pollCount'] == a['quality']['pollCount']
-              assert len(a['weightAudit']['rows']) == a['quality']['pollCount']
-              assert abs(sum(row['windowWeightShare'] for row in a['weightAudit']['rows']) - 1.0) < 1e-4
-          if a['temporalCoverage']['status'] == 'ok':
-              assert a['temporalCoverage']['latestAgeDays'] >= 0
-              assert 0 <= a['temporalCoverage']['recent7WeightShare'] <= 1
-              assert 0 <= a['temporalCoverage']['recent14WeightShare'] <= 1
-              assert a['temporalCoverage']['freshness'] in ('fresca', 'moderada', 'defasada')
-          assert a['influence'].get('correctionApplied', False) is False
-          assert a['uncertainty']['status'] in ('ok', 'insufficient-data')
-          assert a['regimeShift']['status'] in ('ok', 'insufficient-data')
-          assert a['regimeShift'].get('adaptiveApplied', False) is False
-          assert a['regimeShift'].get('persistenceApplied', False) is False
-          assert isinstance(r, list) and len(r) >= 1
-          assert r[-1]['evidenceFingerprint'] == a['regimeShift']['evidenceFingerprint']
-          assert c['regimeShadowValidation']['status'] in ('ok', 'insufficient-data')
-          assert c['houseEffectShadow']['status'] in ('ok', 'insufficient-data')
-          assert c['houseEffectValidation']['status'] in ('ok', 'insufficient-data')
-          assert c['scenarioCoverageValidation']['status'] in ('ok', 'insufficient-data')
-          assert c['scenarioCoverageValidation'].get('harmonizationApplied', False) is False
-          assert c['houseEffectShadow'].get('correctionApplied', False) is False
-          assert c['houseEffectValidation'].get('correctionApplied', False) is False
-          assert c['regimeShadowValidation'].get('adaptiveApplied', False) is False
-          if a['uncertainty']['status'] == 'ok':
-              assert a['uncertainty']['bootstrapDraws'] >= 100
-              assert a['uncertainty']['instituteBootstrapDraws'] >= 100
-              assert a['uncertainty']['instituteClusterCount'] >= 3
-              assert a['uncertainty']['methodBootstrapDraws'] >= 100
-              assert a['uncertainty']['methodClusterCount'] >= 2
-              assert a['uncertainty']['methodDiversity']['status'] == 'ok'
-              assert a['uncertainty']['parameterStressVariantCount'] == 7
-              assert a['uncertainty']['parameterStressAutomaticAdjustment'] is False
-              assert a['uncertainty']['parameterStressSensitivity'] in ('baixa', 'moderada', 'alta')
-              assert a['uncertainty']['empiricalErrorQuantileUsed'] == 'q80'
-              assert len(a['uncertainty']['candidates']) >= 2
-          if a['influence']['status'] == 'ok':
-              assert a['influence']['pollCount'] >= 3
-              assert a['influence']['instituteCount'] >= 1
-              assert isinstance(a['influence']['polls'], list)
-              assert isinstance(a['influence']['institutes'], list)
-          if a['sensitivity']['status'] == 'ok':
-              assert a['sensitivity']['maxLeaveOneOutShift'] >= 0
-              assert a['sensitivity']['stability'] in ('alta', 'moderada', 'baixa')
-
-          for candidate in a['candidates']:
-              assert 0 <= candidate['pollingSupport'] <= 100
-              assert 0 <= candidate['intervalLow'] <= candidate['pollingSupport'] <= candidate['intervalHigh'] <= 100
-
-          print(
-              'Validação corrente OK:',
-              a['quality'],
-              'histórico=', len(h),
-              'pesquisas=', len(p['firstRound'])
-          )
-          PY
-
-      - name: Validar leitura do segundo turno
-        run: |
-          python - <<'PY'
-          import json
-          from datetime import date
-
-          r = json.load(open('data/runoff-2026.json'))
-          assert r['schemaVersion'] == 1
-          assert r['electionDate'] == '2026-10-25'
-          assert {c['id'] for c in r['candidates']} == {'flavio-bolsonaro', 'lula'}
-          assert r['pollCount'] == len(r['polls']) >= 2
-          assert r['instituteCount'] == len({p['institute'].lower() for p in r['polls']})
-          for p in r['polls']:
-              assert date(2026, 10, 5) <= date.fromisoformat(p['fieldworkEnd']) <= date.today()
-              assert set(p['result']) == {'flavio-bolsonaro', 'lula'}
-              assert p['basis'] in ('total', 'valid', 'unspecified')
-              assert p['sourceUrl'].startswith('https://')
-          print('Segundo turno OK:', r['pollCount'], 'pesquisas')
-          PY
-
-      - name: Publicar dados correntes se houver mudança
+      - name: Testar o funcionamento do segundo turno
+        run: python -m unittest discover -s tests -p 'test_runoff.py' -v
+      - name: Coletar e publicar a leitura do segundo turno
         run: |
           set -euo pipefail
           git config user.name "eleicoes-bot"
           git config user.email "actions@users.noreply.github.com"
-
-          cp data/analytics.json /tmp/analytics.json
-          cp data/analytics-history.json /tmp/analytics-history.json
-          cp data/polls.json /tmp/polls.json
-          cp data/runoff-2026.json /tmp/runoff-2026.json
-          cp data/calibration.json /tmp/calibration.json
-          cp data/regime-history.json /tmp/regime-history.json
-
-          for attempt in 1 2 3 4 5; do
-            echo "Tentativa de publicação $attempt/5"
+          for attempt in 1 2 3; do
             git fetch origin main
             git reset --hard origin/main
-
-            cp /tmp/analytics.json data/analytics.json
-            cp /tmp/analytics-history.json data/analytics-history.json
-            cp /tmp/polls.json data/polls.json
-            cp /tmp/runoff-2026.json data/runoff-2026.json
-            cp /tmp/calibration.json data/calibration.json
-            cp /tmp/regime-history.json data/regime-history.json
-
-            git add data/analytics.json data/analytics-history.json data/polls.json data/runoff-2026.json data/calibration.json data/regime-history.json
-            if git diff --cached --quiet; then
-              echo "Sem mudança"
-              exit 0
-            fi
-
-            git commit -m "data: atualiza analytics e diagnosticos correntes"
-            if git push origin HEAD:main; then
-              echo "Publicação concluída"
-              exit 0
-            fi
-
-            echo "main avançou durante a publicação; reaplicando JSONs sobre o HEAD mais recente"
-            sleep 2
+            python -m scripts.update_runoff
+            python - <<'PY'
+          import json
+          from zoneinfo import ZoneInfo
+          from datetime import datetime
+          from scripts.update_runoff import validate_poll
+          r = json.load(open('data/runoff-dashboard.json'))
+          assert r['schemaVersion'] == 2
+          assert r['pollCount'] == len(r['polls'])
+          today = datetime.now(ZoneInfo('America/Sao_Paulo')).date()
+          for row in r['polls']:
+              validate_poll(row, today)
+          assert len({p['id'] for p in r['polls']}) == len(r['polls'])
+          assert r['model']['status'] in ('ok', 'insufficient-data')
+          if r['model']['status'] == 'ok':
+              assert not r['model']['calibrated']
+              assert abs(sum(r['model']['winProbability'].values()) - 100) < .1
+          assert json.load(open('data/runoff-2026.json'))['schemaVersion'] == 1
+          print('Segundo turno validado:', r['pollCount'], 'pesquisas')
+          PY
+            git add data/runoff-dashboard.json data/runoff-2026.json
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m "data: sincroniza pesquisas e diagnostico do segundo turno"
+            if git push origin HEAD:main; then exit 0; fi
           done
-
-          echo "Não foi possível publicar após 5 tentativas." >&2
+          echo 'Falha ao publicar após três tentativas.' >&2
           exit 1
