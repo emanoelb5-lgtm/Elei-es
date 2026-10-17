@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-16T08:10:35.983259Z",
+  "generatedAt": "2026-10-17T07:47:43.944150Z",
   "productionModelId": "current-v04",
   "automaticPromotion": false,
   "promotionPolicy": "Uma variante só é sinalizada para revisão se reduzir o MAE em pelo menos 0,10 p.p. no conjunto histórico e na validação corrente, sem piorar nenhum ciclo histórico em mais de 0,10 p.p. Nenhuma promoção é automática.",
