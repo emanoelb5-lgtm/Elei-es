@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "generatedAt": "2026-10-13T00:49:11.162942Z",
-  "checkedAt": "2026-10-20T01:32:03.515392Z",
+  "checkedAt": "2026-10-20T06:35:13.561826Z",
   "pollRevision": "9c56c1331a113f2172a5bee70dcce5d05bd71098ed0ce2f4da6b7c55383c2293",
   "electionDate": "2026-10-25",
   "candidates": [
@@ -105,7 +105,7 @@
   "model": {
     "status": "ok",
     "modelVersion": "runoff-1",
-    "asOf": "2026-10-19",
+    "asOf": "2026-10-20",
     "instituteCount": 3,
     "pollCount": 3,
     "rows": [
@@ -117,9 +117,9 @@
           "lula": 47.0
         },
         "basisOrigin": "válidos publicados",
-        "ageDays": 12,
+        "ageDays": 13,
         "sample": 3000,
-        "weightShare": 0.3707515137542558
+        "weightShare": 0.37075151375425575
       },
       {
         "pollId": "BR-02949/2026",
@@ -129,9 +129,9 @@
           "lula": 48.0
         },
         "basisOrigin": "válidos publicados",
-        "ageDays": 12,
+        "ageDays": 13,
         "sample": 2520,
-        "weightShare": 0.33979937515966774
+        "weightShare": 0.3397993751596677
       },
       {
         "pollId": "BR-00933/2026",
@@ -141,9 +141,9 @@
           "lula": 47.3
         },
         "basisOrigin": "válidos publicados",
-        "ageDays": 11,
+        "ageDays": 12,
         "sample": 1500,
-        "weightShare": 0.2894491110860765
+        "weightShare": 0.28944911108607657
       }
     ],
     "support": {
@@ -151,22 +151,22 @@
       "lula": 47.43
     },
     "winProbability": {
-      "flavio-bolsonaro": 76.9,
-      "lula": 23.1
+      "flavio-bolsonaro": 76.5,
+      "lula": 23.5
     },
     "intervals": {
       "flavio-bolsonaro": [
-        45.7,
-        59.4
+        45.6,
+        59.6
       ],
       "lula": [
-        40.6,
-        54.3
+        40.4,
+        54.4
       ]
     },
-    "sigma": 3.502,
+    "sigma": 3.56,
     "calibrated": false,
-    "latestAgeDays": 11,
+    "latestAgeDays": 12,
     "quality": "base inicial",
     "message": "Estimativa exploratória de vitória sob as hipóteses do modelo; não calibrada. Não é percentual de votos nem garantia de resultado.",
     "change": {
@@ -207,7 +207,7 @@
       "flavio-bolsonaro": 76.95,
       "lula": 22.5
     },
-    "updatedAt": "2026-10-20T01:26:46.291765Z",
+    "updatedAt": "2026-10-20T06:32:47.240612Z",
     "url": "https://polymarket.com/event/brazil-presidential-election",
     "label": "Polymarket · sinal externo"
   },
@@ -215,13 +215,13 @@
     {
       "id": "pollingdata",
       "status": "ok",
-      "checkedAt": "2026-10-20T01:32:03.515392Z",
+      "checkedAt": "2026-10-20T06:35:13.561826Z",
       "acceptedPolls": 0
     },
     {
       "id": "polymarket",
       "status": "ok",
-      "checkedAt": "2026-10-20T01:32:03.515392Z"
+      "checkedAt": "2026-10-20T06:35:13.561826Z"
     }
   ],
   "methodology": "Um levantamento recente por instituto, janela de 14 dias, meia-vida de 7 dias, peso amostral com teto. Votos válidos publicados têm prioridade; totais são convertidos somente entre os dois nomes e identificados como calculados. Base desconhecida não entra. Mercados ficam separados. Modelo normal exploratório com desvio estrutural mínimo de 3 pontos de votos válidos, dispersão dos institutos, distância da eleição e idade da coleta; sem calibração histórica."
