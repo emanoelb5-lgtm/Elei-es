@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "generatedAt": "2026-10-13T00:49:11.162942Z",
-  "checkedAt": "2026-10-24T21:18:55.592832Z",
+  "checkedAt": "2026-10-24T23:28:18.663271Z",
   "pollRevision": "9c56c1331a113f2172a5bee70dcce5d05bd71098ed0ce2f4da6b7c55383c2293",
   "electionDate": "2026-10-25",
   "candidates": [
@@ -137,10 +137,10 @@
   "market": {
     "status": "ok",
     "values": {
-      "flavio-bolsonaro": 82.85,
-      "lula": 17.5
+      "flavio-bolsonaro": 83.8,
+      "lula": 16.5
     },
-    "updatedAt": "2026-10-24T21:14:38.966593Z",
+    "updatedAt": "2026-10-24T23:24:38.579606Z",
     "url": "https://polymarket.com/event/brazil-presidential-election",
     "label": "Polymarket · sinal externo"
   },
@@ -148,13 +148,13 @@
     {
       "id": "pollingdata",
       "status": "ok",
-      "checkedAt": "2026-10-24T21:18:55.592832Z",
+      "checkedAt": "2026-10-24T23:28:18.663271Z",
       "acceptedPolls": 0
     },
     {
       "id": "polymarket",
       "status": "ok",
-      "checkedAt": "2026-10-24T21:18:55.592832Z"
+      "checkedAt": "2026-10-24T23:28:18.663271Z"
     }
   ],
   "methodology": "Um levantamento recente por instituto, janela de 14 dias, meia-vida de 7 dias, peso amostral com teto. Votos válidos publicados têm prioridade; totais são convertidos somente entre os dois nomes e identificados como calculados. Base desconhecida não entra. Mercados ficam separados. Modelo normal exploratório com desvio estrutural mínimo de 3 pontos de votos válidos, dispersão dos institutos, distância da eleição e idade da coleta; sem calibração histórica."
