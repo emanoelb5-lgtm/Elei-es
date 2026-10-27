@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "generatedAt": "2026-10-13T00:49:11.162942Z",
-  "checkedAt": "2026-10-27T13:09:22.745650Z",
+  "checkedAt": "2026-10-27T18:40:07.792033Z",
   "pollRevision": "9c56c1331a113f2172a5bee70dcce5d05bd71098ed0ce2f4da6b7c55383c2293",
   "electionDate": "2026-10-25",
   "candidates": [
@@ -143,13 +143,13 @@
     {
       "id": "pollingdata",
       "status": "ok",
-      "checkedAt": "2026-10-27T13:09:22.745650Z",
+      "checkedAt": "2026-10-27T18:40:07.792033Z",
       "acceptedPolls": 0
     },
     {
       "id": "polymarket",
       "status": "unavailable",
-      "checkedAt": "2026-10-27T13:09:22.745650Z",
+      "checkedAt": "2026-10-27T18:40:07.792033Z",
       "error": "Evento encerrado ou inativo"
     }
   ],
